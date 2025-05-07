@@ -4,7 +4,7 @@ import RoutineSidebar from '../components/RoutineSidebar';
 import RoutineVideoPlayer from '../components/RoutineVideoPlayer';
 import RoutineDetails from '../components/RoutineDetails';
 
-export default function RoutinesHome({ token, onLogout }: { token : string; onLogout: () => void }) {
+export default function RoutinesHome({ onLogout }: { token : string; onLogout: () => void }) {
   const {
     routines,
     error,
@@ -21,12 +21,12 @@ export default function RoutinesHome({ token, onLogout }: { token : string; onLo
     return <p className="text-gray-300 p-4">Cargando...</p>;
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
       <RoutineNavbar onLogout={onLogout} />
       <div className="flex flex-1 overflow-auto">
         <div className="flex-1 overflow-auto px-6 py-6">
           <h1 className="text-2xl font-semibold mb-4">{currentRoutine.titulo}</h1>
-          <p className="mb-6 text-gray-300">{currentRoutine.descripcion}</p>
+          <p className="mb-6">{currentRoutine.descripcion}</p>
           <RoutineVideoPlayer videoUrl={currentExercise.video} />
           <RoutineDetails exercise={currentExercise} />
         </div>

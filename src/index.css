@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+:root {
+    /* Base brand colors */
+    --color-primary: #1798e0;
+    --color-primary-dark: #d3e2ea; /* tono más oscuro */
+    --color-primary-light: #a8dfff; /* tono claro para fondos suaves o estados hover */
+  
+    /* Fondo y superficies claras */
+    --color-background: #ffffff; /* fondo principal: blanco */
+    --color-surface: #f5f7fa; /* superficie: gris muy claro para tarjetas y secciones */
+  
+    /* Tipografía */
+    --color-text: #232323; /* texto principal: gris casi negro */
+    --color-text-soft: #4b5563; /* texto menos destacado: gris medio */
+    --color-text-muted: #6b7280; /* texto secundario o desactivado */
+  
+    /* Bordes y separadores */
+    --color-border: #d1d5db; /* gris claro para líneas divisorias */
+  
+    /* Acentos y detalles */
+    --color-primary-accent: #3ab0f9; /* un azul intermedio para íconos, enlaces, etc */
+  }
+  
