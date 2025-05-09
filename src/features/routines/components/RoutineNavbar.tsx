@@ -1,20 +1,40 @@
-import { ArrowRightOnRectangleIcon, BookOpenIcon, FaceSmileIcon } from '@heroicons/react/24/solid';
+import {
+  ArrowRightOnRectangleIcon,
+  FaceSmileIcon,
+  Bars3Icon,
+} from "@heroicons/react/24/solid";
 
-export default function RoutineNavbar({ onLogout }: { onLogout: () => void }) {
+interface Props {
+  onLogout: () => void;
+  setSidebarOpen: (open: boolean) => void;
+}
+
+export default function RoutineNavbar({ onLogout, setSidebarOpen }: Props) {
   return (
-    <nav className="sticky top-0 z-10 flex items-center bg-[var(--color-background)] px-4 py-3 shadow">
-      <div className="flex items-center mr-auto gap-2">
-        <BookOpenIcon className="h-6 w-6 text-[var(--color-primary)]" />
-        <span className="font-bold text-xl">Infinity Health</span>
-      </div>
+    <nav className="sticky top-0 z-10 flex flex-wrap items-center justify-between bg-[var(--color-background)] px-4 py-3 shadow">
+      <button
+        className="md:hidden p-2 mr-2"
+        onClick={() => setSidebarOpen(true)}
+        aria-label="Abrir menú"
+      >
+        <Bars3Icon className="h-6 w-6 text-[var(--color-text)]" />
+      </button>
+      <a href="/" className="flex items-center gap-2 ml-1 my-1">
+        <img
+          src="/img/health-logo-light-mode.png"
+          alt="Infinity Health"
+          className="h-8 w-auto max-w-[150px]"
+        />
+      </a>
+
       <div className="flex items-center gap-6">
-        <div className="flex items-center gap-1 hover:text-white transition">
+        <button className="flex items-center gap-1 hover:text-[var(--color-primary-accent)] transition">
           <FaceSmileIcon className="h-5 w-5" />
-          <span>Perfil</span>
-        </div>
-        <button onClick={onLogout} className="flex items-center gap-1 hover:text-white transition">
+          <span className="hidden sm:inline text-[var(--color-text)]">Perfil</span>
+        </button>
+        <button onClick={onLogout} className="flex items-center gap-1 hover:text-[var(--color-primary-accent)] transition">
           <ArrowRightOnRectangleIcon className="h-5 w-5" />
-          <span>Logout</span>
+          <span className="hidden sm:inline text-[var(--color-text)]">Logout</span>
         </button>
       </div>
     </nav>

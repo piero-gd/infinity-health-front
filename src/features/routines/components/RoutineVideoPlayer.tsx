@@ -1,17 +1,30 @@
-export default function RoutineVideoPlayer({ videoUrl }: { videoUrl: string }) {
-    const embedUrl = videoUrl.includes('youtube.com/watch?v=')
-      ? videoUrl.replace('watch?v=', 'embed/')
-      : videoUrl;
-  
-    return (
-      <div className="mb-6 max-w-7xl mx-auto">
-        <iframe
-          className="w-full h-[400px] rounded-md shadow"
-          src={embedUrl}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          title="Rutina"
-        />
-      </div>
-    );
-  }
+import { useRef, useEffect } from 'react';
+
+interface Props {
+  videoUrl: string;
+  onEnded: () => void;
+}
+
+export default function RoutineVideoPlayer({ videoUrl, onEnded }: Props) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.addEventListener('ended', onEnded);
+    return () => {
+      video.removeEventListener('ended', onEnded);
+    };
+  }, [onEnded]);
+
+  return (
+    <div className="mb-6 max-w-full mx-auto">
+      <video
+        ref={videoRef}
+        src={videoUrl}
+        controls
+        className="w-full h-auto rounded-md shadow"
+      />
+    </div>
+  );
+}
