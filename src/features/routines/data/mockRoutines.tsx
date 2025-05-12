@@ -3,7 +3,7 @@ export const mockRoutines = [
       id: 1,
       titulo: 'Pecho',
       descripcion: 'Ejercicios enfocados en el desarrollo del pectoral mayor.',
-      fotos: 'https://via.placeholder.com/600x400?text=Pecho',
+      fotos: 'https://hips.hearstapps.com/hmg-prod/images/pectorales-1561054672.jpg?resize=640:*',
       ejercicios: [
         {
           id: 1,
@@ -25,7 +25,7 @@ export const mockRoutines = [
       id: 2,
       titulo: 'Espalda',
       descripcion: 'Fortalece dorsales, romboides y trapecios.',
-      fotos: 'https://via.placeholder.com/600x400?text=Espalda',
+      fotos: 'https://hips.hearstapps.com/hmg-prod/images/japanese-woman-doing-muscle-training-royalty-free-image-1731942820.jpg?crop=0.669xw:1.00xh;0.0375xw,0&resize=480:*',
       ejercicios: [
         {
           id: 3,
@@ -47,7 +47,7 @@ export const mockRoutines = [
       id: 3,
       titulo: 'Piernas',
       descripcion: 'Entrenamiento completo para tren inferior.',
-      fotos: 'https://via.placeholder.com/600x400?text=Piernas',
+      fotos: 'https://www.dir.cat/blog/wp-content/uploads/2019/01/ejercicios-tonificar-piernas-gimnasio.jpg',
       ejercicios: [
         {
           id: 5,

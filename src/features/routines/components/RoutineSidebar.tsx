@@ -1,26 +1,24 @@
 import { ListBulletIcon, PlayCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import type { Routine } from "../types";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment } from "react";
+import { useRoutinesContext } from "../context/RoutinesContext";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
-  routines: Routine[];
-  selectedRoutineIndex: number;
-  selectedExerciseIndex: number;
-  setSelectedRoutineIndex: (i: number) => void;
-  setSelectedExerciseIndex: (i: number) => void;
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
 }
 
-export default function RoutineSidebar({
-  routines,
-  selectedRoutineIndex,
-  selectedExerciseIndex,
-  setSelectedRoutineIndex,
-  setSelectedExerciseIndex,
-  sidebarOpen,
-  setSidebarOpen,
-}: Props) {
+export default function RoutineSidebar({ sidebarOpen, setSidebarOpen }: Props) {
+  const navigate = useNavigate();
+
+  const {
+    routines,
+    selectedRoutineIndex,
+    selectedExerciseIndex,
+    setSelectedRoutineIndex,
+    setSelectedExerciseIndex,
+  } = useRoutinesContext();
+
   return (
     <Fragment>
       {/* Overlay móvil */}
@@ -54,22 +52,46 @@ export default function RoutineSidebar({
         {/* Listado de routines */}
         {routines.map((routine, rIndex) => (
           <div key={rIndex} className="bg-[var(--color-surface)] rounded-lg shadow p-3 mb-4">
+            {/* Header del grupo con botón de colapso */}
             <button
-              onClick={() => { setSelectedRoutineIndex(rIndex); setSelectedExerciseIndex(0); sidebarOpen && setSidebarOpen(false) }}
-              className={`block w-full text-left font-semibold mb-2 ${
+              onClick={() => {
+                //aqui probar con variantes para corregir la seleccion
+                navigate(`/routines/${rIndex}`);
+                setSelectedRoutineIndex(rIndex);
+                setSelectedExerciseIndex(0);
+                sidebarOpen && setSidebarOpen(false);
+              }}
+              className={`flex justify-between items-center w-full text-left font-semibold mb-2 ${
                 rIndex === selectedRoutineIndex
                   ? 'text-[var(--color-primary-accent)]'
                   : 'text-[var(--color-text-muted)]'
               }`}
             >
-              {routine.titulo}
+              <span>{routine.titulo}</span>
+              <svg
+                className={`h-5 w-5 transform transition-transform ${
+                  rIndex === selectedRoutineIndex ? 'rotate-180' : 'rotate-0'
+                } text-[var(--color-primary-accent)]`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
 
-            <ul className="ml-2 space-y-2">
+            {/* Ejercicios (visible sólo si grupo seleccionado) */}
+            <ul className={`${rIndex === selectedRoutineIndex ? 'block' : 'hidden'} ml-2 space-y-2`}>
               {routine.ejercicios.map((exercise, eIndex) => (
                 <li key={eIndex}>
                   <button
-                    onClick={() => { setSelectedRoutineIndex(rIndex); setSelectedExerciseIndex(eIndex); sidebarOpen && setSidebarOpen(false) }}
+                    onClick={() => {
+                      setSelectedRoutineIndex(rIndex);
+                      setSelectedExerciseIndex(eIndex);
+                      navigate(`/routines/${rIndex}`);
+                      sidebarOpen && setSidebarOpen(false);
+                    }}
                     className={`flex items-center gap-2 text-sm transition-colors ${
                       rIndex === selectedRoutineIndex && eIndex === selectedExerciseIndex
                         ? 'text-[var(--color-primary-light)]'

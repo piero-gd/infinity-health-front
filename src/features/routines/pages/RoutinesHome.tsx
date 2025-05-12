@@ -1,64 +1,38 @@
-import { useRoutines } from "../hooks/useRoutines";
-import RoutineNavbar from "../components/RoutineNavbar";
-import RoutineSidebar from "../components/RoutineSidebar";
-import RoutineVideoPlayer from "../components/RoutineVideoPlayer";
-import RoutineDetails from "../components/RoutineDetails";
-import { useState } from "react";
-import RestScreen from "../components/RestScreen";
+import { useNavigate } from 'react-router-dom';
+import { useRoutinesContext } from '../context/RoutinesContext';
 
-export default function RoutinesHome({
-  onLogout,
-}: {
-  token: string;
-  onLogout: () => void;
-}) {
-  const {
-    routines,
-    error,
-    currentRoutine,
-    currentExercise,
-    selectedRoutineIndex,
-    selectedExerciseIndex,
-    setSelectedRoutineIndex,
-    setSelectedExerciseIndex,
-    isResting,
-    handleVideoEnd,
-    handleRestComplete,
-  } = useRoutines();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export default function RoutinesHome() {
+  const { routines } = useRoutinesContext();
 
-  if (error) return <p className="text-red-500 p-4">{error}</p>;
-  if (!routines.length || !currentRoutine || !currentExercise)
-    return <p className="text-gray-300 p-4">Cargando...</p>;
+  const navigate = useNavigate();
+
+  const handleSelect = (index: number) => {
+    navigate(`/routines/${index}`);
+  };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
-      <RoutineNavbar onLogout={onLogout} setSidebarOpen={setSidebarOpen} />
-
-      <div className="flex flex-1 overflow-auto">
-        <RoutineSidebar
-          routines={routines}
-          selectedRoutineIndex={selectedRoutineIndex}
-          selectedExerciseIndex={selectedExerciseIndex}
-          setSelectedRoutineIndex={setSelectedRoutineIndex}
-          setSelectedExerciseIndex={setSelectedExerciseIndex}
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-        />
-        <main className="flex-1 overflow-auto px-6 py-6 items-center">
-          {/* Si estamos en descanso, mostramos RestScreen */}
-          {isResting ? (
-            <RestScreen duration={15} onComplete={handleRestComplete} />
-          ) : (
-            <>
-              <h1 className="text-2xl font-semibold mb-4">{currentRoutine.titulo}</h1>
-              <p className="mb-6">{currentRoutine.descripcion}</p>
-              <RoutineVideoPlayer videoUrl={currentExercise.video} onEnded={handleVideoEnd} />
-              <RoutineDetails exercise={currentExercise} />
-            </>
-          )}
-        </main>
+    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)] px-4 py-6">
+      <h1 className="text-3xl font-bold mb-6 text-center">¿Qué trabajaremos hoy?</h1>
+      <div className="mx-4 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:mx-auto max-w-7xl">
+        {routines.map((routine, index) => (
+          <div
+            key={index}
+            onClick={() => handleSelect(index)}
+            className="relative rounded-xl shadow-lg overflow-hidden cursor-pointer group hover:scale-105 transition-transform"
+          >
+            <img
+              src={routine.fotos || '/img/placeholder-muscle.jpg'}
+              alt={routine.titulo}
+              className="object-cover w-full h-56 group-hover:brightness-75 transition"
+            />
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+              <h2 className="text-white text-xl font-semibold text-center px-2">
+                {routine.titulo}
+              </h2>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

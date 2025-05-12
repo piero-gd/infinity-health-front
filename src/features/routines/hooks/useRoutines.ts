@@ -1,4 +1,3 @@
-// src/features/routines/hooks/useRoutines.ts
 import { useEffect, useState, useCallback } from 'react';
 import { getRoutines } from '../services/routinesApi';
 import type { Routine } from '../types/index';
