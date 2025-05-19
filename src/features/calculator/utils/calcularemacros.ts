@@ -31,6 +31,7 @@ export default function calcularMacros(datos: CalculatorData): CalculatorResults
 
   if (objetivo === 'Perder grasa') calorias -= 500;
   if (objetivo === 'Ganar músculo') calorias += 500;
+  if (objetivo === 'Mantener peso') calorias += 0;
 
   const proteinas = peso * 2; // 2g de proteína por kg de peso
   const grasas = peso * 1; // 1g de grasa por kg de peso

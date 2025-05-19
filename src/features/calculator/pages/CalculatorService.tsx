@@ -14,15 +14,27 @@ export default function CalculatorPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 px-4">
-      <h1 className="text-2xl font-bold mb-4 text-center">Calculadora de Macros</h1>
-      <CalculatorForm onCalcular={manejarCalculo} />
-      {resultado ? (
-        <>
-          <CalculatorResult resultado={resultado} />
-          <CalculatorRecomendations nombre={resultado.nombre} objetivo={resultado.objetivo} />
-        </>
-      ) : null}
+    <div className="mx-auto mt-6 md:mt-10 px-4 max-w-3xl">
+      <div className="flex flex-col space-y-4 md:space-y-6">
+        {/* Container con borde redondeado para el formulario */}
+        <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden">
+          <CalculatorForm onCalcular={manejarCalculo} />
+        </div>
+        
+        {resultado && (
+          <>
+            {/* Container con fondo azul para los resultados */}
+            <div className="bg-blue-600 rounded-2xl shadow-sm overflow-hidden">
+              <CalculatorResult resultado={resultado} />
+            </div>
+            
+            {/* Container para las recomendaciones */}
+            <div className="bg-blue-50 rounded-2xl shadow-sm border border-blue-100 overflow-hidden">
+              <CalculatorRecomendations nombre={resultado.nombre} objetivo={resultado.objetivo} />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
