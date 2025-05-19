@@ -68,7 +68,6 @@ export default function RoutinePlayerPage({
               </p>
               <RoutineVideoPlayer
                 videoUrl={currentExercise.video}
-                onEnded={handleVideoEnd}
               />
               <RoutineDetails exercise={currentExercise} />
             </>

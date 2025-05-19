@@ -1,30 +1,22 @@
-import { useRef, useEffect } from 'react';
+// src/features/routines/components/RoutineVideoPlayer.tsx
+import type { FC } from 'react';
 
 interface Props {
-  videoUrl: string;
-  onEnded: () => void;
+  videoUrl: string; // p.ej. https://iframe.mediadelivery.net/play/426873/487b6c62-...
 }
 
-export default function RoutineVideoPlayer({ videoUrl, onEnded }: Props) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+const RoutineVideoPlayer: FC<Props> = ({ videoUrl }) => (
+  <div className="mb-6 max-w-full">
+    <iframe
+      src={videoUrl}
+      width="100%"
+      height="400px"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowFullScreen
+      className="rounded-md shadow"
+      title="Rutina"
+    />
+  </div>
+);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.addEventListener('ended', onEnded);
-    return () => {
-      video.removeEventListener('ended', onEnded);
-    };
-  }, [onEnded]);
-
-  return (
-    <div className="mb-6 max-w-full mx-auto">
-      <video
-        ref={videoRef}
-        src={videoUrl}
-        controls
-        className="w-full h-auto rounded-md shadow"
-      />
-    </div>
-  );
-}
+export default RoutineVideoPlayer;

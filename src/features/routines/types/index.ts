@@ -17,6 +17,7 @@ export interface Exercise {
   titulo: string;
   descripcion: string;
   video: string;
+  foto: string;
   rutina: number;
 }
 

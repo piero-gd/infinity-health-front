@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
-import { getRoutines } from '../services/routinesApi';
-import type { Routine } from '../types/index';
+import { useEffect, useState, useCallback } from "react";
+import { getRoutines } from "../services/routinesApi";
+import type { Routine } from "../types/index";
 
 export const useRoutines = () => {
   const [routines, setRoutines] = useState<Routine[]>([]);
@@ -12,7 +12,10 @@ export const useRoutines = () => {
   useEffect(() => {
     getRoutines()
       .then(setRoutines)
-      .catch(() => setError('Error al cargar las rutinas'));
+      .catch((err) => {
+        console.error(err);
+        setError(err.message);
+      });
   }, []);
 
   const currentRoutine = routines[selectedRoutineIndex];
