@@ -5,13 +5,13 @@ interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
 }
 
-export default function CalculatorForm({ onCalcular }: CalculatorFormProps) {
+const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
   const [formData, setFormData] = useState<CalculatorData>({
     nombre: '',
     sexo: '',
-    edad: 0,
-    peso: 0,
-    altura: 0,
+    edad: 25,
+    peso: 70,
+    altura: 170,
     actividad: '',
     objetivo: 'Perder grasa'
   });
@@ -23,170 +23,282 @@ export default function CalculatorForm({ onCalcular }: CalculatorFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev: CalculatorData) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4 p-6">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <input 
-            type="text" 
-            name="nombre" 
-            onChange={handleChange} 
-            value={formData.nombre} 
-            className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 w-full"
-            placeholder="Nombre"
-          />
+    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+      <div className="p-6 space-y-8 flex-1 overflow-y-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-800">Calculadora de Macros</h1>
+          <p className="text-gray-500 text-sm mt-2">Obtén tu plan de nutrición personalizado en solo 2 minutos</p>
         </div>
-        <div className="ml-4">
-          <h2 className="text-xl font-bold text-gray-800">Calculadora <br/> de Macros</h2>
-        </div>
-      </div>
-      
-      {/* Selector de género */}
-      <div className="flex justify-left space-x-3 my-3">
-        <button 
-          type="button"
-          onClick={() => handleChange({ target: { name: 'sexo', value: 'Hombre' } } as any)}
-          className={`flex flex-col items-center justify-center p-3 rounded-xl w-30 h-30 ${formData.sexo === 'Hombre' ? 'bg-[var(--color-primary)] text-white font-bold' : 'bg-[var(--color-primary-light)] text-[var(--color-text)]'}`}
-        >
-          <img src="/img/hombre.png" className="h-12 w-12">
-          </img>
-          <span className="text-sm mt-1">Hombre</span>
-        </button>
-        
-        <button 
-          type="button"
-          onClick={() => handleChange({ target: { name: 'sexo', value: 'Mujer' } } as any)}
-          className={`flex flex-col items-center justify-center p-3 rounded-xl w-30 h-30 ${formData.sexo === 'Mujer' ? 'bg-[var(--color-primary)] text-white font-bold' : 'bg-[var(--color-primary-light)] text-[var(--color-text)]'}`}
-        >
-         <img src="/img/mujer.png" className="h-12 w-12">
-         </img>
-          <span className="text-sm mt-1">Mujer</span>
-        </button>
-      </div>
 
-      {/* Slider para edad */}
-      <div className="mt-4">
-        <label className="text-sm font-medium text-gray-700 mb-1 block">Edad:</label>
-        <div className="flex items-center">
-          <input 
-            type="range" 
-            name="edad" 
-            min="18" 
-            max="80" 
-            onChange={handleChange} 
-            value={formData.edad || '30'} 
-            className="w-full h-2 bg-[var(--color-primary-light)] rounded-lg appearance-none cursor-pointer accent-[var(--color-primary)]"
-          />
-        </div>
-        <div className="text-center mt-1">
-          <span className="text-sm font-medium">{formData.edad || '30'} años</span>
-        </div>
-      </div>
-      
-      {/* Peso y altura */}
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">Peso</label>
-          <div className="flex">
-            <input 
-              type="number" 
-              name="peso" 
-              onChange={handleChange} 
-              value={formData.peso} 
-              className="px-3 py-2 border border-gray-200 rounded-l-lg focus:outline-none focus:border-blue-500 w-full"
-              placeholder="" 
-              required
-            />
-            <div className="bg-gray-100 border border-l-0 border-gray-200 rounded-r-lg px-3 py-2 flex items-center">
-              <span className="text-sm text-gray-500">kg</span>
+        {/* Sección de información personal */}
+        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <span className="bg-[var(--color-primary-light)] text-[var(--color-primary)] rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">1</span>
+            Información Personal
+          </h2>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tu nombre completo</label>
+              <input 
+                type="text" 
+                name="nombre" 
+                onChange={handleChange} 
+                value={formData.nombre} 
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-transparent"
+                placeholder="Ej: María González"
+                required
+              />
             </div>
-          </div>
-        </div>
-        
-        <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">Altura</label>
-          <div className="flex">
-            <input 
-              type="number" 
-              name="altura" 
-              onChange={handleChange} 
-              value={formData.altura} 
-              className="px-3 py-2 border border-gray-200 rounded-l-lg focus:outline-none focus:border-[var(--color-primary)] w-full"
-              placeholder="" 
-              required
-            />
-            <div className="relative group">
-              <div className="bg-gray-100 border border-l-0 border-gray-200 rounded-r-lg px-3 py-2 flex items-center cursor-pointer">
-                <span className="text-sm text-gray-500">cm</span>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">Género</label>
+              <div className="grid grid-cols-2 gap-4">
+                <button 
+                  type="button"
+                  onClick={() => handleChange({ target: { name: 'sexo', value: 'Hombre' } } as any)}
+                  className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
+                    formData.sexo === 'Hombre' 
+                      ? 'bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-accent)] text-white text-xl font-black shadow-lg' 
+                      : 'bg-white border-2 border-[var(--color-primary-light)] text-[var(--color-primary)] hover:border-[var(--color-primary-light-200)]'
+                  }`}
+                >
+                  <img 
+                    src="/img/hombre.png" 
+                    className={`h-12 w-12 mb-2 transition-transform ${formData.sexo === 'Hombre' ? 'scale-110' : ''}`}
+                    alt="Hombre"
+                  />
+                  <span className="font-medium">Hombre</span>
+                </button>
+                
+                <button 
+                  type="button"
+                  onClick={() => handleChange({ target: { name: 'sexo', value: 'Mujer' } } as any)}
+                  className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
+                    formData.sexo === 'Mujer' 
+                      ? 'bg-gradient-to-br from-pink-500 to-pink-600 text-white text-xl font-black shadow-lg' 
+                      : 'bg-white border-2 border-pink-100 text-pink-600 hover:border-pink-400'
+                  }`}
+                >
+                  <img 
+                    src="/img/mujer.png" 
+                    className={`h-12 w-12 mb-2 transition-transform ${formData.sexo === 'Mujer' ? 'scale-110' : ''}`}
+                    alt="Mujer"
+                  />
+                  <span className="font-medium">Mujer</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
       
-      {/* Nivel de actividad */}
-      <div className="mt-4">
-        <label className="text-sm font-medium text-gray-700 mb-1 block">Nivel de Actividad</label>
-        <select 
-          name="actividad" 
-          onChange={handleChange} 
-          value={formData.actividad} 
-          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[var(--color-primary)] bg-white"
-          required
-        >
-          <option value="" disabled hidden>Selecciona</option>
-          <option value="Sedentario">Sedentario</option>
-          <option value="Ligero">Ligero</option>
-          <option value="Moderado">Moderado</option>
-          <option value="Activo">Activo</option>
-          <option value="Muy Activo">Muy Activo</option>
-        </select>
-      </div>
+        {/* Sección de medidas corporales */}
+        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <span className="bg-[var(--color-primary-light)] text-[var(--color-primary)] rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">2</span>
+            Tus Medidas
+          </h2>
+          
+          {/* Edad */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-3">Edad: <span className="text-[var(--color-primary)] font-bold">{formData.edad || 25} años</span></label>
+            <div className="relative h-12 w-full">
+              <div className="absolute top-6 h-2 w-full bg-gray-200 rounded-full">
+                <div 
+                  className="h-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] rounded-full" 
+                  style={{ width: `${((formData.edad || 25) - 18) / 32 * 100}%` }}
+                />
+              </div>
+              <input
+                type="range"
+                name="edad"
+                min="18"
+                max="50"
+                value={formData.edad || 25}
+                onChange={handleChange}
+                className="absolute w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              <div 
+                className="absolute top-0 flex items-center justify-center w-10 h-10 transform -translate-x-1/2 transition-all"
+                style={{ left: `${((formData.edad || 25) - 18) / 32 * 100}%` }}
+              >
+                <div className="bg-white border-2 border-[var(--color-primary)] rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                  <span className="text-sm font-bold text-[var(--color-primary)]">{formData.edad || 25}</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between text-xs text-gray-500 mt-8 px-1">
+              <span>18 años</span>
+              <span>50 años</span>
+            </div>
+          </div>
       
-      {/* Objetivo con iconos */}
-      <div className="mt-4">
-        <label className="text-sm font-medium text-gray-700 mb-2 block">Objetivo</label>
-        <div className="grid grid-cols-3 gap-2">
-          <button 
-            type="button"
-            onClick={() => handleChange({ target: { name: 'objetivo', value: 'Perder grasa' } } as any)}
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${formData.objetivo === 'Perder grasa' ? 'bg-red-700 text-white' : 'bg-red-200 text-red-800'}`}
-          >
-            <img src="/img/menos.png" className="h-8 w-8" />
+      
+          {/* Peso y altura */}
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="bg-white p-4 rounded-xl border border-[var(--color-primary)] shadow-sm">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Peso (kg)</label>
+              <div className="relative">
+                <input 
+                  type="number" 
+                  name="peso" 
+                  min="30"
+                  max="200"
+                  step="0.1"
+                  onChange={handleChange} 
+                  value={formData.peso || ''} 
+                  className="w-full px-4 py-3 border border-[var(--color-primary-light)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-transparent"
+                  placeholder="70.5"
+                  required
+                />
+                <div className="absolute right-3 top-3 text-gray-400">kg</div>
+              </div>
+              <div className="mt-2">
+                <input
+                  type="range"
+                  name="peso"
+                  min="30"
+                  max="200"
+                  step="0.5"
+                  value={formData.peso || 70}
+                  onChange={handleChange}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+            </div>
             
-            <span className="text-xs mt-1">Perder grasa</span>
-          </button>
-          
+            <div className="bg-white p-4 rounded-xl border border-[var(--color-primary)] shadow-sm">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Altura (cm)</label>
+              <div className="relative">
+                <input 
+                  type="number" 
+                  name="altura"
+                  min="120"
+                  max="250"
+                  onChange={handleChange} 
+                  value={formData.altura || ''} 
+                  className="w-full px-4 py-3 border border-[var(--color-primary-light)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-light)] focus:border-transparent"
+                  placeholder="170"
+                  required
+                />
+                <div className="absolute right-3 top-3 text-gray-400">cm</div>
+              </div>
+              <div className="mt-2">
+                <input
+                  type="range"
+                  name="altura"
+                  min="120"
+                  max="250"
+                  value={formData.altura || 170}
+                  onChange={handleChange}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Nivel de actividad */}
+        <div className="mt-6 bg-white p-4 rounded-md border border-gray-100 shadow-sm">
+          <label className="block text-sm font-medium text-gray-700 mb-3">Nivel de Actividad Física</label>
+          <div className="flex flex-wrap justify-center gap-3">
+            {['Sedentario', 'Ligero', 'Moderado', 'Activo', 'Muy Activo'].map((nivel) => (
+              <label key={nivel} className={`flex flex-col items-center justify-center rounded-md py-3 px-6 bg-gray-50 border-1 border-gray-200 transition-all duration-200 ${formData.actividad === nivel ? 'bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold border-[var(--color-primary-light)] hover:bg-gray]' : 'hover:bg-gray-300 text-[var(--color-primary)]'}`}>
+                <input
+                  type="radio"
+                  name="actividad"
+                  value={nivel}
+                  onChange={handleChange}
+                  className="hidden"
+                />
+                <span className="text-sm font-bold capitalize">{nivel}</span>
+                <span className="text-xs text-gray-500 ">{{
+                  Sedentario: 'No hago ejercicio',
+                  Ligero: 'Camino sin frecuencia',
+                  Moderado: 'Hago ejercicio 1-2 veces',
+                  Activo: 'Hago ejercicio 3-4 veces',
+                  'Muy Activo': 'Hago ejercicio diario',
+                }[nivel]}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+          {/* Objetivos */}
+          <div className="mt-6">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">¿Cuál es tu objetivo principal?</h3>
+            <div className="grid grid-cols-3 gap-3">
+              <button 
+                type="button"
+                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Perder grasa' } } as any)}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
+                  formData.objetivo === 'Perder grasa' 
+                    ? 'bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg transform -translate-y-1' 
+                    : 'bg-white border-2 border-red-100 text-red-600 hover:border-red-200'
+                }`}
+              >
+                <img 
+                  src="/img/menos.png" 
+                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Perder grasa' ? 'scale-110' : ''}`} 
+                  alt="Perder grasa"
+                />
+                <span className="text-sm font-medium">Perder grasa</span>
+              </button>
+              
+              <button 
+                type="button"
+                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Ganar músculo' } } as any)}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
+                  formData.objetivo === 'Ganar músculo'
+                    ? 'bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg transform -translate-y-1'
+                    : 'bg-white border-2 border-green-100 text-green-600 hover:border-green-200'
+                }`}
+              >
+                <img 
+                  src="/img/mas.png" 
+                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Ganar músculo' ? 'scale-110' : ''}`}
+                  alt="Ganar músculo"
+                />
+                <span className="text-sm font-medium">Ganar músculo</span>
+              </button>
+              
+              <button 
+                type="button"
+                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Mantener' } } as any)}
+                className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
+                  formData.objetivo === 'Mantener'
+                    ? 'bg-gradient-to-br from-yellow-500 to-yellow-600 text-white shadow-lg transform -translate-y-1'
+                    : 'bg-white border-2 border-yellow-100 text-yellow-600 hover:border-yellow-200'
+                }`}
+              >
+                <img 
+                  src="/img/igual.png" 
+                  alt="Mantener peso"
+                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Mantener' ? 'scale-110' : ''}`}
+                />
+                <span className="text-sm font-medium">Mantener peso</span>
+              </button>
+            </div>
+        </div>
+
+        {/* Botón de envío */}
+        <div className="mt-8 sticky bottom-0 bg-white pt-4 pb-6 -mx-6 px-6 border-t border-gray-100">
           <button 
-            type="button"
-            onClick={() => handleChange({ target: { name: 'objetivo', value: 'Ganar músculo' } } as any)}
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${formData.objetivo === 'Ganar músculo' ? 'bg-[var(--color-primary)] text-white' : 'bg-[var(--color-primary-light)] text-blue-800'}`}
+            type="submit" 
+            className="w-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] hover:from-[var(--color-primary-accent)] hover:to-[var(--color-primary)] text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-50"
           >
-            <img src="/img/mas.png" className="h-8 w-8" />
-            <span className="text-xs mt-1">Ganar músculo</span>
+            Calcular mis macros ahora
+            <span className="ml-2">→</span>
           </button>
-          
-          <button 
-            type="button"
-            onClick={() => handleChange({ target: { name: 'objetivo', value: 'Mantener peso' } } as any)}
-            className={`flex flex-col items-center justify-center p-3 rounded-xl ${formData.objetivo === 'Mantener peso' ? 'bg-[var(--color-primary)] text-white' : 'bg-[var(--color-primary-light)] text-blue-800'}`}
-          >
-            <img src="/img/igual.png" className="h-8 w-8" />
-            <span className="text-xs mt-1">Mantener peso</span>
-          </button>
+          <p className="text-xs text-center text-gray-500 mt-3">Tus datos están seguros y no serán compartidos</p>
         </div>
       </div>
-      
-      {/* Botón calcular */}
-      <button 
-        type="submit" 
-        className="mt-6 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white font-medium py-3 px-6 rounded-xl transition-colors shadow-sm w-full"
-      >
-        Calcular
-      </button>
     </form>
   );
-}
+};
+
+export default CalculatorForm;
