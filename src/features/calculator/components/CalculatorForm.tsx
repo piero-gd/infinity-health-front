@@ -37,10 +37,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
 
         {/* Sección de información personal */}
         <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="bg-[var(--color-primary-light)] text-[var(--color-primary)] rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">1</span>
-            Información Personal
-          </h2>
+          
           
           <div className="space-y-4">
             <div>
@@ -69,11 +66,11 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                   }`}
                 >
                   <img 
-                    src="/img/hombre.png" 
-                    className={`h-12 w-12 mb-2 transition-transform ${formData.sexo === 'Hombre' ? 'scale-110' : ''}`}
+                    src={formData.sexo === 'Hombre' ? '/img/icons/mansel.svg' : '/img/icons/man.svg'} 
+                    className={`h-20 w-20 transition-transform ${formData.sexo === 'Hombre' ? 'scale-110' : ''}`}
                     alt="Hombre"
                   />
-                  <span className="font-medium">Hombre</span>
+                  <span className={`${formData.sexo === 'Hombre' ? 'font-black' : 'font-medium'}`}>Hombre</span>
                 </button>
                 
                 <button 
@@ -86,27 +83,17 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                   }`}
                 >
                   <img 
-                    src="/img/mujer.png" 
-                    className={`h-12 w-12 mb-2 transition-transform ${formData.sexo === 'Mujer' ? 'scale-110' : ''}`}
+                    src={formData.sexo === 'Mujer' ? '/img/icons/femsel.svg' : '/img/icons/fem.svg'} 
+                    className={`h-20 w-20 transition-transform ${formData.sexo === 'Mujer' ? 'scale-110' : ''}`}
                     alt="Mujer"
                   />
-                  <span className="font-medium">Mujer</span>
+                  <span className={`${formData.sexo === 'Mujer' ? 'font-black' : 'font-medium'}`}>Mujer</span>
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
-      
-        {/* Sección de medidas corporales */}
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <span className="bg-[var(--color-primary-light)] text-[var(--color-primary)] rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">2</span>
-            Tus Medidas
-          </h2>
-          
-          {/* Edad */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-3">Edad: <span className="text-[var(--color-primary)] font-bold">{formData.edad || 25} años</span></label>
+
+              {/*PRUEBA DE EDAD*/}
+              <div className="mb-3 mt-6">
+              <label className="block text-sm font-medium text-gray-700 mb-3">Edad: <span className="text-[var(--color-primary)] font-bold">{formData.edad || 25} años</span></label>
             <div className="relative h-12 w-full">
               <div className="absolute top-6 h-2 w-full bg-gray-200 rounded-full">
                 <div 
@@ -136,11 +123,11 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
               <span>18 años</span>
               <span>50 años</span>
             </div>
-          </div>
-      
-      
-          {/* Peso y altura */}
-          <div className="grid grid-cols-2 gap-4 mt-6">
+            </div>
+
+            {/*PRUEBA DE PESO*/}
+
+            <div className="grid grid-cols-2 gap-4 mt-6">
             <div className="bg-white p-4 rounded-xl border border-[var(--color-primary)] shadow-sm">
               <label className="block text-sm font-medium text-gray-700 mb-2">Peso (kg)</label>
               <div className="relative">
@@ -201,13 +188,18 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
               </div>
             </div>
           </div>
+              {/*espacio libre para agregar info en el cubo*/}
+            </div>
+          </div>
         </div>
+      
+        
         {/* Nivel de actividad */}
         <div className="mt-6 bg-white p-4 rounded-md border border-gray-100 shadow-sm">
           <label className="block text-sm font-medium text-gray-700 mb-3">Nivel de Actividad Física</label>
           <div className="flex flex-wrap justify-center gap-3">
             {['Sedentario', 'Ligero', 'Moderado', 'Activo', 'Muy Activo'].map((nivel) => (
-              <label key={nivel} className={`flex flex-col items-center justify-center rounded-md py-3 px-6 bg-gray-50 border-1 border-gray-200 transition-all duration-200 ${formData.actividad === nivel ? 'bg-[var(--color-primary-light)] text-[var(--color-primary)] font-semibold border-[var(--color-primary-light)] hover:bg-gray]' : 'hover:bg-gray-300 text-[var(--color-primary)]'}`}>
+              <label key={nivel} className={`flex flex-col items-center justify-center rounded-md py-3 px-6 bg-gray-50 border-2 border-[var(--color-primary-light)] transition-all duration-200 ${formData.actividad === nivel ? 'text-[var(--color-primary)] font-semibold bg-[var(--color-primary-light)]' : 'hover:bg-gray-150 border-[var(--color-primary)] text-[var(--color-primary-accent)]'}`}>
                 <input
                   type="radio"
                   name="actividad"
@@ -217,10 +209,10 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                 />
                 <span className="text-sm font-bold capitalize">{nivel}</span>
                 <span className="text-xs text-gray-500 ">{{
-                  Sedentario: 'No hago ejercicio',
-                  Ligero: 'Camino sin frecuencia',
-                  Moderado: 'Hago ejercicio 1-2 veces',
-                  Activo: 'Hago ejercicio 3-4 veces',
+                  'Sedentario': 'No hago ejercicio',
+                  'Ligero': 'Camino sin frecuencia',
+                  'Moderado': 'Hago ejercicio 1-2 veces',
+                  'Activo': 'Hago ejercicio 3-4 veces',
                   'Muy Activo': 'Hago ejercicio diario',
                 }[nivel]}</span>
               </label>

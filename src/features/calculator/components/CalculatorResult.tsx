@@ -54,7 +54,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-5 text-white">
+      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] p-5 text-white">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl md:text-2xl font-bold">Tu Plan de Nutrición</h2>
@@ -103,8 +103,8 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
         </div>
 
         {/* Nota al pie */}
-        <div className="mt-6 bg-blue-50 p-3 rounded-lg border border-blue-100">
-          <p className="text-xs text-blue-700 text-center">
+        <div className="mt-6 bg-blue-50 p-3 rounded-lg border border-[var(--color-primary)]">
+          <p className="text-xs text-[var(--color-primary)] text-center">
             Estos valores son una estimación. Para un plan personalizado, consulta con un nutricionista certificado.
           </p>
         </div>

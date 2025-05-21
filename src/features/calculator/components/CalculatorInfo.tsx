@@ -41,8 +41,8 @@ export default function CalculatorInfo() {
         ))}
       </div>
       <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
-        <h3 className="font-semibold text-blue-800 text-sm md:text-base mb-1.5">¿Cómo usar esta calculadora?</h3>
-        <p className="text-xs md:text-sm text-blue-700">
+        <h3 className="font-semibold text-[var(--color-primary)] text-sm md:text-base mb-1.5">¿Cómo usar esta calculadora?</h3>
+        <p className="text-xs md:text-sm text-[var(--color-primary)]">
           Completa el formulario con tus datos personales y objetivos para obtener un plan de 
           nutrición personalizado. Los resultados te ayudarán a entender mejor tus necesidades 
           calóricas y de macronutrientes diarias.
@@ -60,7 +60,7 @@ export default function CalculatorInfo() {
           >
             <div className="flex items-center space-x-4">
               <div className="bg-blue-50 p-3 rounded-lg group-hover:bg-blue-100 transition-colors">
-                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg className="w-6 h-6 text-[var(--color-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
@@ -69,7 +69,7 @@ export default function CalculatorInfo() {
                 <p className="text-xs text-gray-500 mt-1">Descubre nuestra selección de alimentos y suplementos naturales</p>
               </div>
             </div>
-            <div className="mt-3 flex items-center text-xs text-blue-600 font-medium">
+            <div className="mt-3 flex items-center text-xs text-[var(--color-primary)] font-medium">
               Ver catálogo
               <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
