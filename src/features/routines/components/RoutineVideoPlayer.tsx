@@ -6,7 +6,7 @@ interface Props {
 }
 
 const RoutineVideoPlayer: FC<Props> = ({ videoUrl }) => (
-  <div className="mb-6 max-w-full">
+  <div className="my-6 mx-32 max-w-full">
     <iframe
       src={videoUrl}
       width="100%"

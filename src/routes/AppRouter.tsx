@@ -4,15 +4,15 @@ import AppLayout from "../layouts/AppLayout";
 import RoutinesHome from "../features/routines/pages/RoutinesHome";
 import RoutinePlayerPage from "../features/routines/pages/RoutinePlayerPage";
 import { RoutinesProvider } from "../features/routines/context/RoutinesContext";
+import ExercisesHome from "../features/exercises/pages/ExercisesHome";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
-    <RoutinesProvider>
       <BrowserRouter>
         <Routes>
           {/* Landing (solo navbar) */}
           <Route element={<SimpleLayout onLogout={onLogout} />}>
-            <Route path="/" element={<RoutinesHome />} />
+            <Route path="/" element={<ExercisesHome />} />
           </Route>
 
           {/* Resto de app (navbar + sidebar) */}
@@ -27,7 +27,6 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </RoutinesProvider>
   );
 };
 
