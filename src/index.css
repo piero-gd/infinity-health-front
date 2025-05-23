@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
+
+@font-face {
+  font-family: 'Gyrochrome';
+  src: url('src/assets/fonts/GyrochromeVF.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
     /* Base brand colors */
     --color-primary: #1798e0;
     --color-primary-dark: #d3e2ea; /* tono más oscuro */
@@ -20,5 +29,16 @@
   
     /* Acentos y detalles */
     --color-primary-accent: #3ab0f9; /* un azul intermedio para íconos, enlaces, etc */
-  }
-  
+
+    /* Botones */
+    --color-btn-hover: #1283C2;
+    --color-btn-active: #0972AD;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+  font-family: 'Gyrochrome', sans-serif;
+}

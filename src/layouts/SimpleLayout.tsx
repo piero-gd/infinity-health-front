@@ -9,7 +9,7 @@ interface Props {
 
 export default function SimpleLayout({ onLogout }: Props) {
   // Estado para el sidebar abierto/cerrado
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Ancho del sidebar: w-56 abierto, w-16 cerrado
   const sidebarWidth = sidebarOpen ? 'ml-56' : 'ml-16'
