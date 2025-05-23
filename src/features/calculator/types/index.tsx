@@ -17,3 +17,15 @@ export interface CalculatorResults {
   objetivo: string;
 }
 
+export interface Diet { 
+  status: string;
+  content: {
+    name: string;
+    calories: number;
+    items: {
+      food: string;
+      quantity: string;
+      calories: number;
+    }[];
+  }[];
+}

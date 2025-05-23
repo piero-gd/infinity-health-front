@@ -35,16 +35,16 @@ export default function CalculatorPage() {
     <div className="mx-auto py-6 px-4 w-full max-w-7xl min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* Columna izquierda - Formulario */}
-        <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden h-full">
+        <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden h-auto">
             <CalculatorForm onCalcular={manejarCalculo} />
           </div>
         </div>
         
         {/* Columna derecha - Contenido informativo, resultados o plan de alimentación */}
-        <div ref={resultadosRef} className="lg:col-span-4 xl:col-span-4 2xl:col-span-6">
+        <div ref={resultadosRef} className="lg:col-span-4 xl:col-span-4 2xl:col-span-4">
           {showDietPlan && resultado ? (
-            <DietPlan onBack={handleBackToResults} />
+            <DietPlan onBack={handleBackToResults} calorias={resultado.calorias} proteinas={resultado.proteinas} carbohidratos={resultado.carbohidratos} grasas={resultado.grasas} />
           ) : resultado ? (
             <div className="space-y-4 md:space-y-6">
               {/* Container con fondo azul para los resultados */}
@@ -57,6 +57,7 @@ export default function CalculatorPage() {
                 <CalculatorRecomendations 
                   nombre={resultado.nombre} 
                   objetivo={resultado.objetivo} 
+                  resultado={resultado}
                   onGenerateDiet={handleGenerateDiet}
                 />
               </div>

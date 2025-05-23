@@ -9,13 +9,15 @@ interface CalculatorResultProps {
 export default function CalculatorResult({ resultado }: CalculatorResultProps) {
   if (!resultado) return null;
 
+  console.log(resultado);
+
   const metrics = [
     {
       id: 'calorias',
       label: 'Calorías',
       value: resultado.calorias,
       unit: 'kcal',
-      icon: <FiZap className="w-5 h-5" />,
+      icon: <FiZap className="w-8 h-8" />,
       color: 'from-yellow-400 to-yellow-500',
       bg: 'bg-yellow-50',
       text: 'text-yellow-700'
@@ -25,7 +27,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
       label: 'Proteínas',
       value: resultado.proteinas,
       unit: 'g',
-      icon: <FiActivity className="w-5 h-5" />,
+      icon: <FiActivity className="w-8 h-8" />,
       color: 'from-blue-400 to-blue-500',
       bg: 'bg-blue-50',
       text: 'text-blue-700'
@@ -35,7 +37,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
       label: 'Grasas',
       value: resultado.grasas,
       unit: 'g',
-      icon: <FiDroplet className="w-5 h-5" />,
+      icon: <FiDroplet className="w-8 h-8" />,
       color: 'from-red-400 to-red-500',
       bg: 'bg-red-50',
       text: 'text-red-700'
@@ -45,7 +47,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
       label: 'Carbohidratos',
       value: resultado.carbohidratos,
       unit: 'g',
-      icon: <FiPieChart className="w-5 h-5" />,
+      icon: <FiPieChart className="w-8 h-8" />,
       color: 'from-green-400 to-green-500',
       bg: 'bg-green-50',
       text: 'text-green-700'
@@ -61,8 +63,8 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
             <FaAppleAlt className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-xl md:text-2xl font-bold">Tu Plan de Nutrición</h2>
-            <p className="text-blue-100 text-sm mt-1">Basado en tus datos y objetivos</p>
+            <h2 className="text-xl md:text-2xl font-bold">Resultados Macros</h2>
+            <p className="text-blue-100 text-sm mt-1">Observa tus objetivos diarios</p>
           </div>
           
         </div>
@@ -74,11 +76,11 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
           {metrics.map((metric) => (
             <div 
               key={metric.id}
-              className={`${metric.bg} ${metric.text} p-4 rounded-xl border border-opacity-30 border-gray-200`}
+              className={`${metric.bg} ${metric.text} p-4 rounded-xl `}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg ${metric.bg.replace('50', '100')} ${metric.text}`}>
+                  <div className={`p-3 rounded-xl  ${metric.text}`}>
                     {metric.icon}
                   </div>
                   <div>
@@ -87,9 +89,6 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
                       {metric.value} <span className="text-sm font-normal opacity-80">{metric.unit}</span>
                     </div>
                   </div>
-                </div>
-                <div className="text-xs px-2 py-1 rounded-full bg-white bg-opacity-30">
-                  {metric.id === 'calorias' ? 'Diarias' : 'Por día'}
                 </div>
               </div>
             </div>

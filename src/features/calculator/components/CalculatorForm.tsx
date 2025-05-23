@@ -199,7 +199,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
       
         
         {/* Nivel de actividad - Versión lista en móvil, solo títulos en desktop */}
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+        <div className="mt-6">
           <div className="mb-4">
             <h3 className="text-base font-semibold text-gray-800">Nivel de Actividad Física</h3>
             <p className="text-xs text-gray-500 mt-1">Selecciona el que mejor describa tu rutina semanal</p>
@@ -249,8 +249,8 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                   key={item.nivel}
                   className={`relative block p-4 sm:p-3 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
                     isSelected 
-                      ? 'border-[var(--color-primary)] bg-gradient-to-br from-[var(--color-primary-light)] to-white shadow-md' 
-                      : 'border-gray-100 hover:border-[var(--color-primary-light)] hover:bg-gray-50'
+                      ? 'border-[var(--color-primary-accent)] bg-gradient-to-br from-[var(--color-dark)] to-[var(--color-primary-light)] shadow-md' 
+                      : 'border-gray-100 hover:border-[var(--color-primary-accent)] hover:bg-gray-50'
                   }`}
                   title={`${item.descripcion} - ${item.detalle}`}
                 >
@@ -262,12 +262,12 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                     className="hidden"
                   />
                   {/* Versión móvil - Completa */}
-                  <div className="sm:hidden flex items-start">
+                  <div className="sm:hidden flex items-start ">
                     <span className="text-2xl mr-3 mt-0.5">{item.icon}</span>
                     <div className="flex-1">
                       <div className="flex justify-between items-start">
-                        <span className={`font-medium text-sm ${
-                          isSelected ? 'text-[var(--color-primary-dark)]' : 'text-gray-800'
+                        <span className={`font-xs text-md ${
+                          isSelected ? 'font-bold text-[var(--color-primary)] text-lg' : 'text-gray-800'
                         }`}>
                           {item.nivel}
                         </span>
@@ -288,11 +288,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                   
                   {/* Versión desktop - Solo título */}
                   <div className="hidden sm:flex flex-col items-center justify-center h-full">
-                    <span className={`text-sm font-medium text-center ${
-                      isSelected ? 'text-[var(--color-primary-dark)]' : 'text-gray-800'
-                    }`}>
-                      {item.nivel}
-                    </span>
+                    
                     {isSelected && (
                       <div className="mt-1 w-4 h-4 rounded-full bg-[var(--color-primary)] flex items-center justify-center">
                         <svg className="w-2 h-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -300,6 +296,11 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                         </svg>
                       </div>
                     )}
+                    <span className={`font-xs text-center ${
+                      isSelected ? 'text-md font-bold text-[var(--color-primary)]' : 'text-gray-800 font-medium'
+                    }`}>
+                      {item.nivel}
+                    </span>
                   </div>
                 </label>
               );
@@ -310,7 +311,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
           {/* Objetivos */}
           <div className="mt-6">
             <h3 className="text-sm font-medium text-gray-700 mb-3">¿Cuál es tu objetivo principal?</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
               <button 
                 type="button"
                 onClick={() => handleChange({ target: { name: 'objetivo', value: 'Perder grasa' } } as any)}
@@ -365,7 +366,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         </div>
 
         {/* Botón de envío */}
-        <div className="mt-8 sticky bottom-0 bg-white pt-4 pb-6 -mx-6 px-6 border-t border-gray-100">
+        <div className="mt-8 sticky bottom-0 bg-white pt-4 -mx-6 px-6 border-t border-gray-100">
           <button 
             type="submit" 
             className="w-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] hover:from-[var(--color-primary-accent)] hover:to-[var(--color-primary)] text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-50"

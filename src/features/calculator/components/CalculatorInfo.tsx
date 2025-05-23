@@ -80,14 +80,14 @@ export default function CalculatorInfo() {
           </div>
         ))}
       </div>
-      <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
+      {/* <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
         <h3 className="font-semibold text-[var(--color-primary)] text-sm md:text-base mb-1.5">¿Cómo usar esta calculadora?</h3>
         <p className="text-xs md:text-sm text-[var(--color-primary)]">
           Completa el formulario con tus datos personales y objetivos para obtener un plan de 
           nutrición personalizado. Los resultados te ayudarán a entender mejor tus necesidades 
           calóricas y de macronutrientes diarias.
         </p>
-      </div>
+      </div>*/}
     </div>
     
     {/* Sección de Productos Saludables */}
