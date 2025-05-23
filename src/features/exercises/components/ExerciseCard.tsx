@@ -8,7 +8,7 @@ interface Props {
 
 export default function ExerciseCard({ exercise, onClick }: Props) {
   return (
-    <div className="flex flex-col items-center mx-6 mt-8">
+    <div className="flex flex-col items-center mx-6 mt-4">
       <div
         onClick={onClick}
         className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer group hover:scale-105 transition-transform w-full"
