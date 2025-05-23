@@ -4,23 +4,24 @@ import type { CalculatorData } from '../types/index';
 interface CalculatorRecomendationsProps {
   nombre: string;
   objetivo: string;
+  onGenerateDiet: () => void;
 }
 
 const getObjectiveData = (objetivo: string) => {
   switch(objetivo) {
     case 'Perder grasa':
       return {
-        title: 'Pérdida de Grasa',
+        title: 'Perder Grasa',
         icon: (
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         ),
-        color: 'bg-red-100 text-red-800 border-red-200',
-        gradient: 'from-red-500 to-red-600',
-        tipBg: 'bg-red-50',
-        tipBorder: 'border-red-100',
-        tipText: 'text-red-700'
+        color: 'bg-orange-100 text-orange-800 border-orange-200',
+        gradient: 'from-orange-500 to-orange-600',
+        tipBg: 'bg-orange-50',
+        tipBorder: 'border-orange-100',
+        tipText: 'text-orange-700'
       };
     case 'Ganar músculo':
       return {
@@ -30,25 +31,25 @@ const getObjectiveData = (objetivo: string) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
           </svg>
         ),
-        color: 'bg-blue-100 text-blue-800 border-blue-200',
-        gradient: 'from-blue-500 to-blue-600',
-        tipBg: 'bg-blue-50',
-        tipBorder: 'border-blue-100',
-        tipText: 'text-blue-700'
-      };
-    case 'Mantener':
-      return {
-        title: 'Mantenimiento',
-        icon: (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        ),
         color: 'bg-green-100 text-green-800 border-green-200',
         gradient: 'from-green-500 to-green-600',
         tipBg: 'bg-green-50',
         tipBorder: 'border-green-100',
         tipText: 'text-green-700'
+      };
+    case 'Mantener':
+      return {
+        title: 'Mantener Peso',
+        icon: (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+        ),
+        color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+        gradient: 'from-yellow-500 to-yellow-600',
+        tipBg: 'bg-yellow-50',
+        tipBorder: 'border-yellow-100',
+        tipText: 'text-yellow-700'
       };
     default:
       return {
@@ -63,16 +64,16 @@ const getObjectiveData = (objetivo: string) => {
   }
 };
 
-export default function CalculatorRecomendations({ objetivo, nombre }: CalculatorRecomendationsProps) {
+export default function CalculatorRecomendations({ objetivo, nombre, onGenerateDiet }: CalculatorRecomendationsProps) {
   if (!objetivo) return null;
 
   const tip = getRandomTip(objetivo as 'Perder grasa' | 'Ganar músculo' | 'Mantener peso');
   const objectiveData = getObjectiveData(objetivo);
 
   return (
-    <div className="relative overflow-hidden rounded-xl border bg-white shadow-sm">
+    <div className="relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
       {/* Badge de objetivo en la esquina superior derecha */}
-      <div className={`absolute right-0 top-0 flex items-center px-3 py-1 ${objectiveData.color} border-b border-l rounded-bl-lg`}>
+      <div className={`absolute right-0 top-0 flex items-center px-3 py-1 ${objectiveData.color} border-b border-l rounded-bl-lg z-10`}>
         {objectiveData.icon}
         <span className="ml-1 text-sm font-medium">{objectiveData.title}</span>
       </div>
@@ -92,12 +93,12 @@ export default function CalculatorRecomendations({ objetivo, nombre }: Calculato
           
           <div>
             <h3 className="text-xl font-bold text-gray-800 mb-2">
-              ¡Hola, {nombre}!
+              ¡Excelente, {nombre}!
             </h3>
             <div className={`${objectiveData.tipText} text-sm leading-relaxed`}>
               <p className="mb-3">{tip}</p>
               
-              <div className="mt-4 p-3 rounded-lg bg-opacity-20 bg-gradient-to-r from-blue-50 to-blue-100">
+              <div className="mt-4 p-3 rounded-lg bg-opacity-20 bg-gradient-to-r from-[var(--color-background)] to-[var(--color-border)]">
                 <h4 className="font-semibold text-gray-800 mb-1">Consejo del día</h4>
                 <p className="text-sm text-gray-700">
                   {objetivo === 'Perder grasa' && 'Recuerda mantener un déficit calórico moderado para una pérdida de grasa sostenible.'}
@@ -105,6 +106,16 @@ export default function CalculatorRecomendations({ objetivo, nombre }: Calculato
                   {objetivo === 'Mantener' && 'Mantén un equilibrio entre tu ingesta calórica y tu gasto energético diario.'}
                 </p>
               </div>
+              
+              <button
+                onClick={onGenerateDiet}
+                className="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Generar Plan de Alimentación
+              </button>
               
               <p className="mt-3 text-xs text-gray-500">
                 Para un plan personalizado, consulta con un profesional de la salud.
