@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useExercises } from '../hooks/useExercises';
-import type { Exercise } from '../types/exercise';
-import { PlayCircleIcon } from '@heroicons/react/24/solid';
 import ExerciseCard from '../components/ExerciseCard';
+import Loader from '../../../components/Loader';
 
 export default function ExercisesHome() {
   const { exercises, loading, error } = useExercises();
@@ -12,7 +11,7 @@ export default function ExercisesHome() {
     navigate(`/exercises/${index}`);
   };
 
-  if (loading) return <div>Cargando ejercicios...</div>;
+  if (loading) return <Loader message="Cargando ejercicios..." />;
   if (error) return <div>Error: {error}</div>;
 
   return (
