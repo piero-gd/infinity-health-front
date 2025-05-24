@@ -44,7 +44,7 @@ export default function CalculatorPage() {
         {/* Columna derecha - Contenido informativo, resultados o plan de alimentación */}
         <div ref={resultadosRef} className="lg:col-span-4 xl:col-span-4 2xl:col-span-4">
           {showDietPlan && resultado ? (
-            <DietPlan onBack={handleBackToResults} calorias={resultado.calorias} proteinas={resultado.proteinas} carbohidratos={resultado.carbohidratos} grasas={resultado.grasas} />
+            <DietPlan onBack={handleBackToResults} resultado={resultado}/>
           ) : resultado ? (
             <div className="space-y-4 md:space-y-6">
               {/* Container con fondo azul para los resultados */}
@@ -56,8 +56,7 @@ export default function CalculatorPage() {
               <div className="bg-blue-50 rounded-2xl shadow-sm border border-blue-100 overflow-hidden">
                 <CalculatorRecomendations 
                   nombre={resultado.nombre} 
-                  objetivo={resultado.objetivo} 
-                  resultado={resultado}
+                  objetivo={resultado.objetivo}
                   onGenerateDiet={handleGenerateDiet}
                 />
               </div>

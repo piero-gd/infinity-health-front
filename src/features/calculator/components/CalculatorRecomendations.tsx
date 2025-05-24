@@ -1,13 +1,10 @@
 import { getRandomTip } from '../data/tipsRandom';
-import type { CalculatorData } from '../types/index';
-import type { CalculatorResults } from '../types/index';
 import { FaAppleAlt } from 'react-icons/fa';
 
 interface CalculatorRecomendationsProps {
   nombre: string;
   objetivo: string;
   onGenerateDiet: () => void;
-  resultado: CalculatorResults;
 }
 
 const getObjectiveData = (objetivo: string) => {
@@ -67,7 +64,7 @@ const getObjectiveData = (objetivo: string) => {
   }
 };
 
-export default function CalculatorRecomendations({ objetivo, nombre, onGenerateDiet, resultado }: CalculatorRecomendationsProps) {
+export default function CalculatorRecomendations({ objetivo, nombre, onGenerateDiet }: CalculatorRecomendationsProps) {
   if (!objetivo) return null;
 
   const tip = getRandomTip(objetivo as 'Perder grasa' | 'Ganar músculo' | 'Mantener peso');
@@ -75,7 +72,7 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
-      {/* Badge de objetivo en la esquina superior derecha */}
+    
       <div className={`absolute right-0 top-0 flex items-center px-3 py-1 ${objectiveData.color} border-b border-l rounded-bl-lg z-10`}>
         {objectiveData.icon}
         <span className="ml-1 text-sm font-medium">{objectiveData.title}</span>
@@ -126,7 +123,6 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
         </div>
       </div>
       
-      {/* Barra inferior con gradiente */}
       <div className={`h-1.5 bg-gradient-to-r ${objectiveData.gradient}`}></div>
     </div>
   );

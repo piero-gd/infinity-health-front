@@ -26,10 +26,10 @@ const tips = [
 export default function CalculatorInfo() {
   return (
     <>
-      {/* Sección de Dieta Ideal - Llamado a la acción */}
+      {/* Dieta - Llamado a la acción */}
       <div className="group cursor-pointer transition-all duration-300 mb-6">
         <div className="relative bg-gradient-to-r from-yellow-50 to-yellow-100 border border-yellow-100 rounded-2xl p-6 overflow-hidden shadow-sm hover:shadow-md transition-all">
-          {/* Elementos decorativos de fondo */}
+     
           <div className="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-yellow-200 rounded-full opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
           <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-24 h-24 bg-yellow-100 rounded-full opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
           
@@ -80,7 +80,9 @@ export default function CalculatorInfo() {
           </div>
         ))}
       </div>
-      {/* <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
+      {/* MUCHA INFO, POR ESO PIENSO Q ESTO YA NO VA
+      
+      <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
         <h3 className="font-semibold text-[var(--color-primary)] text-sm md:text-base mb-1.5">¿Cómo usar esta calculadora?</h3>
         <p className="text-xs md:text-sm text-[var(--color-primary)]">
           Completa el formulario con tus datos personales y objetivos para obtener un plan de 
@@ -121,7 +123,7 @@ export default function CalculatorInfo() {
           </div>
         </div>
 
-        {/* Sección de Planes de Ejercicio */}
+        {/* Planes de Ejercicio */}
         <div className="group cursor-pointer transition-all duration-300">
           <div className="relative bg-white border border-gray-100 rounded-2xl p-6 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-green-50 rounded-full opacity-30 group-hover:opacity-40 transition-opacity duration-300"></div>

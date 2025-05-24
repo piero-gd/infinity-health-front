@@ -365,7 +365,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
             </div>
         </div>
 
-        {/* Botón de envío */}
+        {/* Envío */}
         <div className="mt-8 sticky bottom-0 bg-white pt-4 -mx-6 px-6 border-t border-gray-100">
           <button 
             type="submit" 
