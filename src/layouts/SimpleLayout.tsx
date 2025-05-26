@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AppSidebar from '../components/AppSidebar'
-import RoutineNavbar from '../features/routines/components/RoutineNavbar'
+import AppNavbar from '../components/AppNavbar'
 import { Outlet } from 'react-router-dom'
 
 interface Props {
@@ -23,7 +23,7 @@ export default function SimpleLayout({ onLogout }: Props) {
       <div
         className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${sidebarWidth}`}
       >
-        <RoutineNavbar
+        <AppNavbar
           onLogout={onLogout}
           setSidebarOpen={setSidebarOpen}
         />

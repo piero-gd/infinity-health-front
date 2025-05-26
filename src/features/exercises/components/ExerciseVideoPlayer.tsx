@@ -2,7 +2,7 @@
 import type { FC } from 'react';
 
 interface Props {
-  videoUrl: string; // p.ej. https://iframe.mediadelivery.net/play/426873/487b6c62-...
+  videoUrl: string;
 }
 
 const RoutineVideoPlayer: FC<Props> = ({ videoUrl }) => (
@@ -10,7 +10,7 @@ const RoutineVideoPlayer: FC<Props> = ({ videoUrl }) => (
     <iframe
       src={videoUrl}
       width="100%"
-      height="400px"
+      height="510px"
       allow="autoplay; fullscreen; picture-in-picture"
       allowFullScreen
       className="rounded-md shadow"
