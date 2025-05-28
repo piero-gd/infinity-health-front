@@ -39,7 +39,7 @@ export default function ExerciseCard({ exercise, onClick }: Props) {
           {exercise.title}
         </h2>
         <div className="flex items-center text-sm text-gray-500">
-          <ClockIcon className="w-5 h-5 mr-1 text-blue-400" />
+          <ClockIcon className="w-5 h-5 mr-1 text-primary-dark" />
           <span>
             {exercise.duration ? `${exercise.duration} Minutos` : "Sin duración"}
           </span>

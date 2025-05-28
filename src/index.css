@@ -12,7 +12,7 @@
 @theme {
     /* Base brand colors */
     --color-primary: #1798e0;
-    --color-primary-dark: #d3e2ea; /* tono más oscuro */
+    --color-primary-dark: #0972AD; /* tono más oscuro */
     --color-primary-light: #a8dfff; /* tono claro para fondos suaves o estados hover */
   
     /* Fondo y superficies claras */
@@ -33,6 +33,7 @@
     /* Botones */
     --color-btn-hover: #1283C2;
     --color-btn-active: #0972AD;
+    --gradient-primary: linear-gradient(180deg, #232323 0%, #1798e0 100%);
 }
 
 body {

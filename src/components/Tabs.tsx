@@ -8,12 +8,12 @@ export interface TabOption {
 
 interface TabsProps {
   options: TabOption[];
-  value: string;
+  selectedValue: string;
   onChange: (value: string) => void;
   className?: string;
 }
 
-const Tabs: React.FC<TabsProps> = ({ options, value, onChange, className = "" }) => {
+const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className = "" }) => {
   return (
     <div className={`flex gap-4 justify-center mb-8 ${className}`}>
       {options.map((opt) => (
@@ -21,12 +21,16 @@ const Tabs: React.FC<TabsProps> = ({ options, value, onChange, className = "" })
           key={opt.value}
           onClick={() => onChange(opt.value)}
           className={`
-            flex items-center gap-2 px-6 py-2 rounded-full border
-            text-base font-semibold transition
-            ${value === opt.value
-              ? "bg-[var(--color-primary)] text-white shadow border-transparent"
+            flex items-center gap-2 px-6 py-2 rounded-full border text-base font-semibold transition
+            ${selectedValue === opt.value
+              ? "bg-primary text-white shadow"
               : "bg-white text-gray-500 border-gray-200 hover:bg-gray-100"}
           `}
+          style={
+            selectedValue === opt.value
+              ? { background: "var(--gradient-primary)" }
+              : undefined
+          }
           type="button"
         >
           {opt.label}
