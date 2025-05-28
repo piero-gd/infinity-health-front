@@ -55,7 +55,7 @@ export default function CalculatorInfo() {
             </div>
             
             <div className="bg-yellow-50 border border-yellow-100 rounded-lg p-3 mb-3">
-              <p className="text-xs text-yellow-800 text-center">
+              <p className="text-sm text-yellow-800 text-center">
                 <span className="font-semibold">Primero calcula tus macros</span> para generar tu plan personalizado
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function CalculatorInfo() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">Productos Saludables</h3>
               </div>
-              <p className="text-gray-600 mb-4 text-xs">
+              <p className="text-gray-600 mb-4 text-sm">
                 Descubre nuestra selección de alimentos orgánicos y suplementos nutricionales de la más alta calidad.
               </p>
               <a 
@@ -136,7 +136,7 @@ export default function CalculatorInfo() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">Planes de Ejercicio</h3>
               </div>
-              <p className="text-gray-600 mb-4 text-xs">
+              <p className="text-gray-600 mb-4 text-sm">
                 Rutinas personalizadas según tus objetivos y nivel de condición física. Ejercicios para hacer en casa o gimnasio.
               </p>
               <a 

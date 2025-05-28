@@ -1,35 +1,32 @@
-import { useState } from 'react';
-import type { CalculatorData } from '../types/index';
+import {useState, useCallback} from 'react';
+import type {CalculatorResults, CalculatorData} from '../types/index';
+import calculateMacros from '../utils/calculateMacros';
 
-interface CalculatorFormProps {
-    onCalcular: (formData: CalculatorData) => void;
-  }
+export function useCalculator() {
+    const [resultado, setResultado] = useState<CalculatorResults | null>(null);
+    const [showDietPlan, setShowDietPlan] = useState(false);
 
-export function useCalculator({ onCalcular }: CalculatorFormProps) {
-   const [formData, setFormData] = useState<CalculatorData>({
-    nombre: 'Marco',
-    sexo: '',
-    edad: 25,
-    peso: 70,
-    altura: 170,
-    actividad: '',
-    objetivo: 'Perder grasa'
-  });
+    const manejarCalculo = useCallback((resultado: CalculatorData) => {
+        const calculo = calculateMacros(resultado);
+        setResultado(calculo);
+        setShowDietPlan(false);
+        console.log("se manejó el calculo", calculo);
+    }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onCalcular(formData);
-  };
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev: CalculatorData) => ({ ...prev, [name]: value }));
-  };
+    const handleGenerateDiet = useCallback(() => {
+        setShowDietPlan(true);
+    }, []);
 
-  return {
-    formData,
-    handleSubmit,
-    handleChange
-  };
+    const handleBackToResults = useCallback(() => {
+        setShowDietPlan(false);
+    }, []);
+
+    return {
+        resultado,
+        showDietPlan,
+        manejarCalculo,
+        handleGenerateDiet,
+        handleBackToResults
+    };
 }
-
+        

@@ -1,11 +1,30 @@
 import type { CalculatorData } from '../types/index';
-import { useCalculator } from '../hooks/useCalculator';
+import { useState } from 'react';
 
 interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
 }
+
 const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
-    const { formData, handleSubmit, handleChange } = useCalculator({ onCalcular });
+  const [formData, setFormData] = useState<CalculatorData>({
+    nombre: 'User',
+    sexo: '',
+    edad: 25,
+    peso: 70,
+    altura: 170,
+    actividad: '',
+    objetivo: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onCalcular(formData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: CalculatorData) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
@@ -25,7 +44,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
               <span className="mr-1 text-xl">¡Hola</span>
               <span className="font-bold text-[var(--color-primary)] text-xl">{formData.nombre}{'!'}</span>
             </h1>
-            <p className="text-xs text-gray-500 mt-1">Prueba nuestra calculadora de macros</p>
+            <p className="text-sm text-gray-500 mt-1">Prueba nuestra calculadora de macros</p>
             
 
             <div>
@@ -94,7 +113,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-8 px-1">
+            <div className="flex justify-between text-sm text-gray-500 mt-8 px-1">
               <span>18 años</span>
               <span>65 años</span>
             </div>
@@ -132,7 +151,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--color-primary)] [&::-webkit-slider-thumb]:cursor-grab [&::-webkit-slider-thumb]:active:cursor-grabbing [&::-webkit-slider-thumb]:shadow-md"
                   />
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                <div className="flex justify-between text-sm text-gray-500 mt-1 px-1">
                   <span>30 kg</span>
                   <span>200 kg</span>
                 </div>
@@ -165,7 +184,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[var(--color-primary)] [&::-webkit-slider-thumb]:cursor-grab [&::-webkit-slider-thumb]:active:cursor-grabbing [&::-webkit-slider-thumb]:shadow-md"
                   />
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1 px-1">
+                <div className="flex justify-between text-sm text-gray-500 mt-1 px-1">
                   <span>120 cm</span>
                   <span>250 cm</span>
                 </div>
@@ -183,7 +202,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         <div className="mt-6">
           <div className="mb-4">
             <h3 className="text-base font-semibold text-gray-800">Nivel de Actividad Física</h3>
-            <p className="text-xs text-gray-500 mt-1">Selecciona el que mejor describa tu rutina semanal</p>
+            <p className="text-sm text-gray-500 mt-1">Selecciona el que mejor describa tu rutina <b>por semana</b></p>
           </div>
           
           <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-5 sm:gap-2">
@@ -198,21 +217,21 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
               { 
                 nivel: 'Ligero', 
                 icon: '🚶',
-                descripcion: '1-2 días a la semana',
+                descripcion: '1-2 días',
                 detalle: 'Caminatas o actividades ligeras',
                 factor: 1.375
               },
               { 
                 nivel: 'Moderado', 
                 icon: '🏃',
-                descripcion: '3-5 días a la semana',
+                descripcion: '3-5 días',
                 detalle: 'Ejercicio moderado 30-60 min/día',
                 factor: 1.55
               },
               { 
                 nivel: 'Activo', 
                 icon: '💪',
-                descripcion: '6-7 días a la semana',
+                descripcion: '6-7 días',
                 detalle: 'Entrenamiento intenso o trabajo físico',
                 factor: 1.725
               },
@@ -262,7 +281,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                       </div>
                       <div className="mt-1">
                         <p className="text-sm text-gray-600">{item.descripcion}</p>
-                        <p className="text-xs text-gray-500 mt-1">{item.detalle}</p>
+                        <p className="text-sm text-gray-500 mt-1">{item.detalle}</p>
                       </div>
                     </div>
                   </div>
@@ -277,10 +296,11 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                         </svg>
                       </div>
                     )}
-                    <span className={`font-xs text-center ${
+                    <span className={`mt-1 font-sm text-center ${
                       isSelected ? 'text-md font-bold text-[var(--color-primary)]' : 'text-gray-800 font-medium'
                     }`}>
                       {item.nivel}
+                      <p className={`text-sm text-gray-500 mt-1 mb-1 ${isSelected ? 'text-[var(--color-primary)] font-normal' : 'font-normal'}`}>{item.descripcion}</p>
                     </span>
                   </div>
                 </label>
@@ -295,53 +315,53 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
               <button 
                 type="button"
-                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Perder grasa' } } as any)}
+                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Perder Grasa' } } as any)}
                 className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
-                  formData.objetivo === 'Perder grasa' 
+                  formData.objetivo === 'Perder Grasa' 
                     ? 'bg-gradient-to-br from-orange-500 to-orange-600 text-white shadow-lg transform -translate-y-1' 
                     : 'bg-white border-2 border-orange-100 text-orange-600 hover:border-orange-200'
                 }`}
               >
                 <img 
                   src="/img/menos.png" 
-                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Perder grasa' ? 'scale-110' : ''}`} 
-                  alt="Perder grasa"
+                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Perder Grasa' ? 'scale-110' : ''}`} 
+                  alt="Perder Grasa"
                 />
-                <span className="text-sm font-medium">Perder grasa</span>
+                <span className={` ${formData.objetivo === 'Perder Grasa' ? 'font-bold text-md text-white' : 'text-orange-600 text-sm font-medium'}`}>Perder Grasa</span>
               </button>
               
               <button 
                 type="button"
-                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Ganar músculo' } } as any)}
+                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Ganar Músculo' } } as any)}
                 className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
-                  formData.objetivo === 'Ganar músculo'
+                  formData.objetivo === 'Ganar Músculo'
                     ? 'bg-gradient-to-br from-green-500 to-green-600 text-white shadow-lg transform -translate-y-1'
                     : 'bg-white border-2 border-green-100 text-green-600 hover:border-green-200'
                 }`}
               >
                 <img 
                   src="/img/mas.png" 
-                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Ganar músculo' ? 'scale-110' : ''}`}
-                  alt="Ganar músculo"
+                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Ganar Músculo' ? 'scale-110' : ''}`}
+                  alt="Ganar Músculo"
                 />
-                <span className="text-sm font-medium">Ganar músculo</span>
+                <span className={` ${formData.objetivo === 'Ganar Músculo' ? 'font-bold text-md text-white' : 'text-green-600 text-sm font-medium'}`}>Ganar Músculo</span>
               </button>
               
               <button 
                 type="button"
-                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Mantener' } } as any)}
+                onClick={() => handleChange({ target: { name: 'objetivo', value: 'Mantener Peso' } } as any)}
                 className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
-                  formData.objetivo === 'Mantener'
+                  formData.objetivo === 'Mantener Peso'
                     ? 'bg-gradient-to-br from-yellow-500 to-yellow-600 text-white shadow-lg transform -translate-y-1'
                     : 'bg-white border-2 border-yellow-100 text-yellow-600 hover:border-yellow-200'
                 }`}
               >
                 <img 
                   src="/img/igual.png" 
-                  alt="Mantener peso"
-                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Mantener' ? 'scale-110' : ''}`}
+                  alt="Mantener Peso"
+                  className={`h-8 w-8 mb-2 transition-transform ${formData.objetivo === 'Mantener Peso' ? 'scale-110' : ''}`}
                 />
-                <span className="text-sm font-medium">Mantener peso</span>
+                <span className={` ${formData.objetivo === 'Mantener Peso' ? 'font-bold text-md text-white' : 'text-yellow-600 text-sm font-medium'}`}>Mantener Peso</span>
               </button>
             </div>
         </div>
@@ -355,7 +375,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
             Calcular mis macros ahora
             <span className="ml-2">→</span>
           </button>
-          <p className="text-xs text-center text-gray-500 mt-3">Tus datos están seguros y no serán compartidos</p>
+          <p className="text-sm text-center text-gray-500 mt-3">Tus datos están seguros y no serán compartidos</p>
         </div>
       </div>
     </form>

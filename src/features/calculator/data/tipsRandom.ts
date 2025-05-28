@@ -1,7 +1,7 @@
-export type Objetivo = 'Perder grasa' | 'Ganar músculo' | 'Mantener peso';
+export type Objetivo = 'Perder Grasa' | 'Ganar Músculo' | 'Mantener Peso';
 
 export const randomTips: Record<Objetivo, string[]> = {
-  'Perder grasa': [
+  'Perder Grasa': [
     'Asegúrate de consumir suficiente proteína para mantener la masa muscular mientras pierdes grasa.',
     'Incluye intervalos de cardio de alta intensidad (HIIT) para acelerar la pérdida de grasa.',
     'No te saltes las comidas, esto puede ralentizar tu metabolismo.',
@@ -13,7 +13,7 @@ export const randomTips: Record<Objetivo, string[]> = {
     'Incluye entrenamientos de fuerza para mantener y construir músculo.',
     'No reduzcas demasiado las calorías de golpe, hazlo gradualmente.'
   ],
-  'Ganar músculo': [
+  'Ganar Músculo': [
     'Asegúrate de consumir al menos 1.6g de proteína por kilogramo de peso corporal.',
     'Incluye carbohidratos complejos en tu dieta para recuperación muscular.',
     'Prioriza los entrenamientos de fuerza con pesas libres.',
@@ -25,7 +25,7 @@ export const randomTips: Record<Objetivo, string[]> = {
     'Asegúrate de calentar antes de cada entrenamiento.',
     'Incluye diferentes tipos de entrenamiento para evitar el estancamiento.'
   ],
-  'Mantener peso': [
+  'Mantener Peso': [
     'Mantén un registro de tus comidas y actividades físicas.',
     'Incluye una variedad de alimentos en tu dieta.',
     'Mantén una rutina de ejercicio regular.',
