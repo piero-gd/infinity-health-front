@@ -1,6 +1,6 @@
 import type { CalculatorData, CalculatorResults } from '../types/index';
 
-export default function calcularMacros(datos: CalculatorData): CalculatorResults {
+export default function calculateMacros(datos: CalculatorData): CalculatorResults {
   const { edad, sexo, peso, altura, actividad, objetivo, nombre } = datos;
   
   // Calcular TMB (Tasa Metabólica Basal)

@@ -37,7 +37,7 @@ const getObjectiveData = (objetivo: string) => {
         tipBorder: 'border-green-100',
         tipText: 'text-green-700'
       };
-    case 'Mantener':
+    case 'Mantener Peso':
       return {
         title: 'Mantener Peso',
         icon: (
@@ -101,9 +101,9 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
               <div className="mt-4 p-3 rounded-lg bg-opacity-20 bg-gradient-to-r from-[var(--color-background)] to-[var(--color-border)]">
                 <h4 className="font-semibold text-gray-800 mb-1">Consejo del día</h4>
                 <p className="text-sm text-gray-700">
-                  {objetivo === 'Perder grasa' && 'Recuerda mantener un déficit calórico moderado para una pérdida de grasa sostenible.'}
-                  {objetivo === 'Ganar músculo' && 'Asegúrate de consumir suficientes proteínas y descansar adecuadamente para el crecimiento muscular.'}
-                  {objetivo === 'Mantener' && 'Mantén un equilibrio entre tu ingesta calórica y tu gasto energético diario.'}
+                  {objetivo === 'Perder Grasa' && 'Recuerda mantener un déficit calórico moderado para una pérdida de grasa sostenible.'}
+                  {objetivo === 'Ganar Musculo' && 'Asegúrate de consumir suficientes proteínas y descansar adecuadamente para el crecimiento muscular.'}
+                  {objetivo === 'Mantener Peso' && 'Mantén un equilibrio entre tu ingesta calórica y tu gasto energético diario.'}
                 </p>
               </div>
               

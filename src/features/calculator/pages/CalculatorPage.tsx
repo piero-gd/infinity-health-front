@@ -3,9 +3,9 @@ import CalculatorForm from '../components/CalculatorForm';
 import CalculatorRecomendations from '../components/CalculatorRecomendations';
 import CalculatorResult from '../components/CalculatorResult';
 import CalculatorInfo from '../components/CalculatorInfo';
-import DietPlan from '../components/DietPlan';
-import calcularMacros from '../utils/calcularemacros';
+import DietPlanView from '../components/DietPlanView';
 import type { CalculatorData, CalculatorResults } from '../types/index';
+import calculateMacros from '../utils/calculateMacros';
 
 export default function CalculatorPage() {
   const [resultado, setResultado] = useState<CalculatorResults | null>(null);
@@ -13,8 +13,9 @@ export default function CalculatorPage() {
   const resultadosRef = useRef<HTMLDivElement>(null);
 
   const manejarCalculo = (datos: CalculatorData) => {
-    const calculo = calcularMacros(datos);
-    setResultado(calculo);
+    const macrosresult=calculateMacros(datos);
+    setResultado(macrosresult);
+    console.log("resultado desde page",macrosresult);
     setShowDietPlan(false);
     
     // Hacer scroll suave a los resultados después de que el estado se actualice
@@ -44,7 +45,7 @@ export default function CalculatorPage() {
         {/* Columna derecha - Contenido informativo, resultados o plan de alimentación */}
         <div ref={resultadosRef} className="lg:col-span-4 xl:col-span-4 2xl:col-span-4">
           {showDietPlan && resultado ? (
-            <DietPlan onBack={handleBackToResults} resultado={resultado}/>
+            <DietPlanView onBack={handleBackToResults} resultado={resultado}/>
           ) : resultado ? (
             <div className="space-y-4 md:space-y-6">
               {/* Container con fondo azul para los resultados */}

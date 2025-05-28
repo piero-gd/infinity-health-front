@@ -1,30 +1,11 @@
-import { useState } from 'react';
 import type { CalculatorData } from '../types/index';
+import { useCalculator } from '../hooks/useCalculator';
 
 interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
 }
-
 const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
-  const [formData, setFormData] = useState<CalculatorData>({
-    nombre: 'Jemima',
-    sexo: '',
-    edad: 25,
-    peso: 70,
-    altura: 170,
-    actividad: '',
-    objetivo: 'Perder grasa'
-  });
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onCalcular(formData);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev: CalculatorData) => ({ ...prev, [name]: value }));
-  };
+    const { formData, handleSubmit, handleChange } = useCalculator({ onCalcular });
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">

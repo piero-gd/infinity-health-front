@@ -24,7 +24,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
       proteinas: Number(resultado.proteinas)
     };
     
-    console.log('Datos a enviar a la API:', JSON.stringify(calculatorData, null, 2));
+   // console.log('Datos a enviar a la API:', JSON.stringify(calculatorData, null, 2));
     
     try {
       await fetchDiet(calculatorData as CalculatorResults);
@@ -114,7 +114,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
 
       {/* Comidas */}
       <div className="p-5 space-y-4">
-        {diet?.content?.map((meal, index) => (
+        {diet.content.map((meal, index) => (
           <div key={index} className="border border-gray-100 rounded-lg p-4 hover:shadow-md transition-shadow">
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-bold text-gray-800">{meal.name}</h3>
