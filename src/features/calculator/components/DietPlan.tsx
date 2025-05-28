@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
-import useDiet from '../hooks/useDiet';
-import type { CalculatorResults } from '../types';
+import React, { useEffect, useState } from 'react';
+import { calculateDiet } from '../services/mealApi';
+import type { CalculatorResults, Diet } from '../types';
 
 interface DietPlanProps {
   onBack: () => void;
@@ -11,40 +11,69 @@ const DietPlan: React.FC<DietPlanProps> = ({
   onBack, 
   resultado
 }) => {
-  const { diet, error, loading, fetchDiet } = useDiet();
+  const [diet, setDiet] = useState<Diet | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleGetDiet = useCallback(async () => {
-    console.log('Solicitando dieta con:', { resultado });
-    const calculatorData = {
-      calorias: Number(resultado.calorias),
-      carbohidratos: Number(resultado.carbohidratos),
-      grasas: Number(resultado.grasas),
-      nombre: String(resultado.nombre || ''),
-      objetivo: String(resultado.objetivo || ''),
-      proteinas: Number(resultado.proteinas)
-    };
-    
-    console.log('Datos a enviar a la API:', JSON.stringify(calculatorData, null, 2));
-    
-    try {
-      await fetchDiet(calculatorData as CalculatorResults);
-    } catch (err) {
-      console.error('Error al obtener la dieta:', err);
-    }
-  }, [resultado, fetchDiet]);
-
-  // Llamar a handleGetDiet cuando el componente se monte o cambien las dependencias
   useEffect(() => {
-    console.log('useEffect en DietPlan ejecutado');
-    handleGetDiet();
-  }, [handleGetDiet]);
+    // Bandera para evitar actualizar estado si el componente se desmonta
+    let isMounted = true;
+    // Controlador para cancelar la petición si es necesario
+    const controller = new AbortController();
+
+    const fetchDietData = async () => {
+      try {
+        // 1. Preparamos los datos para la API
+        const requestData = {
+          calorias: Number(resultado.calorias),
+          carbohidratos: Number(resultado.carbohidratos),
+          grasas: Number(resultado.grasas),
+          nombre: String(resultado.nombre || ''),
+          objetivo: String(resultado.objetivo || ''),
+          proteinas: Number(resultado.proteinas)
+        };
+        
+        // 2. Mostramos los datos que se enviarán
+        console.log('Solicitando dieta con:', requestData);
+        
+        // 3. Hacemos la petición a la API
+        const result = await calculateDiet(requestData as CalculatorResults);
+        
+        // 4. Si el componente sigue montado, actualizamos el estado
+        if (isMounted) {
+          setDiet(result);
+          setError(null);
+        }
+        
+      } catch (err) {
+        // 5. Manejamos errores solo si el componente sigue montado
+        if (isMounted) {
+          console.error('Error al obtener la dieta:', err);
+          setError('Error al cargar el plan de alimentación');
+        }
+      } finally {
+        // 6. Desactivamos el estado de carga
+        if (isMounted) setIsLoading(false);
+      }
+    };
+
+    // Ejecutamos la función de carga
+    fetchDietData();
+
+    // Función de limpieza que se ejecuta al desmontar el componente
+    return () => {
+      isMounted = false;  // Evita actualizaciones de estado
+      controller.abort(); // Cancela la petición en curso
+    };
+  }, [resultado]); // Se ejecuta cuando cambia 'resultado'
 
   // Estado de carga
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
         <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          {/* Spinner de pierex */}
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
         </div>
         <p className="mt-4 text-gray-600">Cargando tu plan de alimentación...</p>
       </div>
@@ -63,14 +92,15 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <p className="text-gray-700">{error || 'No se pudo cargar el plan de dieta'}</p>
         <div className="flex justify-center gap-4 mt-6">
           <button 
-            onClick={handleGetDiet}
+            onClick={() => window.location.reload()}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            disabled={loading}
+            disabled={isLoading}
           >
-            {loading ? 'Cargando...' : 'Reintentar'}
+            {isLoading ? 'Cargando...' : 'Reintentar'}
           </button>
           <button 
             onClick={onBack}
+            
             className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
           >
             Volver
@@ -78,6 +108,8 @@ const DietPlan: React.FC<DietPlanProps> = ({
         </div>
       </div>
     );
+
+   
   }
 
   return (

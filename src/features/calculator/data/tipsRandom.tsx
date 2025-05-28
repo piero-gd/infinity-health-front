@@ -1,4 +1,4 @@
-export type Objetivo = 'Perder grasa' | 'Ganar músculo' | 'Mantener peso';
+export type Objetivo = 'Perder grasa' | 'Ganar músculo' | 'Mantener Peso';
 
 export const randomTips: Record<Objetivo, string[]> = {
   'Perder grasa': [
@@ -25,7 +25,7 @@ export const randomTips: Record<Objetivo, string[]> = {
     'Asegúrate de calentar antes de cada entrenamiento.',
     'Incluye diferentes tipos de entrenamiento para evitar el estancamiento.'
   ],
-  'Mantener peso': [
+  'Mantener Peso': [
     'Mantén un registro de tus comidas y actividades físicas.',
     'Incluye una variedad de alimentos en tu dieta.',
     'Mantén una rutina de ejercicio regular.',

@@ -1,35 +1,22 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
+import { useCalculator } from '../hooks/useCalculator';
 import CalculatorForm from '../components/CalculatorForm';
 import CalculatorRecomendations from '../components/CalculatorRecomendations';
 import CalculatorResult from '../components/CalculatorResult';
 import CalculatorInfo from '../components/CalculatorInfo';
 import DietPlan from '../components/DietPlan';
-import calcularMacros from '../utils/calcularemacros';
-import type { CalculatorData, CalculatorResults } from '../types/index';
 
 export default function CalculatorPage() {
-  const [resultado, setResultado] = useState<CalculatorResults | null>(null);
-  const [showDietPlan, setShowDietPlan] = useState(false);
+  const {
+    resultado,
+    showDietPlan,
+    manejarCalculo,
+    handleGenerateDiet,
+    handleBackToResults
+  } = useCalculator();
+   
   const resultadosRef = useRef<HTMLDivElement>(null);
-
-  const manejarCalculo = (datos: CalculatorData) => {
-    const calculo = calcularMacros(datos);
-    setResultado(calculo);
-    setShowDietPlan(false);
-    
-    // Hacer scroll suave a los resultados después de que el estado se actualice
-    setTimeout(() => {
-      resultadosRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 0);
-  };
-  
-  const handleGenerateDiet = () => {
-    setShowDietPlan(true);
-  };
-  
-  const handleBackToResults = () => {
-    setShowDietPlan(false);
-  };
+  resultado && resultadosRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <div className="mx-auto py-6 px-4 w-full max-w-7xl min-h-screen">

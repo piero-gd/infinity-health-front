@@ -4,7 +4,7 @@ import AppLayout from "../layouts/AppLayout";
 import RoutinesHome from "../features/routines/pages/RoutinesHome";
 import RoutinePlayerPage from "../features/routines/pages/RoutinePlayerPage";
 import { RoutinesProvider } from "../features/routines/context/RoutinesContext";
-import CalculatorService from "../features/calculator/pages/CalculatorService";
+import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
     <RoutinesProvider>
@@ -27,7 +27,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           {/*PRUEBAS JEMIMA
 {/* Landing (solo navbar) */}
           <Route element={<SimpleLayout onLogout={onLogout} />}>
-            <Route path="/" element={<CalculatorService />} />
+            <Route path="/" element={<CalculatorPage />} />
           </Route>
 
           {/* Redirigir cualquier otra ruta */}
