@@ -6,3 +6,4 @@ export const chatWhatsApp = () => {
     const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(url, '_blank');
 }
+

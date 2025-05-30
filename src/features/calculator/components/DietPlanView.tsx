@@ -1,7 +1,9 @@
 import React from 'react';
-import { TbBookDownload } from "react-icons/tb";
-import { IoChatbubbles } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
+import { FaWhatsapp } from "react-icons/fa";
+import { BsDownload } from "react-icons/bs";
+import { chatWhatsApp } from '../utils/chatWhatsApp';
+
 import type { CalculatorResults } from '../types';
 import { useDiet } from '../hooks/useDiet';
 
@@ -19,11 +21,12 @@ const DietPlan: React.FC<DietPlanProps> = ({
   // Estado de carga
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
+      <div className="bg-white rounded-xl shadow-sm border border-[var(--color-primary-dark)] overflow-hidden p-8 text-center">
         <div className="flex justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
         </div>
         <p className="mt-4 text-gray-600">Cargando tu plan de alimentación...</p>
+        <p className="mt-2 text-xs text-gray-600">Esto puede tomar unos momentos</p>
       </div>
     );
   }
@@ -41,7 +44,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <div className="flex justify-center gap-4 mt-6">
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-accent)] transition-colors"
+            className="px-1 py-1 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-accent)] transition-colors"
             disabled={isLoading}
           >
             {isLoading ? 'Cargando...' : 'Reintentar'}
@@ -95,15 +98,15 @@ const DietPlan: React.FC<DietPlanProps> = ({
             className="bg-white flex items-center justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full text-sm font-bold text-red-800 hover:bg-red-500 hover:text-white transition-colors"
             aria-label="Descargar plan"
           >
-            <TbBookDownload />
+           <BsDownload />
            <span className="ml-2">Descargar PDF</span>
           </button>
           <button 
-            onClick={() => window.location.reload()}
+            onClick={() => chatWhatsApp()}
             className="bg-white flex items-center  justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full  text-sm font-bold text-green-800 hover:bg-green-500 hover:text-white transition-colors"
             aria-label="Consulta Nutricional"
           >
-            <IoChatbubbles />
+            <FaWhatsapp />
            <span className="ml-2 flex"> Consulta Asesoría Nutricional</span>
           </button>
         </div>
