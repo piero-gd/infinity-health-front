@@ -162,12 +162,15 @@ const DietPlan: React.FC<DietPlanProps> = ({
           </div>
           
         </div>
+       
+      </div>
 
-        <div className="mt-2 flex justify-left gap-2">
+      <div className="bg-white p-3">
+      <div className="mt-2 flex justify-left gap-2">
         <button 
             onClick={handleDownload}
             id="download-pdf"
-            className="bg-red-100 flex items-center justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full border border-red-500 text-sm font-bold text-red-800 hover:bg-red-500 hover:text-white transition-colors"
+            className="bg-white flex items-center justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full text-sm font-bold text-red-800 hover:bg-red-500 hover:text-white transition-colors"
             aria-label="Descargar plan"
           >
             <TbBookDownload />
@@ -175,14 +178,13 @@ const DietPlan: React.FC<DietPlanProps> = ({
           </button>
           <button 
             onClick={() => window.location.reload()}
-            className="bg-green-100 flex items-center  justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full border border-green-500 text-sm font-bold text-green-800 hover:bg-green-500 hover:text-white transition-colors"
+            className="bg-white flex items-center  justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full  text-sm font-bold text-green-800 hover:bg-green-500 hover:text-white transition-colors"
             aria-label="Consulta Nutricional"
           >
             <IoChatbubbles />
-           <span className="ml-2 flex"> Consulta Nutricional</span>
+           <span className="ml-2 flex"> Consulta Asesoría Nutricional</span>
           </button>
         </div>
-       
       </div>
 
       {/* Comidas */}
