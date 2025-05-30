@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   onSubmit: (data: { reps: string; weight: string; comment: string }) => void;
@@ -17,6 +18,7 @@ export default function ExerciseProgressForm({ onSubmit }: Props) {
     setReps("");
     setWeight("");
     setComment("");
+    toast.success("Registro Guardado");
   };
 
   return (

@@ -15,7 +15,7 @@ export default function SimpleLayout({ onLogout }: Props) {
   const sidebarWidth = sidebarOpen ? 'ml-56' : 'ml-16'
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="min-h-screen bg-exercises-wallpaper text-[var(--color-text)]">
       {/* Sidebar fijo */}
       <AppSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
@@ -32,7 +32,6 @@ export default function SimpleLayout({ onLogout }: Props) {
       {/* Contenido principal ajustado al sidebar y debajo del navbar */}
       <main
         className={`pt-16 transition-all duration-300 ${sidebarWidth} ml-0`}
-        // pt-16 asume que el navbar tiene altura h-16 (ajusta si es diferente)
       >
         <Outlet />
       </main>

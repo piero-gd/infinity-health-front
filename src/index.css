@@ -43,3 +43,11 @@ body {
 h1 {
   font-family: 'Gyrochrome', sans-serif;
 }
+
+.bg-exercises-wallpaper {
+  min-height: 100vh;
+  background-image: url('/img/exercises-wallpaper.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
