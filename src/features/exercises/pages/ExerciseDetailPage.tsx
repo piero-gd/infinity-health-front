@@ -4,6 +4,7 @@ import ExerciseVideoPlayer from '../components/ExerciseVideoPlayer';
 import Loader from '../../../components/Loader';
 import { ClockIcon } from '@heroicons/react/24/solid';
 import ExerciseCard from '../components/ExerciseCard';
+import ExerciseProgressForm from '../components/ExerciseProgressForm';
 
 export default function ExerciseDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -36,7 +37,13 @@ export default function ExerciseDetailPage() {
       <div className="bg-white rounded-xl shadow p-6 mb-8 text-gray-700 text-center max-w-3xl mx-auto">
         <p>{exercise.description}</p>
       </div>
-      {/* (Opcional) Registro de progreso, comentarios, etc. */}
+      {/* Formulario de registro de entrenamiento */}
+      <ExerciseProgressForm
+        onSubmit={(data) => {
+          // Aquí puedes manejar el registro (enviar a backend, mostrar toast, etc)
+          console.log("Progreso registrado:", data);
+        }}
+      />
       <div className="mt-12">
         <h2 className="text-2xl font-black mb-6">Entrenamientos Similares</h2>
         <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
