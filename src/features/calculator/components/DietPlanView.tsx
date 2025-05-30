@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { calculateDiet } from '../services/mealApi';
 import { TbBookDownload } from "react-icons/tb";
 import { IoChatbubbles } from "react-icons/io5";
 import type { CalculatorResults, Diet } from '../types';
+import { downloadPDF } from '../utils/downloadPDF';
 
 interface DietPlanProps {
   onBack: () => void;
@@ -13,9 +14,23 @@ const DietPlan: React.FC<DietPlanProps> = ({
   onBack, 
   resultado
 }) => {
+  //const dietPlanRef = useRef<HTMLDivElement>(null);
   const [diet, setDiet] = useState<Diet | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  //crear   pdf
+  const handleDownload = useCallback(() => {
+    // Usar el nombre del usuario para el archivo
+    const fileName = `Plan_Nutricional_${resultado.nombre}`;
+    const element = document.getElementById('diet-plan-content');
+    if (element) {
+      downloadPDF(element, fileName);
+    } else {
+      console.error('No se pudo encontrar el contenido del plan');
+      alert('No se pudo generar el PDF. Por favor, inténtalo de nuevo.');
+    }
+  }, [resultado.nombre]);
 
   useEffect(() => {
     // Bandera para evitar actualizar estado si el componente se desmonta
@@ -69,13 +84,15 @@ const DietPlan: React.FC<DietPlanProps> = ({
     };
   }, [resultado]); // Se ejecuta cuando cambia 'resultado'
 
+  // handleDownload está definido arriba con useCallback
+
   // Estado de carga
   if (isLoading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
         <div className="flex justify-center">
           {/* Spinner de pierex */}
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
         </div>
         <p className="mt-4 text-gray-600">Cargando tu plan de alimentación...</p>
       </div>
@@ -119,7 +136,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
       {/* Header */}
       <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] p-5">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold text-white">Tu Plan de Alimentación</h2>
+          <h2 className="text-xl font-bold text-white">Plan Nutricional para {resultado.nombre}</h2>
           <button 
             onClick={onBack}
             className="text-gray-500 hover:text-gray-700 bg-gray-50 rounded-full px-4 py-2"
@@ -148,12 +165,13 @@ const DietPlan: React.FC<DietPlanProps> = ({
 
         <div className="mt-2 flex justify-left gap-2">
         <button 
-            onClick={() => window.location.reload()}
-            className="bg-red-100 flex items-center  justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full border border-red-500 text-sm font-bold text-red-800 hover:bg-red-500 hover:text-white transition-colors"
+            onClick={handleDownload}
+            id="download-pdf"
+            className="bg-red-100 flex items-center justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full border border-red-500 text-sm font-bold text-red-800 hover:bg-red-500 hover:text-white transition-colors"
             aria-label="Descargar plan"
           >
             <TbBookDownload />
-           <span className="ml-2 flex"> Descargar PDF</span>
+           <span className="ml-2">Descargar PDF</span>
           </button>
           <button 
             onClick={() => window.location.reload()}
@@ -168,7 +186,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
       </div>
 
       {/* Comidas */}
-      <div className="p-5 space-y-4">
+      <div id="diet-plan-content"  className="p-5 space-y-4">
         {diet?.content?.map((meal, index) => (
           <div key={index} className="border border-gray-100 rounded-lg p-4 hover:shadow-md transition-shadow">
             <div className="flex justify-between items-center mb-2">

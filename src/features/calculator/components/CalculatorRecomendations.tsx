@@ -1,6 +1,6 @@
 import { getRandomTip, type Objetivo } from '../data/tipsRandom';
 import { FaAppleAlt } from 'react-icons/fa';
-import { useObjectiveData } from '../hooks/useObjectiveData';
+import { getObjectiveData } from '../data/objectiveData';
 
 interface CalculatorRecomendationsProps {
   nombre: string;
@@ -9,8 +9,8 @@ interface CalculatorRecomendationsProps {
 }
 
 export default function CalculatorRecomendations({ objetivo, nombre, onGenerateDiet }: CalculatorRecomendationsProps) {
-   // Obtener los datos del objetivo usando el hook personalizado
-   const objectiveData = useObjectiveData(objetivo);
+   // Obtener los datos del objetivo
+   const objectiveData = getObjectiveData(objetivo);
   
    // Obtener un consejo aleatorio según el objetivo
    const tip = getRandomTip(objetivo as Objetivo);

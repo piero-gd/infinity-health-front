@@ -1,6 +1,6 @@
 import type { CalculatorResults } from '../types/index';
 import { FaAppleAlt } from 'react-icons/fa';
-import { useMacrosData } from '../hooks/useMacrosData';
+import { getMacrosData } from '../data/macrosData';
 
 interface CalculatorResultProps {
   resultado: CalculatorResults | null;
@@ -11,8 +11,8 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
 
   console.log(resultado);
 
-  // Usamos el hook para obtener los datos de macros
-  const metrics = useMacrosData(resultado);
+  // Obtenemos los datos de macros
+  const metrics = getMacrosData(resultado);
 
   return (
     <div className="bg-white rounded-xl border border-blue-100 shadow-sm overflow-hidden">

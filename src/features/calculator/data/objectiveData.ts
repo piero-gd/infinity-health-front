@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Tipos para los datos del objetivo
-interface ObjectiveData {
+export interface ObjectiveData {
   title: string;
   icon: React.ReactNode;
   color: string;
@@ -11,8 +11,8 @@ interface ObjectiveData {
   tipText: string;
 }
 
-// Hook personalizado para manejar los datos del objetivo
-export function useObjectiveData(objetivo: string): ObjectiveData | null {
+// Función para obtener los datos del objetivo
+export function getObjectiveData(objetivo: string): ObjectiveData | null {
   if (!objetivo) return null;
 
   // Datos según el objetivo
