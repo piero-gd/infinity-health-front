@@ -64,7 +64,7 @@ export default function CalculatorInfo() {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Información de tips */}
       <div className="bg-white rounded-2xl shadow-sm border border-blue-100 p-5 md:p-6">
       <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 md:mb-6">Consejos para un mejor seguimiento</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
@@ -74,25 +74,15 @@ export default function CalculatorInfo() {
               {tip.icon}
             </div>
             <div>
-              <h3 className="font-semibold text-gray-800 text-sm md:text-base">{tip.title}</h3>
-              <p className="text-gray-600 text-xs md:text-sm">{tip.description}</p>
+              <p className="font-semibold text-gray-800 text-md md:text-base">{tip.title}</p>
+              <p className="text-gray-600 text-sm md:text-sm">{tip.description}</p>
             </div>
           </div>
         ))}
       </div>
-      {/* MUCHA INFO, POR ESO PIENSO Q ESTO YA NO VA
-      
-      <div className="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-100">
-        <h3 className="font-semibold text-[var(--color-primary)] text-sm md:text-base mb-1.5">¿Cómo usar esta calculadora?</h3>
-        <p className="text-xs md:text-sm text-[var(--color-primary)]">
-          Completa el formulario con tus datos personales y objetivos para obtener un plan de 
-          nutrición personalizado. Los resultados te ayudarán a entender mejor tus necesidades 
-          calóricas y de macronutrientes diarias.
-        </p>
-      </div>*/}
     </div>
     
-    {/* Sección de Productos Saludables */}
+    {/* Derivar a sección de Productos Saludables */}
     <div className="mt-8">
       <div className="space-y-4">
         <div className="group cursor-pointer transition-all duration-300">
@@ -123,7 +113,7 @@ export default function CalculatorInfo() {
           </div>
         </div>
 
-        {/* Planes de Ejercicio */}
+        {/* Derivar a Planes de Ejercicio */}
         <div className="group cursor-pointer transition-all duration-300">
           <div className="relative bg-white border border-gray-100 rounded-2xl p-6 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="absolute top-0 right-0 -mt-10 -mr-10 w-32 h-32 bg-green-50 rounded-full opacity-30 group-hover:opacity-40 transition-opacity duration-300"></div>
@@ -140,7 +130,7 @@ export default function CalculatorInfo() {
                 Rutinas personalizadas según tus objetivos y nivel de condición física. Ejercicios para hacer en casa o gimnasio.
               </p>
               <a 
-                href="/planes-ejercicio" 
+                href="/exercises" 
                 className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-green-900 bg-green-100 rounded-full hover:bg-green-200 transition-colors duration-300"
               >
                 Explorar rutinas

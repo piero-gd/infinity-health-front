@@ -9,13 +9,9 @@ interface CalculatorRecomendationsProps {
 }
 
 export default function CalculatorRecomendations({ objetivo, nombre, onGenerateDiet }: CalculatorRecomendationsProps) {
-   // Obtener los datos del objetivo
    const objectiveData = getObjectiveData(objetivo);
-  
-   // Obtener un consejo aleatorio según el objetivo
    const tip = getRandomTip(objetivo as Objetivo);
    
-   // Si no hay objetivo o datos, no mostrar nada
    if (!objetivo || !objectiveData) return null;
   return (
     <div className="relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
@@ -52,8 +48,7 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
                   {objetivo === 'Ganar Músculo' && 'Asegúrate de consumir suficientes proteínas y descansar adecuadamente para el crecimiento muscular.'}
                   {objetivo === 'Mantener Peso' && 'Mantén un equilibrio entre tu ingesta calórica y tu gasto energético diario.'}
                 </p>
-              </div>
-              
+              </div> 
               <button
                 onClick={onGenerateDiet}
                 className="mt-4 w-full text-md bg-gradient-to-r from-gray-600 to-gray-400 border border-gray-500 hover:from-gray-500 to-gray-600 text-white font-semibold py-6 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center hover:scale-110"

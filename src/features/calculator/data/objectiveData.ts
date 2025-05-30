@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Tipos para los datos del objetivo
 export interface ObjectiveData {
   title: string;
   icon: React.ReactNode;
@@ -11,11 +10,9 @@ export interface ObjectiveData {
   tipText: string;
 }
 
-// Función para obtener los datos del objetivo
 export function getObjectiveData(objetivo: string): ObjectiveData | null {
   if (!objetivo) return null;
 
-  // Datos según el objetivo
   switch(objetivo) {
     case 'Perder Grasa':
       return {

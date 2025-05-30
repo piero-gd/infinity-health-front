@@ -14,12 +14,14 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
     let y = 20;
+    let x = 20;
     
     // Función para agregar texto con manejo de saltos de página
     const addText = (text: string, isHeader = false) => {
       if (y > 270) { // Nueva página si se pasa del margen inferior
         doc.addPage();
         y = 20;
+        x = 20;
       }
       
       doc.setFontSize(isHeader ? 16 : 12);
@@ -32,8 +34,9 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
         if (y > 270) {
           doc.addPage();
           y = 20;
+          x = 3;
         }
-        doc.text(line, margin, y);
+        doc.text(line, x, y);
         y += 1; // Espaciado fijo entre líneas
       });
 
@@ -42,8 +45,16 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       y += isHeader ? 1 : 5;
     };
     
+    //TITULO
+    addText(`${fileName}`, true);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 5;
+    //FECHA
+    addText(`Fecha: ${new Date().toLocaleDateString()}`, false);
+    // Agregar espacio adicional 
+    addText('', false);
     
-        // Procesar elementos principales
+    // Procesar elementos principales
     element.querySelectorAll('h3, li')
     .forEach(el => {
     const text = el.textContent?.trim();

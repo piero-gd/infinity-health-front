@@ -8,10 +8,6 @@ interface CalculatorResultProps {
 
 export default function CalculatorResult({ resultado }: CalculatorResultProps) {
   if (!resultado) return null;
-
-  console.log(resultado);
-
-  // Obtenemos los datos de macros
   const metrics = getMacrosData(resultado);
 
   return (

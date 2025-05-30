@@ -13,7 +13,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
     peso: 70,
     altura: 170,
     actividad: '',
-    objetivo: ''
+    objetivo: '',
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,15 +37,12 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
 
         {/* Sección de información personal */}
         <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
-          
-          
           <div className="space-y-4">
             <h1 className="flex items-center justify-start mb-2 text-gray-700 text-xl transition-all duration-200">
               <span className="mr-1 text-xl">¡Hola</span>
               <span className="font-bold text-[var(--color-primary)] text-xl">{formData.nombre}{'!'}</span>
             </h1>
             <p className="text-sm text-gray-500 mt-1">Prueba nuestra calculadora de macros</p>
-            
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Género</label>
@@ -69,7 +66,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                 
                 <button 
                   type="button"
-                  onClick={() => handleChange({ target: { name: 'sexo', value: 'Mujer' } } as any)}
+                  onClick={() => handleChange({ target: { name: 'sexo', value: 'Mujer' } }as any)}
                   className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
                     formData.sexo === 'Mujer' 
                       ? 'bg-gradient-to-br from-pink-500 to-pink-600 text-white text-xl font-black shadow-lg' 
@@ -85,7 +82,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                 </button>
               </div>
 
-              {/*PRUEBA DE EDAD*/}
+              {/*EDAD*/}
               <div className="mb-3 mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-3">Edad: <span className="text-[var(--color-primary)] font-bold">{formData.edad || 25} años</span></label>
             <div className="relative h-12 w-full">
@@ -119,7 +116,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
             </div>
             </div>
 
-            {/*PRUEBA DE PESO*/}
+            {/*PESO*/}
 
             <div className="grid grid-cols-2 gap-4 mt-6">
               <div className="bg-white p-4 rounded-xl border border-[var(--color-primary-light)] shadow-sm mb-4">
@@ -157,6 +154,8 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                 </div>
               </div>
 
+              {/*ALTURA*/}
+
               <div className="bg-white p-4 rounded-xl border border-[var(--color-primary-light)] shadow-sm mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Altura (cm)</label>
                 <div className="relative">
@@ -189,14 +188,10 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                   <span>250 cm</span>
                 </div>
               </div>
-            
-            
           </div>
-              {/*espacio libre para agregar info en el cubo*/}
             </div>
           </div>
         </div>
-      
         
         {/* Nivel de actividad - Versión lista en móvil, solo títulos en desktop */}
         <div className="mt-6">
@@ -211,36 +206,31 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                 nivel: 'Sedentario', 
                 icon: '🪑',
                 descripcion: 'Sin ejercicio',
-                detalle: 'Trabajo de oficina sin actividad física',
-                factor: 1.2
+                detalle: 'Trabajo de oficina sin actividad física'
               },
               { 
                 nivel: 'Ligero', 
                 icon: '🚶',
                 descripcion: '1-2 días',
-                detalle: 'Caminatas o actividades ligeras',
-                factor: 1.375
+                detalle: 'Caminatas o actividades ligeras',              
               },
               { 
                 nivel: 'Moderado', 
                 icon: '🏃',
                 descripcion: '3-5 días',
-                detalle: 'Ejercicio moderado 30-60 min/día',
-                factor: 1.55
+                detalle: 'Ejercicio moderado 30-60 min/día',             
               },
               { 
                 nivel: 'Activo', 
                 icon: '💪',
                 descripcion: '6-7 días',
-                detalle: 'Entrenamiento intenso o trabajo físico',
-                factor: 1.725
+                detalle: 'Entrenamiento intenso o trabajo físico',             
               },
               { 
                 nivel: 'Muy Activo', 
                 icon: '🔥',
                 descripcion: '2 veces al día',
                 detalle: 'Atletas o trabajos muy físicos',
-                factor: 1.9
               }
             ].map((item) => {
               const isSelected = formData.actividad === item.nivel;

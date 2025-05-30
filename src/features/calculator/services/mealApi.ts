@@ -6,7 +6,7 @@ export const calculateDiet = async (data: CalculatorResults): Promise<Diet> => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer`
+        'Authorization': 'Bearer'
       },
       body: JSON.stringify(data)
     });

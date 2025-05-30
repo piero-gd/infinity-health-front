@@ -14,11 +14,9 @@ export interface Metric {
   text: string;
 }
 
-// Función para obtener y formatear los datos de macros
 export function getMacrosData(resultado: CalculatorResults | null): Metric[] {
   if (!resultado) return [];
 
-  // Create icon components with proper typing
   const CaloriasIcon: React.FC = () => React.createElement(FiZap, { className: "w-8 h-8" });
   const ProteinasIcon: React.FC = () => React.createElement(FiActivity, { className: "w-8 h-8" });
   const GrasasIcon: React.FC = () => React.createElement(FiDroplet, { className: "w-8 h-8" });

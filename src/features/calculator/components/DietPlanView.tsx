@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { calculateDiet } from '../services/mealApi';
+import React from 'react';
 import { TbBookDownload } from "react-icons/tb";
 import { IoChatbubbles } from "react-icons/io5";
-import type { CalculatorResults, Diet } from '../types';
-import { downloadPDF } from '../utils/downloadPDF';
+import { IoIosArrowBack } from "react-icons/io";
+import type { CalculatorResults } from '../types';
+import { useDiet } from '../hooks/useDiet';
 
 interface DietPlanProps {
   onBack: () => void;
@@ -14,84 +14,13 @@ const DietPlan: React.FC<DietPlanProps> = ({
   onBack, 
   resultado
 }) => {
-  //const dietPlanRef = useRef<HTMLDivElement>(null);
-  const [diet, setDiet] = useState<Diet | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  //crear   pdf
-  const handleDownload = useCallback(() => {
-    // Usar el nombre del usuario para el archivo
-    const fileName = `Plan_Nutricional_${resultado.nombre}`;
-    const element = document.getElementById('diet-plan-content');
-    if (element) {
-      downloadPDF(element, fileName);
-    } else {
-      console.error('No se pudo encontrar el contenido del plan');
-      alert('No se pudo generar el PDF. Por favor, inténtalo de nuevo.');
-    }
-  }, [resultado.nombre]);
-
-  useEffect(() => {
-    // Bandera para evitar actualizar estado si el componente se desmonta
-    let isMounted = true;
-    // Controlador para cancelar la petición si es necesario
-    const controller = new AbortController();
-
-    const fetchDietData = async () => {
-      try {
-        // 1. Preparamos los datos para la API
-        const requestData = {
-          calorias: Number(resultado.calorias),
-          carbohidratos: Number(resultado.carbohidratos),
-          grasas: Number(resultado.grasas),
-          nombre: String(resultado.nombre || ''),
-          objetivo: String(resultado.objetivo || ''),
-          proteinas: Number(resultado.proteinas)
-        };
-        
-        // 2. Mostramos los datos que se enviarán
-        console.log('Solicitando dieta con:', requestData);
-        
-        // 3. Hacemos la petición a la API
-        const result = await calculateDiet(requestData as CalculatorResults);
-        
-        // 4. Si el componente sigue montado, actualizamos el estado
-        if (isMounted) {
-          setDiet(result);
-          setError(null);
-        }
-        
-      } catch (err) {
-        // 5. Manejamos errores solo si el componente sigue montado
-        if (isMounted) {
-          console.error('Error al obtener la dieta:', err);
-          setError('Error al cargar el plan de alimentación');
-        }
-      } finally {
-        // 6. Desactivamos el estado de carga
-        if (isMounted) setIsLoading(false);
-      }
-    };
-
-    // Ejecutamos la función de carga
-    fetchDietData();
-
-    // Función de limpieza que se ejecuta al desmontar el componente
-    return () => {
-      isMounted = false;  // Evita actualizaciones de estado
-      controller.abort(); // Cancela la petición en curso
-    };
-  }, [resultado]); // Se ejecuta cuando cambia 'resultado'
-
-  // handleDownload está definido arriba con useCallback
+  const { diet, error, isLoading, handleDownload } = useDiet({ resultado });
 
   // Estado de carga
   if (isLoading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
         <div className="flex justify-center">
-          {/* Spinner de pierex */}
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
         </div>
         <p className="mt-4 text-gray-600">Cargando tu plan de alimentación...</p>
@@ -112,23 +41,21 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <div className="flex justify-center gap-4 mt-6">
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-accent)] transition-colors"
             disabled={isLoading}
           >
             {isLoading ? 'Cargando...' : 'Reintentar'}
           </button>
           <button 
             onClick={onBack}
-            
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+            className="text-gray-500 hover:text-gray-700 bg-gray-50 rounded-full px-4 py-2"
           >
+            <IoIosArrowBack />
             Volver
           </button>
         </div>
       </div>
     );
-
-   
   }
 
   return (
@@ -142,9 +69,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
             className="text-gray-500 hover:text-gray-700 bg-gray-50 rounded-full px-4 py-2"
             aria-label="Volver a recomendaciones"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
+            <IoIosArrowBack />
           </button>
         </div>
         <div className="mt-2 flex flex-wrap gap-4">
@@ -160,11 +85,8 @@ const DietPlan: React.FC<DietPlanProps> = ({
           <div className="bg-red-50 bg-opacity-30 px-3 py-1 rounded-full text-sm font-medium text-red-800">
             G: {resultado.grasas}g
           </div>
-          
         </div>
-       
       </div>
-
       <div className="bg-white p-3">
       <div className="mt-2 flex justify-left gap-2">
         <button 
