@@ -9,25 +9,26 @@ const ProductAdBox: React.FC<Props> = ({ product }) => (
   <aside
     className="
       bg-gradient-to-b from-[#232323] to-[#1798e0]
-      rounded-l-3xl shadow-xl pt-8 pb-6 px-6 w-64 flex flex-col items-center
+      rounded-l-[48px] shadow-xl pt-12 pb-6 pl-6 pr-2 w-50 flex flex-col items-start
       text-white z-30 relative
     "
-    style={{ minHeight: 220 }}
+    style={{ minHeight: 200 }}
   >
     <div className="h-2 mb-2 flex justify-center">
       <img
         src={product.image}
         alt={product.id}
-        className="object-contain w-full h-full drop-shadow-lg absolute -top-10 left-1/2 -translate-x-1/2"
-        style={{ maxHeight: 90 }}
+        className="object-contain w-full h-full drop-shadow-lg absolute -top-14 left-1/2 -translate-x-1/2"
+        style={{ maxHeight: 120 }}
       />
     </div>
-    <div className="text-base font-semibold text-center mb-4 mt-8">{product.description}</div>
+    <h2 className="text-sm font-semibold text-left mb-4">{product.introText}</h2>
+    <div className="text-sm font-normal text-left mb-4">{product.name}</div>
     <a
       href={product.buttonUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-auto bg-white text-[var(--color-primary)] font-semibold rounded-full px-6 py-2 flex items-center gap-2 shadow hover:bg-blue-50 transition"
+      className="mt-auto bg-white text-[var(--color-primary)] font-semibold rounded-full px-4 py-1.5 flex items-center gap-2 shadow hover:bg-blue-50 transition text-sm"
     >
       {product.buttonLabel}
       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

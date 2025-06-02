@@ -26,7 +26,7 @@ export default function ExerciseDetailPage() {
       {/* Product Ad sticky/fixed en desktop */}
       {product && (
         <div className="hidden lg:block">
-          <div className="fixed top-28 right-0 z-40">
+          <div className="fixed top-1/2 right-0 -translate-y-1/2 z-40">
             <ProductAdBox product={product} />
           </div>
         </div>
@@ -40,7 +40,7 @@ export default function ExerciseDetailPage() {
         <div className="flex items-center justify-center gap-4 mb-6">
           <span className="text-lg font-semibold text-gray-700">{exercise.category}</span>
           <span className="flex items-center text-gray-500 text-base">
-            <ClockIcon className="w-5 h-5 mr-1 text-blue-400" />
+            <ClockIcon className="w-5 h-5 mr-1 text-primary-dark" />
             {exercise.duration} min
           </span>
         </div>
