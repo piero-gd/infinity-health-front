@@ -73,17 +73,24 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       addText('');
       const mealCalories = meal.querySelector('.bg-yellow-100')?.textContent?.trim() || '';
       
-      // Agregar nombre de la comida en negrita
+            // Agregar nombre de la comida en color y negrita
       doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.text(mealName, margin, y);
-      addText('');
+      doc.setFontSize(14);
+      doc.setTextColor(23, 152, 224); // Color azul
+      doc.text(mealName, pageWidth / 2, y, { align: 'center' });
+      y += 8;
       
-      // Agregar calorías como subtítulo
-      doc.setDrawColor(23, 152, 224);
-      doc.setFont('helvetica', 'bold');
-      doc.text(mealCalories, margin, y);
-      addText('');
+      // Agregar calorías centradas debajo del título
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(11);
+      doc.setTextColor(100, 100, 100); // Gris oscuro
+      const caloriesText = mealCalories;
+      const caloriesWidth = doc.getStringUnitWidth(caloriesText) * doc.getFontSize() / doc.internal.scaleFactor;
+      doc.text(caloriesText, (pageWidth - caloriesWidth) / 2, y);
+      y += 10;
+      
+      // Restaurar color por defecto
+      doc.setTextColor(0, 0, 0);
       
       // Procesar los items de la comida
       const items = meal.querySelectorAll('li');
@@ -102,27 +109,35 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
           y = 20;
         }
         
-        // Agregar viñeta
-        doc.text('•', margin, y);
+                // Agregar viñeta y nombre del alimento
+        doc.setTextColor(0, 0, 0); // Negro para el texto normal
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
         
-        // Agregar nombre del alimento
-        doc.text(food, margin + 5, y);
-        //condicional para salto de linea y aumentar x para bajar
-        if (y > 260) {
-          y += 3;
-        }
+        // Calcular el ancho del texto para manejar saltos de línea
+        const bullet = '• ';
+        const foodText = `${bullet}${food}`;
+        const foodLines = doc.splitTextToSize(foodText, pageWidth - (margin * 2) - 30); // Ajustar ancho para dejar espacio a la derecha
         
+        // Imprimir cada línea del alimento
+        foodLines.forEach((line: string) => {
+          if (y > 260) {
+            doc.addPage();
+            y = 20;
+          }
+          doc.text(line, margin, y);
+          y += 5; // Espaciado entre líneas del mismo alimento
+        });
         
-        // Agregar cantidad alineada
-        const quantityX = margin + 100; // Ajusta este valor según necesites
-        doc.text(quantity, quantityX, y);
+        // Ajustar posición Y después de imprimir todas las líneas del alimento
+        y = Math.max(y, y + ((foodLines.length - 1) * 5));
         
-        // Agregar calorías alineadas a la derecha
-        doc.setDrawColor(58, 176, 249);
+        // Agregar cantidad y calorías en la misma línea
+        const itemInfo = `${quantity} ${calories}`;
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
-        const caloriesX = doc.internal.pageSize.getWidth() - margin - 5;
-        doc.text(calories, caloriesX, y, { align: 'right' });
+        doc.setTextColor(58, 176, 249); // Color azul para la información nutricional
+        doc.text(itemInfo, pageWidth - margin, y, { align: 'right' });
         
         
         y += 5; // Espacio entre líneas
@@ -132,17 +147,49 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       addText('');
     });
 
-    //AÑADIR INFORMACIÓN DE INFINITY
-
-    //añadir linea
+    // --- PIE DE PÁGINA ---
+    // Añadir línea decorativa
     doc.setDrawColor(200, 200, 200);
     doc.line(margin, y, pageWidth - margin, y);
-    y += 5;
-    addText('');
+    y += 10;
+    
+    // Agregar logo de Infinity Health
+    try {
+      const logoWidth = 80;
+      const logoHeight = 25;
+      const logoX = (pageWidth - logoWidth) / 2; // Centrar el logo
+      doc.addImage(
+        '../public/img/health-logo-light-mode.png',
+        'PNG',
+        logoX,
+        y,
+        logoWidth,
+        logoHeight
+      );
+      y += logoHeight + 10;
+    } catch (e) {
+      console.log('No se pudo cargar el logo:', e);
+    }
+    
+    // Texto de descargo de responsabilidad
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120); // Gris un poco más oscuro
+    
+    const disclaimer = 'Este es un plan referencial generado por Infinity Health. Para una atención personalizada, te recomendamos consultar con tu nutricionista o médico de cabecera.';
+    const disclaimerLines = doc.splitTextToSize(disclaimer, pageWidth - (margin * 2));
+    
+    // Calcular posición Y para centrar verticalmente
+    const disclaimerHeight = disclaimerLines.length * 4; // Altura aproximada del texto
+    const startY = y + ((270 - y - disclaimerHeight) / 2);
+    
+    doc.text(disclaimerLines, pageWidth / 2, startY, { align: 'center' });
+    
+    // Añadir información de copyright
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.text(`Este es un plan referencial, para una atención especializada te recomendamos \n consultar con tu nutricionista/o médico  de cabecera.`, margin + 15, y+2);
-    y += 5;
+    doc.setFontSize(8);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`© ${new Date().getFullYear()} Infinity Health - Todos los derechos reservados`, pageWidth / 2, 285, { align: 'center' });
 
     // Guardar PDF
     doc.save(`${fileName}.pdf`);
