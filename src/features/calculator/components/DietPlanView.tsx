@@ -1,19 +1,15 @@
 import React from 'react';
-import { IoIosArrowBack } from "react-icons/io";
 import { FaWhatsapp } from "react-icons/fa";
 import { BsDownload } from "react-icons/bs";
 import { chatWhatsApp } from '../utils/chatWhatsApp';
-
 import type { CalculatorResults } from '../types';
 import { useDiet } from '../hooks/useDiet';
 
 interface DietPlanProps {
-  onBack: () => void;
   resultado: CalculatorResults;
 }
 
 const DietPlan: React.FC<DietPlanProps> = ({ 
-  onBack, 
   resultado
 }) => {
   const { diet, error, isLoading, handleDownload } = useDiet({ resultado });
@@ -49,13 +45,6 @@ const DietPlan: React.FC<DietPlanProps> = ({
           >
             {isLoading ? 'Cargando...' : 'Reintentar'}
           </button>
-          <button 
-            onClick={onBack}
-            className="text-gray-500 hover:text-gray-700 bg-gray-50 rounded-full px-4 py-2"
-          >
-            <IoIosArrowBack />
-            Volver
-          </button>
         </div>
       </div>
     );
@@ -67,13 +56,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
       <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] p-5">
         <div className="flex justify-between items-center">
           <h2 className="text-xl font-bold text-white">Plan Nutricional para {resultado.nombre}</h2>
-          <button 
-            onClick={onBack}
-            className="text-gray-500 hover:text-gray-700 bg-gray-50 rounded-full px-4 py-2"
-            aria-label="Volver a recomendaciones"
-          >
-            <IoIosArrowBack />
-          </button>
+         
         </div>
         <div className="mt-2 flex flex-wrap gap-4">
           <div className="bg-yellow-100 bg-opacity-30 px-3 py-1 rounded-full text-sm font-bold text-yellow-800">

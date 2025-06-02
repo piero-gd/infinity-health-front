@@ -28,18 +28,4 @@ export interface Diet {
       calories: number;
     }[];
   }[];
-  metadata?: {
-    calorias: number;
-    proteinas: number;
-    carbohidratos: number;
-    grasas: number;
-    nombre: string;
-    objetivo: string;
-  };
-}
-
-// Tipo extendido que incluye los metadatos
-// Esto nos permite mantener la interfaz Diet original para el API
-export type DietWithMetadata = Diet & {
-  metadata: NonNullable<Diet['metadata']>;
 }

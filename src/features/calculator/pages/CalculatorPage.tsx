@@ -11,8 +11,7 @@ export default function CalculatorPage() {
     resultado,
     showDietPlan,
     manejarCalculo,
-    handleGenerateDiet,
-    handleBackToResults
+    handleGenerateDiet
   } = useCalculator();
    
   const resultadosRef = useRef<HTMLDivElement>(null);
@@ -31,7 +30,7 @@ export default function CalculatorPage() {
         {/* Columna derecha - Contenido informativo, resultados o plan de alimentación */}
         <div ref={resultadosRef} className="lg:col-span-4 xl:col-span-4 2xl:col-span-4">
           {showDietPlan && resultado ? (
-            <DietPlanView onBack={handleBackToResults} resultado={resultado}/>
+            <DietPlanView resultado={resultado}/>
           ) : resultado ? (
             <div className="space-y-4 md:space-y-6">
               {/* Container con fondo azul para los resultados */}
