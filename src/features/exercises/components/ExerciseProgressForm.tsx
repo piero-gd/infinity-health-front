@@ -1,24 +1,38 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { sendExerciseProgress } from "../services/exerciseProgressService"; // Asegúrate de que la ruta sea correcta
 
 interface Props {
-  onSubmit: (data: { reps: string; weight: string; comment: string }) => void;
+  exerciseId: number | string;
 }
 
-export default function ExerciseProgressForm({ onSubmit }: Props) {
+export default function ExerciseProgressForm({ exerciseId }: Props) {
   const [tab, setTab] = useState<"registro" | "comentarios">("registro");
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ reps, weight, comment });
-    // Opcional: limpiar campos
-    setReps("");
-    setWeight("");
-    setComment("");
-    toast.success("Registro Guardado");
+    setLoading(true);
+    try {
+      await sendExerciseProgress({
+        exerciseId,
+        repetitions: reps,
+        weight,
+        comment,
+        date: new Date().toISOString(),
+      });
+      toast.success("Registro Guardado");
+      setReps("");
+      setWeight("");
+      setComment("");
+    } catch (error) {
+      toast.error("Error al guardar el progreso");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -94,8 +108,9 @@ export default function ExerciseProgressForm({ onSubmit }: Props) {
         type="submit"
         className="w-full mt-2 py-2 rounded-full text-white font-semibold flex items-center justify-center gap-2 shadow"
         style={{ background: "var(--gradient-primary)" }}
+        disabled={loading}
       >
-        Registrar Progreso
+        {loading ? "Guardando..." : "Registrar Progreso"}
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>

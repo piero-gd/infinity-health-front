@@ -53,12 +53,7 @@ export default function ExerciseDetailPage() {
           <p>{exercise.description}</p>
         </div>
         {/* Formulario de registro de entrenamiento */}
-        <ExerciseProgressForm
-          onSubmit={(data) => {
-            // TODO: enviar datos al backend
-            console.log("Progreso registrado:", data);
-          }}
-        />
+        <ExerciseProgressForm exerciseId={exercise.id} />
         <div className="mt-12">
           <h2 className="text-2xl font-black mb-6">Entrenamientos Similares</h2>
           <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
