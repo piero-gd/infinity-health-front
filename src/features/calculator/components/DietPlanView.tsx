@@ -36,7 +36,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <p className="text-gray-700">{error || 'No se pudo cargar el plan de dieta'}</p>
+        <p className="text-gray-700">{error ? error : 'No se pudo cargar el plan de dieta'}</p>
         <div className="flex justify-center gap-4 mt-6">
           <button 
             onClick={() => window.location.reload()}
@@ -49,13 +49,34 @@ const DietPlan: React.FC<DietPlanProps> = ({
       </div>
     );
   }
+  // Estado de plan de dieta vacio
+  if (!diet || diet.status === 'error' || diet.content.length === 0) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
+        <div className="text-gray-500 mb-4">
+          <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="text-gray-700">No se ha podido cargar tu plan de dieta. Intentalo de nuevo</p>
+        <div className="flex justify-center gap-4 mt-6">
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-1 py-1 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-accent)] transition-colors"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] p-5">
+      <div className="bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] p-5">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold text-white">Plan Nutricional para {resultado.nombre}</h2>
+          <h3 className="font-bold text-white">Plan Nutricional para {resultado.nombre}</h3>
          
         </div>
         <div className="mt-2 flex flex-wrap gap-4">
@@ -76,22 +97,23 @@ const DietPlan: React.FC<DietPlanProps> = ({
       <div className="bg-white p-3">
       <div className="mt-2 flex justify-left gap-2">
         <button 
-            onClick={handleDownload}
-            id="download-pdf"
-            className="bg-white flex items-center justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full text-sm font-bold text-red-800 hover:bg-red-500 hover:text-white transition-colors"
-            aria-label="Descargar plan"
-          >
-           <BsDownload />
-           <span className="ml-2">Descargar PDF</span>
-          </button>
-          <button 
             onClick={() => chatWhatsApp()}
-            className="bg-white flex items-center  justify-center bg-opacity-30 shadow-sm px-5 py-2 rounded-full  text-sm font-bold text-green-800 hover:bg-green-500 hover:text-white transition-colors"
+            className="flex items-center justify-center shadow-sm px-5 py-2 text-sm font-bold bg-[var(--color-btn-whatsapp)] text-white rounded-4xl transition-colors hover: bg-gradient-to-t hover: from-[var(--color-btn-whatsapp-200)] hover: to-[var(--color-btn-whatsapp-400)]"
             aria-label="Consulta Nutricional"
           >
             <FaWhatsapp />
            <span className="ml-2 flex"> Consulta Asesoría Nutricional</span>
           </button>
+        <button 
+            onClick={handleDownload}
+            id="download-pdf"
+            className="flex items-center justify-center shadow-sm px-5 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] hover:text-white hover:border-[var(--color-primary)]"
+            aria-label="Descargar plan"
+          >
+           <BsDownload />
+           <span className="ml-2">Descargar PDF</span>
+          </button>
+        
         </div>
       </div>
 

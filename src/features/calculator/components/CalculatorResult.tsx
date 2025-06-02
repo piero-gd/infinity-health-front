@@ -13,7 +13,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
   return (
     <div className="bg-white rounded-xl border border-blue-100 shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] p-5 text-white">
+      <div className="bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] p-5 text-white">
         <div className="flex justify-between items-start">
           <div className="bg-white/20 p-2 rounded-lg">
             <FaAppleAlt className="h-6 w-6" />
@@ -27,7 +27,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
 
       {/* Contenido */}
       <div className="p-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 lg:grid-cols-1 gap-4">
           {metrics.map((metric) => (
             <div 
               key={metric.id}
@@ -51,8 +51,8 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
         </div>
 
         {/* Nota al pie */}
-        <div className="mt-6 bg-blue-50 p-3 rounded-lg border border-[var(--color-primary)]">
-          <p className="text-sm text-[var(--color-primary)] text-center">
+        <div className="mt-6 bg-gray-50 p-3 rounded-lg border border-gray-200">
+          <p className="text-sm text-gray-500 text-center">
             Estos valores son una estimación. Para un plan personalizado, consulta con un nutricionista certificado.
           </p>
         </div>

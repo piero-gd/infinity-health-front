@@ -1,3 +1,4 @@
+import { H2Icon } from '@heroicons/react/16/solid';
 import type { CalculatorData } from '../types/index';
 import { useState } from 'react';
 
@@ -38,10 +39,10 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         {/* Sección de información personal */}
         <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
           <div className="space-y-4">
-            <h1 className="flex items-center justify-start mb-2 text-gray-700 text-xl transition-all duration-200">
-              <span className="mr-1 text-xl">¡Hola</span>
-              <span className="font-bold text-[var(--color-primary)] text-xl">{formData.nombre}{'!'}</span>
-            </h1>
+            <h2 className="flex items-center justify-start mb-2 text-gray-700 text-xl transition-all duration-200">
+              <span className="mr-1">¡Hola</span>
+              <span className="font-bold text-[var(--color-primary)]">{formData.nombre}{'!'}</span>
+            </h2>
             <p className="text-sm text-gray-500 mt-1">Prueba nuestra calculadora de macros</p>
 
             <div>
@@ -52,7 +53,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                   onClick={() => handleChange({ target: { name: 'sexo', value: 'Hombre' } } as any)}
                   className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-200 ${
                     formData.sexo === 'Hombre' 
-                      ? 'bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-accent)] text-white text-xl font-black shadow-lg' 
+                      ? 'bg-gradient-to-t from-[var(--color-primary)] to-[var(--color-primary-accent)] text-white text-xl font-black shadow-lg' 
                       : 'bg-white border-2 border-[var(--color-primary-light)] text-[var(--color-primary)] hover:border-[var(--color-primary-light-200)]'
                   }`}
                 >
@@ -118,7 +119,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
 
             {/*PESO*/}
 
-            <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="grid grid-cols-1 gap-4 mt-6 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
               <div className="bg-white p-4 rounded-xl border border-[var(--color-primary-light)] shadow-sm mb-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Peso (kg)</label>
                 <div className="relative">
@@ -196,7 +197,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         {/* Nivel de actividad - Versión lista en móvil, solo títulos en desktop */}
         <div className="mt-6">
           <div className="mb-4">
-            <h3 className="text-base font-semibold text-gray-800">Nivel de Actividad Física</h3>
+            <h3 className="font-semibold text-gray-800">Nivel de Actividad Física</h3>
             <p className="text-sm text-gray-500 mt-1">Selecciona el que mejor describa tu rutina <b>por semana</b></p>
           </div>
           
@@ -287,7 +288,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
                       </div>
                     )}
                     <span className={`mt-1 font-sm text-center ${
-                      isSelected ? 'text-md font-bold text-[var(--color-primary)]' : 'text-gray-800 font-medium'
+                      isSelected ? 'text-md font-bold text-[var(--color-primary)]' : 'text-gray-800 text-sm font-medium'
                     }`}>
                       {item.nivel}
                       <p className={`text-sm text-gray-500 mt-1 mb-1 ${isSelected ? 'text-[var(--color-primary)] font-normal' : 'font-normal'}`}>{item.descripcion}</p>
@@ -301,7 +302,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
 
           {/* Objetivos */}
           <div className="mt-6">
-            <h3 className="text-sm font-medium text-gray-700 mb-3">¿Cuál es tu objetivo principal?</h3>
+            <h3 className="font-semibold text-gray-700 mb-3">¿Cuál es tu objetivo principal?</h3>
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
               <button 
                 type="button"
@@ -360,7 +361,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         <div className="mt-8 sticky bottom-0 bg-white pt-4 -mx-6 px-6 border-t border-gray-100">
           <button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-accent)] hover:from-[var(--color-primary-accent)] hover:to-[var(--color-primary)] text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-50"
+            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-bold py-4 px-6 rounded-4xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-btn-gradient-top)] focus:ring-opacity-50"
           >
             Calcular mis macros ahora
             <span className="ml-2">→</span>

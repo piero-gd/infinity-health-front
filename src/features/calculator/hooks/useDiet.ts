@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { Diet, CalculatorResults } from '../types';
 import { calculateDiet } from '../services/mealApi';
 
@@ -9,31 +9,23 @@ interface UseDietProps {
 export const useDiet = ({ resultado }: UseDietProps) => {
   const [diet, setDiet] = useState<Diet | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const hasFetched = useRef(false);
 
-  // Cargar datos solo una vez al montar el componente
   useEffect(() => {
+    // Si ya se hizo la consulta o no hay resultado, no hacer nada
+    if (hasFetched.current || !resultado) return;
+
+    // Marcar que ya se hizo la consulta
+    hasFetched.current = true;
+    
+    setIsLoading(true);
+    setError(null);
+
     const fetchDiet = async () => {
-      if (!resultado?.calorias) {
-        setIsLoading(false);
-        return;
-      }
-      
-      setIsLoading(true);
-      setError(null);
-      
       try {
-        const result = await calculateDiet({
-          calorias: Number(resultado.calorias),
-          proteinas: Number(resultado.proteinas),
-          carbohidratos: Number(resultado.carbohidratos),
-          grasas: Number(resultado.grasas),
-          nombre: String(resultado.nombre),
-          objetivo: String(resultado.objetivo)
-        });
-        
+        const result = await calculateDiet(resultado);
         setDiet(result);
-        console.log("Dieta cargada:", result);
       } catch (err) {
         console.error('Error al obtener la dieta:', err);
         setError('No se pudo cargar el plan de alimentación');
@@ -43,19 +35,18 @@ export const useDiet = ({ resultado }: UseDietProps) => {
     };
 
     fetchDiet();
-  }, []); // Array vacío para que solo se ejecute una vez
+  }, [resultado]); // Solo se ejecuta cuando resultado cambia
 
-  // Función para descargar el PDF
   const handleDownload = () => {
     const element = document.getElementById('diet-plan-content');
     if (!element) {
       console.error('No se encontró el contenido del plan');
       return;
     }
-    
+
     import('../utils/downloadPDF').then(({ downloadPDF }) => {
       try {
-        downloadPDF(element, `Plan_Nutricional_${resultado.nombre || 'usuario'}`);
+        downloadPDF(element, `Plan_Nutricional_${resultado.nombre}`);
       } catch (err) {
         console.error('Error al generar el PDF:', err);
         alert('Error al generar el PDF');
@@ -63,12 +54,7 @@ export const useDiet = ({ resultado }: UseDietProps) => {
     });
   };
 
-  return { 
-    diet, 
-    error, 
-    isLoading, 
-    handleDownload 
-  };
+  return { diet, error, isLoading, handleDownload };
 };
 
 export default useDiet;

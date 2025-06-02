@@ -41,7 +41,7 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
             <div className={`${objectiveData.tipText} text-sm leading-relaxed`}>
               <p className="mb-3">{tip}</p>
               
-              <div className="mt-4 p-3 rounded-lg bg-opacity-20 bg-gradient-to-r from-[var(--color-background)] to-[var(--color-border)]">
+              <div className={`mt-4 p-3 rounded-lg bg-opacity-20  ${objectiveData.tipBg} ${objectiveData.tipBorder} border`}>
                 <h4 className="font-semibold text-gray-800 mb-1">Consejo del día</h4>
                 <p className="text-sm text-gray-700">
                   {objetivo === 'Perder Grasa' && 'Recuerda mantener un déficit calórico moderado para una pérdida de grasa sostenible.'}
@@ -51,7 +51,7 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
               </div> 
               <button
                 onClick={onGenerateDiet}
-                className="mt-4 w-full text-md bg-gradient-to-r from-gray-600 to-gray-400 border border-gray-500 hover:from-gray-500 to-gray-600 text-white font-semibold py-6 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center hover:scale-110"
+                className="mt-4 w-full text-sm  border-2 border-[var(--color-btn-gradient-border)] rounded-4xl hover:from-gray-500 to-gray-600 text-[var(--color-primary)] font-semibold py-4 px-4 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center hover:scale-110"
               >
                 <FaAppleAlt className="w-5 h-5 mr-2" />
                 Generar Plan de Alimentación
