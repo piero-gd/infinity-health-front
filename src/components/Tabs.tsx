@@ -15,7 +15,7 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className = "" }) => {
   return (
-    <div className={`flex gap-4 justify-center mb-8 ${className}`}>
+    <div className={`flex overflow-x-auto gap-4 justify-center mb-8 ${className}`}>
       {options.map((opt) => (
         <button
           key={opt.value}
