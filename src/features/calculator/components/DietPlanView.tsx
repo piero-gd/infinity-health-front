@@ -40,7 +40,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <div className="flex justify-center gap-4 mt-6">
           <button 
             onClick={() => window.location.reload()}
-            className="px-1 py-1 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-accent)] transition-colors"
+            className="px-4 py-3 border-2 border-[var(--color-btn-gradient-border)] text-[var(--color-primary)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] transition-colors shadow-md"
             disabled={isLoading}
           >
             {isLoading ? 'Cargando...' : 'Reintentar'}
@@ -61,8 +61,8 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <p className="text-gray-700">No se ha podido cargar tu plan de dieta. Intentalo de nuevo</p>
         <div className="flex justify-center gap-4 mt-6">
           <button 
-            onClick={() => window.location.reload()}
-            className="px-1 py-1 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-primary-accent)] transition-colors"
+            onClick={() => window.location.href = '/calculator'}
+            className="px-4 py-3 border-2 border-[var(--color-btn-gradient-border)] text-[var(--color-primary)] rounded-full hover:bg-[var(--color-primary-accent)] transition-colors"
           >
             Reintentar
           </button>
@@ -94,24 +94,24 @@ const DietPlan: React.FC<DietPlanProps> = ({
           </div>
         </div>
       </div>
-      <div className="bg-white p-3">
+      <div className="mt-2 ml-3 bg-white p-3">
       <div className="mt-2 flex justify-left gap-2">
         <button 
             onClick={() => chatWhatsApp()}
-            className="flex items-center justify-center shadow-sm px-5 py-2 text-sm font-bold bg-[var(--color-btn-whatsapp)] text-white rounded-4xl transition-colors hover: bg-gradient-to-t hover: from-[var(--color-btn-whatsapp-200)] hover: to-[var(--color-btn-whatsapp-400)]"
+            className="flex items-center justify-center shadow-sm px-3 py-2 text-sm font-bold bg-[var(--color-btn-whatsapp)] text-white rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-green-400)] hover:to-[var(--color-green-500)]"
             aria-label="Consulta Nutricional"
           >
-            <FaWhatsapp />
-           <span className="ml-2 flex"> Consulta Asesoría Nutricional</span>
+            <FaWhatsapp className="block" />
+           <span className="ml-2 block flex"> Consulta Asesoría Nutricional</span>
           </button>
         <button 
             onClick={handleDownload}
             id="download-pdf"
-            className="flex items-center justify-center shadow-sm px-5 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] hover:text-white hover:border-[var(--color-primary)]"
+            className="flex items-center justify-center shadow-sm px-3 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
             aria-label="Descargar plan"
           >
-           <BsDownload />
-           <span className="ml-2">Descargar PDF</span>
+           <BsDownload className=" xl:block lg:block md:block block" />
+           <span className="ml-2 xl:block lg:hidden md:block hidden">Descargar PDF</span>
           </button>
         
         </div>

@@ -51,7 +51,7 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
               </div> 
               <button
                 onClick={onGenerateDiet}
-                className="mt-4 w-full text-sm  border-2 border-[var(--color-btn-gradient-border)] rounded-4xl hover:from-gray-500 to-gray-600 text-[var(--color-primary)] font-semibold py-4 px-4 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center hover:scale-110"
+                className="mt-4 w-full flex items-center justify-center px-5 py-4 text-sm text-[var(--color-primary)] font-semibold border-2 border-[var(--color-btn-gradient-border)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
               >
                 <FaAppleAlt className="w-5 h-5 mr-2" />
                 Generar Plan de Alimentación

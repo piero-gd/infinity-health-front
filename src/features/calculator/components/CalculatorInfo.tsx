@@ -1,4 +1,4 @@
-import { FaRuler, FaWeight, FaAppleAlt, FaRunning } from 'react-icons/fa';
+import { FaRuler, FaWeight, FaAppleAlt, FaRunning, FaListAlt } from 'react-icons/fa';
 
 const tips = [
   {
@@ -36,7 +36,7 @@ export default function CalculatorInfo() {
           <div className="relative z-10">
             <div className="flex items-center mb-4">
               <div className="bg-[var(--color-primary-light)] p-2.5 rounded-lg mr-4 ">
-                <FaAppleAlt className="w-5 h-5 text-[var(--color-primary)]" />
+                <FaListAlt className="w-5 h-5 text-[var(--color-primary)]" />
               </div>
               <h3 className="font-semibold text-gray-800">¡Crea tu dieta personalizada!</h3>
             </div>
@@ -54,7 +54,7 @@ export default function CalculatorInfo() {
               ))}
             </div>
             
-            <div className="bg-[var(--color-primary-light)] border border-[var(--color-primary-light)] rounded-lg p-3 mb-3">
+            <div className="bg-gray-50 border border-[var(--color-primary-light)] rounded-lg p-3 mb-3">
               <p className="text-sm text-[var(--color-primary)] text-center">
                 <span className="font-semibold">Primero calcula tus macros</span> para generar tu plan personalizado
               </p>
@@ -102,7 +102,7 @@ export default function CalculatorInfo() {
               </p>
               <a 
                 href="/productos-saludables" 
-                className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-blue-900 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors duration-300"
+                className="inline-flex items-center text-[var(--color-primary)] px-5 py-2.5 text-sm font-medium rounded-full border-2 border-[var(--color-primary-accent)] hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
               >
                 Ver catálogo
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +131,7 @@ export default function CalculatorInfo() {
               </p>
               <a 
                 href="/exercises" 
-                className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-green-900 bg-green-100 rounded-full hover:bg-green-200 transition-colors duration-300"
+                className="inline-flex items-center text-sm font-medium px-5 py-2.5 text-white bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] rounded-full hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] transition-colors duration-300 shadow-md"
               >
                 Explorar rutinas
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
