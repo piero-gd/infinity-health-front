@@ -38,15 +38,14 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
             <h3 className="text-xl font-bold text-gray-800 mb-2">
               ¡Excelente, {nombre}!
             </h3>
-            <div className={`${objectiveData.tipText} text-sm leading-relaxed`}>
-              <p className="mb-3">{tip}</p>
+            <div className="text-gray-600 text-sm leading-relaxed">
+              
               
               <div className={`mt-4 p-3 rounded-lg bg-opacity-20  ${objectiveData.tipBg} ${objectiveData.tipBorder} border`}>
                 <h4 className="font-semibold text-gray-800 mb-1">Consejo del día</h4>
+                
                 <p className="text-sm text-gray-700">
-                  {objetivo === 'Perder Grasa' && 'Recuerda mantener un déficit calórico moderado para una pérdida de grasa sostenible.'}
-                  {objetivo === 'Ganar Músculo' && 'Asegúrate de consumir suficientes proteínas y descansar adecuadamente para el crecimiento muscular.'}
-                  {objetivo === 'Mantener Peso' && 'Mantén un equilibrio entre tu ingesta calórica y tu gasto energético diario.'}
+                 {tip}
                 </p>
               </div> 
               <button

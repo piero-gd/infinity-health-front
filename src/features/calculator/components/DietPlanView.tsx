@@ -4,6 +4,7 @@ import { BsDownload } from "react-icons/bs";
 import { chatWhatsApp } from '../utils/chatWhatsApp';
 import type { CalculatorResults } from '../types';
 import { useDiet } from '../hooks/useDiet';
+import { useLoadingMessages } from '../hooks/useLoadingMessages';
 
 interface DietPlanProps {
   resultado: CalculatorResults;
@@ -13,16 +14,22 @@ const DietPlan: React.FC<DietPlanProps> = ({
   resultado
 }) => {
   const { diet, error, isLoading, handleDownload } = useDiet({ resultado });
+  const loadingMessage = useLoadingMessages([
+    "Analizando tus necesidades nutricionales...",
+    "No salgas de la página por favor",
+    "Preparando tu plan personalizado...",
+    "¡Estamos casi listos!"
+  ]);
 
   // Estado de carga
   if (isLoading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-[var(--color-primary-dark)] overflow-hidden p-8 text-center">
         <div className="flex justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
         </div>
         <p className="mt-4 text-gray-600">Cargando tu plan de alimentación...</p>
-        <p className="mt-2 text-xs text-gray-600">Esto puede tomar unos momentos</p>
+        <p className="mt-2 text-xs text-gray-600 animate-pulse h-4">{loadingMessage}</p>
       </div>
     );
   }
@@ -62,7 +69,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <div className="flex justify-center gap-4 mt-6">
           <button 
             onClick={() => window.location.href = '/calculator'}
-            className="px-4 py-3 border-2 border-[var(--color-btn-gradient-border)] text-[var(--color-primary)] rounded-full hover:bg-[var(--color-primary-accent)] transition-colors"
+            className="px-4 py-3 border-2 border-[var(--color-btn-gradient-border)] text-[var(--color-primary)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] transition-colors"
           >
             Reintentar
           </button>
@@ -101,7 +108,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
             className="flex items-center justify-center shadow-sm px-3 py-2 text-sm font-bold bg-[var(--color-btn-whatsapp)] text-white rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-green-400)] hover:to-[var(--color-green-500)]"
             aria-label="Consulta Nutricional"
           >
-            <FaWhatsapp className="block" />
+            <FaWhatsapp className="block w-5 h-5" />
            <span className="ml-2 block flex"> Consulta Asesoría Nutricional</span>
           </button>
         <button 
@@ -110,7 +117,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
             className="flex items-center justify-center shadow-sm px-3 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
             aria-label="Descargar plan"
           >
-           <BsDownload className=" xl:block lg:block md:block block" />
+           <BsDownload className="w-5 h-5 xl:block lg:block md:block block" />
            <span className="ml-2 xl:block lg:hidden md:block hidden">Descargar PDF</span>
           </button>
         

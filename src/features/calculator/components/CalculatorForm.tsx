@@ -1,6 +1,6 @@
-import { H2Icon } from '@heroicons/react/16/solid';
 import type { CalculatorData } from '../types/index';
 import { useState } from 'react';
+import { useValidation } from '../hooks/useValidation';
 
 interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
@@ -17,14 +17,31 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
     objetivo: '',
   });
 
+  const { errors, validate } = useValidation();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onCalcular(formData);
+    
+    if (validate({
+      sexo: formData.sexo,
+      actividad: formData.actividad,
+      objetivo: formData.objetivo
+    })) {
+      onCalcular(formData);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev: CalculatorData) => ({ ...prev, [name]: value }));
+    
+    // Limpiar el error del campo cuando el usuario empieza a editar
+    if (['sexo', 'actividad', 'objetivo'].includes(name) && errors[name]) {
+      const newErrors = { ...errors };
+      delete newErrors[name];
+      validate({ ...formData, [name]: value });
+    }
+    
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -47,6 +64,9 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">Género</label>
+              {errors.sexo && (
+              <p className="text-sm text-red-600 -mt-2 mb-2">{errors.sexo}</p>
+            )}
               <div className="grid grid-cols-2 gap-4">
                 <button 
                   type="button"
@@ -198,6 +218,9 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         <div className="mt-6">
           <div className="mb-4">
             <h3 className="font-semibold text-gray-800">Nivel de Actividad Física</h3>
+            {errors.actividad && (
+              <p className="text-sm text-red-600 -mt-1 mb-2">{errors.actividad}</p>
+            )}
             <p className="text-sm text-gray-500 mt-1">Selecciona el que mejor describa tu rutina <b>por semana</b></p>
           </div>
           
@@ -303,6 +326,9 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
           {/* Objetivos */}
           <div className="mt-6">
             <h3 className="font-semibold text-gray-700 mb-3">¿Cuál es tu objetivo principal?</h3>
+            {errors.objetivo && (
+              <p className="text-sm text-red-600 -mt-2 mb-2">{errors.objetivo}</p>
+            )}
             <div className="grid grid-cols-3 sm:grid-cols-3 gap-3">
               <button 
                 type="button"
@@ -361,7 +387,7 @@ const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
         <div className="mt-8 sticky bottom-0 bg-white pt-4 -mx-6 px-6 border-t border-gray-100">
           <button 
             type="submit" 
-            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-bold py-4 px-6 rounded-4xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-btn-gradient-top)] focus:ring-opacity-50"
+            className={`w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-bold py-4 px-6 rounded-4xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-btn-gradient-top)] focus:ring-opacity-50 ${Object.keys(errors).length > 0 ? 'animate-shake' : ''}`}
           >
             Calcular mis macros ahora
             <span className="ml-2">→</span>
