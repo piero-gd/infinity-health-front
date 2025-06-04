@@ -28,7 +28,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <div className="flex justify-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
         </div>
-        <p className="mt-4 text-gray-600">Cargando tu plan de alimentación...</p>
+        <p className="mt-4 text-gray-600">Cargando tu plan de alimentación</p>
         <p className="mt-2 text-xs text-gray-600 animate-pulse h-4">{loadingMessage}</p>
       </div>
     );
@@ -46,7 +46,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
         <p className="text-gray-700">{error ? error : 'No se pudo cargar el plan de dieta'}</p>
         <div className="flex justify-center gap-4 mt-6">
           <button 
-            onClick={() => window.location.reload()}
+            onClick={() => window.location.href = '/calculator'}
             className="px-4 py-3 border-2 border-[var(--color-btn-gradient-border)] text-[var(--color-primary)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] transition-colors shadow-md"
             disabled={isLoading}
           >
