@@ -1,19 +1,26 @@
-import {useRef } from 'react';
+import { useRef } from 'react';
 import { useCalculator } from '../hooks/useCalculator';
 import CalculatorForm from '../components/CalculatorForm';
 import CalculatorRecomendations from '../components/CalculatorRecomendations';
 import CalculatorResult from '../components/CalculatorResult';
 import CalculatorInfo from '../components/CalculatorInfo';
 import DietPlanView from '../components/DietPlanView';
+import type { UserInfo } from '../../temporalLogin/types/index';
 
-export default function CalculatorPage() {
+interface CalculatorPageProps {
+  user: UserInfo;
+}
+
+export default function CalculatorPage({ user }: CalculatorPageProps) {
+  console.log('CalculatorPage - user:', user);
   const {
     resultado,
     showDietPlan,
     manejarCalculo,
-    handleGenerateDiet
+    handleGenerateDiet,
+    
   } = useCalculator();
-   
+  
   const resultadosRef = useRef<HTMLDivElement>(null);
   resultado && resultadosRef.current?.scrollIntoView({ behavior: 'smooth' });
 
@@ -23,7 +30,7 @@ export default function CalculatorPage() {
         {/* Columna izquierda - Formulario */}
         <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-6">
           <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden h-auto">
-            <CalculatorForm onCalcular={manejarCalculo} />
+            <CalculatorForm onCalcular={manejarCalculo} user={user} />
           </div>
         </div>
         

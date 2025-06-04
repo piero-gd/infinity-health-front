@@ -2,11 +2,11 @@ import type { CalculatorResults, Diet } from "../types";
 
 export const calculateDiet = async (data: CalculatorResults): Promise<Diet> => {
   try {
-    const response = await fetch('https://api.infinityhealth.fit/api/calcMacros/', {
+    const response = await fetch('https://infinityhealthapi.onrender.com/api/calcMacros/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer'
+        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
       },
       body: JSON.stringify(data)
     });

@@ -1,21 +1,34 @@
 import type { CalculatorData } from '../types/index';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useValidation } from '../hooks/useValidation';
+import type { UserInfo } from '../../temporalLogin/types/index';
 
 interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
+  user: UserInfo;
 }
 
-const CalculatorForm = ({ onCalcular }: CalculatorFormProps) => {
-  const [formData, setFormData] = useState<CalculatorData>({
-    nombre: 'User',
+const CalculatorForm = ({ onCalcular, user }: CalculatorFormProps) => {
+  console.log('user prop:', user);
+  
+  const [formData, setFormData] = useState<CalculatorData>(() => ({
+    nombre: user.username,
     sexo: '',
     edad: 25,
     peso: 70,
     altura: 170,
     actividad: '',
     objetivo: '',
-  });
+  }));
+
+  useEffect(() => {
+    if (user.username !== formData.nombre) {
+      setFormData(prev => ({
+        ...prev,
+        nombre: user.username
+      }));
+    }
+  }, [user.username, formData.nombre]);
 
   const { errors, validate } = useValidation();
 
