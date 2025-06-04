@@ -24,9 +24,9 @@ const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className
             onClick={() => onChange(opt.value)}
             className={`
               flex items-center gap-2 px-2 py-1 rounded-full border text-xs font-medium transition
-              sm:px-3 sm:py-2 sm:text-sm sm:font-medium
-              md:px-4 md:py-2 md:text-base md:font-medium
-              lg:px-5 lg:py-2 lg:text-base lg:font-medium
+              sm:px-3 sm:py-2 sm:text-sm
+              md:px-4 md:py-2 md:text-base
+              lg:px-5 lg:py-2 lg:text-base
               ${selectedValue === opt.value
                 ? "text-white shadow"
                 : "bg-white text-gray-500 border-gray-200 hover:bg-gray-100"}
