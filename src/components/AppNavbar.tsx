@@ -11,7 +11,7 @@ interface Props {
 
 export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
   return (
-    <nav className="sticky top-0 z-40 flex items-center justify-between bg-[var(--color-background)] px-4 py-3 shadow sm:justify-start relative">
+    <nav className="sticky top-0 z-40 flex items-center justify-between bg-[var(--color-background)] px-4 py-3 shadow sm:justify-start">
       {/* Botón hamburguesa SOLO en mobile */}
       {setSidebarOpen && (
         <button

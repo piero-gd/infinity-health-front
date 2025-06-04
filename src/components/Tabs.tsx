@@ -15,28 +15,35 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className = "" }) => {
   return (
-    <div className={`flex overflow-x-auto gap-4 justify-center mb-8 ${className}`}>
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          onClick={() => onChange(opt.value)}
-          className={`
-            flex items-center gap-2 px-6 py-2 rounded-full border text-base font-semibold transition
-            ${selectedValue === opt.value
-              ? "text-white shadow"
-              : "bg-white text-gray-500 border-gray-200 hover:bg-gray-100"}
-          `}
-          style={
-            selectedValue === opt.value
-              ? { background: "var(--gradient-primary)" }
-              : undefined
-          }
-          type="button"
-        >
-          {opt.label}
-          {opt.icon && <span className="text-lg">{opt.icon}</span>}
-        </button>
-      ))}
+    <div className={`flex justify-center mb-8 ${className}`}>
+      {/* Contenedor interno para centrado */}
+      <div className="flex overflow-x-auto gap-2 px-2 sm:gap-4 md:gap-8 lg:gap-12">
+        {options.map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => onChange(opt.value)}
+            className={`
+              flex items-center gap-2 px-2 py-1 rounded-full border text-xs font-medium transition
+              sm:px-3 sm:py-2 sm:text-sm sm:font-medium
+              md:px-4 md:py-2 md:text-base md:font-medium
+              lg:px-5 lg:py-2 lg:text-base lg:font-medium
+              ${selectedValue === opt.value
+                ? "text-white shadow"
+                : "bg-white text-gray-500 border-gray-200 hover:bg-gray-100"}
+            `}
+            style={
+              selectedValue === opt.value
+                ? { background: "var(--gradient-primary)" }
+                : undefined
+            }
+            type="button"
+          >
+            {opt.label}
+            {/* Mostrar iconos solo en pantallas medianas y grandes */}
+            <span className="hidden md:inline lg:text-base">{opt.icon}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
