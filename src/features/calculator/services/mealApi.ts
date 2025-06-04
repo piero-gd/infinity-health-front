@@ -11,6 +11,7 @@ export const calculateDiet = async (data: CalculatorResults): Promise<Diet> => {
       body: JSON.stringify(data)
     });
 
+    console.log("[mealApi] calculateDiet response:", response);
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.message || `Error: ${response.status} ${response.statusText}`);
@@ -20,5 +21,6 @@ export const calculateDiet = async (data: CalculatorResults): Promise<Diet> => {
   } catch (error) {
     console.error('Error en calculateDiet:', error);
     throw error;
+
   }
 };

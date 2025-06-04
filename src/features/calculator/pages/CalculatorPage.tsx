@@ -12,7 +12,7 @@ interface CalculatorPageProps {
 }
 
 export default function CalculatorPage({ user }: CalculatorPageProps) {
-  console.log('CalculatorPage - user:', user);
+  console.log('recibido de userinfo', user);
   const {
     resultado,
     showDietPlan,

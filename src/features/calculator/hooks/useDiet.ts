@@ -37,22 +37,20 @@ export const useDiet = ({ resultado }: UseDietProps) => {
     fetchDiet();
   }, [resultado]); // Solo se ejecuta cuando resultado cambia
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    try {
     const element = document.getElementById('diet-plan-content');
     if (!element) {
-      console.error('No se encontró el contenido del plan');
-      return;
+      throw new Error('No se encontró el contenido del plan');
     }
 
-    import('../utils/downloadPDF').then(({ downloadPDF }) => {
-      try {
-        downloadPDF(element, `Plan_Nutricional_${resultado.nombre}`);
-      } catch (err) {
-        console.error('Error al generar el PDF:', err);
-        alert('Error al generar el PDF');
-      }
-    });
-  };
+    const {downloadPDF} = await import('../utils/downloadPDF');
+  downloadPDF(element, `Plan Nutricional para ${resultado.nombre}`);
+  } catch (err) {
+    console.error('Error al generar el PDF:', err);
+    setError('Error al generar el PDF, intente de nuevo');
+  }
+};
 
   return { diet, error, isLoading, handleDownload };
 };

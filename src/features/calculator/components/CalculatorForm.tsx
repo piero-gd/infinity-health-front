@@ -1,11 +1,11 @@
 import type { CalculatorData } from '../types/index';
 import { useState, useEffect } from 'react';
 import { useValidation } from '../hooks/useValidation';
-import type { UserInfo } from '../../temporalLogin/types/index';
+import type { AuthResponse } from '../../temporalLogin/types/index';
 
 interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
-  user: UserInfo;
+  user: AuthResponse;
 }
 
 const CalculatorForm = ({ onCalcular, user }: CalculatorFormProps) => {

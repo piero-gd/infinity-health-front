@@ -3,7 +3,7 @@ import SimpleLayout from "../layouts/SimpleLayout";
 import ExercisesHome from "../features/exercises/pages/ExercisesHome";
 import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
-import GeneralLayout from "../layouts/GeneralLayout";
+import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
@@ -26,7 +26,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         {/* cambio temporal
          <Route path="*" element={<Navigate to="/exercises" replace />} />
          */}
-          <Route element={<GeneralLayout onLogout={onLogout}/>}>
+          <Route element={<TestLayout onLogout={onLogout}/>}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Route>

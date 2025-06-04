@@ -5,7 +5,7 @@ interface Props {
   onLogout: () => void
 }
 
-export default function GeneralLayout({ onLogout }: Props) {
+export default function TestLayout({ onLogout }: Props) {
 
   return (
     <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
