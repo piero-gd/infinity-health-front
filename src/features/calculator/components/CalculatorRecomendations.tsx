@@ -1,5 +1,6 @@
-import { getRandomTip } from '../data/tipsRandom';
+import { getRandomTip, type Objetivo } from '../data/tipsRandom';
 import { FaAppleAlt } from 'react-icons/fa';
+import { getObjectiveData } from '../data/objectiveData';
 
 interface CalculatorRecomendationsProps {
   nombre: string;
@@ -7,69 +8,11 @@ interface CalculatorRecomendationsProps {
   onGenerateDiet: () => void;
 }
 
-const getObjectiveData = (objetivo: string) => {
-  switch(objetivo) {
-    case 'Perder grasa':
-      return {
-        title: 'Perder Grasa',
-        icon: (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        ),
-        color: 'bg-orange-100 text-orange-800 border-orange-200',
-        gradient: 'from-orange-500 to-orange-600',
-        tipBg: 'bg-orange-50',
-        tipBorder: 'border-orange-100',
-        tipText: 'text-orange-700'
-      };
-    case 'Ganar músculo':
-      return {
-        title: 'Ganar Músculo',
-        icon: (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-          </svg>
-        ),
-        color: 'bg-green-100 text-green-800 border-green-200',
-        gradient: 'from-green-500 to-green-600',
-        tipBg: 'bg-green-50',
-        tipBorder: 'border-green-100',
-        tipText: 'text-green-700'
-      };
-    case 'Mantener':
-      return {
-        title: 'Mantener Peso',
-        icon: (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        ),
-        color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-        gradient: 'from-yellow-500 to-yellow-600',
-        tipBg: 'bg-yellow-50',
-        tipBorder: 'border-yellow-100',
-        tipText: 'text-yellow-700'
-      };
-    default:
-      return {
-        title: 'Sin objetivo',
-        icon: null,
-        color: 'bg-gray-100 text-gray-800 border-gray-200',
-        gradient: 'from-gray-500 to-gray-600',
-        tipBg: 'bg-gray-50',
-        tipBorder: 'border-gray-100',
-        tipText: 'text-gray-700'
-      };
-  }
-};
-
 export default function CalculatorRecomendations({ objetivo, nombre, onGenerateDiet }: CalculatorRecomendationsProps) {
-  if (!objetivo) return null;
-
-  const tip = getRandomTip(objetivo as 'Perder grasa' | 'Ganar músculo' | 'Mantener peso');
-  const objectiveData = getObjectiveData(objetivo);
-
+   const objectiveData = getObjectiveData(objetivo);
+   const tip = getRandomTip(objetivo as Objetivo);
+   
+   if (!objetivo || !objectiveData) return null;
   return (
     <div className="relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
     
@@ -95,27 +38,25 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
             <h3 className="text-xl font-bold text-gray-800 mb-2">
               ¡Excelente, {nombre}!
             </h3>
-            <div className={`${objectiveData.tipText} text-sm leading-relaxed`}>
-              <p className="mb-3">{tip}</p>
+            <div className="text-gray-600 text-sm leading-relaxed">
               
-              <div className="mt-4 p-3 rounded-lg bg-opacity-20 bg-gradient-to-r from-[var(--color-background)] to-[var(--color-border)]">
+              
+              <div className={`mt-4 p-3 rounded-lg bg-opacity-20  ${objectiveData.tipBg} ${objectiveData.tipBorder} border`}>
                 <h4 className="font-semibold text-gray-800 mb-1">Consejo del día</h4>
+                
                 <p className="text-sm text-gray-700">
-                  {objetivo === 'Perder grasa' && 'Recuerda mantener un déficit calórico moderado para una pérdida de grasa sostenible.'}
-                  {objetivo === 'Ganar músculo' && 'Asegúrate de consumir suficientes proteínas y descansar adecuadamente para el crecimiento muscular.'}
-                  {objetivo === 'Mantener' && 'Mantén un equilibrio entre tu ingesta calórica y tu gasto energético diario.'}
+                 {tip}
                 </p>
-              </div>
-              
+              </div> 
               <button
                 onClick={onGenerateDiet}
-                className="mt-4 w-full bg-gradient-to-r from-gray-600 to-gray-400 border border-gray-500 hover:from-gray-500 to-gray-600 text-white font-semibold py-6 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center hover:scale-110"
+                className="mt-4 w-full flex items-center justify-center px-5 py-4 text-sm text-[var(--color-primary)] font-semibold border-2 border-[var(--color-btn-gradient-border)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
               >
                 <FaAppleAlt className="w-5 h-5 mr-2" />
                 Generar Plan de Alimentación
               </button>
               
-              <p className="mt-3 text-xs text-gray-500">
+              <p className="mt-3 text-sm text-gray-500">
                 Para un plan personalizado, consulta con un profesional de la salud.
               </p>
             </div>

@@ -1,6 +1,6 @@
 import type { CalculatorData, CalculatorResults } from '../types/index';
 
-export default function calcularMacros(datos: CalculatorData): CalculatorResults {
+export default function calculateMacros(datos: CalculatorData): CalculatorResults {
   const { edad, sexo, peso, altura, actividad, objetivo, nombre } = datos;
   
   // Calcular TMB (Tasa Metabólica Basal)
@@ -29,9 +29,9 @@ export default function calcularMacros(datos: CalculatorData): CalculatorResults
 
   let calorias = tmb * multiplicadorActividad;
 
-  if (objetivo === 'Perder grasa') calorias -= 500;
-  if (objetivo === 'Ganar músculo') calorias += 500;
-  if (objetivo === 'Mantener peso') calorias += 0;
+  if (objetivo === 'Perder Grasa') calorias -= 500;
+  if (objetivo === 'Ganar Músculo') calorias += 500;
+  if (objetivo === 'Mantener Peso') calorias += 0;
 
   const proteinas = peso * 2; // 2g de proteína por kg de peso
   const grasas = peso * 1; // 1g de grasa por kg de peso

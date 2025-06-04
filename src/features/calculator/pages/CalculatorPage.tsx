@@ -1,35 +1,28 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
+import { useCalculator } from '../hooks/useCalculator';
 import CalculatorForm from '../components/CalculatorForm';
 import CalculatorRecomendations from '../components/CalculatorRecomendations';
 import CalculatorResult from '../components/CalculatorResult';
 import CalculatorInfo from '../components/CalculatorInfo';
-import DietPlan from '../components/DietPlan';
-import calcularMacros from '../utils/calcularemacros';
-import type { CalculatorData, CalculatorResults } from '../types/index';
+import DietPlanView from '../components/DietPlanView';
+import type { UserInfo } from '../../temporalLogin/types/index';
 
-export default function CalculatorPage() {
-  const [resultado, setResultado] = useState<CalculatorResults | null>(null);
-  const [showDietPlan, setShowDietPlan] = useState(false);
-  const resultadosRef = useRef<HTMLDivElement>(null);
+interface CalculatorPageProps {
+  user: UserInfo;
+}
 
-  const manejarCalculo = (datos: CalculatorData) => {
-    const calculo = calcularMacros(datos);
-    setResultado(calculo);
-    setShowDietPlan(false);
+export default function CalculatorPage({ user }: CalculatorPageProps) {
+  console.log('recibido de userinfo', user);
+  const {
+    resultado,
+    showDietPlan,
+    manejarCalculo,
+    handleGenerateDiet,
     
-    // Hacer scroll suave a los resultados después de que el estado se actualice
-    setTimeout(() => {
-      resultadosRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 0);
-  };
+  } = useCalculator();
   
-  const handleGenerateDiet = () => {
-    setShowDietPlan(true);
-  };
-  
-  const handleBackToResults = () => {
-    setShowDietPlan(false);
-  };
+  const resultadosRef = useRef<HTMLDivElement>(null);
+  resultado && resultadosRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <div className="mx-auto py-6 px-4 w-full max-w-7xl min-h-screen">
@@ -37,14 +30,14 @@ export default function CalculatorPage() {
         {/* Columna izquierda - Formulario */}
         <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-6">
           <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden h-auto">
-            <CalculatorForm onCalcular={manejarCalculo} />
+            <CalculatorForm onCalcular={manejarCalculo} user={user} />
           </div>
         </div>
         
         {/* Columna derecha - Contenido informativo, resultados o plan de alimentación */}
         <div ref={resultadosRef} className="lg:col-span-4 xl:col-span-4 2xl:col-span-4">
           {showDietPlan && resultado ? (
-            <DietPlan onBack={handleBackToResults} resultado={resultado}/>
+            <DietPlanView resultado={resultado}/>
           ) : resultado ? (
             <div className="space-y-4 md:space-y-6">
               {/* Container con fondo azul para los resultados */}

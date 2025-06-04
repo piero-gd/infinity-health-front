@@ -34,6 +34,12 @@
     --color-btn-hover: #1283C2;
     --color-btn-active: #0972AD;
     --gradient-primary: linear-gradient(180deg, #232323 0%, #1798e0 100%);
+
+    /* Nuevo Botón Gradiente */
+    --color-btn-gradient-bottom: #035C97;
+    --color-btn-gradient-top: #1798E0;
+    --color-btn-gradient-border: #1798E0;
+    --color-btn-whatsapp: #25D366;
 }
 
 body {
@@ -51,3 +57,10 @@ h1, h2 {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+}
+
