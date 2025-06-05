@@ -13,14 +13,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           <Route element={<SimpleLayout onLogout={onLogout} />}>
             <Route path="/exercises" element={<ExercisesHome />} />
             <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
-            <Route 
-              path="/calculator" 
-              element={
-                <CalculatorPage 
-                  user={{ username: localStorage.getItem('username') || '' }} 
-                />
-              } 
-            />
+            <Route path="/calculator" element={<CalculatorPage />} />
           </Route>
 
         {/* cambio temporal

@@ -17,18 +17,18 @@ export const useLogin = () => {
     try {
       const response = await authApi(credentials);
       
-      // Save tokens to localStorage
-      localStorage.setItem('accessToken', response.access);
-      if (response.refresh) {
-        localStorage.setItem('refreshToken', response.refresh);
+      // Guardar datos en localStorage
+      localStorage.setItem('accessToken', response.accessToken);
+      if (response.refreshToken) {
+        localStorage.setItem('refreshToken', response.refreshToken);
       }
       
-      // Store username in localStorage
+      // Guardar el username en localStorage
       if (response.username) {
         localStorage.setItem('username', response.username);
       }
       
-      // Redirect
+      // Redirigir a la calculadora
       navigate('/calculator');
       
       return response;

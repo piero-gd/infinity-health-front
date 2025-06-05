@@ -1,24 +1,28 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useCalculator } from '../hooks/useCalculator';
 import CalculatorForm from '../components/CalculatorForm';
 import CalculatorRecomendations from '../components/CalculatorRecomendations';
 import CalculatorResult from '../components/CalculatorResult';
 import CalculatorInfo from '../components/CalculatorInfo';
 import DietPlanView from '../components/DietPlanView';
-import type { UserInfo } from '../../temporalLogin/types/index';
 
-interface CalculatorPageProps {
-  user: UserInfo;
-}
+export default function CalculatorPage() {
+  const [username, setUsername] = useState('');
 
-export default function CalculatorPage({ user }: CalculatorPageProps) {
-  console.log('recibido de userinfo', user);
+  useEffect(() => {
+    // Obtener el username del localStorage
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  console.log('Usuario actual:', username);
   const {
     resultado,
     showDietPlan,
     manejarCalculo,
     handleGenerateDiet,
-    
   } = useCalculator();
   
   const resultadosRef = useRef<HTMLDivElement>(null);
@@ -30,7 +34,7 @@ export default function CalculatorPage({ user }: CalculatorPageProps) {
         {/* Columna izquierda - Formulario */}
         <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-6">
           <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden h-auto">
-            <CalculatorForm onCalcular={manejarCalculo} user={user} />
+            <CalculatorForm onCalcular={manejarCalculo} username={username}/>
           </div>
         </div>
         
