@@ -18,7 +18,7 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({ images }) => {
     };
   
     return (
-      <div className="w-full max-w-md">
+      <div className="p-4">
         {/* Main Image */}
         <div className="relative bg-gray-200 rounded-lg overflow-hidden mb-4" style={{ aspectRatio: '1/1' }}>
           <div className="w-full h-full flex items-center justify-center text-gray-400">
