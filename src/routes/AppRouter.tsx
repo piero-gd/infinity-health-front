@@ -5,6 +5,7 @@ import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
+import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -14,14 +15,17 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
             <Route path="/exercises" element={<ExercisesHome />} />
             <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
             <Route path="/calculator" element={<CalculatorPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Route>
 
         {/* cambio temporal
          <Route path="*" element={<Navigate to="/exercises" replace />} />
          */}
           <Route element={<TestLayout onLogout={onLogout}/>}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+          {/*   <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />*/}
+            <Route path="/product/:id" element={<DetailPage />} />
+            <Route path="*" element={<Navigate to="/product/:id" replace />} />
           </Route>
 
         </Routes>
