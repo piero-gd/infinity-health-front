@@ -1,5 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import AppRouter from "./routes/AppRouter";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundaryFallback } from "./components/ErrorBoundaryFallback";
 
 function App() {
   const handleLogout = () => {
@@ -8,6 +10,7 @@ function App() {
 
   return (
     <>
+    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
       <AppRouter onLogout={handleLogout} />
       <ToastContainer
         position="bottom-right"
@@ -21,6 +24,7 @@ function App() {
         pauseOnHover
         theme="colored"
       />
+      </ErrorBoundary>
     </>
   );
 }
