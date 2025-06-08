@@ -6,8 +6,11 @@ export interface Product {
     categoria: string;
     descripcion: string;
     imagenes: string[];
+    videos: string[];
     stock: number;
     resena:string;
+    disponible:boolean;
+    peso:string;
     calificacion:number;
 }
 
