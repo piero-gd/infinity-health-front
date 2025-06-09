@@ -21,7 +21,7 @@ export const ShareOptions: React.FC = () => {
   return (
     <div className="px-2 md:px-6">
       <div className="flex items-center gap-4">
-        <span className="ml-2 text-sm font-medium text-gray-700">Compartir</span>
+        <span className="text-sm font-medium text-gray-700">Compartir</span>
         <div className="flex gap-2">
           {shareOptions.map(({ icon: Icon, label, color }) => (
             <button
@@ -35,7 +35,7 @@ export const ShareOptions: React.FC = () => {
         </div>
       </div>
       
-      {/* Uncomment this section if you want to show payment options in the future
+      {/* no comentado
       <div className="mt-4">
         <div className="flex gap-2">
           {payIcons.map(({ icon: Icon, label, color }) => (

@@ -11,22 +11,22 @@ export const RelatedProducts: React.FC = () => {
   
     const handleBuyProduct = (productId: string) => {
       console.log(`Comprando producto: ${productId}`);
-      // Aquí implementarías la lógica de compra
+      // Aquí iría la lógica de compra
     };
   
     return (
       <div className="mt-16">
 
-        {/* Title and Description */}
+        {/* Título y Descripción */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-8 mb-14">
-          {/* Left side - Title */}
+          {/* Lado izquierdo con título */}
           <div>
             <h2 className="ml-8 text-3xl font-bold text-gray-900">
               Productos relacionados
             </h2>
           </div>
   
-          {/* Right side - Description */}
+          {/* Lado Derecho con descripción */}
           <div>
             <p className="ml-22 text-gray-500 text-sm leading-relaxed">
               Lorem Ipsum Dolor Sit Amet Consectetur. Vel A Posuere Habitant Nunc Sit Eget Etiam. Sed In Duis In Scelerisque.
@@ -36,12 +36,12 @@ export const RelatedProducts: React.FC = () => {
         </div> 
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Products Grid */}
+          {/* Productos */}
           {relatedProducts.map((product) => (
             <div key={product.id} className="relative">
-              {/* Product Card */}
+              {/* Tarjeta de producto */}
               <div className="bg-gray-300 rounded-2xl aspect-[7/10] relative flex items-end p-8">
-                {/* Buy Button */}
+                {/* Botón de compra */}
                 <button
                   onClick={() => handleBuyProduct(product.id)}
                   className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2.5 rounded-full text-sm font-medium transition-colors flex items-center justify-center gap-2 ml-8 mr-8 "

@@ -44,7 +44,7 @@ export const InfoDetail = () => {
                     <span className="ml-3 text-sm text-gray-600">12 reseñas</span>
                 </div>
             </div>
-            {/* DESCRIPCION */}
+            {/* DESCRIPCIÓN */}
             <div className="mt-4 mb-4">
                 <span className="text-sm text-gray-600">lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Ipsum Dolor Sit Amet Consectetur. Vel A Posuere Habitant Nunc Sit Eget Etiam. Sed In Duis In Scelerisque.</span>
             </div>
