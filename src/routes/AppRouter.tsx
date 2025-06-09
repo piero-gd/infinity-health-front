@@ -5,15 +5,38 @@ import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
       <BrowserRouter>
         <Routes>
           <Route element={<SimpleLayout onLogout={onLogout} />}>
-            <Route path="/exercises" element={<ExercisesHome />} />
-            <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
-            <Route path="/calculator" element={<CalculatorPage />} />
+            <Route
+              path="/exercises"
+              element={
+                <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                  <ExercisesHome />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/exercises/:id"
+              element={
+                <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                  <ExerciseDetailPage />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/calculator"
+              element={
+                <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                  <CalculatorPage />
+                </ErrorBoundary>
+              }
+            />
           </Route>
 
         {/* cambio temporal

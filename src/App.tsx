@@ -10,7 +10,6 @@ function App() {
 
   return (
     <>
-    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
       <AppRouter onLogout={handleLogout} />
       <ToastContainer
         position="bottom-right"
@@ -24,7 +23,6 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-      </ErrorBoundary>
     </>
   );
 }
