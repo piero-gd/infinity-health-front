@@ -82,7 +82,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="mt-auto">
-                <div className="text-center text-white py-3 bg-gray-300/20 w-full text-sm">
+                <div className="text-center text-white py-3 bg-gray-300/20 w-full text-xs sm:text-sm">
                     &copy; {new Date().getFullYear()} Todos los derechos reservados por Infinity Health.
                 </div>
             </div>
