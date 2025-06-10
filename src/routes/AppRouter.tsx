@@ -5,6 +5,7 @@ import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
+import DashboardPage from "../features/dashboard/pages/DashboardPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -19,9 +20,9 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         {/* cambio temporal
          <Route path="*" element={<Navigate to="/exercises" replace />} />
          */}
-          <Route element={<TestLayout onLogout={onLogout}/>}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route element={<SimpleLayout onLogout={onLogout}/>}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+          {/*   <Route path="*" element={<Navigate to="/dashboard" replace />} /> */}
           </Route>
 
         </Routes>
