@@ -21,7 +21,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
          <Route path="*" element={<Navigate to="/exercises" replace />} />
          NO OLVIDAR CAMBIAR A TESTLAYOUT
          */}
-          <Route element={<EcommerceLayout onLogout={onLogout}/>}>
+          <Route element={<TestLayout onLogout={onLogout}/>}>
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Route>

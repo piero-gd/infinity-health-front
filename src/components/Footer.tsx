@@ -14,7 +14,7 @@ export default function Footer() {
                         <img 
                             src="/img/health-logo-white.png" 
                             alt="Infinity Health Logo" 
-                            className="mb-6 w-40 h-auto md:w-48 lg:w-56" 
+                            className="mb-6 mt-2 w-40 h-auto md:w-48 lg:w-56 " 
                         />
                         <p className="text-sm text-white">
                             Lorem ipsum aliquet laoreet mi adipiscing lectus aliquam tortor sit posuere mauris sit sed vulputate consequat duis faucibus facilisis tincidunt.
