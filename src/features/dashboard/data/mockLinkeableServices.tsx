@@ -3,7 +3,6 @@ import {
   CalculatorIcon,
   HeartIcon,
   ShoppingBagIcon,
-  TrophyIcon,
 } from '@heroicons/react/24/outline';
 
 export const mockLinkableServices: Service[] = [
@@ -36,15 +35,5 @@ export const mockLinkableServices: Service[] = [
     textColor: 'text-green-500',
     color: 'from-green-500 to-emerald-600',
     link: '/ecommerce',
-  },
-  {
-    id: 4,
-    title: 'Progreso y Avances',
-    description: 'Visualiza tu progreso y logros alcanzados',
-    icon: TrophyIcon,
-    bgColor: 'bg-purple-500',
-    textColor: 'text-purple-500',
-    color: 'from-purple-500 to-indigo-600',
-    link: '/progreso',
   },
 ];

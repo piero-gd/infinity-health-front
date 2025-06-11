@@ -4,7 +4,7 @@ import type { UserData, UserStats } from '../types/index';
     name: "Juan Pérez",
     email: "juan@email.com",
     memberSince: "Enero 2024",
-    avatar: "/img/hombre.png"
+    avatar: "img/hombre.png"
   };
   
   export const mockUserStats: UserStats = {

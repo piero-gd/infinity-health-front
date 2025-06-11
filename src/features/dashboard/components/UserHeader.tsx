@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { CalendarDaysIcon } from '@heroicons/react/24/outline';
 
 interface UserData {

@@ -1,22 +1,18 @@
 import UserHeader from '../components/UserHeader';
 import StatsCards from '../components/StatsCards';
 import LinkeableServices from '../components/LinkeableServices';
+import { mockUserData, mockUserStats } from '../data/mockDataUser';
 
-const userData = {
-  name: "Jemima Jange",
-  email: "jemimajange@email.com",
-  memberSince: "Enero 2024",
-  avatar: "/img/mujer.png"
-};
+interface DashboardPageProps {
+    userData:   typeof mockUserData;
+    userStats: typeof mockUserStats;
+}
 
-const userStats = {
-  balance: 1250.00,
-  commissions: 325.50,
-  activeRoutines: 3,
-  completedWorkouts: 47
-};
+export default function DashboardPage({ 
+  userData = mockUserData, 
+  userStats = mockUserStats 
+}: DashboardPageProps) {
 
-export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

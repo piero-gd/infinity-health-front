@@ -1,5 +1,6 @@
 import { mockLinkableServices } from '../data/mockLinkeableServices';
 import type { Service } from '../types';
+import TemporalProductCard from './TemporalProductCard';
 
 interface LinkeableServicesProps {
   services?: Service[];
@@ -8,6 +9,13 @@ interface LinkeableServicesProps {
 export default function LinkeableServices({ services = mockLinkableServices }: LinkeableServicesProps) {
   return (
     <div>
+
+      {/* Sección productos de catálogo*/}
+      <div className="bg-white pb-4">
+        <div className="flex">
+          <TemporalProductCard />
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         {services.map((service) => (

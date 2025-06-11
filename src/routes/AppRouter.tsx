@@ -22,7 +22,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
          */}
           <Route element={<SimpleLayout onLogout={onLogout}/>}>
             <Route path="/dashboard" element={<DashboardPage />} />
-          {/*   <Route path="*" element={<Navigate to="/dashboard" replace />} /> */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} /> 
           </Route>
 
         </Routes>
