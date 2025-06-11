@@ -1,40 +1,43 @@
-import { useRef, useEffect, useState } from 'react';
 import { InfoDetail } from '../components/InfoDetail';
 import { PhotoSlider } from '../components/PhotoSlider';
 import { ShareOptions } from '../components/ShareOptions';
 import { mockProduct } from '../data/mockProduct';
 import { RelatedProducts } from '../components/RelatedProducts';
 
-const { imagenes: images, videos } = mockProduct;
-
 export default function DetailPage() {
-return (
-<div className="mx-auto py-6 px-15 w-full h-auto mt-16">
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 ">
-    {/* Photo Slider */}
-    <div className="lg:col-span-1 xl:col-span-1 2xl:col-span-1">
-      <div className="overflow-hidden h-auto">
-    <PhotoSlider images={images} videos={videos} />
-    </div>
-    </div>
-    
-    {/* Product Info */}
-    <div className="lg:col-span-1 xl:col-span-1 2xl:col-span-1">
-      <div className="overflow-hidden">
-        <InfoDetail/>
-        <ShareOptions />
-      </div>
-     
-    </div>
+  // Use the first product as default for now
+  const currentProduct = mockProduct[0];
 
-    {/* Related Products */}
-    <div className="lg:col-span-1 xl:col-span-2 2xl:col-span-2 ">
-    <div className="overflow-hidden">
-    <RelatedProducts />
+  if (!currentProduct) {
+    return <div>No hay productos disponibles</div>;
+  }
+
+  return (
+    <div className="mx-auto py-6 px-4 sm:px-6 lg:px-8 max-w-7xl">
+      {/* Product Container */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Photo Slider - Columna Izquierda */}
+        <div className="lg:sticky lg:top-4 lg:h-fit">
+          <PhotoSlider 
+            images={currentProduct.imagenes} 
+            videos={currentProduct.videos} 
+          />
+        </div>
+        
+        {/* Product Info - Columna Derecha */}
+        <div className="space-y-8">
+          <InfoDetail product={currentProduct} />
+          <ShareOptions productId={currentProduct.id} />
+        </div>
+      </div>
+
+      {/* Related Products - Sección Completa Abajo */}
+      <div className="mt-16 w-full">
+        <RelatedProducts 
+          currentProductId={currentProduct.id} 
+          category={currentProduct.categoria} 
+        />
+      </div>
     </div>
-    </div>
-  </div>
- 
-</div>
   );
 }

@@ -24,8 +24,8 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           <Route element={<TestLayout onLogout={onLogout}/>}>
           {/*   <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<Navigate to="/login" replace />} />*/}
-            <Route path="/product/:id" element={<DetailPage />} />
-            <Route path="*" element={<Navigate to="/product/:id" replace />} />
+           <Route path="/product" element={<DetailPage />} />
+            <Route path="*" element={<Navigate to="/product/:productId" replace />} />
           </Route>
 
         </Routes>

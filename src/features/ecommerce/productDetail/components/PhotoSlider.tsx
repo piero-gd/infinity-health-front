@@ -1,38 +1,55 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Play, X } from 'lucide-react';
+import type { PhotoSliderProps } from '../types';
 
 interface MediaItem {
-  type: 'image' | 'video';
-  url: string;
-  thumbnail?: string;
+    type: 'image' | 'video';
+    url: string;
+    thumbnail?: string;
 }
 
-interface PhotoSliderProps {
-  images: string[];
-  videos: string[];
-}
+export const PhotoSlider: React.FC<PhotoSliderProps> = ({ 
+    images, 
+    videos,
+    currentIndex: externalIndex = 0,
+    onIndexChange
+}) => {
+    const [currentIndex, setCurrentIndex] = useState(externalIndex);
+    const [showVideoModal, setShowVideoModal] = useState(false);
+    const [currentVideo, setCurrentVideo] = useState<string>('');
 
-export const PhotoSlider: React.FC<PhotoSliderProps> = ({ images, videos }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showVideoModal, setShowVideoModal] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState<string>('');
+    // Sincronizar con el índice externo si cambia
+    useEffect(() => {
+        setCurrentIndex(externalIndex);
+    }, [externalIndex]);
 
-  // Create media array with type information
-  const media: MediaItem[] = [
-    ...images.map(url => ({ type: 'image' as const, url })),
-    ...videos.map(url => ({ type: 'video' as const, url }))
-  ];
+    // Crear array de medios con información de tipo
+    const media: MediaItem[] = [
+        ...images.map(url => ({ type: 'image' as const, url })),
+        ...videos.map(url => ({
+            type: 'video' as const, 
+            url,
+            thumbnail: `https://img.youtube.com/vi/${url.split('v=')[1]}/hqdefault.jpg`
+        }))
+    ];
 
-  const currentMedia = media[currentIndex];
-  const isVideo = currentMedia?.type === 'video';
+    const currentMedia = media[currentIndex];
+    const isVideo = currentMedia?.type === 'video';
 
-  const nextMedia = () => {
-    setCurrentIndex((prev) => (prev + 1) % media.length);
-  };
+    // Navegación entre medios
+    const nextMedia = useCallback(() => {
+        const newIndex = (currentIndex + 1) % media.length;
+        setCurrentIndex(newIndex);
+        onIndexChange?.(newIndex);
+    }, [currentIndex, media.length, onIndexChange]);
 
-  const prevMedia = () => {
-    setCurrentIndex((prev) => (prev - 1 + media.length) % media.length);
-  };
+    const prevMedia = useCallback(() => {
+        const newIndex = (currentIndex - 1 + media.length) % media.length;
+        setCurrentIndex(newIndex);
+        onIndexChange?.(newIndex);
+    }, [currentIndex, media.length, onIndexChange]);
+
+    // FUNCIONALIDAD DE MODAL VIDEO
 
   const openVideoModal = (videoUrl: string) => {
     setCurrentVideo(videoUrl);
@@ -98,7 +115,7 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({ images, videos }) => {
           </div>
         )}
 
-        {/* Navigation arrows */}
+        {/* Flechas de Navigación */}
         {media.length > 1 && (
           <>
             <button
@@ -119,9 +136,9 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({ images, videos }) => {
         )}
       </div>
 
-      {/* Thumbnails */}
+      {/* Miniatura */}
       {media.length > 1 && (
-        <div className="grid grid-cols-4 gap-3 mt-4">
+        <div className="grid grid-cols-4 gap-3 mt-4 px-4">
           {media.map((item, index) => (
             <div key={index} className="relative">
               {renderThumbnail(item, index)}
@@ -150,7 +167,7 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({ images, videos }) => {
               autoPlay
               className="w-full h-full rounded-lg"
             >
-              Your browser does not support the video tag.
+              
             </video>
           </div>
         </div>

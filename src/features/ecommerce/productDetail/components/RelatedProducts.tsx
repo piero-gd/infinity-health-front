@@ -1,59 +1,66 @@
-import { ShoppingCart } from "lucide-react";
+import { mockProduct } from "../data/mockProduct";
+import { ProductCardDashboardSpetial } from "./ProductCardDashboardSpetial";
+import type { RelatedProductsProps } from "../types";
 
-// Related Products Component
-export const RelatedProducts: React.FC = () => {
-    const relatedProducts = [
-      { id: '1' },
-      { id: '2' },
-      { id: '3' },
-      { id: '4' }
-    ];
-  
-    const handleBuyProduct = (productId: string) => {
-      console.log(`Comprando producto: ${productId}`);
-      // Aquí iría la lógica de compra
-    };
-  
-    return (
-      <div className="mt-16">
-
-        {/* Título y Descripción */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mt-8 mb-14">
-          {/* Lado izquierdo con título */}
-          <div>
-            <h2 className="ml-8 text-3xl font-bold text-gray-900">
-              Productos relacionados
-            </h2>
-          </div>
-  
-          {/* Lado Derecho con descripción */}
-          <div>
-            <p className="ml-22 text-gray-500 text-sm leading-relaxed">
-              Lorem Ipsum Dolor Sit Amet Consectetur. Vel A Posuere Habitant Nunc Sit Eget Etiam. Sed In Duis In Scelerisque.
-              Ipsum Dolor Sit Amet Consectetur. Vel A Posuere Habitant Nunc Sit Eget Etiam. Sed In Duis In Scelerisque.
-            </p>
-          </div>
-        </div> 
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Productos */}
-          {relatedProducts.map((product) => (
-            <div key={product.id} className="relative">
-              {/* Tarjeta de producto */}
-              <div className="bg-gray-300 rounded-2xl aspect-[7/10] relative flex items-end p-8">
-                {/* Botón de compra */}
-                <button
-                  onClick={() => handleBuyProduct(product.id)}
-                  className="w-full bg-gray-600 hover:bg-gray-700 text-white py-2.5 rounded-full text-sm font-medium transition-colors flex items-center justify-center gap-2 ml-8 mr-8 "
-                >COMPRAR
-                  <ShoppingCart size={16} />
-                  
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-      </div>
+export const RelatedProducts: React.FC<RelatedProductsProps> = ({ 
+    currentProductId, 
+    category,
+    products = mockProduct // Usar mockProduct como valor por defecto
+}) => {
+    // Filtrar productos de la misma categoría, excluyendo el producto actual
+    let relatedProducts = products.filter(
+        (product) => 
+            product.categoria.toLowerCase() === category.toLowerCase() && 
+            product.id !== currentProductId
     );
-  };
+
+    // Si no hay suficientes productos relacionados, mostrar productos de otras categorías
+    if (relatedProducts.length < 4) {
+        const additionalProducts = products
+            .filter(p => p.id !== currentProductId && !relatedProducts.some(rp => rp.id === p.id))
+            .slice(0, 4 - relatedProducts.length);
+        relatedProducts = [...relatedProducts, ...additionalProducts];
+    }
+
+    // Limitar a 4 productos
+    relatedProducts = relatedProducts.slice(0, 4);
+
+    if (relatedProducts.length === 0) return null;
+
+    console.log('Productos relacionados:', relatedProducts); // Para depuración
+    
+    return (
+        <div className="mt-16 w-full">
+            {/* Title and Description */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
+                <div>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                        Productos relacionados
+                    </h2>
+                </div>
+                <div>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                        {relatedProducts.some(p => p.categoria.toLowerCase() === category.toLowerCase()) 
+                            ? 'Descubre más productos de la misma categoría que podrían interesarte.'
+                            : 'Productos que podrían interesarte.'}
+                    </p>
+                </div>
+            </div>
+
+            {/* Grid of related products */}
+            <div className="w-full overflow-x-auto pb-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full min-w-max">
+                    {relatedProducts.map((product) => (
+                        <div key={product.id} className="w-full max-w-xs mx-auto">
+                            <ProductCardDashboardSpetial
+                                product={product}
+                                onAddToCart={() => console.log('Añadir al carrito:', product.id)}
+                                onToggleFavorite={() => console.log('Toggle favorito:', product.id)}
+                            />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
