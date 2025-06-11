@@ -1,0 +1,19 @@
+.zs-wrapper {
+  width: 100%;
+  height: calc(100vh - 160px); /* ajusta según el header/footer */
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.zs-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.zs-loading, .zs-error {
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+  padding: 1rem;
+  text-align: center;
+}

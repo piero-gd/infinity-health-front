@@ -22,7 +22,7 @@ const modules = [
   {
     name: "Academia",
     icon: <FaChalkboardTeacher className="h-6 w-6" />,
-    route: "/academy",
+    route: "/academy/course/1",
   },
 ];
 
