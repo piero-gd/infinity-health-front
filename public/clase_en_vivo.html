@@ -18,23 +18,24 @@
     <style>
       html,
       body {
-        height: 100vh;
         margin: 0;
         padding: 0;
+        height: 100vh;
+        overflow: hidden; /* Evita barras de desplazamiento */
       }
       /* Contenedor de Zoom */
       .zoom-container {
         width: 100%;
-        height: calc(100vh - var(--header-height));
+        height: 100%;
         position: relative;
         background: #000;
       }
 
       .zoom-iframe {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         border: none;
-        background: #000;
+        display: block; /* Asegura que no haya espacios adicionales */
       }
 
       /* Aviso de permisos para PC */
