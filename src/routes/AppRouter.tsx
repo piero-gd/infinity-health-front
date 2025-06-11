@@ -5,6 +5,7 @@ import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
+import AcademyPage from "../features/academy/AcademyPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
             <Route path="/exercises" element={<ExercisesHome />} />
             <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
             <Route path="/calculator" element={<CalculatorPage />} />
+            <Route path="/academy" element={<AcademyPage />} />
           </Route>
 
         {/* cambio temporal

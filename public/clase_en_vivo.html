@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Clase en Vivo - {{ course_title }} | Infinity Health</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      html,
+      body {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      /* Contenedor de Zoom */
+      .zoom-container {
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        position: relative;
+        background: #000;
+      }
+
+      .zoom-iframe {
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        background: #000;
+      }
+
+      /* Aviso de permisos para PC */
+      .permissions-notice {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        color: white;
+        padding: 12px;
+        text-align: center;
+        font-size: 0.9rem;
+        z-index: 5;
+        display: none;
+        animation: slideDown 0.3s ease-out;
+      }
+
+      .permissions-notice.show {
+        display: block;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Mensaje de Error */
+      .error-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--secondary);
+        padding: 25px;
+        border-radius: var(--border-radius);
+        text-align: center;
+        max-width: 90%;
+        width: 400px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: none;
+        z-index: 20;
+      }
+
+      .error-icon {
+        font-size: 2.5rem;
+        color: var(--error);
+        margin-bottom: 15px;
+      }
+
+      .error-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .error-description {
+        color: var(--text-light);
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 576px) {
+        .header {
+          flex-wrap: wrap;
+          height: auto;
+          padding: 10px 15px;
+          gap: 10px;
+        }
+
+        .logo {
+          width: 32px;
+          height: 32px;
+        }
+
+        .header-content {
+          order: 1;
+          width: 100%;
+        }
+
+        .header-actions {
+          order: 2;
+          width: 100%;
+          justify-content: flex-end;
+        }
+
+        .header-meta {
+          flex-wrap: wrap;
+          gap: 5px;
+        }
+
+        .zoom-container {
+          height: calc(100vh - 110px);
+        }
+      }
+
+      @media (max-height: 500px) and (orientation: landscape) {
+        .header {
+          height: 50px;
+          padding: 0 10px;
+        }
+
+        .zoom-container {
+          height: calc(100vh - 50px);
+        }
+
+        .footer {
+          display: none;
+        }
+      }
+
+      /* Accesibilidad */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- iframe zoom. Variables servidas desde el API: metting_number, meeting_password, meeting_user, course_title, instructor -->
+    <iframe
+      id="zoomIframe"
+      class="zoom-iframe"
+      src="https://zoom.us/wc/join/{{ meeting_number }}?pwd={{ meeting_password }}&uname={{ meeting_user }}&userName={{ meeting_user }}&lang=es-ES"
+      allow="microphone *; camera *; microphone https://zoom.us; camera https://zoom.us; fullscreen; display-capture; autoplay; encrypted-media; geolocation"
+      allowfullscreen
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals allow-popups-to-escape-sandbox"
+      loading="eager"
+      title="Sesión de Zoom - {{ course_title }}"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+
+    <script>
+      // Variables de estado
+      let connectionAttempts = 0;
+      const maxAttempts = 3;
+      let isConnected = false;
+      let connectionTimeout;
+      let isDesktop = false;
+
+      // Elementos del DOM
+      const iframe = document.getElementById("zoomIframe");
+      const loadingOverlay = document.getElementById("loadingOverlay");
+      const errorMessage = document.getElementById("errorMessage");
+      const statusText = document.getElementById("status-text");
+      const permissionsNotice = document.getElementById("permissionsNotice");
+
+      // Detectar dispositivo
+      function detectDevice() {
+        const userAgent = navigator.userAgent;
+        isDesktop =
+          !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            userAgent
+          );
+
+        // Mostrar aviso de permisos en PC
+        if (isDesktop) {
+          setTimeout(() => {
+            permissionsNotice.classList.add("show");
+          }, 2000);
+
+          // Auto-ocultar el aviso después de 10 segundos
+          setTimeout(() => {
+            hidePermissionsNotice();
+          }, 12000);
+        }
+      }
+
+      // Ocultar aviso de permisos
+      function hidePermissionsNotice() {
+        permissionsNotice.classList.remove("show");
+      }
+
+      // Solicitar permisos de medios (para navegadores compatibles)
+      async function requestMediaPermissions() {
+        if (
+          isDesktop &&
+          navigator.mediaDevices &&
+          navigator.mediaDevices.getUserMedia
+        ) {
+          try {
+            // Solicitar permisos de cámara y micrófono
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: true,
+              audio: true,
+            });
+
+            // Detener el stream inmediatamente (solo queríamos los permisos)
+            stream.getTracks().forEach((track) => track.stop());
+
+            console.log("Permisos de medios concedidos");
+            logEvent("media_permissions_granted");
+          } catch (error) {
+            console.warn("No se pudieron obtener permisos de medios:", error);
+            logEvent("media_permissions_denied");
+
+            // Mostrar mensaje informativo
+            showMediaPermissionsHelp();
+          }
+        }
+      }
+
+      // Mostrar ayuda para permisos de medios
+      function showMediaPermissionsHelp() {
+        const helpDialog = document.createElement("div");
+        helpDialog.style.position = "fixed";
+        helpDialog.style.top = "0";
+        helpDialog.style.left = "0";
+        helpDialog.style.width = "100%";
+        helpDialog.style.height = "100%";
+        helpDialog.style.backgroundColor = "rgba(0,0,0,0.8)";
+        helpDialog.style.zIndex = "1000";
+        helpDialog.style.display = "flex";
+        helpDialog.style.alignItems = "center";
+        helpDialog.style.justifyContent = "center";
+        helpDialog.style.padding = "20px";
+
+        helpDialog.innerHTML = `
+                <div style="background: var(--secondary); padding: 30px; border-radius: var(--border-radius); max-width: 500px; text-align: center; position: relative;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-light); font-size: 1.2rem; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">Configurar Permisos de Cámara y Micrófono</h3>
+                    <div style="text-align: left; margin-bottom: 20px; line-height: 1.6;">
+                        <p style="margin-bottom: 15px;">Para participar completamente en la clase, necesitas:</p>
+                        <ol style="padding-left: 20px; margin-bottom: 15px;">
+                            <li style="margin-bottom: 8px;">Hacer clic en el ícono de cámara/micrófono en la barra de direcciones</li>
+                            <li style="margin-bottom: 8px;">Seleccionar "Permitir" para cámara y micrófono</li>
+                            <li style="margin-bottom: 8px;">Recargar la página si es necesario</li>
+                        </ol>
+                        <p style="color: var(--text-light); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> 
+                            Los permisos solo se solicitan cuando intentas activar tu cámara o micrófono en Zoom.
+                        </p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="btn btn-primary">
+                        Entendido
+                    </button>
+                </div>
+            `;
+
+        document.body.appendChild(helpDialog);
+      }
+
+      // Manejar carga exitosa del iframe
+      function handleIframeLoad() {
+        clearTimeout(connectionTimeout);
+        setTimeout(() => {
+          loadingOverlay.style.display = "none";
+          statusText.textContent = "Conectado";
+          document.querySelector(".status-indicator").style.backgroundColor =
+            "var(--success)";
+          isConnected = true;
+
+          // Solicitar permisos después de la conexión exitosa
+          if (isDesktop) {
+            setTimeout(requestMediaPermissions, 3000);
+          }
+
+          // Registrar evento de conexión exitosa
+          logEvent("zoom_connection_success");
+        }, 1500);
+      }
+
+      // Manejar errores de conexión
+      function handleIframeError() {
+        clearTimeout(connectionTimeout);
+        connectionAttempts++;
+
+        if (connectionAttempts >= maxAttempts) {
+          showError();
+          logEvent("zoom_connection_failed");
+        } else {
+          retryConnection();
+        }
+      }
+
+      // Mostrar estado de error
+      function showError() {
+        loadingOverlay.style.display = "none";
+        errorMessage.style.display = "block";
+        statusText.textContent = "Error de conexión";
+        document.querySelector(".status-indicator").style.backgroundColor =
+          "var(--error)";
+      }
+
+      // Reintentar conexión
+      function retryConnection() {
+        errorMessage.style.display = "none";
+        loadingOverlay.style.display = "flex";
+        statusText.textContent = `Reintentando (${connectionAttempts}/${maxAttempts})...`;
+        document.querySelector(".status-indicator").style.backgroundColor =
+          "var(--warning)";
+
+        // Forzar recarga del iframe
+        const originalSrc = iframe.src.split("?")[0];
+        const params = iframe.src.split("?")[1];
+        iframe.src = `${originalSrc}?t=${Date.now()}&${params}`;
+
+        // Timeout para detectar fallos
+        connectionTimeout = setTimeout(() => {
+          if (!isConnected) handleIframeError();
+        }, 10000);
+
+        logEvent("zoom_connection_retry");
+      }
+
+      // Navegar al inicio
+      function goHome() {
+        if (
+          !isConnected ||
+          confirm("¿Estás seguro de que quieres salir de la clase?")
+        ) {
+          logEvent("zoom_navigate_home");
+          window.location.href = "https://infinityhealth.fit/";
+        }
+      }
+
+      // Mostrar ayuda
+      function showHelp() {
+        const helpContent = `
+                <div style="text-align: left; max-width: 500px; margin: 0 auto;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; text-align: center;">
+                        <i class="fas fa-life-ring"></i> Ayuda para la Clase en Vivo
+                    </h3>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li style="margin-bottom: 10px;">
+                            <strong><i class="fas fa-microphone"></i> Micrófono:</strong> Alt + A (activar/desactivar)
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong><i class="fas fa-video"></i> Cámara:</strong> Alt + V (activar/desactivar)
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong><i class="fas fa-expand"></i> Pantalla completa:</strong> Click en el ícono correspondiente
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong><i class="fas fa-wifi"></i> Problemas de conexión:</strong> Prueba reiniciando tu router
+                        </li>
+                        <li style="margin-bottom: 10px;">
+                            <strong><i class="fas fa-shield-alt"></i> Permisos:</strong> Permite cámara y micrófono cuando se solicite
+                        </li>
+                    </ul>
+                    <div style="background: var(--primary-light); padding: 15px; border-radius: var(--border-radius-sm); margin-top: 20px;">
+                        <p style="color: var(--primary); font-weight: 500; margin-bottom: 5px;">
+                            <i class="fas fa-lightbulb"></i> Consejo para PC:
+                        </p>
+                        <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">
+                            Si no puedes activar tu cámara o micrófono, verifica los permisos del navegador haciendo clic en el ícono de candado junto a la URL.
+                        </p>
+                    </div>
+                    <p style="margin-top: 20px; color: var(--text-light); font-size: 0.9em; text-align: center;">
+                        Si necesitas más ayuda, contacta a nuestro equipo de soporte técnico.
+                    </p>
+                </div>
+            `;
+
+        const helpDialog = document.createElement("div");
+        helpDialog.style.position = "fixed";
+        helpDialog.style.top = "0";
+        helpDialog.style.left = "0";
+        helpDialog.style.width = "100%";
+        helpDialog.style.height = "100%";
+        helpDialog.style.backgroundColor = "rgba(0,0,0,0.8)";
+        helpDialog.style.zIndex = "1000";
+        helpDialog.style.display = "flex";
+        helpDialog.style.alignItems = "center";
+        helpDialog.style.justifyContent = "center";
+        helpDialog.style.padding = "20px";
+        helpDialog.innerHTML = `
+                <div style="background: var(--secondary); padding: 25px; border-radius: var(--border-radius); max-width: 90%; max-height: 90%; overflow-y: auto; position: relative;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-light); font-size: 1.2rem; cursor: pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    ${helpContent}
+                </div>
+            `;
+
+        document.body.appendChild(helpDialog);
+        logEvent("zoom_help_opened");
+      }
+
+      // Registrar eventos (simulado)
+      function logEvent(eventName) {
+        console.log(`Evento registrado: ${eventName}`);
+        // Aquí iría la implementación real de tracking
+      }
+
+      // Inicialización
+      function init() {
+        detectDevice();
+
+        // Configurar event listeners
+        iframe.addEventListener("load", handleIframeLoad);
+        iframe.addEventListener("error", handleIframeError);
+
+        // Timeout inicial para conexión
+        connectionTimeout = setTimeout(() => {
+          if (!isConnected) handleIframeError();
+        }, 15000);
+      }
+
+      // Optimizaciones para móviles
+      if (!isDesktop) {
+        // Prevenir zoom en iOS
+        document.addEventListener("gesturestart", (e) => e.preventDefault());
+
+        // Manejar cambios de orientación
+        window.addEventListener("orientationchange", () => {
+          setTimeout(() => window.scrollTo(0, 0), 100);
+        });
+      }
+
+      // Manejar cambios de visibilidad de la página
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          statusText.textContent = "Sesión en segundo plano";
+          logEvent("zoom_backgrounded");
+        } else if (isConnected) {
+          statusText.textContent = "Conectado";
+          logEvent("zoom_foregrounded");
+        }
+      });
+
+      // Confirmar antes de salir
+      window.addEventListener("beforeunload", (e) => {
+        if (isConnected) {
+          e.preventDefault();
+          e.returnValue = "¿Estás seguro de que quieres salir de la clase?";
+          logEvent("zoom_exit_attempt");
+        }
+      });
+
+      // Inicializar cuando el DOM esté listo
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    </script>
+  </body>
+</html>

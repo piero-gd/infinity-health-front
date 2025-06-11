@@ -1,6 +1,7 @@
 import React from "react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { CgCalculator, CgGym } from "react-icons/cg";
+import { FaChalkboardTeacher } from "react-icons/fa";
 
 interface AppSidebarProps {
   open: boolean;
@@ -17,6 +18,11 @@ const modules = [
     name: "Calculadora",
     icon: <CgCalculator className="h-6 w-6" />,
     route: "/calculator",
+  },
+  {
+    name: "Academia",
+    icon: <FaChalkboardTeacher className="h-6 w-6" />,
+    route: "/academy",
   },
 ];
 
