@@ -1,5 +1,5 @@
 import { mockProduct } from "../data/mockProduct";
-import { ProductCardDashboardSpetial } from "./ProductCardDashboardSpetial";
+import ProductCardDashboardSpecial from "./ProductCardDashboardSpecial";
 import type { RelatedProductsProps } from "../types";
 
 export const RelatedProducts: React.FC<RelatedProductsProps> = ({ 
@@ -52,7 +52,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full min-w-max">
                     {relatedProducts.map((product) => (
                         <div key={product.id} className="w-full max-w-xs mx-auto">
-                            <ProductCardDashboardSpetial
+                            <ProductCardDashboardSpecial
                                 product={product}
                                 onAddToCart={() => console.log('Añadir al carrito:', product.id)}
                                 onToggleFavorite={() => console.log('Toggle favorito:', product.id)}

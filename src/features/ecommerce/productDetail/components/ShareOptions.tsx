@@ -82,14 +82,12 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
       
       <div className=" py-3 justify-between pt-14">
         <div className="flex gap-6 grid grid-cols-4 xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2">
-          {payIcons.map(({ icon: Icon, label, color }) => (
+          {payIcons.map(({ icon: Icon, color }) => (
             <button
-              key={label}
               className={`px-11 py-6 rounded-sm border-2 border-gray-300  bg-gray-50  hover:bg-gray-100 transition-colors ${color}`}
-              aria-label={`Pagar con ${label}`}
             >
-              <div className="">
-                <Icon  className="w-12 h-12 items-center justify-center" />
+              <div className="flex items-center justify-center">
+                <Icon  className="w-12 h-12" />
               </div>
             </button>
           ))}
