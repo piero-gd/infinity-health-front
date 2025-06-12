@@ -9,7 +9,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     },
     ...options,
   });
-
+  console.log(token, res.status, res.statusText, res.url);
   if (!res.ok) {
     const errText = await res.text();
     throw new Error(`Error ${res.status}: ${errText}`);
