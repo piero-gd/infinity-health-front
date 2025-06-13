@@ -1,10 +1,8 @@
-# Fase 1: Construcción
-FROM node:20-alpine AS builder
+# Etapa 1: Construcción
+FROM node:20 AS builder
 
-# Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos necesarios
 COPY package*.json ./
 COPY tsconfig*.json ./
 COPY vite.config.* ./
@@ -15,19 +13,19 @@ RUN npm install
 RUN npm install rollup --force
 RUN npm run build
 
-# Fase 2: Servidor de producción
-FROM node:20-alpine AS runner
+# Etapa 2: Servidor de producción
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Instalar vite de forma global para servir la app
-RUN npm install -g vite
+# Instala un servidor estático ligero
+RUN npm install -g serve
 
-# Copiar el directorio dist generado
+# Copia archivos estáticos generados
 COPY --from=builder /app/dist /app/dist
 
-# Puerto por defecto de vite preview
-EXPOSE 4173
+# Exponer el puerto 3000
+EXPOSE 3000
 
-# Comando para servir la aplicación en producción
-CMD ["vite", "preview", "--port", "4173", "--host"]
+# Comando para servir la app
+CMD ["serve", "-s", "dist", "-l", "3000"]
