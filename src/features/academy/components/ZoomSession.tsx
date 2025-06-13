@@ -56,6 +56,7 @@
 import React, { useState, useEffect } from 'react';
 import { getZoomSession, type ZoomSessionData } from '../utils/api'; // Asegúrate de que la ruta sea correcta
 import '../styles/ZoomSession.css';
+import Loader from '../../../components/Loader';
 
 interface Props {
   courseId: number;
@@ -79,7 +80,7 @@ const ZoomSession: React.FC<Props> = ({ courseId }) => {
       .finally(() => setLoading(false));
   }, [courseId]);
 
-  if (loading) return <div className="zs-loading">Cargando sesión...</div>;
+  if (loading) return <Loader message="Cargando sesión..." />;
   if (error)   return <div className="zs-error">{error}</div>;
   if (!session) return null;
 

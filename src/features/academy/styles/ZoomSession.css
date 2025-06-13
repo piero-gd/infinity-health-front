@@ -1,6 +1,6 @@
 .zs-wrapper {
   width: 100%;
-  height: calc(100vh - 160px); /* ajusta según el header/footer */
+  height: calc(100vh - 210px); /* ajusta según el header/footer */
   border-radius: 0.5rem;
   overflow: hidden;
 }
