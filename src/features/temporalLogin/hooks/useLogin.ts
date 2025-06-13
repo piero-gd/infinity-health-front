@@ -16,11 +16,11 @@ export const useLogin = () => {
 
     try {
       const response = await authApi(credentials);
-      
+      console.log('Login response:', response);
       // Guardar datos en localStorage
-      localStorage.setItem('accessToken', response.accessToken);
-      if (response.refreshToken) {
-        localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('accessToken', response.access);
+      if (response.refresh) {
+        localStorage.setItem('refreshToken', response.refresh);
       }
       
       // Guardar el username en localStorage
