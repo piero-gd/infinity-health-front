@@ -13,7 +13,7 @@ interface UserHeaderProps {
 
 export default function UserHeader({ userData }: UserHeaderProps) {
   return (
-    <div className="pt-4 px-6 -mt-6 mb-6">
+    <div className="pt-4 px-2 -mt-6 mb-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center space-x-2">
           
@@ -30,7 +30,7 @@ export default function UserHeader({ userData }: UserHeaderProps) {
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <button className="bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-bottom)] hover:to-[var(--color-btn-gradient-top)] text-white py-2 px-5 rounded-full shadow-lg text-sm font-medium transition-all flex justify-right gap-2">
           Copia tu link de referidos
-          <PiPlusBold size={22} />
+          <PiPlusBold size={20} />
           </button>
         </div>
       </div>

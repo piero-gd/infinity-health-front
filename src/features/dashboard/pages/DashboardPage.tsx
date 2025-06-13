@@ -1,9 +1,10 @@
 import UserHeader from '../components/UserHeader';
 import StatsCards from '../components/StatsCards';
-import LinkeableServices from '../components/LinkeableServices';
+import ClickeableServices from '../components/ClickeableServices';
 import TemporalProductCard from '../components/TemporalProductCard';
 import NutritionalPlan from '../components/NutritionalPlan';
 import { mockUserData, mockUserStats } from '../data/mockDataUser';
+import ClientProgress from '../components/ClientProgress';
 
 interface DashboardPageProps {
     userData:   typeof mockUserData;
@@ -24,21 +25,28 @@ export default function DashboardPage({
           <StatsCards userStats={userStats} />
         </div>
 
-<div className="flex gap-6">
-        {/* SECCIÓN PRODUCTOS*/}
-        <div className="mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">  
-        <TemporalProductCard />
-        </div>
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* SECCIÓN PRODUCTOS - 4/6 del ancho */}
+          <div className="w-full lg:w-2/3 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">  
+            <TemporalProductCard />
+          </div>
 
-        {/* SECCIÓN PLAN NUTRICIONAL*/}
-        <div className="mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">  
-        <NutritionalPlan />
-        </div>
+          {/* SECCIÓN PLAN NUTRICIONAL - 2/6 del ancho */}
+          <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">  
+            <NutritionalPlan />
+          </div>
         </div>
 
         {/* SECCIÓN SERVICIOS*/}
-        <div className="mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 p-14">  
-        <LinkeableServices />
+        <div className="flex flex-col lg:flex-row gap-6 mt-4">
+          {/* SECCIÓN Clickeable - 3/6 del ancho*/}
+        <div className="w-full lg:w-1/2 mb-6">  
+          <ClickeableServices />
+        </div>
+        {/* SECCIÓN Clickeable - 3/6 del ancho*/}
+        <div className="w-full lg:w-1/2 mb-6">  
+          <ClientProgress />
+        </div>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import type { UserData, UserStats } from '../types/index';
 
   export const mockUserData: UserData = {
-    name: "Juan Pérez",
-    email: "juan@email.com",
+    name: "Jimmy Gallo",
+    email: "jimmy@email.com",
     memberSince: "Enero 2024",
     avatar: "img/hombre.png"
   };
