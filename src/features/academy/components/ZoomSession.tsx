@@ -53,38 +53,18 @@
 
 // export default ZoomSession;
 
-import React, { useState, useEffect } from 'react';
-import { getZoomSession, type ZoomSessionData } from '../utils/api'; // Asegúrate de que la ruta sea correcta
+import React from 'react';
 import '../styles/ZoomSession.css';
-import Loader from '../../../components/Loader';
+import type { ZoomSessionData } from '../utils/api';
 
 interface Props {
   courseId: number;
+  session: ZoomSessionData;
 }
 
-const ZoomSession: React.FC<Props> = ({ courseId }) => {
-  const [session, setSession] = useState<ZoomSessionData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getZoomSession(courseId)
-      .then(res => {
-        if (res.status === 'success') {
-          setSession(res.data);
-        } else {
-          setError('No se pudo cargar la sesión');
-        }
-      })
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [courseId]);
-
-  if (loading) return <Loader message="Cargando sesión..." />;
-  if (error)   return <div className="zs-error">{error}</div>;
-  if (!session) return null;
-
+const ZoomSession: React.FC<Props> = ({ session }) => {
   const { meeting_number, meeting_password, meeting_user, course_title } = session;
+
   const zoomUrl = [
     `https://zoom.us/wc/join/${meeting_number}`,
     `?pwd=${meeting_password}`,
