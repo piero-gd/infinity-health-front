@@ -8,7 +8,9 @@ COPY tsconfig*.json ./
 COPY vite.config.* ./
 COPY . .
 
+RUN rm -rf node_modules package-lock.json
 RUN npm install
+RUN npm install rollup --force
 RUN npm run build
 
 # Etapa 2: Servidor de producción
