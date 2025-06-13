@@ -99,7 +99,7 @@ const ZoomSession: React.FC<Props> = ({ courseId }) => {
         className="zs-iframe"
         src={zoomUrl}
         title={`Sesión: ${course_title}`}
-        allow="microphone *; camera *; fullscreen; display-capture; autoplay; encrypted-media; geolocation"
+        allow="microphone; camera; fullscreen; display-capture; autoplay; encrypted-media; geolocation"
         allowFullScreen
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals allow-popups-to-escape-sandbox"
         loading="eager"

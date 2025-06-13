@@ -10,10 +10,9 @@ COPY tsconfig*.json ./
 COPY vite.config.* ./
 COPY . .
 
-# Instalar dependencias
+RUN rm -rf node_modules package-lock.json
 RUN npm install
-
-# Construir el proyecto
+RUN npm install rollup --force
 RUN npm run build
 
 # Fase 2: Servidor de producción
