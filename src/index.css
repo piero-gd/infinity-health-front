@@ -58,6 +58,14 @@ h1, h2 {
   background-repeat: no-repeat;
 }
 
+.bg-exercises-wallpaper-long {
+  
+  background-image: url('/img/exercise-wallpaper-long.png');
+  background-size: cover;
+  
+  
+}
+
 h3 {
   font-family: 'Poppins', sans-serif;
   font-size: var(--text-xl);

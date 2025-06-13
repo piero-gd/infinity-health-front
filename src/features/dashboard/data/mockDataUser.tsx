@@ -9,7 +9,7 @@ import type { UserData, UserStats } from '../types/index';
   
   export const mockUserStats: UserStats = {
     balance: 1250.00,
-    commissions: 325.50,
-    activeRoutines: 3,
-    completedWorkouts: 47
+    commissions: 10293,
+    activeRoutines: 5400,
+    completedWorkouts: 400
   };

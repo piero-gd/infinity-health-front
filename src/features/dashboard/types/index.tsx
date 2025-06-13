@@ -26,6 +26,7 @@ export interface UserData {
   export interface Product {
     id: number;
     nombre: string;
+    descripcion: string;
     precionuevo: number;
     precioanterior: number;
     valoracion: number;
