@@ -74,7 +74,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
 
                {/* Bottom Section - Oval with embedded cart button */}
 <div className="absolute bottom-4 left-8 right-8">
-    <div className="relative bg-white/88 backdrop-blur-lg rounded-full px-7 py-2 shadow-lg flex border-1 border-white items-center justify-between">
+    <div className="relative bg-gray/98 backdrop-blur-xl rounded-full px-7 py-2 shadow-lg flex border-1 border-white items-center justify-between">
         {/* Price */}
         <div className="text-md font-black text-black">
             {formatPrice(product.precio)}

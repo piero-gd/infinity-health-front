@@ -20,7 +20,7 @@ export const mockProduct = [{
     precioAnterior: 250,
     categoria: 'Categoria 2',
     descripcion: 'Descripcion del producto 2',
-    imagenes: ['https://images.unsplash.com/photo-1702569258559-e0b4d469b2c2?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'https://images.unsplash.com/photo-1702569258559-e0b4d469b2c2?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'https://via.placeholder.com/150'],
+    imagenes: ['../img/productodestacado.png', 'https://images.unsplash.com/photo-1702569258559-e0b4d469b2c2?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'https://via.placeholder.com/150'],
     videos: ['https://via.placeholder.com/150'],
     stock: 10,
     resena: 'Resena del producto 2',
