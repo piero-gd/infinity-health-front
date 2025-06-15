@@ -11,6 +11,7 @@ interface MediaItem {
 export const PhotoSlider: React.FC<PhotoSliderProps> = ({ 
     images, 
     videos,
+    videoThumbnails = [],
     currentIndex: externalIndex = 0,
     onIndexChange
 }) => {
@@ -26,10 +27,10 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
     // Crear array de medios con información de tipo
     const media: MediaItem[] = [
         ...images.map(url => ({ type: 'image' as const, url })),
-        ...videos.map(url => ({
+        ...videos.map((url, index) => ({
             type: 'video' as const, 
             url,
-            thumbnail: `https://img.youtube.com/vi/${url.split('v=')[1]}/hqdefault.jpg`
+            thumbnail: videoThumbnails[index] || ''
         }))
     ];
 
@@ -74,12 +75,21 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
         }`}
       >
         {isVideoItem && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-            <Play size={20} className="text-white" fill="white" />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/30 z-10">
+            <Play size={16} className="text-white" fill="white" />
           </div>
         )}
-        <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400">
-          {isVideoItem ? 'Video' : 'Image'}
+        <div className="w-full h-full">
+          <img
+            src={isVideoItem ? item.thumbnail || '' : item.url}
+            alt={isVideoItem ? `Video thumbnail ${index + 1}` : `Image ${index + 1}`}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = 'https://via.placeholder.com/100';
+              target.className = 'w-full h-full object-contain p-2';
+            }}
+          />
         </div>
       </button>
     );
@@ -99,14 +109,23 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity group-hover:opacity-100">
                   <Play size={64} className="text-white/90" fill="white" />
                 </div>
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500">Video Preview</span>
-                </div>
+                <img
+                  src={currentMedia.thumbnail || ''}
+                  alt={`Video thumbnail ${currentIndex + 1}`}
+                  className="w-full h-full object-cover"
+                />
               </button>
             ) : (
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500">Image {currentIndex + 1}</span>
-              </div>
+              <img
+                src={currentMedia.url}
+                alt={`Product image ${currentIndex + 1}`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = 'https://via.placeholder.com/600';
+                  target.className = 'w-full h-full object-contain p-8';
+                }}
+              />
             )}
           </div>
         ) : (

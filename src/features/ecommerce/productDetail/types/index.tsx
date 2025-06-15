@@ -8,6 +8,7 @@ export interface Product {
     descripcion: string;
     imagenes: string[];
     videos: string[];
+    videoThumbnails?: string[];  // Nuevo campo para miniaturas de video
     stock: number;
     resena: string;
     calificacion: number;
@@ -40,6 +41,7 @@ export interface ProductCardProps {
 export interface PhotoSliderProps {
     images: string[];
     videos: string[];
+    videoThumbnails?: string[];
     currentIndex?: number;
     onIndexChange?: (index: number) => void;
 }
