@@ -1,4 +1,4 @@
-const API_ROOT = 'https://infinityhealthapi.onrender.com';
+const API_ROOT = import.meta.env.VITE_API_URL;
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('accessToken');

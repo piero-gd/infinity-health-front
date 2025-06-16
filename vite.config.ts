@@ -12,7 +12,7 @@ export default defineConfig({
     proxy: {
       // todas las peticiones que empiecen con /api
       '/api': {
-        target: 'https://infinityhealthapi.onrender.com/',
+        target: process.env.API_PROXY_TARGET,
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
