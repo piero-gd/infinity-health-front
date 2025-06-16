@@ -40,6 +40,15 @@
     --color-btn-gradient-top: #1798E0;
     --color-btn-gradient-border: #1798E0;
     --color-btn-whatsapp: #25D366;
+
+    /* Footer */
+    --color-footer: #2F2F2F;
+    --color-gray: #36454F	;
+    --footer-bluemain: #1798E0;
+    --footer-bluedark: #012F4A;
+    --footer-bluelight: #4DB8F0;
+    --footer-gradient: radial-gradient(circle at center, #1798E0 94%, #012F4A 100%);
+
 }
 
 body {

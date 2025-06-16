@@ -3,11 +3,11 @@ import SimpleLayout from "../layouts/SimpleLayout";
 import ExercisesHome from "../features/exercises/pages/ExercisesHome";
 import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
-import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 import AcademyPage from "../features/academy/pages/AcademyPage";
+import TestLayout from "../layouts/TestLayout";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
