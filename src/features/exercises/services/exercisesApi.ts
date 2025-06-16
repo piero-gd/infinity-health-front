@@ -1,6 +1,6 @@
 import type { Exercise } from "../types/exercise";
 
-const API_URL = "https://infinityhealthapi.onrender.com/api/fit-bibliotec/exercisess/";
+const API_URL = "https://infinityhealthapi.onrender.com/api/fit-bibliotec/exercises/";
 
 export async function fetchExercises(): Promise<Exercise[]> {
   const res = await fetch(API_URL);

@@ -14,7 +14,7 @@ export default function ExerciseDetailPage() {
   const navigate = useNavigate();
 
   if (loading) return <Loader message="Cargando ejercicio..." />;
-  if (error) return <div>Error: {error}</div>;
+  if (error) throw new Error('Error al cargar el ejercicio');
 
   const exercise = exercises.find(e => String(e.id) === String(id));
   if (!exercise) return <div className="text-center mt-10">Ejercicio no encontrado</div>;
