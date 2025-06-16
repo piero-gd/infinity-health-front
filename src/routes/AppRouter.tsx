@@ -5,27 +5,63 @@ import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
+import AcademyPage from "../features/academy/pages/AcademyPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route element={<SimpleLayout onLogout={onLogout} />}>
-            <Route path="/exercises" element={<ExercisesHome />} />
-            <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
-            <Route path="/calculator" element={<CalculatorPage />} />
-          </Route>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<SimpleLayout onLogout={onLogout} />}>
+          <Route
+            path="/exercises"
+            element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <ExercisesHome />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/exercises/:id"
+            element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <ExerciseDetailPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/calculator"
+            element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <CalculatorPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/academy"
+            element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <Navigate to="/academy/course/1" replace />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/academy/course/:id"
+            element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <AcademyPage />
+              </ErrorBoundary>
+            }
+          />
+        </Route>
 
-        {/* cambio temporal
-         <Route path="*" element={<Navigate to="/exercises" replace />} />
-         */}
-          <Route element={<TestLayout onLogout={onLogout}/>}>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Route>
-
-        </Routes>
-      </BrowserRouter>
+        <Route element={<TestLayout onLogout={onLogout} />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
