@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../styles/ZoomSession.css';
 import type { ZoomSessionData } from '../utils/api';
+import Loader from '../../../components/Loader';
 
 interface Props {
   courseId: number;
@@ -104,8 +105,9 @@ const ZoomSession: React.FC<Props> = ({ session }) => {
 
   return (
     <div className="zs-wrapper">
-      {loading && <div className="loading-overlay">Cargando sesión...</div>}
+      {loading && <Loader message="Cargando sesión..." />}
       {error && <div className="error-message">Error al cargar la sesión</div>}
+      {/*TODO: error boundary */}
       <iframe
         ref={iframeRef}
         className="zs-iframe"

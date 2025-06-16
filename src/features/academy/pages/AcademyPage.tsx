@@ -12,6 +12,7 @@ export default function AcademyPage() {
 
   if (loading) return <Loader message="Cargando sesión..." />;
   if (error) return <div className="text-center text-red-500">{error}</div>;
+  //TODO: error boundary
   if (!session) return <div className="text-center mt-10">Sesión no encontrada</div>;
 
   return (
