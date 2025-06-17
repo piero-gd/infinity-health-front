@@ -39,14 +39,14 @@ export default function DashboardPage({
 
         {/* SECCIÓN SERVICIOS*/}
         <div className="flex flex-col lg:flex-row gap-6 mt-4">
-          {/* SECCIÓN Clickeable - 3/6 del ancho*/}
-        <div className="w-full lg:w-1/2 mb-6">  
-          <ClickeableServices />
-        </div>
-        {/* SECCIÓN Clickeable - 3/6 del ancho*/}
-        <div className="w-full lg:w-1/2 mb-6">  
-          <ClientProgress />
-        </div>
+          {/* SECCIÓN Clickeable - 60% del ancho */}
+          <div className="w-full lg:w-[55%] mb-6">  
+            <ClickeableServices />
+          </div>
+          {/* SECCIÓN Progreso - 40% del ancho */}
+          <div className="w-full lg:w-[45%] mb-6">  
+            <ClientProgress />
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,12 @@ import { ImStatsDots } from "react-icons/im";
 import { TfiStatsUp } from "react-icons/tfi";
 import { MdPeopleAlt } from "react-icons/md";
 
+import { FaSackDollar } from "react-icons/fa6";
+import { TbBasketCheck } from "react-icons/tb";
+import { HiChartBarSquare } from "react-icons/hi2";
+import { MdOutlineVerified } from "react-icons/md";
+
+
 
 
 
@@ -24,38 +30,38 @@ export default function StatsCards({ userStats }: StatsCardsProps) {
     {
       title: "Ganancias Ventas",
       value: `S/ ${userStats.balance.toLocaleString('es-PE')}`,
-      icon: ImStatsDots,
-      bgColor: "bg-blue-100",
-      iconColor: "text-blue-600",
-      trend: "+12.5%",
-      trendColor: "text-blue-600"
-    },
-    {
-      title: "Total de Compras",
-      value: `S/ ${userStats.commissions.toLocaleString('es-PE')}`,
-      icon: Package,
-      bgColor: "bg-yellow-100",
-      iconColor: "text-yellow-600",
-      trend: "+12.5%",
-      trendColor: "text-yellow-600"
-    },
-    {
-      title: "Comisiones por Red",
-      value: `S/ ${userStats.activeRoutines.toLocaleString('es-PE')}`,
-      icon: TfiStatsUp,
+      icon: FaSackDollar,
       bgColor: "bg-green-100",
       iconColor: "text-green-600",
       trend: "+12.5%",
       trendColor: "text-green-600"
     },
     {
-      title: "Bonos Red",
-      value: `S/ ${userStats.completedWorkouts.toLocaleString('es-PE')}`,
-      icon: MdPeopleAlt,
+      title: "Total de Compras",
+      value: `S/ ${userStats.commissions.toLocaleString('es-PE')}`,
+      icon: TbBasketCheck,
+      bgColor: "bg-blue-100",
+      iconColor: "text-blue-600",
+      trend: "+12.5%",
+      trendColor: "text-green-600"
+    },
+    {
+      title: "Comisiones por Red",
+      value: `S/ ${userStats.activeRoutines.toLocaleString('es-PE')}`,
+      icon: HiChartBarSquare,
       bgColor: "bg-purple-100",
       iconColor: "text-purple-600",
       trend: "+12.5%",
-      trendColor: "text-purple-600"
+      trendColor: "text-green-600"
+    },
+    {
+      title: "Bonos Extra",
+      value: `S/ ${userStats.completedWorkouts.toLocaleString('es-PE')}`,
+      icon: MdOutlineVerified,
+      bgColor: "bg-orange-100",
+      iconColor: "text-orange-600",
+      trend: "+12.5%",
+      trendColor: "text-green-600"
     }
   ];
 

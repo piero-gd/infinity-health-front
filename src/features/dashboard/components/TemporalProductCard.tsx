@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { PiShoppingCartLight } from 'react-icons/pi';
-import { SlEnergy } from "react-icons/sl";
+import { AiOutlineShop } from "react-icons/ai";
 import { mockProductCatalog } from '../data/mockProductCatalog';
 import type { Product } from '../types';
 
@@ -46,10 +46,10 @@ export default function TemporalProductCard({ product = mockProductCatalog }: Te
     return (
         <div className="w-full">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-3xl font-medium ">Productos Recomendados</h3>
-                <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary border border-primary rounded-full hover:bg-primary/10 transition-colors">
-                    Ver Catálogo
-                    <SlEnergy className="w-4 h-4" />
+                <h3 className="text-3xl font-medium ">Recomendados para ti</h3>
+                <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary  shadow-lg rounded-full hover:bg-primary/10 transition-colors">
+                    Ver Tienda
+                    <AiOutlineShop className="w-4 h-4" />
                 </button>
             </div>
             
