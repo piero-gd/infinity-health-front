@@ -1,5 +1,3 @@
-import { RiProgress3Fill } from "react-icons/ri";
-//import { Zap } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 
 
@@ -17,40 +15,37 @@ export default function ClientProgress() {
 
     return (
         <div className="flex flex-col w-full h-full">
-            {/* Main Progress Section */}
-            <div className="rounded-2xl bg-white p-4 border border-gray-100 shadow-sm">
+            {/* Sección de barras */}
+            <div className="rounded-2xl bg-white px-6 py-4 border border-gray-100 shadow-sm mb-4">
                 <div className="flex items-center gap-3">
-                   
                     <h3 className="font-medium text-gray-900 text-md">Progreso general</h3>
-                    
                 </div>
                 <p className="text-gray-600 text-sm mb-3">Entrenamientos completados</p>
-                <div className="bg-gray-200 rounded-2xl p-6 mb-2">
-                    
-                    <div className="flex items-center gap-4 px-6">
-                        <div className="flex-1 bg-gray-700 rounded-full h-3 overflow-hidden">
-                            <div className="bg-[var(--color-primary)] h-full rounded-full w-[70%]"></div>
+                <div className="bg-gray-100 rounded-2xl mb-3 py-8 p-5 px-3 ">
+                    <div className="flex items-center gap-4 ">
+                        <div className="flex-1 bg-gray-200 rounded-full h-3 overflow-hidden">
+                            <div className="bg-[var(--color-primary)] h-full rounded-full w-[70%] transition-all duration-500"></div>
                         </div>
-                        <span className="text-sm text-gray-600">70%</span>
+                        <span className="text-sm font-medium text-gray-700 min-w-[30px] text-right">70%</span>
                     </div>
                 </div>
             </div>
 
             {/* Bottom Grid */}
-            <div className="grid grid-cols-2 gap-4 mt-4 h-full">
-               {/* Favorite Training - Tu base exacta */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-4 h-full">
+               {/* Favorite Training  */}
             <div className="rounded-2xl bg-white p-4 border border-gray-100 shadow-sm">
-                <h3 className="font-medium text-gray-900 mb-3">Entrenamiento Favorito</h3>
-                <span className="text-md font-medium text-primary underline mb-3 mt-3">Flexiones (Push-ups)</span>
+                <h3 className="font-medium text-gray-900 mb-3 text-center sm:text-left">Entrenamiento Favorito</h3>
+                <span className="text-md font-medium text-primary underline mb-3 mt-3 block text-center sm:text-left">Flexiones (Push-ups)</span>
                                 
                 <div className="mb-4">
-                    <div className="flex items-baseline gap-2 mb-2 mt-3">
+                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-2 mt-3 items-center">
                         <h2 className="text-2xl font-bold text-gray-900">12</h2>
                         <span className="text-gray-500 text-sm">Veces esta semana</span>
                     </div>
                 </div>
                                 
-                {/* AreaChart - Reemplaza tu SVG */}
+                {/* AreaChart */}
                 <div className="relative h-12 mb-1">
                     <ResponsiveContainer width="100%" height="100%">
                         <AreaChart data={data}>
@@ -84,7 +79,7 @@ export default function ClientProgress() {
                 </div>
             </div>
 
-                {/* Ambassador Section */}
+                {/* EMBAJADOR SECTION */}
                 <div className="rounded-2xl bg-white p-4 border border-gray-100 shadow-sm flex flex-col">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center">

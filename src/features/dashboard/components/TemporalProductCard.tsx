@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import React, { useState, useRef } from 'react';
+import { FaHeart, FaRegHeart, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { PiShoppingCartLight } from 'react-icons/pi';
 import { AiOutlineShop } from "react-icons/ai";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import { mockProductCatalog } from '../data/mockProductCatalog';
 import type { Product } from '../types';
 
@@ -9,13 +12,69 @@ interface TemporalProductCardProps {
     product?: Product[];
 }
 
+// Custom arrow components
+const SampleNextArrow = (props: any) => {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} !flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors absolute right-0 top-1/2 transform -translate-y-1/2`}
+            style={{ ...style }}
+            onClick={onClick}
+        >
+            <FaChevronRight className="text-black" size={20} />
+        </div>
+    );
+};
+
+const SamplePrevArrow = (props: any) => {
+    const { className, style, onClick } = props;
+    return (
+        <div
+            className={`${className} !flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors absolute left-0 top-1/2 transform -translate-y-1/2`}
+            style={{ ...style }}
+            onClick={onClick}
+        >
+            <FaChevronLeft className="text-black" size={20} />
+        </div>
+    );
+};
+
 export default function TemporalProductCard({ product = mockProductCatalog }: TemporalProductCardProps) {
     const [favorites, setFavorites] = useState<Set<number>>(new Set());
+    const sliderRef = useRef<Slider>(null);
+
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    dots: true
+                }
+            }
+        ]
+    };
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('es-ES', {
             style: 'currency',
-            currency: 'EUR'
+            currency: 'PEN'
         }).format(price);
     };
 
@@ -34,13 +93,11 @@ export default function TemporalProductCard({ product = mockProductCatalog }: Te
 
     const handleCardClick = (product: Product) => {
         console.log('Producto clickeado:', product);
-        // Aquí puedes añadir la lógica para navegar al detalle del producto
     };
 
     const handleAddToCartClick = (e: React.MouseEvent, product: Product) => {
         e.stopPropagation();
         console.log('Añadir al carrito:', product);
-        // Aquí puedes añadir la lógica para añadir al carrito
     };
 
     return (
@@ -53,78 +110,75 @@ export default function TemporalProductCard({ product = mockProductCatalog }: Te
                 </button>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {product.map((item) => {
-                    const isFavorite = favorites.has(item.id);
-                    
-                    return (
-                        <div
-                            key={item.id}
-                            onClick={() => handleCardClick(item)}
-                            className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer h-full flex flex-col border border-gray-100"
-                        >
-                            {/* Favorite Button */}
-                            <button
-                                onClick={(e) => handleToggleFavorite(e, item.id)}
-                                className="absolute top-3 right-3 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors"
-                                aria-label={isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+            <div className="relative px-6">
+                <Slider ref={sliderRef} {...sliderSettings} className="py-2">
+                    {product.map((item) => (
+                        <div key={item.id} className="px-2">
+                            <div
+                                onClick={() => handleCardClick(item)}
+                                className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer h-full flex flex-col border border-gray-100 mx-1"
                             >
-                                {isFavorite ? (
-                                    <FaHeart className="w-5 h-5 fill-red-400 text-red-400" />
-                                ) : (
-                                    <FaRegHeart className="w-5 h-5 text-gray-400 hover:text-red-400" />
-                                )}
-                            </button>
+                                {/* Favorite Button */}
+                                <button
+                                    onClick={(e) => handleToggleFavorite(e, item.id)}
+                                    className="absolute top-3 right-3 z-10 p-2 bg-white/80 rounded-full hover:bg-white transition-colors"
+                                >
+                                    {favorites.has(item.id) ? (
+                                        <FaHeart className="w-5 h-5 fill-red-400 text-red-400" />
+                                    ) : (
+                                        <FaRegHeart className="w-5 h-5 text-gray-400 hover:text-red-400" />
+                                    )}
+                                </button>
 
-                            {/* Category */}
-                            <span className="absolute top-3 left-3 z-10 inline-flex items-center px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
-                                {item.categoria}
-                            </span>
+                                {/* Category */}
+                                <span className="absolute top-3 left-3 z-10 inline-flex items-center px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+                                    {item.categoria}
+                                </span>
 
-                            {/* Product Image */}
-                            <div className="aspect-square bg-gray-100 overflow-hidden">
-                                <img
-                                    src={item.imagen || 'https://via.placeholder.com/300'}
-                                    alt={item.nombre}
-                                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                                    loading="lazy"
-                                />
-                            </div>
+                                {/* Product Image */}
+                                <div className="aspect-square bg-gray-100 overflow-hidden">
+                                    <img
+                                        src={item.imagen || 'https://via.placeholder.com/300'}
+                                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                                        loading="lazy"
+                                    />
+                                </div>
 
-                            {/* Product Info */}
-                            <div className="p-4 flex-1 flex flex-col">
-                                <h3 className="font-semibold text-gray-900 text-center mb-2 line-clamp-2">
-                                    {item.nombre}
-                                </h3>
+                                {/* Product Info */}
+                                <div className="p-4 flex-1 flex flex-col">
+                                    <h3 className="font-semibold text-gray-900 text-center mb-2 line-clamp-2">
+                                        {item.nombre}
+                                    </h3>
 
-                                <p className="text-sm text-gray-500 text-center mb-4 line-clamp-2">
-                                    {item.descripcion}
-                                </p>
+                                    <p className="text-sm text-gray-500 text-center mb-4 line-clamp-2">
+                                        {item.descripcion}
+                                    </p>
 
-                                <div className="mt-auto">
-                                    <div className="flex items-baseline justify-center gap-2 mb-3">
-                                        {item.precioanterior && (
-                                            <span className="text-sm text-gray-400 line-through">
-                                                {formatPrice(item.precioanterior)}
+                                    <div className="mt-auto">
+                                        <div className="flex items-baseline justify-center gap-2 mb-3">
+                                            {item.precioanterior && (
+                                                <span className="text-sm text-gray-400 line-through">
+                                                    {formatPrice(item.precioanterior)}
+                                                </span>
+                                            )}
+                                            <span className="text-lg font-bold text-primary">
+                                                {formatPrice(item.precionuevo)}
                                             </span>
-                                        )}
-                                        <span className="text-lg font-bold text-primary">
-                                            {formatPrice(item.precionuevo)}
-                                        </span>
-                                    </div>
+                                        </div>
 
-                                    <button
-                                        onClick={(e) => handleAddToCartClick(e, item)}
-                                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
-                                    >
-                                        <PiShoppingCartLight size={18} />
-                                        Añadir al carrito
-                                    </button>
+                                        <button
+                                            onClick={(e) => handleAddToCartClick(e, item)}
+                                            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-primary-dark text-white py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                                        >
+                                            <PiShoppingCartLight size={18} />
+                                            Añadir al carrito
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    );
-                })}
+                    ))}
+                </Slider>
             </div>
         </div>
     );

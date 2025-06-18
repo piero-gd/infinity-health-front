@@ -1,5 +1,5 @@
+import { SlEnergy } from "react-icons/sl";
 
-import {FaBolt} from 'react-icons/fa';
 
 const scrollToSection = (e: React.MouseEvent) => {
   e.preventDefault();
@@ -11,15 +11,17 @@ const scrollToSection = (e: React.MouseEvent) => {
 
 const StickyClientProgressButton = () => {
   return (
-    <button 
-      onClick={scrollToSection}
-      className="fixed top-1/3 right-4 transform -translate-y-1/2 sm:hidden z-50 border-none bg-transparent p-0 focus:outline-none"
-      aria-label="Ir a la sección de progreso"
-    >
-      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-primary to-primary-dark shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-        <FaBolt className="text-white text-lg" />
-      </div>
-    </button>
+    <div className="fixed bottom-1/6 right-0 transform -translate-y-1/2 sm:hidden z-50">      
+      {/* Button Container */}
+      <button 
+        onClick={scrollToSection}
+        className="border-none bg-transparent p-0 focus:outline-none"
+      >
+        <div className="flex items-center justify-center w-16 h-15 rounded-l-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 relative">
+          <SlEnergy className="ml-2 text-white text-lg" size={24}/>
+        </div>
+      </button>
+    </div>
   );
 };
 
