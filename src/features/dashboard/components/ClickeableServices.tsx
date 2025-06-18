@@ -7,8 +7,8 @@ export default function ClickeableServices() {
       {/* Primera tarjeta - Academia Nutricional */}
       <div className="lg:h-full">
         <div className="bg-white p-4 rounded-2xl border-1 border-gray-100 shadow-sm">
-          <h4 className="block text-xs md:block md:text-lg font-semibold px-2 md:px-0 mb-2 md:mb-0 md:font-medium text-gray-800">
-            Tu entrenamiento de hoy 🔥
+          <h4 className="block text-sm md:block md:text-lg font-semibold px-2 md:px-0 mb-2 md:mb-0 md:font-medium text-gray-800">
+            Tu entrenamiento
           </h4>
           <p className="hidden md:block text-sm text-gray-800 mb-3">
             Biblioteca de Ejercicios
@@ -48,7 +48,7 @@ export default function ClickeableServices() {
       {/* Segunda tarjeta - Academia Nutricional */}
       <div className="lg:h-full">
         <div className="bg-white p-4 rounded-2xl border-1 border-gray-100 shadow-sm">
-          <h4 className="block md:block text-xs md:block md:text-lg font-semibold px-4 md:px-0 mb-2 md:mb-0 md:font-medium text-gray-800">
+          <h4 className="block md:block text-sm md:block md:text-lg font-semibold px-4 md:px-0 mb-2 md:mb-0 md:font-medium text-gray-800">
             Aprende Nutrición
           </h4>
           <p className="hidden md:block text-sm text-gray-800 mb-3">
