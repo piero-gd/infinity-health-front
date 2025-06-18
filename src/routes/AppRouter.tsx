@@ -6,6 +6,9 @@ import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
 import AcademyPage from "../features/academy/pages/AcademyPage";
+import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
+import { CatalogPage } from "../features/ecommerce/catalog";
+
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -15,6 +18,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           <Route path="/exercises" element={<ExercisesHome />} />
           <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
           <Route path="/calculator" element={<CalculatorPage />} />
+
           <Route
             path="/academy"
             element={<Navigate to="/academy/course/1" replace />}
@@ -28,6 +32,18 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route element={<TestLayout onLogout={onLogout} />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
+        </Route>
+
+        <Route element={<TestLayout onLogout={onLogout} />}>
+          {/* Rutas de ecommerce */}
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/product/:productId" element={<DetailPage />} />
+          
+          {/* Redirección temporal para pruebas */}
+          <Route path="/" element={<Navigate to="/catalog" replace />} />
+          
+          {/* Redirección para cualquier otra ruta */}
+          <Route path="*" element={<Navigate to="/catalog" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>
