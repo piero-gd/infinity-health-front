@@ -92,7 +92,7 @@ export default function ClientProgress() {
                         </div>
                     </div>
                     
-                    <h3 className="text-md font-medium text-gray-900 mb-1">Conviértete en Embajador</h3>
+                    <h3 id="client-progress" className="text-md font-medium text-gray-900 mb-1">Conviértete en Embajador</h3>
                     
                     <p className="text-gray-600 text-sm mb-2 flex-1">
                         Su prueba finaliza el 7 de julio 2025. Actualice tu Membresía para continuar usando todas las herramientas.
