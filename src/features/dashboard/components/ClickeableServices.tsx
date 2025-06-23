@@ -3,19 +3,19 @@ import { LuApple } from "react-icons/lu";
 
 export default function ClickeableServices() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3 max-w-5xl mx-auto">
+    <div className="grid grid-cols-2 gap-3 max-w-4xl mx-auto">
       {/* Primera tarjeta - Academia Nutricional */}
-      <div className="lg:h-full">
-        <div className="bg-white p-4 rounded-2xl border-1 border-gray-100 shadow-sm">
+      <div className="lg:h-full flex flex-col">
+        <div className="bg-white p-3 rounded-2xl border-1 border-gray-100 shadow-sm flex-1">
           <h4 className="block text-sm md:block md:text-lg font-semibold px-2 md:px-0 mb-2 md:mb-0 md:font-medium text-gray-800">
             Tu entrenamiento
           </h4>
-          <p className="hidden md:block text-sm text-gray-800 mb-3">
+          <p className="hidden md:block text-xs text-gray-600 mb-2">
             Biblioteca de Ejercicios
           </p>
 
           <div className="relative bg-white rounded-2xl border-1 border-primary shadow-lg overflow-hidden">
-            <div className="relative aspect-[3/4]">
+            <div className="relative aspect-[4/5]">
               {/* Imagen de hombre */}
               <div className="absolute inset-0">
                 <img
@@ -46,17 +46,17 @@ export default function ClickeableServices() {
       </div>
 
       {/* Segunda tarjeta - Academia Nutricional */}
-      <div className="lg:h-full">
-        <div className="bg-white p-4 rounded-2xl border-1 border-gray-100 shadow-sm">
+      <div className="h-full flex flex-col">
+        <div className="bg-white p-3 rounded-2xl border-1 border-gray-100 shadow-sm flex-1">
           <h4 className="block md:block text-sm md:block md:text-lg font-semibold px-4 md:px-0 mb-2 md:mb-0 md:font-medium text-gray-800">
             Aprende Nutrición
           </h4>
-          <p className="hidden md:block text-sm text-gray-800 mb-3">
+          <p className="hidden md:block text-xs text-gray-600 mb-2">
             Con nuestra experta
           </p>
 
           <div className="relative bg-white rounded-2xl border-1 border-purple-500 shadow-lg overflow-hidden">
-            <div className="relative aspect-[3/4]">
+            <div className="relative aspect-[4/5]">
               {/* Imagen de mujer */}
               <div className="absolute inset-0">
                 <img

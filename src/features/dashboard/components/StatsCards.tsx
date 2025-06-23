@@ -45,8 +45,8 @@ export default function StatsCards({ userStats }: StatsCardsProps) {
       trendColor: "text-green-600"
     },
     {
-      title: "Bonos Extra",
-      value: `S/ ${userStats.completedWorkouts.toLocaleString('es-PE')}`,
+      title: "Puntos",
+      value: `+ ${userStats.completedWorkouts}`,
       icon: MdOutlineVerified,
       bgColor: "bg-orange-100",
       iconColor: "text-orange-600",

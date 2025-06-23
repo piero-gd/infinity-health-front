@@ -32,30 +32,35 @@ export default function NutritionalPlan() {
 
             {/* Mobile and Ipad Layout */}
             <div className="block lg:hidden">
-                <div className="flex items-start justify-between gap-4 md:px-4 md:pt-4 md:pb-8">
-                    {/* Contenido Izquierda */}
-                    <div className="flex-shrink-0 w-40 h-45 md:w-56 md:flex-shrink">
-                        <div className="bg-green-50 rounded-2xl border-2 border-green-400 p-2 md:p-3">
+                <div className="flex items-start gap-3 p-3">
+                    {/* Contenido Izquierda - Imagen */}
+                    <div className="flex-shrink-0 w-28 sm:w-36">
+                        <div className="bg-green-50 rounded-2xl border-2 border-green-400 p-1.5">
                             <img 
                                 src="public/img/calculator bg.png" 
                                 alt="Calculadora Macro" 
-                                className="w-full h-auto shadow-lg rounded-xl" 
+                                className="w-full h-auto rounded-lg" 
+                                loading="lazy"
                             />
                         </div>
                     </div>
                     
-                    {/* Contenido Derecha */}
-                    <div className="flex-1 md:pt-2 md:pr-2">
-                        <p className="text-md md:text-lg font-semibold mb-1">Calculadora de Macros</p>
-                        <p className="text-sm md:text-base text-gray-500 mb-3 md:mb-4">
-                            Personaliza tu nutrición y alcanza tus objetivos
-                        </p>
+                    {/* Contenido Derecha - Texto y Botón */}
+                    <div className="flex-1 flex flex-col justify-between h-full min-h-[120px]">
+                        <div>
+                            <h3 className="text-base font-semibold text-gray-800 leading-tight">
+                                Calculadora de Macros
+                            </h3>
+                            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                                Personaliza tu nutrición y alcanza tus objetivos
+                            </p>
+                        </div>
                         
-                        <div className="md:w-full md:max-w-xs">
-                            <button className="flex items-center gap-2 bg-blue-50 border-2 border-blue-500 rounded-full px-4 py-2 shadow-lg hover:shadow-xl transition-all transform hover:scale-105 md:w-full md:justify-center md:py-2.5">
-                                <span className="text-xs md:text-sm font-medium text-black">Calcular</span>
-                                <div className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] shadow-lg flex items-center justify-center">
-                                    <LuCalculator className="w-4 h-4 text-white" />
+                        <div className="mt-2">
+                            <button className="flex items-center justify-between w-full max-w-[180px] bg-blue-50 border-2 border-blue-500 rounded-full px-4 py-1.5 shadow-sm hover:shadow-md transition-all">
+                                <span className="text-sm font-medium text-gray-800">Calcular</span>
+                                <div className="w-7 h-7 rounded-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] shadow flex items-center justify-center">
+                                    <LuCalculator className="w-3.5 h-3.5 text-white" />
                                 </div>
                             </button>
                         </div>
