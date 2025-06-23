@@ -1,5 +1,6 @@
-import { FaFacebookF, FaTwitter, FaPinterestP, FaApplePay, FaGooglePay, FaCcVisa } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaPinterestP, FaApplePay, FaGooglePay, FaCcVisa, FaCcMastercard, FaCcAmex } from 'react-icons/fa';
 import { SiPaytm } from 'react-icons/si';
+import { RiLockPasswordLine } from "react-icons/ri";
 
 interface ShareOptionsProps {
     productId: number | string;
@@ -58,13 +59,32 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
     { icon: FaApplePay, label: 'Apple Pay', color: 'text-blue-600' },
     { icon: FaGooglePay, label: 'Google Pay', color: 'text-blue-400' },
     { icon: SiPaytm, label: 'Paytm', color: 'text-gray-600' },
-    { icon: FaCcVisa, label: 'Visa', color: 'text-gray-600' }
+    { icon: FaCcVisa, label: 'Visa', color: 'text-gray-600' },
+    { icon: FaCcMastercard, label: 'Mastercard', color: 'text-gray-600' },
+    { icon: FaCcAmex, label: 'Amex', color: 'text-gray-600' },
   ];
   
   return (
     <div className="px-2 md:px-6">
-      <div className="flex items-center gap-4">
-        <h4 className="text-sm font-semibold text-gray-900">Compartir</h4>
+
+     {/*MÉTODOS DE PAGOS*/}
+     <div className=" py-3 justify-between pt-4  p-4 bg-gray-50 rounded-lg">
+      <h4 className="font-medium text-gray-900 flex items-center gap-2 pb-4"> <RiLockPasswordLine className=" text-[var(--color-primary)]" size={20}/> Pagos seguros con:</h4>
+        <div className="flex gap-3 grid grid-cols-6 xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-3">
+          {payIcons.map(({ icon: Icon, color }) => (
+            <button
+              className={`px-4 py-3 rounded-sm border-2 border-gray-300  bg-gray-50  hover:bg-gray-100 transition-colors ${color}`}
+            >
+                <Icon size={40} className="text-[var(--color-primary)]"/>
+           
+            </button>
+          ))}
+        </div>
+      </div>
+
+      
+      <div className="flex items-center gap-4 p-4 pt-5">
+        <h4 className="text-sm font-medium text-gray-900">Compartir</h4>
         <div className="flex gap-2">
           {shareOptions.map(({ icon: Icon, label, color }) => (
             <button
@@ -73,22 +93,6 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
               aria-label={`Compartir en ${label}`}
             >
               <Icon size={20} />
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/*MÉTODOS DE PAGOS*/}
-      
-      <div className=" py-3 justify-between pt-14">
-        <div className="flex gap-6 grid grid-cols-4 xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2">
-          {payIcons.map(({ icon: Icon, color }) => (
-            <button
-              className={`px-11 py-6 rounded-sm border-2 border-gray-300  bg-gray-50  hover:bg-gray-100 transition-colors ${color}`}
-            >
-              <div className="flex items-center justify-center">
-                <Icon  className="w-12 h-12" />
-              </div>
             </button>
           ))}
         </div>

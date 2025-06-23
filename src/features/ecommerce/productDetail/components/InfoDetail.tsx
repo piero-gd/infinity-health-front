@@ -3,6 +3,7 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import { RiHeart3Line } from "react-icons/ri";
 import { HiMiniHeart } from "react-icons/hi2";
 import { RxLightningBolt } from 'react-icons/rx';
+import { CiDeliveryTruck } from "react-icons/ci";
 import type { InfoDetailProps } from '../types';
 
 export const InfoDetail: React.FC<InfoDetailProps> = ({ 
@@ -140,9 +141,9 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             </div>
 
               {/* DELIVERY */}
-              <div className="mt-4">
-              <h4 className="font-semibold text-gray-900 mb-3">Delivery</h4>
-              <div className="border-b border-gray-300 pb-4">
+              <div className="mt-4 bg-gray-50 p-4 rounded-lg">
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><CiDeliveryTruck className="text-[var(--color-primary)]" size={20} />Delivery</h4>
+              <div className=" pb-4">
                 <p className="text-sm text-gray-600 mb-4">
                   Lorem ipsum proin accumsan nibh lacus vitae lobortis nunc ultricies.
                 </p>
@@ -151,17 +152,14 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                   <div className="grid grid-cols-3 gap-4 text-sm font-medium text-gray-500 pb-3 border-b">
                     <span>Zona</span>
                     <span>Tiempo</span>
-                    <span>Costo Aprox</span>
                   </div>
                   <div className="grid grid-cols-3 gap-4 text-sm py-2 border-b">
                     <span>Lima Metropolitana</span>
                     <span>4-5 días hábiles</span>
-                    <span>$4.50</span>
                   </div>
                   <div className="grid grid-cols-3 gap-4 text-sm py-2 border-b">
                     <span>Delivery a Provincias</span>
                     <span>4-5 días hábiles</span>
-                    <span>$10.00</span>
                   </div>
                 </div>
               </div>

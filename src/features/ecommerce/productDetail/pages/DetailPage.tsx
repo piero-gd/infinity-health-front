@@ -70,7 +70,7 @@ export default function DetailPage() {
         </div>
         
         {/* Product Info - Columna Derecha */}
-        <div className="space-y-8">
+        <div className="space-y-2">
           <InfoDetail product={currentProduct} />
           <ShareOptions productId={currentProduct.id} />
         </div>
