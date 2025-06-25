@@ -1,8 +1,7 @@
 import type { LoginCredentials, AuthResponse } from "../types";
 
 export const authApi = async (credentials: LoginCredentials): Promise<AuthResponse> => {
-  const url = 'https://infinityhealthapi.onrender.com/api/token/';
-  
+  const url = '/api/token/';
   try {
     const response = await fetch(url, {
       method: 'POST',
