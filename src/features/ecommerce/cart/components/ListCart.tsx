@@ -26,7 +26,7 @@ export default function ListCart({
       <h2 className="text-2xl font-bold text-gray-900 mb-8">Tu carrito</h2>
       
       {/* Header */}
-      <div className="grid grid-cols-5 gap-4 pb-4 mb-6 border-b border-gray-200">
+      <div className="grid xl:grid-cols-5 grid-cols-1 gap-4 pb-4 mb-6 border-b border-gray-200">
         <div className="col-span-2">
           <span className="text-sm font-medium text-gray-600">Producto</span>
         </div>
@@ -44,7 +44,7 @@ export default function ListCart({
       {/* Cart Items */}
       <div className="space-y-4">
         {items.map((item) => (
-          <div key={item.id} className="grid grid-cols-5 gap-4 items-center py-4 border-b border-gray-100">
+          <div key={item.id} className="grid xl:grid-cols-5 grid-cols-1 gap-4 items-center py-4 border-b border-gray-100">
             {/* Product Info */}
             <div className="col-span-2 flex items-center space-x-4">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
@@ -56,12 +56,12 @@ export default function ListCart({
               </div>
               <div>
                 <h4 className="font-semibold text-gray-900">{item.nombre}</h4>
-                <p className="text-sm text-gray-500">{item.categoria}</p>
+                <p className="hidden xl:block text-sm text-gray-500">{item.categoria}</p>
               </div>
             </div>
 
             {/* Quantity Controls */}
-            <div className="flex items-center justify-center">
+            <div className="flex xl:flex-row flex-col items-center justify-center">
               <button
                 onClick={() => onRemoveItem(item.id)}
                 className="p-2 text-gray-400 hover:text-red-500 transition-colors mr-4"

@@ -78,8 +78,8 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
 
   return (
     <div className={`w-fit ${className}`}>
-      <div className="relative">
-        <div className="flex items-start">
+      <div className="relative items-left">
+        <div className="flex ">
           {steps.map((step, index) => (
             <div key={step.id} className="flex items-center">
               <div className="flex flex-col items-center">
