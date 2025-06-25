@@ -4,7 +4,7 @@ import ExercisesHome from "../features/exercises/pages/ExercisesHome";
 import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
-import LoginPage from "../features/temporalLogin/pages/LoginPage";
+import LoginPage from "../features/auth/pages/LoginPage";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 import AcademyPage from "../features/academy/pages/AcademyPage";
@@ -56,10 +56,8 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           />
         </Route>
 
-        <Route element={<TestLayout onLogout={onLogout} />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Route>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
