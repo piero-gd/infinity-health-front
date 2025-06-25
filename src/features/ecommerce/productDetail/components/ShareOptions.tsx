@@ -65,10 +65,10 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
   ];
   
   return (
-    <div className="px-2 md:px-6">
+    <div className="xl:px-2 px-0 md:px-6">
 
      {/*MÉTODOS DE PAGOS*/}
-     <div className=" py-3 justify-between pt-4  p-4 bg-gray-50 rounded-lg">
+     <div className=" py-3 justify-between pt-4  p-4 bg-white rounded-lg">
       <h4 className="font-medium text-gray-900 flex items-center gap-2 pb-4"> <RiLockPasswordLine className=" text-[var(--color-primary)]" size={20}/> Pagos seguros con:</h4>
         <div className="flex xl:gap-3 gap-1 grid grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-6">
           {payIcons.map(({ icon: Icon, color }) => (

@@ -17,6 +17,7 @@
   
     /* Fondo y superficies claras */
     --color-background: #ffffff; /* fondo principal: blanco */
+    --color-background-2: #f5f7fa; /* fondo secundario: gris muy claro */
     --color-surface: #f5f7fa; /* superficie: gris muy claro para tarjetas y secciones */
   
     /* Tipografía */
@@ -40,10 +41,12 @@
     --color-btn-gradient-top: #1798E0;
     --color-btn-gradient-border: #1798E0;
     --color-btn-whatsapp: #25D366;
+
 }
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: var(--color-background);
 }
 
 h1, h2 {

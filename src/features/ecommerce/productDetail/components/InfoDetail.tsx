@@ -31,7 +31,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
     const discount = calculateDiscount();
     
     return (
-        <div className="p-5 md:p-6">
+        <div className="xl:p-5 p-0 md:p-6">
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
                 <h1 className="text-3xl font-bold text-gray-800">{product.nombre}</h1> 
@@ -104,7 +104,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             </div>*/}
 
             {/* BOTONES */}
-            <div className="flex flex-col-3 sm:flex-row gap-4 mt-8 mb-10">
+            <div className="flex flex-row gap-4 mt-8 mb-0 xl:mb-10 xl:relative md:relative fixed bottom-0 right-2 z-50 xl:p-0 p-8 xl:bg-transparent xl:rounded-none rounded-t-3xl xl:border-none border-2 border-white bg-white/89 md:bg-transparent md:border-none backdrop-blur-sm ">
                 <div className="flex items-center border border-gray-300 bg-gray-50 rounded-full">
                     <button 
                         onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
@@ -125,7 +125,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                     onClick={handleAddToCart}
                     className="bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2 hover:opacity-90"
                 >
-                    <span className="xl:block hidden">Añadir al carrito</span>
+                    <span className="xl:block block">Añadir </span> <span className="xl:block hidden">al carrito</span>
                     <PiShoppingCartLight size={20} />
                 </button>
                 
@@ -140,8 +140,9 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                 </button>
             </div>
 
+
               {/* DELIVERY */}
-              <div className="mt-4  bg-gray-50 p-4 rounded-lg">
+              <div className="mt-4  bg-white p-4 rounded-lg ">
               <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><CiDeliveryTruck className="text-[var(--color-primary)]" size={20} />Delivery</h4>
               <div className=" pb-4">
                 <p className="text-sm text-gray-600 mb-4">

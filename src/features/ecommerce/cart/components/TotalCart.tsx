@@ -83,7 +83,7 @@ export default function TotalCart({
   return (
     <div className="space-y-4 max-w-2xl w-full mx-auto">
       {/* First Section - Order Summary */}
-      <div className="bg-gray-50 rounded-3xl p-6">
+      <div className="bg-white rounded-3xl p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Total del carrito</h2>
         
         {/* Promo Code Input */}
@@ -135,7 +135,7 @@ export default function TotalCart({
       </div>
 
       {/* Second Section - Payment Methods */}
-      <div className="bg-gray-50 rounded-3xl p-6">
+      <div className="bg-white rounded-3xl p-6">
         <div className="flex items-center space-x-2 mb-4">
           <RiLock2Line className="text-gray-400" size={20} />
           <span className="text-sm text-gray-500 font-medium">Pagos seguros con:</span>

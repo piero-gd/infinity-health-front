@@ -22,7 +22,7 @@ export default function ListCart({
     };
   
     return (
-    <div className={`w-full max-w-4xl mx-auto p-6 bg-gray-50 rounded-3xl ${className}`}>
+    <div className={`w-full max-w-4xl mx-auto p-6 bg-white rounded-3xl ${className}`}>
       <h2 className="text-2xl font-bold text-gray-900 mb-8">Tu carrito</h2>
       
       {/* Header */}
