@@ -4,7 +4,7 @@ export default function AboutProduct() {
             <h2 className="text-xl font-bold text-gray-900 text-center mb-4">Sobre este Producto</h2>
             <div className="grid xl:grid-cols-3 grid-cols-1 gap-4 bg-sky-50 rounded-3xl border-1 border-[var(--color-primary)] p-6">
                 <div className="xl:order-1 order-2 p-6">
-                    <div className="mb-7">
+                    <div className="mb-16">
                    <h3 className="text-xl font-bold text-gray-900 mb-2">Beneficios</h3>
                    <ul className="space-y-1">
                     <li> ● 0 azúcares añadidos </li>
