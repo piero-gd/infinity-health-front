@@ -5,6 +5,7 @@ export interface Product {
     precio: number;
     precioAnterior?: number;  // Hacerlo opcional con ?
     categoria: string;
+    slogan: string;
     descripcion: string;
     imagenes: string[];
     videos: string[];

@@ -35,27 +35,27 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
                 <h1 className="text-3xl font-bold text-gray-800">{product.nombre}</h1> 
-                <div className="flex bg-[var(--color-primary-light)] rounded-full border-2 border-white text-white items-center gap-2 px-4 py-1 shadow-lg">
-                    <h4 className="text-[var(--color-primary)] text-sm font-semibold">
+                <div className="flex bg-[var(--color-primary-light)] rounded-full border-2 border-white text-white xl:block hidden items-center gap-2 px-4 py-1 shadow-lg">
+                    <h4 className="inline-block text-[var(--color-primary)] text-sm font-semibold">
                         {product.categoria}
                     </h4>
-                    <RxLightningBolt className="h-3 w-3 text-[var(--color-primary)] text-md font-semibold" />
+                    <RxLightningBolt className="inline-block h-3 w-3 text-[var(--color-primary)] text-md font-semibold" />
                 </div>
             </div>
 
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
                 <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-[var(--color-primary)]">
+                    <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)]">
                         S/ {product.precio.toFixed(2)}
                     </span>
                     {product.precioAnterior && (
                         <>
-                            <span className="text-lg text-gray-500 line-through">
+                            <span className="xl:text-lg text-sm text-gray-500 line-through">
                                 S/ {product.precioAnterior.toFixed(2)}
                             </span>
                             {discount > 0 && (
-                                <span className="bg-gray-500 text-white px-2 ml-5 py-1 rounded-full text-sm font-medium">
+                                <span className="bg-[var(--color-primary)] text-white px-2 ml-5 py-1 rounded-full text-sm font-medium">
                                     -{discount}%
                                 </span>
                             )}
@@ -104,7 +104,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             </div>*/}
 
             {/* BOTONES */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8 mb-10">
+            <div className="flex flex-col-3 sm:flex-row gap-4 mt-8 mb-10">
                 <div className="flex items-center border border-gray-300 bg-gray-50 rounded-full">
                     <button 
                         onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
@@ -125,7 +125,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                     onClick={handleAddToCart}
                     className="bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2 hover:opacity-90"
                 >
-                    Añadir al carrito
+                    <span className="xl:block hidden">Añadir al carrito</span>
                     <PiShoppingCartLight size={20} />
                 </button>
                 
@@ -141,23 +141,23 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             </div>
 
               {/* DELIVERY */}
-              <div className="mt-4 bg-gray-50 p-4 rounded-lg">
+              <div className="mt-4  bg-gray-50 p-4 rounded-lg">
               <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><CiDeliveryTruck className="text-[var(--color-primary)]" size={20} />Delivery</h4>
               <div className=" pb-4">
                 <p className="text-sm text-gray-600 mb-4">
                   Lorem ipsum proin accumsan nibh lacus vitae lobortis nunc ultricies.
                 </p>
                 
-                <div className="space-y-2 ml-2 px-4">
-                  <div className="grid grid-cols-3 gap-4 text-sm font-medium text-gray-500 pb-3 border-b">
+                <div className="space-y-2  xl:px-4 px-0 ">
+                  <div className="grid grid-cols-2  xl:gap-4 text-sm font-medium text-gray-500 pb-3 border-b">
                     <span>Zona</span>
                     <span>Tiempo</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-sm py-2 border-b">
+                  <div className="grid grid-cols-2 xl:gap-4 text-sm py-0 xl:py-2 border-b">
                     <span>Lima Metropolitana</span>
                     <span>4-5 días hábiles</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-sm py-2 border-b">
+                  <div className="grid grid-cols-2 xl:gap-4 text-sm py-0 xl:py-2 border-b">
                     <span>Delivery a Provincias</span>
                     <span>4-5 días hábiles</span>
                   </div>

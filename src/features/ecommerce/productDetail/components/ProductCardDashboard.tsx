@@ -80,7 +80,7 @@ export const ProductCardDashboard: React.FC<ProductCardProps> = ({
                     {product.nombre}
                 </h3>
                 <span className="text-xs font-medium text-gray-500 mb-1 text-center">
-                    {product.descripcion}
+                    {product.slogan}
                 </span>
 
                 {/* Price */}

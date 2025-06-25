@@ -8,6 +8,7 @@ import { RelatedProducts } from '../components/RelatedProducts';
 import type { Product } from '../types';
 import AboutProduct from '../components/AboutProduct';
 
+
 export default function DetailPage() {
   const { productId } = useParams<{ productId: string }>();
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
@@ -87,6 +88,7 @@ export default function DetailPage() {
       <div className="mt-16 w-full">
         <AboutProduct />
       </div>
+
     </div>
   );
 }

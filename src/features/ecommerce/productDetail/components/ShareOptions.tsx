@@ -70,12 +70,12 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
      {/*MÉTODOS DE PAGOS*/}
      <div className=" py-3 justify-between pt-4  p-4 bg-gray-50 rounded-lg">
       <h4 className="font-medium text-gray-900 flex items-center gap-2 pb-4"> <RiLockPasswordLine className=" text-[var(--color-primary)]" size={20}/> Pagos seguros con:</h4>
-        <div className="flex gap-3 grid grid-cols-6 xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-3">
+        <div className="flex xl:gap-3 gap-1 grid grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-6">
           {payIcons.map(({ icon: Icon, color }) => (
             <button
-              className={`px-4 py-3 rounded-sm border-2 border-gray-300  bg-gray-50  hover:bg-gray-100 transition-colors ${color}`}
+              className={`px-3 py-2 rounded-sm border-2 border-gray-300  bg-gray-50  hover:bg-gray-100 transition-colors ${color}`}
             >
-                <Icon size={40} className="text-[var(--color-primary)]"/>
+                <Icon className="text-[var(--color-primary)] md:size-6 xl:size-10 size-7 mx-auto"/>
            
             </button>
           ))}

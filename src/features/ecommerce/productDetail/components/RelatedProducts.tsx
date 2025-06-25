@@ -31,12 +31,12 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
             {/* Title and Description */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
+                    <h2 className="text-center xl:text-left text-2xl font-bold text-gray-900">
                         Productos relacionados
                     </h2>
                 </div>
                 <div>
-                    <p className="text-gray-500 text-sm leading-relaxed">
+                    <p className="xl:block hidden text-gray-500 text-sm leading-relaxed">
                         {relatedProducts.some(p => p.categoria.toLowerCase() === category.toLowerCase()) 
                             ? 'Descubre más productos de la misma categoría que podrían interesarte.'
                             : 'Productos que podrían interesarte.'}

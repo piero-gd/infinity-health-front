@@ -5,7 +5,7 @@ import ListCart from '../components/ListCart';
 import TotalCart from '../components/TotalCart';
 import type { CartItem } from '../types';
 import { mockProduct } from '../../productDetail/data/mockProduct';
-import { ProductCardDashboard } from '../../productDetail/components/ProductCardDashboard';
+//import { ProductCardDashboard } from '../../productDetail/components/ProductCardDashboard';
 import { RelatedProducts } from '../../productDetail/components/RelatedProducts';
 
 export default function CartPage() {
@@ -76,14 +76,14 @@ export default function CartPage() {
                   category={cartItems[0].categoria} 
                 />
             </div>
-
+{/* 
             <div className="mt-8 mb-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
                 <ProductCardDashboard 
                   product={mockProduct[0]}
                   onAddToCart={() => alert('Añadir al carrito')}
                   onToggleFavorite={() => alert('Toggle favorito')}
                 />
-            </div>
+            </div> */}
             
         </div>
     );
