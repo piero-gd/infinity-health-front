@@ -49,15 +49,15 @@ export default function LoginForm() {
         className="bg-white rounded-3xl shadow-none p-6 md:p-0 flex flex-col gap-4"
         autoComplete="off"
       >
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 text-[var(--color-primary-dark)]">
+        <h2 className="text-xl font-bold text-center mb-2 text-text">
           Inicia sesión en tu cuenta
         </h2>
-        <p className="text-center text-gray-500 mb-2 text-sm md:text-base">
+        <p className="text-center font-semibold text-text-muted mb-2 text-sm md:text-base ">
           Por favor ingresa tu usuario y contraseña
         </p>
         {/* Usuario */}
         <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="username" className="block text-sm font-semibold text-text-soft mb-1">
             Usuario
           </label>
           <input
@@ -79,7 +79,7 @@ export default function LoginForm() {
         </div>
         {/* Contraseña */}
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="password" className="block text-sm font-semibold text-text-soft mb-1">
             Contraseña
           </label>
           <input
