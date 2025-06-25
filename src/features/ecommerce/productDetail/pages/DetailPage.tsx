@@ -6,6 +6,7 @@ import { ShareOptions } from '../components/ShareOptions';
 import { mockProduct } from '../data/mockProduct';
 import { RelatedProducts } from '../components/RelatedProducts';
 import type { Product } from '../types';
+import AboutProduct from '../components/AboutProduct';
 
 export default function DetailPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -81,6 +82,10 @@ export default function DetailPage() {
           currentProductId={currentProduct.id} 
           category={currentProduct.categoria} 
         />
+      </div>
+
+      <div className="mt-16 w-full">
+        <AboutProduct />
       </div>
     </div>
   );
