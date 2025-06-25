@@ -49,7 +49,7 @@ export interface PhotoSliderProps {
 export interface RelatedProductsProps {
     currentProductId: number;
     category: string;
-    products?: Product[];  // Hacer opcional para mantener compatibilidad
+    products?: Product[]; 
 }
 
 export interface InfoDetailProps {

@@ -5,16 +5,14 @@ import type { RelatedProductsProps } from "../types";
 export const RelatedProducts: React.FC<RelatedProductsProps> = ({ 
     currentProductId, 
     category,
-    products = mockProduct // Usar mockProduct como valor por defecto
+    products = mockProduct 
 }) => {
-    // Filtrar productos de la misma categoría, excluyendo el producto actual
     let relatedProducts = products.filter(
         (product) => 
             product.categoria.toLowerCase() === category.toLowerCase() && 
             product.id !== currentProductId
     );
 
-    // Si no hay suficientes productos relacionados, mostrar productos de otras categorías
     if (relatedProducts.length < 4) {
         const additionalProducts = products
             .filter(p => p.id !== currentProductId && !relatedProducts.some(rp => rp.id === p.id))
@@ -22,12 +20,11 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
         relatedProducts = [...relatedProducts, ...additionalProducts];
     }
 
-    // Limitar a 4 productos
     relatedProducts = relatedProducts.slice(0, 4);
 
     if (relatedProducts.length === 0) return null;
 
-    console.log('Productos relacionados:', relatedProducts); // Para depuración
+    console.log('Productos relacionados:', relatedProducts);
     
     return (
         <div className="mt-16 w-full">

@@ -7,7 +7,7 @@ interface ShareOptionsProps {
 }
 
 export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
-  // Generate share URL with product ID
+  
   const getShareUrl = (platform: string) => {
     const productUrl = `${window.location.origin}/product/${productId}`;
     const shareText = `¡Mira este producto en Infinity Health!`;
@@ -18,7 +18,7 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
       case 'twitter':
         return `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(productUrl)}`;
       case 'pinterest':
-        const mediaUrl = 'https://via.placeholder.com/800'; // Replace with actual product image URL
+        const mediaUrl = 'https://via.placeholder.com/800'; 
         return `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(productUrl)}&media=${encodeURIComponent(mediaUrl)}&description=${encodeURIComponent(shareText)}`;
       default:
         return productUrl;

@@ -7,6 +7,7 @@ import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
 import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
 import { CatalogPage } from "../features/ecommerce/catalog";
+import CartPage from "../features/ecommerce/cart/pages/CartPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -21,8 +22,9 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
 
         <Route element={<TestLayout onLogout={onLogout} />}>
           {/* Rutas de ecommerce */}
-          <Route path="/catalog" element={<CatalogPage />} />
-          <Route path="/product/:productId" element={<DetailPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/catalog" element={<CatalogPage />} />
+            <Route path="/product/:productId" element={<DetailPage />} />
           
           {/* Redirección temporal para pruebas */}
           <Route path="/" element={<Navigate to="/catalog" replace />} />

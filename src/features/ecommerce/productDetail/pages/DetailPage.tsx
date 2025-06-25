@@ -11,7 +11,6 @@ export default function DetailPage() {
   const { productId } = useParams<{ productId: string }>();
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     console.log('ID del producto desde la URL:', productId);
     console.log('Lista de productos:', mockProduct);

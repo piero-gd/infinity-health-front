@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { FaBolt } from "react-icons/fa";
 import { PiShoppingCartLight } from "react-icons/pi";
 
 import type { ProductCardProps } from '../types';
@@ -55,9 +56,10 @@ export const ProductCardDashboard: React.FC<ProductCardProps> = ({
             </button>
 
             {/* Category */}
-            <span className="absolute top-3 left-3 z-10 p-2 bg-white/80 rounded-full text-xs font-medium text-gray-500 mb-1">
-                    {product.categoria}
-                </span>
+            <div className="absolute top-3 left-3 z-10 p-2 bg-blue-50 rounded-full flex items-center space-x-1 text-xs font-semibold text-[var(--color-primary)] border-1 border-[var(--color-primary)]">
+                <span>{product.categoria}</span>
+                <FaBolt className="w-3 h-3" />
+            </div>
 
             {/* Product Image */}
             <div className="aspect-square bg-gray-100 overflow-hidden">
@@ -95,11 +97,15 @@ export const ProductCardDashboard: React.FC<ProductCardProps> = ({
                     </div>
 
                     {/* Add to Cart Button */}
-                    <button
-                        onClick={handleAddToCartClick}
-                        className="mt-3 bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] hover:bg-gray-200 text-white py-2 px-4 rounded-full shadow-lg text-sm font-medium transition-colors flex items-center justify-center gap-1"
-                    ><PiShoppingCartLight size={20} />
-                    </button>
+                    <div className="flex justify-end">
+                        <button
+                            onClick={handleAddToCartClick}
+                            className="mt-3 bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] hover:bg-gray-200 text-white py-2 px-4 rounded-full shadow-lg text-sm font-medium transition-colors flex items-center gap-1 justify-end"
+                        >
+                            <PiShoppingCartLight className="w-5 h-5" />
+                            Agregar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
