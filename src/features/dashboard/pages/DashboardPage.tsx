@@ -6,23 +6,16 @@ import NutritionalPlan from '../components/NutritionalPlan';
 import { mockUserData, mockUserStats } from '../data/mockDataUser';
 import ClientProgress from '../components/ClientProgress';
 
-interface DashboardPageProps {
-    userData:   typeof mockUserData;
-    userStats: typeof mockUserStats;
-}
 
-export default function DashboardPage({ 
-  userData = mockUserData, 
-  userStats = mockUserStats 
-}: DashboardPageProps) {
+export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* SECCIÓN PRINCIPAL */}
         <div className="mb-4 bg-exercises-wallpaper-long rounded-2xl shadow-sm border border-gray-100 p-15 ">
-          <UserHeader userData={userData} />
-          <StatsCards userStats={userStats} />
+          <UserHeader userData={mockUserData} />
+          <StatsCards userStats={mockUserStats} />
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
