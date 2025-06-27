@@ -135,23 +135,23 @@ export default function ListCart({
                   className="p-2 text-gray-400 hover:text-red-500 transition-colors mr-4"
                   title="Eliminar producto"
                 >
-                  <RiDeleteBinLine className="w-6 h-6" />
+                  <RiDeleteBinLine className="w-8 h-8" />
                 </button>
                 
                 <div className="flex items-center border border-gray-300 rounded-full">
                   <button
                     onClick={() => handleQuantityChange(item.id, item.cantidad - 1)}
-                    className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-l-full transition-colors"
+                    className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-l-full transition-colors text-lg"
                     disabled={item.cantidad <= 1}
                   >
                     −
                   </button>
-                  <span className="w-12 text-center text-sm font-medium">
+                  <span className="w-14 text-center text-base font-medium">
                     {item.cantidad}
                   </span>
                   <button
                     onClick={() => handleQuantityChange(item.id, item.cantidad + 1)}
-                    className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-r-full transition-colors"
+                    className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-r-full transition-colors text-lg"
                   >
                     +
                   </button>
@@ -178,7 +178,7 @@ export default function ListCart({
       {items.length === 0 && (
         <div className="text-center py-12">
           <div className="w-24 h-24 mx-auto mb-4 text-gray-300 flex items-center justify-center">
-           <FaShoppingCart className="text-gray-400" size={50} />
+           <FaShoppingCart className="text-gray-400" size={60} />
           </div>
           <h3 className="text-lg font-bold text-gray-900 mb-2">Tu carrito está vacío</h3>
           <p className="text-gray-500">Agrega algunos productos para comenzar</p>

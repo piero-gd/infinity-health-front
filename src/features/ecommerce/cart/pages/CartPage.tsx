@@ -42,7 +42,7 @@ export default function CartPage() {
             <div className="pt-12">
                 <ProgressCart currentStep={1} />
             </div>
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8">
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-8 xl:px-0 px-6">
                 <div className="lg:col-span-2">
                     <ListCart 
                       items={cartItems}
@@ -62,7 +62,7 @@ export default function CartPage() {
            </div>
 
 
-            <div className="mt-8 mb-8">
+            <div className="mt-8 mb-8 flex items-center justify-center xl:justify-start">
                 
                 <button className="border-2 border-[var(--color-primary)] bg-white text-[var(--color-primary)] font-medium py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl">
                     <FaArrowLeft className="w-6 h-6 mr-2"/>

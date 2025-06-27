@@ -13,21 +13,21 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
       id: 1,
       title: 'Carrito',
       icon: (
-        <FaShoppingCart />
+        <FaShoppingCart className="text-xl md:text-base xl:text-2xl" />
       )
     },
     {
       id: 2,
       title: 'Checkout',
       icon: (
-        <CiWallet />
+        <CiWallet className="text-xl md:text-base xl:text-2xl" />
       )
     },
     {
       id: 3,
-      title: 'Pedido completado',
+      title: 'Pedido\ncompletado',
       icon: (
-        <AiOutlineLike />
+        <AiOutlineLike className="text-xl md:text-base xl:text-2xl" />
       )
     }
   ];
@@ -40,13 +40,13 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
 
   const getStepClasses = (stepId: number) => {
     const status = getStepStatus(stepId);
-    const baseClasses = 'w-12 h-12 xl:w-15 xl:h-15 md:w-8 md:h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 text-lg md:text-xs shadow-lg md:shadow-none';
+    const baseClasses = 'w-12 h-12 xl:w-16 xl:h-16 md:w-10 md:h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 shadow-lg md:shadow-none';
     
     switch (status) {
       case 'completed':
-        return `${baseClasses} bg-blue-500 border-blue-500 text-white`;
+        return `${baseClasses} bg-[var(--color-primary)] border-[var(--color-primary)] text-white`;
       case 'current':
-        return `${baseClasses} bg-white border-blue-500 text-blue-500`;
+        return `${baseClasses} bg-white border-[var(--color-primary)] text-[var(--color-primary)]`;
       case 'pending':
         return `${baseClasses} bg-white border-gray-200 text-gray-400`;
       default:
@@ -56,19 +56,19 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
 
   const getConnectorClasses = (stepId: number) => {
     const isCompleted = stepId < currentStep;
-    return `w-6 h-0.5 mx-0 xl:w-10 xl:h-0.5.s transition-all duration-300 ${
-      isCompleted ? 'bg-blue-500' : 'bg-gray-200'
+    return `w-8 h-0.5 mx-0 xl:w-12 xl:h-0.5 transition-all duration-300 ${
+      isCompleted ? 'bg-var(--color-primary)' : 'bg-gray-200'
     }`;
   };
 
   const getTitleClasses = (stepId: number) => {
     const status = getStepStatus(stepId);
-    const baseClasses = 'text-xs xl:text-lg  mt-1 md:mt-1 transition-all duration-300 text-center w-20';
+    const baseClasses = 'text-xs xl:text-lg mt-1 md:mt-1 transition-all duration-300 text-center w-20 xl:whitespace-nowrap';
     
     switch (status) {
       case 'completed':
       case 'current':
-        return `${baseClasses} text-blue-600 font-medium`;
+        return `${baseClasses} text-[var(--color-primary)] font-medium`;
       case 'pending':
         return `${baseClasses} text-gray-400`;
       default:
@@ -79,13 +79,13 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
   return (
     <>
       {/* Mobile Version - Centered */}
-      <div className={`md:hidden w-full  max-w-lg mx-auto ${className}`}>
+      <div className={`md:hidden w-full max-w-sm mx-auto px-20 ${className}`}>
         <div className="relative">
           {/* Progress Line Background */}
-          <div className="absolute top-6 left-12 right-12 h-0.5 bg-gray-200"></div>
+          <div className="absolute top-6 left-8 right-8 h-0.5 bg-gray-200"></div>
           
           {/* Steps Container */}
-          <div className="flex justify-between items-start relative">
+          <div className="flex justify-between items-start relative px-2">
             {steps.map((step, index) => (
               <div key={step.id} className="flex flex-col items-center relative z-10">
                 {/* Step Circle */}
@@ -94,13 +94,13 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
                 </div>
                 
                 {/* Step Title */}
-                <span className={getTitleClasses(step.id)}>
+                <span className= {getTitleClasses(step.id) } hidden style={{whiteSpace: 'pre-line'}}>
                   {step.title}
                 </span>
                 
                 {/* Progress Line for Completed Steps */}
                 {getStepStatus(step.id) === 'completed' && index < steps.length - 1 && (
-                  <div className="absolute top-6 left-6 w-full h-0.5 bg-blue-500 z-0" 
+                  <div className="absolute top-6 left-6 w-full h-0.5 bg-[var(--color-primary)] z-0" 
                        style={{width: 'calc(100vw / 3)'}}></div>
                 )}
               </div>
@@ -115,7 +115,7 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
           <div className="flex">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center">
-                <div className="flex flex-col items-center  ">
+                <div className="flex flex-col items-center">
                   <div className={getStepClasses(step.id)}>
                     {step.icon}
                   </div>
