@@ -40,7 +40,7 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
 
   const getStepClasses = (stepId: number) => {
     const status = getStepStatus(stepId);
-    const baseClasses = 'w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 text-xs';
+    const baseClasses = 'w-12 h-12 xl:w-15 xl:h-15 md:w-8 md:h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 text-lg md:text-xs shadow-lg md:shadow-none';
     
     switch (status) {
       case 'completed':
@@ -56,14 +56,14 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
 
   const getConnectorClasses = (stepId: number) => {
     const isCompleted = stepId < currentStep;
-    return `w-6 h-0.5 mx-0 transition-all duration-300 ${
+    return `w-6 h-0.5 mx-0 xl:w-10 xl:h-0.5.s transition-all duration-300 ${
       isCompleted ? 'bg-blue-500' : 'bg-gray-200'
     }`;
   };
 
   const getTitleClasses = (stepId: number) => {
     const status = getStepStatus(stepId);
-    const baseClasses = 'text-xs mt-1 transition-all duration-300 text-center w-20';
+    const baseClasses = 'text-xs xl:text-lg  mt-1 md:mt-1 transition-all duration-300 text-center w-20';
     
     switch (status) {
       case 'completed':
@@ -77,27 +77,61 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
   };
 
   return (
-    <div className={`w-fit ${className}`}>
-      <div className="relative items-left">
-        <div className="flex ">
-          {steps.map((step, index) => (
-            <div key={step.id} className="flex items-center">
-              <div className="flex flex-col items-center">
+    <>
+      {/* Mobile Version - Centered */}
+      <div className={`md:hidden w-full  max-w-lg mx-auto ${className}`}>
+        <div className="relative">
+          {/* Progress Line Background */}
+          <div className="absolute top-6 left-12 right-12 h-0.5 bg-gray-200"></div>
+          
+          {/* Steps Container */}
+          <div className="flex justify-between items-start relative">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex flex-col items-center relative z-10">
+                {/* Step Circle */}
                 <div className={getStepClasses(step.id)}>
                   {step.icon}
                 </div>
+                
+                {/* Step Title */}
                 <span className={getTitleClasses(step.id)}>
                   {step.title}
                 </span>
+                
+                {/* Progress Line for Completed Steps */}
+                {getStepStatus(step.id) === 'completed' && index < steps.length - 1 && (
+                  <div className="absolute top-6 left-6 w-full h-0.5 bg-blue-500 z-0" 
+                       style={{width: 'calc(100vw / 3)'}}></div>
+                )}
               </div>
-              {index < steps.length - 1 && (
-                <div className={getConnectorClasses(step.id + 1)} />
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Desktop Version - Left Aligned */}
+      <div className={`hidden md:block w-fit ${className}`}>
+        <div className="relative items-left">
+          <div className="flex">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex items-center">
+                <div className="flex flex-col items-center  ">
+                  <div className={getStepClasses(step.id)}>
+                    {step.icon}
+                  </div>
+                  <span className={getTitleClasses(step.id)}>
+                    {step.title}
+                  </span>
+                </div>
+                {index < steps.length - 1 && (
+                  <div className={getConnectorClasses(step.id + 1)} />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

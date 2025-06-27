@@ -104,7 +104,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             </div>*/}
 
             {/* BOTONES */}
-            <div className="flex flex-row gap-4 mt-8 mb-0 xl:mb-10 xl:relative md:relative fixed bottom-0 right-2 z-50 xl:p-0 p-8 xl:bg-transparent xl:rounded-none rounded-t-3xl xl:border-none border-2 border-white bg-white/89 md:bg-transparent md:border-none backdrop-blur-sm ">
+            <div className="flex flex-row gap-4 mt-8 mb-0 xl:mb-10 xl:relative md:relative fixed bottom-0 left-0 right-0 z-50 xl:p-0 p-8 xl:bg-transparent xl:rounded-none rounded-t-3xl xl:border-none border-2 border-white bg-white/89 md:bg-transparent md:border-none backdrop-blur-sm ">
                 <div className="flex items-center border border-gray-300 bg-gray-50 rounded-full">
                     <button 
                         onClick={() => setQuantity(prev => Math.max(1, prev - 1))}

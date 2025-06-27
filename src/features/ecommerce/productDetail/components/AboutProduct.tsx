@@ -3,7 +3,7 @@ export default function AboutProduct() {
         <div className="mt-16 w-full gap-4">
             <h2 className="text-xl font-bold text-gray-900 text-center mb-4">Sobre este Producto</h2>
             <div className="grid xl:grid-cols-3 grid-cols-1 gap-4 bg-sky-50 rounded-3xl border-1 border-[var(--color-primary)] p-6">
-                <div className="xl:order-1 order-2 p-6">
+                <div className="xl:order-1 order-1 p-6">
                     <div className="mb-16">
                    <h3 className="text-xl font-bold text-gray-900 mb-2">Beneficios</h3>
                    <ul className="space-y-1">
@@ -26,14 +26,14 @@ export default function AboutProduct() {
                     </div>
                 </div>
 
-                <div className="xl:order-2 order-1 bg-white rounded-xl p-6 py-10">
+                <div className="xl:order-2 order-2 bg-white rounded-xl p-6 py-10">
                     <div>
                     <h3 className="text-xl font-bold text-gray-900 text-center mb-2">Tabla Nutricional</h3>
-                    <img src="/img/modelo.png" className="w-full h-full object-cover" alt="" />
+                    <img src="/img/modelo.png" className="w-full h-full object-cover xl:mx-auto" alt="" />
                     </div>
                 </div>
 
-                <div className="xl:order-3 order-2 p-6 sm:p-6">
+                <div className="xl:order-3 order-3 p-6 sm:p-6">
                     <div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Ingredientes</h3>
                     <ul className="space-y-1">

@@ -65,7 +65,7 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
   ];
   
   return (
-    <div className="xl:px-2 px-0 md:px-6">
+    <div className="xl:px-4 px-0 md:px-6">
 
      {/*MÉTODOS DE PAGOS*/}
      <div className=" py-3 justify-between pt-4  p-4 bg-white rounded-lg">
