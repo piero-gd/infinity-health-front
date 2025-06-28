@@ -6,7 +6,7 @@ import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/temporalLogin/pages/LoginPage";
 import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
-import { CatalogPage } from "../features/ecommerce/catalog";
+import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
 import CartPage from "../features/ecommerce/cart/pages/CartPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
