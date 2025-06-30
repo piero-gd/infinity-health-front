@@ -3,12 +3,12 @@ import FilterTop from '../components/FilterTop';
 import CategoriesSide from '../components/CategoriesSide';
 import ProductList from '../components/ProductList';
 import ButtonLoader from '../components/ButtonLoader';
-
 export default function CatalogPage() {
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="w-full">
+      <div className="xl:block hidden w-full">
         <Header />
       </div>
 
@@ -16,7 +16,7 @@ export default function CatalogPage() {
       <div className=" px-6 mx-auto py-8">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar de categorías */}
-          <aside className="w-full lg:w-1/4">
+          <aside className="xl:block hidden w-full xl:w-1/4">
             <div className="bg-white rounded-lg shadow-sm p-4 sticky top-4">
               <CategoriesSide />
             </div>
@@ -30,12 +30,12 @@ export default function CatalogPage() {
             </div>
             
             {/* Lista de productos */}
-            <div className="mt-6">
+            <div className="mt-0">
               <ProductList />
             </div>
             
             {/* Botón de cargar más */}
-            <div className="mt-8">
+            <div className="mt-8 flex justify-center">
               <ButtonLoader />
             </div>
           </div>

@@ -4,6 +4,7 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 
+
 interface Props {
   onLogout: () => void;
   setSidebarOpen?: (open: boolean) => void;
@@ -11,17 +12,18 @@ interface Props {
 
 export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
   return (
-    <nav className="sticky top-0 z-40 flex items-center justify-between bg-[var(--color-background)] px-4 py-3 shadow sm:justify-start">
+    <nav className="sticky top-0 z-40 flex items-center justify-between bg-[var(--color-background)] px-4 xl:py-3 py-8 shadow sm:justify-start">
       {/* Botón hamburguesa SOLO en mobile */}
       {setSidebarOpen && (
         <button
-          className="sm:hidden mr-2 text-primary"
+          className="hidden sm:block mr-2 text-[var(--color-primary)]"
           onClick={() => setSidebarOpen(true)}
           aria-label="Abrir menú"
         >
           <Bars3Icon className="h-6 w-6" />
         </button>
       )}
+      
 
       {/* Logo centrado visualmente en mobile */}
       <a
@@ -37,6 +39,8 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
 
       {/* Perfil y logout SOLO en desktop */}
       <div className="ml-auto hidden sm:flex items-center gap-6">
+
+        
         <button className="flex items-center gap-1 hover:text-[var(--color-primary-accent)] transition">
           <FaceSmileIcon className="h-5 w-5" />
           <span className="text-[var(--color-text)]">Perfil</span>

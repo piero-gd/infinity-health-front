@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import PriceRange from './PriceRange';
+import { FaAngleDown } from "react-icons/fa6";
+import DualRangeSlider from './p2';
 
 const Accordion = ({ 
   title, 
@@ -18,7 +20,7 @@ const Accordion = ({
       className="w-full flex justify-between items-center p-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
     >
       <span>{title}</span>
-      <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+      <span className={`transform transition-transform ${isOpen ? '' : 'rotate-180'}`}><FaAngleDown /></span>
     </button>
     {isOpen && (
       <div className="mt-1 pl-2 space-y-2">
@@ -76,7 +78,7 @@ export default function FilterSidebar() {
           <h2 className="text-lg font-semibold text-gray-800">Filtros</h2>
           <button
             onClick={handleClearAll}
-            className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+            className="text-sm text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
           >
             Limpiar todo
           </button>
@@ -84,6 +86,9 @@ export default function FilterSidebar() {
 
         {/* Price Filter */}
         <PriceRange />
+
+        <DualRangeSlider />
+
 
         {/* Categories */}
         <div className="mb-6">
@@ -176,17 +181,7 @@ export default function FilterSidebar() {
 
         {/* Featured Product */}
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100">
-          <h4 className="font-semibold mb-2 text-purple-800">Destacado</h4>
-          <div className="text-sm">
-            <div className="font-medium text-gray-800">Aloex</div>
-            <div className="text-yellow-500 my-1">★★★★☆ 4.9</div>
-            <div className="text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded mt-2 inline-block">
-              Relax
-            </div>
-            <div className="mt-2 text-xs text-gray-600">
-              Producto más vendido este mes
-            </div>
-          </div>
+         
         </div>
       </div>
     </div>

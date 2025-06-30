@@ -1,13 +1,24 @@
 import { Search, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
+import { TbBolt } from "react-icons/tb";
+import { MdOutlineWaterDrop } from "react-icons/md";
+import { BiLeaf } from "react-icons/bi";
+import { BsStars } from "react-icons/bs";
+import { FaFire } from "react-icons/fa";
+import { PiBaseballCapLight } from "react-icons/pi";
+import { PiSquaresFour } from "react-icons/pi";
+
+
+
 const categories = [
-  { id: 'energy', name: 'Energy', icon: '⚡', color: 'bg-blue-100 text-blue-700 border-blue-200' },
-  { id: 'detox', name: 'Detox', icon: '🌿', color: 'bg-green-100 text-green-700 border-green-200' },
-  { id: 'relax', name: 'Relax', icon: '🧘', color: 'bg-purple-100 text-purple-700 border-purple-200' },
-  { id: 'glow', name: 'Glow', icon: '✨', color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
-  { id: 'power', name: 'Power', icon: '💪', color: 'bg-orange-100 text-orange-700 border-orange-200' },
-  { id: 'merch', name: 'Merch', icon: '👕', color: 'bg-gray-100 text-gray-700 border-gray-200' }
+  { id: 'all', name: 'Todos', icon: <PiSquaresFour/>, color: 'bg-gray-100 text-gray-700 border-gray-200' },
+  { id: 'energy', name: 'Energy', icon: <TbBolt/>, color: 'bg-blue-100 text-blue-700 border-blue-200' },
+  { id: 'detox', name: 'Detox', icon: <MdOutlineWaterDrop/>, color: 'bg-green-100 text-green-700 border-green-200' },
+  { id: 'relax', name: 'Relax', icon: <BiLeaf/>, color: 'bg-purple-100 text-purple-700 border-purple-200' },
+  { id: 'glow', name: 'Glow', icon: <BsStars/>, color: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  { id: 'power', name: 'Power', icon: <FaFire/>, color: 'bg-orange-100 text-orange-700 border-orange-200' },
+  { id: 'merch', name: 'Merch', icon: <PiBaseballCapLight/>, color: 'bg-gray-100 text-gray-700 border-gray-200' }
 ];
 
 const sortOptions = [
@@ -20,15 +31,16 @@ const sortOptions = [
 export default function FilterTop() {
   const [showSort, setShowSort] = useState(false);
   const [selectedSort, setSelectedSort] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   return (
-    <div className="w-full bg-white p-5 rounded-lg shadow-sm">
+    <div className="w-full p-5">
       {/* Barra de búsqueda y ordenamiento */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="flex flex-col-2 md:flex-row md:items-center md:justify-between gap-4 mb-8">
         {/* Título y búsqueda */}
-        <div className="flex-1 flex flex-col md:flex-row md:items-center gap-4">
+        <div className="flex-1 flex flex-col md:flex-row md:items-center  gap-4">
           <h3 className=" font-medium text-gray-900">Tienda</h3>
-          <div className="relative flex-1 ml-20">
+          <div className="relative flex-1 ml-20 xl:block md:block hidden">
             <input
               type="text"
               placeholder=" Buscar producto..."
@@ -71,14 +83,16 @@ export default function FilterTop() {
       </div>
 
       {/* Filtros de categorías */}
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex xl:flex-wrap  gap-3 overflow-x-auto snap-x">
         {categories.map(category => (
-          <div key={category.id} className="border-b-2 border-[var(--color-primary)]">
+          <div key={category.id} className={`${selectedCategory === category.id ? 'border-b-2 border-[var(--color-primary)]'
+           : '  border-none'}`}>
             <button
               onClick={() => console.log('Categoría seleccionada:', category.name)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium
+              className={`flex items-center gap-2 mb-4 px-4 py-2 rounded-full border text-sm font-medium
                         transition-all duration-200 hover:shadow-md
-                        ${category.color} shadow-sm ring-2 ring-offset-1 ring-blue-300`}
+                        ${category.color} border-2 shadow-sm ring-2 ring-offset-1 ring-blue-300
+                        `}
             >
               {category.name}
               <span className="text-base">{category.icon}</span>

@@ -18,7 +18,7 @@ export default function PriceRange() {
       <div className="space-y-4">
 
         {/* Min AND Max Range Slider */}
-        <div className="flex gap-2">
+        <div className="flex">
           <input
             type="range"
             min={minPrice}
@@ -37,15 +37,6 @@ export default function PriceRange() {
           />
         </div>
         
-        {/* Price Display */}
-        <div className="flex justify-between items-center">
-          <div className="text-sm ">
-            <span className="font-semibold text-blue-600">${currentMin}.00</span>
-          </div>
-          <div className="text-sm">
-            <span className="font-semibold text-blue-600">${currentMax}.00</span>
-          </div>
-        </div>
         
         {/* Input Fields */}
         <div className="flex gap-2">
