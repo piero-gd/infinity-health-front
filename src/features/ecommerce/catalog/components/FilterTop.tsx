@@ -8,6 +8,8 @@ import { BsStars } from "react-icons/bs";
 import { FaFire } from "react-icons/fa";
 import { PiBaseballCapLight } from "react-icons/pi";
 import { PiSquaresFour } from "react-icons/pi";
+import { VscSettings } from "react-icons/vsc";
+
 
 
 
@@ -39,12 +41,14 @@ export default function FilterTop() {
       <div className="flex flex-col-2 md:flex-row md:items-center md:justify-between gap-4 mb-8">
         {/* Título y búsqueda */}
         <div className="flex-1 flex flex-col md:flex-row md:items-center  gap-4">
-          <h3 className=" font-medium text-gray-900">Tienda</h3>
-          <div className="relative flex-1 ml-20 xl:block md:block hidden">
+          <h3 className=" font-medium text-gray-900 xl:mt-0 md:mt-0 mt-1">Tienda</h3>
+          <div className="relative flex-1 xl:ml-20 ml-0 xl:block md:block hidden">
+            
+
             <input
               type="text"
               placeholder=" Buscar producto..."
-              className="block w-full pr-10 pl-2 py-2 border border-gray-300 rounded-full 
+              className="block w-full pr-0 xl:pr-10 pl-2 py-2 border border-gray-300 rounded-full 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                        placeholder-gray-500 text-sm"
             />
@@ -53,7 +57,16 @@ export default function FilterTop() {
         </div>
 
         {/* Menú de ordenamiento súper simple */}
-        <div className="relative">
+        <div className="relative flex inline-flex items-center gap-2">
+          {/*Activar Filtros*/}
+          <button 
+            className="flex items-center xl:hidden block gap-2 px-4 py-2 border border-gray-300 rounded-full 
+                     bg-white text-gray-400 hover:bg-gray-50 text-sm font-medium"
+          >Filtros
+           <VscSettings className="h-4 w-4" />
+          </button>
+
+
           <button 
             onClick={() => setShowSort(!showSort)}
             className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full 
