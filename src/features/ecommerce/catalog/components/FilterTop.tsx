@@ -10,9 +10,6 @@ import { PiBaseballCapLight } from "react-icons/pi";
 import { PiSquaresFour } from "react-icons/pi";
 import { VscSettings } from "react-icons/vsc";
 
-
-
-
 const categories = [
   { id: 'all', name: 'Todos', icon: <PiSquaresFour/>, color: 'bg-gray-100 text-gray-700 border-gray-200' },
   { id: 'energy', name: 'Energy', icon: <TbBolt/>, color: 'bg-blue-100 text-blue-700 border-blue-200' },
@@ -29,6 +26,11 @@ const sortOptions = [
   { id: 'price-low', name: 'Precio: de menor a mayor' },
   { id: 'price-high', name: 'Precio: de mayor a menor' }
 ];
+
+const handleFilterCategories = () => {
+  const [showMenu, setShowMenu] = useState(false);
+  setShowMenu(!showMenu);
+}
 
 export default function FilterTop() {
   const [showSort, setShowSort] = useState(false);
@@ -60,6 +62,7 @@ export default function FilterTop() {
         <div className="relative flex inline-flex items-center gap-2">
           {/*Activar Filtros*/}
           <button 
+            onClick={() => handleFilterCategories()}
             className="flex items-center xl:hidden block gap-2 px-4 py-2 border border-gray-300 rounded-full 
                      bg-white text-gray-400 hover:bg-gray-50 text-sm font-medium"
           >Filtros
