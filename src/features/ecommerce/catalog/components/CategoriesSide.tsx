@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PriceRange from './PriceRange';
 import { FaAngleDown } from "react-icons/fa6";
 import DualRangeSlider from './p2';
 
@@ -84,9 +83,7 @@ export default function FilterSidebar() {
           </button>
         </div>
 
-        {/* Price Filter */}
-        <PriceRange />
-
+        <h3 className="font-semibold mb-3 text-gray-800">Precio</h3>
         <DualRangeSlider />
 
 
