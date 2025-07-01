@@ -36,20 +36,13 @@ export default function LoginForm() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      {/* Mobile: Branding arriba */}
-      <div className="flex flex-col items-center md:hidden mb-6">
-        <img
-          src="/img/login-mobile.png"
-          alt="Infinity Health"
-          className="w-32 h-auto mb-4 rounded-2xl object-cover"
-        />
-      </div>
+      {/* Branding mobile eliminado */}
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-3xl shadow-none p-6 md:p-0 flex flex-col gap-4"
+        className="bg-white rounded-3xl shadow-none md:p-0 flex flex-col gap-4"
         autoComplete="off"
       >
-        <h2 className="text-xl font-bold  mb-2 text-text">
+        <h2 className="text-xl font-bold text-center md:text-left mb-2 text-text">
           Inicia sesión en tu cuenta
         </h2>
         <p className="font-semibold text-text-muted mb-2 text-sm md:text-base ">
