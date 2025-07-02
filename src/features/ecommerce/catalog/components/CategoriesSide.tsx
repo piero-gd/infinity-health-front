@@ -48,11 +48,11 @@ export default function FilterSidebar() {
   const [selectedFormat, setSelectedFormat] = useState('');
 
   const products = [
-    'Bebidas energéticas', 'Suplementos', 'Snacks saludables'
+    'Energy', 'Detox', 'Relax', 'Glow', 'Power'
   ];
   
   const merchandising = [
-    'Camisetas', 'Tazas', 'Botellas', 'Mochilas'
+    'Ropa Deportiva', 'Accesorios'
   ];
 
   const objectives = [

@@ -1,16 +1,71 @@
-import { ChevronDown, ChevronUp } from 'lucide-react';
+
 import { IoCloseSharp } from "react-icons/io5";
 import DualRangeSlider from './p2';
-
+import { FaAngleDown } from "react-icons/fa6";
+import { useState } from 'react';
 
 interface CategoriesSlideMenuProps {
   onClose: () => void;
 }
 
+
+const Accordion = ({ 
+  title, 
+  children, 
+  isOpen = false, 
+  onToggle = () => {} 
+}: { 
+  title: string; 
+  children: React.ReactNode; 
+  isOpen?: boolean; 
+  onToggle?: () => void 
+}) => (
+  <div className="mb-0">
+    <button
+      onClick={onToggle}
+      className="w-full flex justify-between items-center text-left text-sm font-medium text-black p-2 hover:bg-gray-50 rounded-lg transition-colors"
+    >
+      <span className="text-base">{title}</span>
+      <span className={`transform transition-transform ${isOpen ? '' : 'rotate-180'}`}><FaAngleDown /></span>
+    </button>
+    {isOpen && (
+      <div className="mb-2 ml-2 space-y-2">
+        {children}
+      </div>
+    )}
+  </div>
+);
+
 export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProps) {
+
+    const [openSections, setOpenSections] = useState({
+      productos: true,
+      merchandising: true
+    });
+  
+    const toggleSection = (section: keyof typeof openSections) => {
+      setOpenSections(prev => ({
+        ...prev,
+        [section]: !prev[section]
+      }));
+    };
+  
+    const [selectedProduct, setSelectedProduct] = useState('');
+    const [selectedMerchandising, setSelectedMerchandising] = useState('');
+
+    const products = [
+      'Energy', 'Detox', 'Relax', 'Glow', 'Power'
+    ];
+    
+    const merchandising = [
+      'Ropa Deportiva', 'Accesorios'
+    ];
+
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex z-50 ">
-      <div className="bg-white w-80 h-full overflow-y-auto shadow-2xl rounded-r-2xl">
+      <div className="bg-white w-80 h-full shadow-2xl rounded-r-2xl">
+       
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-4 pb-4  bg-white sticky top-0 z-10">
           <h2 className="text-xl font-semibold text-gray-900">Filtros</h2>
@@ -59,30 +114,55 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
             </div>
             
             {/* Productos */}
-            <div className="border-b border-gray-100 pb-3 mb-3 mt-3">
-              <button className="flex items-center justify-between w-full text-left">
-                <span className="text-gray-700 font-medium">Productos</span>
-                <ChevronDown className="w-5 h-5 text-gray-400" />
-              </button>
+            <div className="border-b border-gray-100  ">
+
+            <Accordion 
+            title="Productos"
+            isOpen={openSections.productos}
+            onToggle={() => toggleSection('productos')}
+          >
+            <div className="space-y-2 pl-2">
+              {products.map((product) => (
+                <label key={product} className="flex items-center text-sm cursor-pointer hover:text-blue-600 transition-colors">
+                  <input
+                    type="radio"
+                    name="product"
+                    value={product}
+                    checked={selectedProduct === product}
+                    onChange={(e) => setSelectedProduct(e.target.value)}
+                    className="mr-2 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="truncate">{product}</span>
+                </label>
+              ))}
+            </div>
+          </Accordion>
+
             </div>
 
             {/* Merch Health */}
-            <div className="pb-3 mb-3">
-              <button className="flex items-center justify-between w-full text-left mb-3">
-                <span className="text-gray-700 font-medium">Merch Health</span>
-                <ChevronUp className="w-5 h-5 text-gray-400" />
-              </button>
-              
-              <div className="space-y-3 ml-4">
-                <label className="flex items-center">
-                  <input type="checkbox" className="w-5 h-5 text-blue-500 rounded border-gray-300 focus:ring-blue-500" />
-                  <span className="ml-3 text-gray-600">Ropa Deportiva</span>
+            <div>
+            <Accordion 
+            title="Merchandising"
+            isOpen={openSections.merchandising}
+            onToggle={() => toggleSection('merchandising')}
+          >
+            <div className="space-y-2 pl-2">
+              {merchandising.map((item) => (
+                <label key={item} className="flex items-center text-sm cursor-pointer hover:text-blue-600 transition-colors">
+                  <input
+                    type="radio"
+                    name="merchandising"
+                    value={item}
+                    checked={selectedMerchandising === item}
+                    onChange={(e) => setSelectedMerchandising(e.target.value)}
+                    className="mr-2 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="truncate">{item}</span>
                 </label>
-                <label className="flex items-center">
-                  <input type="checkbox" className="w-5 h-5 text-blue-500 rounded border-gray-300 focus:ring-blue-500" />
-                  <span className="ml-3 text-gray-600">Accesorios</span>
-                </label>
-              </div>
+              ))}
+            </div>
+          </Accordion>
             </div>
 
             {/* Packs Health */}
@@ -108,13 +188,18 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
           </div>
         </div>
 
+
         {/* Footer */}
-        <div className="p-6  bg-white sticky bottom-0 z-10">
+        <div className="p-6 bg-white sticky bottom-0 z-10">
           <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-4 rounded-full font-medium text-lg hover:bg-blue-600 transition-colors">
             Aplicar Filtros
           </button>
         </div>
+
+        
+
       </div>
+
       {/* Click outside to close */}
       <div className="flex-1" onClick={onClose}></div>
     </div>
