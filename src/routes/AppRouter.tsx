@@ -8,6 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 import AcademyPage from "../features/academy/pages/AcademyPage";
 import TestLayout from "../layouts/TestLayout";
+import EcommerceLayout from "../layouts/EcommerceLayout";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -56,7 +57,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           />
         </Route>
 
-        <Route element={<TestLayout onLogout={onLogout} />}>
+        <Route element={<EcommerceLayout onLogout={onLogout} />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Route>

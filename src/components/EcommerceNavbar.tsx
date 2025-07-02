@@ -6,6 +6,7 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
+
 import { useState } from "react";
 
 interface Props {
@@ -15,12 +16,14 @@ interface Props {
 
 export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [ifSelected, setIfSelected] = useState(false);
   
   const navigationLinks = [
-    { name: "Home", href: "/" },
-    { name: "Productos", href: "/" },
+    { name: "Inicio", href: "/" },
+    { name: "Tienda", href: "/" },
+    { name: "Servicios", href: "/" },
     { name: "Nosotros", href: "/" },
-    { name: "Blog", href: "/" },
+    { name: "Contacto", href: "/" },
   ];
 
   return (
@@ -38,16 +41,27 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
           </div>
 
           {/* Contenedor central con fondo gris redondeado */}
-          <div className="hidden lg:flex md:flex items-center bg-gray-100 rounded-full px-6 py-3 space-x-8">
+          <div className="hidden lg:flex md:flex items-center px-6 py-3 space-x-8">
             {navigationLinks.map((link) => (
               <a
-                key={link.name}
+                key={link.name} 
                 href={link.href}
-                className="text-gray-800 hover:text-[var(--color-primary)] text-sm font-medium transition-colors duration-200"
+                onClick={() => setIfSelected(true)}
+                className={`text-gray-800 text-sm font-medium transition-colors duration-200 ${ifSelected ? 
+                  'text-[var(--color-primary)] border-b-1 border-[var(--color-primary)]' : ''}`}
               >
                 {link.name}
               </a>
             ))}
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="rounded-full bg-gray-100 px-2 py-3 flex items-center">
+              <input type="text" placeholder="Buscar..." className="text-sm ml-2"/>
+              <button>
+                <MagnifyingGlassIcon className="h-5 w-5 text-[var(--color-primary)]" />
+              </button>
+            </div>
           </div>
 
           {/* Sección derecha con iconos y perfil */}
@@ -55,21 +69,10 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
             {/* Iconos con fondos circulares - Solo desktop */}
             <div className="hidden lg:flex items-center md:flex space-x-3">
               <button
-                className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors duration-200"
+                className="w-10 h-10 text-[var(--color-primary)] rounded-full flex items-center justify-center hover:bg-[var(--color-primary-dark)] transition-colors duration-200"
               >
-                <MagnifyingGlassIcon className="h-5 w-5" />
-              </button>
-              
-              <button
-                className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors duration-200"
-              >
-                <HeartIcon className="h-5 w-5" />
-              </button>
-              
-              <button
-                className="w-10 h-10 bg-[var(--color-primary)] text-white rounded-full flex items-center justify-center hover:bg-[var(--color-primary-dark)] transition-colors duration-200"
-              >
-                <ShoppingBagIcon className="h-5 w-5" />
+                <ShoppingBagIcon className="h-7 w-7" />
+                <span className="absolute ml-5 top-1.5 text-sm bg-[var(--color-primary)] rounded-full w-3 h-3 text-white">0</span>
               </button>
 
             {/* Mi Cuenta con avatar */}
