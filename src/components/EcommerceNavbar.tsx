@@ -7,6 +7,10 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 
+import { LiaShoppingBagSolid } from "react-icons/lia";
+import { GoPerson } from "react-icons/go";
+import { SlArrowDown } from "react-icons/sl";
+
 import { useState } from "react";
 
 interface Props {
@@ -16,88 +20,107 @@ interface Props {
 
 export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [ifSelected, setIfSelected] = useState(false);
+  const [activeLink, setActiveLink] = useState("Inicio");
   
   const navigationLinks = [
     { name: "Inicio", href: "/" },
-    { name: "Tienda", href: "/" },
-    { name: "Servicios", href: "/" },
-    { name: "Nosotros", href: "/" },
-    { name: "Contacto", href: "/" },
+    { name: "Tienda", href: "/tienda" },
+    { name: "Servicios", href: "/servicios" },
+    { name: "Nosotros", href: "/nosotros" },
+    { name: "Contacto", href: "/contacto" },
   ];
 
   return (
-    <nav className=" sticky top-0 z-40 bg-white px-4 py-3 shadow-sm">
+    <nav className="sticky top-0 z-40 bg-white px-4 py-3 shadow-sm">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <a href="/" className="flex md:hidden lg:flex items-center">
+          
+          {/* VERSIÓN DESKTOP */}
+          {/* Logo - Solo desktop */}
+          <div className="hidden lg:flex flex-shrink-0">
+            <a href="/" className="flex items-center">
               <img
                 src="/img/health-logo-light-mode.png"
                 className="h-8 w-auto"
+                alt="Logo"
               />
             </a>
           </div>
 
-          {/* Contenedor central con fondo gris redondeado */}
-          <div className="hidden lg:flex md:flex items-center px-6 py-3 space-x-8">
+          {/* Navegación central - Solo desktop */}
+          <div className="hidden lg:flex items-center px-6 py-3 space-x-10">
             {navigationLinks.map((link) => (
               <a
                 key={link.name} 
                 href={link.href}
-                onClick={() => setIfSelected(true)}
-                className={`text-gray-800 text-sm font-medium transition-colors duration-200 ${ifSelected ? 
-                  'text-[var(--color-primary)] border-b-1 border-[var(--color-primary)]' : ''}`}
+                onClick={() => setActiveLink(link.name)}
+                className={`text-sm font-medium transition-colors duration-200 ${
+                  activeLink === link.name 
+                    ? 'text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] pb-1' 
+                    : 'text-gray-600'
+                }`}
               >
                 {link.name}
               </a>
             ))}
           </div>
 
-          <div className="flex items-center space-x-3">
-            <div className="rounded-full bg-gray-100 px-2 py-3 flex items-center">
+          {/* Sección derecha desktop */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <div className="rounded-full border-1 border-black px-2 py-3 flex items-center">
               <input type="text" placeholder="Buscar..." className="text-sm ml-2"/>
               <button>
                 <MagnifyingGlassIcon className="h-5 w-5 text-[var(--color-primary)]" />
               </button>
             </div>
+            
+            <button className="w-10 h-10 text-black rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200">
+              <LiaShoppingBagSolid className="h-8 w-8" />
+              <span className="absolute ml-5 top-5 text-sm bg-[var(--color-primary)] rounded-full w-5 h-5 text-white">0</span>
+            </button>
+
+            <div className="flex items-center space-x-2 ml-4">
+              <GoPerson className="h-8 w-8" />
+              <span className="text-sm text-gray-700">Mi Cuenta</span>
+              <SlArrowDown className="h-4 w-4" />
+            </div>
           </div>
 
-          {/* Sección derecha con iconos y perfil */}
-          <div className="flex items-center space-x-3">
-            {/* Iconos con fondos circulares - Solo desktop */}
-            <div className="hidden lg:flex items-center md:flex space-x-3">
-              <button
-                className="w-10 h-10 text-[var(--color-primary)] rounded-full flex items-center justify-center hover:bg-[var(--color-primary-dark)] transition-colors duration-200"
-              >
-                <ShoppingBagIcon className="h-7 w-7" />
-                <span className="absolute ml-5 top-1.5 text-sm bg-[var(--color-primary)] rounded-full w-3 h-3 text-white">0</span>
-              </button>
-
-            {/* Mi Cuenta con avatar */}
-<div className="flex items-center space-x-2 ml-4">
-  <span className="text-sm text-gray-700">Mi Cuenta</span>
-  
-  {/* Contenedor exterior con gradiente (el borde) */}
-  <div className="w-10 h-10 rounded-full bg-gradient-to-t from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] p-0.5">
-    {/* Contenedor interior para la imagen */}
-    <div className="w-full h-full rounded-full overflow-hidden">
-      <img
-        src="/img/hombre.png"
-        className="w-full h-full object-cover"
-      />
-    </div>
-  </div>
-</div>
-            </div>
-
-            {/* Botón hamburguesa para mobile */}
+          {/* VERSIÓN MÓVIL */}
+          {/* Iconos izquierda - móvil */}
+          <div className="lg:hidden flex items-center space-x-3">
             <button
-              className="lg:hidden md:hidden w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-200"
+              className="w-10 h-10 flex items-center justify-center"
               onClick={() => setMobileMenuOpen(true)}
             >
               <Bars3Icon className="h-6 w-6 text-gray-700" />
+            </button>
+            
+            <button className="w-10 h-10 flex items-center justify-center">
+              <MagnifyingGlassIcon className="h-5 w-5 text-gray-700" />
+            </button>
+          </div>
+
+          {/* Logo centrado - móvil */}
+          <div className="lg:hidden flex-1 flex justify-center">
+            <a href="/" className="flex items-center">
+              <img
+                src="/img/health-logo-light-mode.png"
+                className="h-8 w-auto"
+                alt="Logo"
+              />
+            </a>
+          </div>
+
+          {/* Iconos derecha - móvil */}
+          <div className="lg:hidden flex items-center space-x-3">
+            <button className="w-10 h-10 flex items-center justify-center relative">
+              <LiaShoppingBagSolid className="h-6 w-6 text-gray-700" />
+              <span className="absolute -top-1 -right-1 text-xs bg-[var(--color-primary)] rounded-full w-5 h-5 text-white flex items-center justify-center">3</span>
+            </button>
+            
+            <button className="w-10 h-10 flex items-center justify-center">
+              <GoPerson className="h-6 w-6 text-gray-700" />
             </button>
           </div>
         </div>
@@ -116,6 +139,7 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
                       <img
                         src="/img/hombre.png"
                         className="w-full h-full object-cover"
+                        alt="Usuario"
                       />
                     </div>
                   </div>
@@ -148,7 +172,6 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
 
                 {/* Iconos de acción */}
                 <div className="px-4 mb-4 border-b border-1 border-gray-200">
-              
                   <div className="space-y-3 mt-4 mb-4">
                     <button className="flex items-center space-x-3 w-full py-3 px-3 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200">
                       <div className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center">
