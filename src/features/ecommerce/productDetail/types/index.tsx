@@ -17,6 +17,13 @@ export interface Product {
     peso: string;  // Unificado a solo string ya que todos los pesos usan '100g'
 }
 
+export interface Category {
+    id: string;
+    categoria: Product["categoria"] ;
+    icon: React.ReactNode;
+    color: string;
+}
+
 export interface DeliveryOption {
     id: number;
     zona: string;
@@ -36,7 +43,6 @@ export interface CartItem {
 export interface ProductCardProps {
     product: Product;
     onAddToCart?: (productId: number) => void;
-    onToggleFavorite?: (productId: number) => void;
 }
 
 export interface PhotoSliderProps {
@@ -56,5 +62,4 @@ export interface RelatedProductsProps {
 export interface InfoDetailProps {
     product: Product;
     onAddToCart?: (product: Product, quantity: number) => void;
-    onToggleFavorite?: (productId: number) => void;
 }

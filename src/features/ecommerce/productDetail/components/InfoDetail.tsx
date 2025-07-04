@@ -1,24 +1,16 @@
 import { useState } from 'react';
 import { PiShoppingCartLight } from "react-icons/pi";
-import { RiHeart3Line } from "react-icons/ri";
-import { HiMiniHeart } from "react-icons/hi2";
-import { RxLightningBolt } from 'react-icons/rx';
+import { CategoriesTag } from '../../../../components/CategoriesTag';
 import { CiDeliveryTruck } from "react-icons/ci";
 import type { InfoDetailProps } from '../types';
 
 export const InfoDetail: React.FC<InfoDetailProps> = ({ 
     product,
     onAddToCart = () => {},
-    onToggleFavorite = () => {}
 }) => {
     const [quantity, setQuantity] = useState(1);
-    const [isFavorite, setIsFavorite] = useState(false);
-    
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-        onToggleFavorite(product.id);
-    };
-
+   
+    //para implementar luego
     const handleAddToCart = () => {
         onAddToCart(product, quantity);
     };
@@ -35,32 +27,30 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
                 <h1 className="text-3xl font-bold text-gray-800">{product.nombre}</h1> 
-                <div className="flex bg-[var(--color-primary-light)] rounded-full border-2 border-white text-white xl:block hidden items-center gap-2 px-4 py-1 shadow-lg">
-                    <h4 className="inline-block text-[var(--color-primary)] text-sm font-semibold">
-                        {product.categoria}
-                    </h4>
-                    <RxLightningBolt className="inline-block h-3 w-3 text-[var(--color-primary)] text-md font-semibold" />
+                <div className="xl:block hidden">
+                    <CategoriesTag categoryName={product.categoria} className="text-sm" />
                 </div>
             </div>
 
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
-                <div className="flex items-center gap-3">
-                    <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)]">
-                        S/ {product.precio.toFixed(2)}
-                    </span>
+            <div className="flex flex-col gap-2">
                     {product.precioAnterior && (
-                        <>
-                            <span className="xl:text-lg text-sm text-gray-500 line-through">
-                                S/ {product.precioAnterior.toFixed(2)}
-                            </span>
-                            {discount > 0 && (
-                                <span className="bg-[var(--color-primary)] text-white px-2 ml-5 py-1 rounded-full text-sm font-medium">
-                                    -{discount}%
-                                </span>
-                            )}
-                        </>
+                        <span className="xl:text-lg text-md text-gray-500">
+                            S/ {product.precioAnterior.toFixed(2)}
+                        </span>
                     )}
+                    <div className="flex items-center gap-3">
+                        <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)] flex items-center gap-1">
+                            S/ {product.precio.toFixed(2)}
+                            <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
+                        </span>
+                        {discount > 0 && (
+                            <span className="ml-12 bg-[var(--color-primary)] text-white px-3 py-1 rounded-full text-sm font-medium">
+                                -{discount}%
+                            </span>
+                        )}
+                    </div>
                 </div>
                 
                 {/* Rating */}
@@ -88,23 +78,8 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                 <p className="text-gray-600">{product.descripcion}</p>
             </div>
 
-            {/* PESO O MEDIDA POSIBLE
-            <div className="mt-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Peso</h3>
-                <p className="text-gray-600">{product.peso}</p>
-            </div> */}
-
-            {/* STOCK POSIBLE
-            <div className="mt-4">
-                <p className="text-green-600 font-medium">
-                    {product.stock > 0 
-                        ? `En stock (${product.stock} disponibles)` 
-                        : 'Agotado'}
-                </p>
-            </div>*/}
-
             {/* BOTONES */}
-            <div className="flex flex-row gap-4 mt-8 mb-0 xl:mb-10 xl:relative md:relative fixed bottom-0 left-0 right-0 z-50 xl:p-0 p-8 xl:bg-transparent xl:rounded-none rounded-t-3xl xl:border-none border-2 border-white bg-white/89 md:bg-transparent md:border-none backdrop-blur-sm ">
+            <div className="flex flex-row gap-4 mt-8 mb-0 xl:mb-10 xl:relative md:relative fixed bottom-0 left-0 right-0 z-50 xl:p-0 p-8 xl:bg-transparent xl:rounded-none rounded-t-3xl xl:border-none border-2 border-white bg-white/89 md:bg-transparent md:border-none backdrop-blur-sm justify-center xl:justify-start">
                 <div className="flex items-center border border-gray-300 bg-gray-50 rounded-full">
                     <button 
                         onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
@@ -125,19 +100,10 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                     onClick={handleAddToCart}
                     className="bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2 hover:opacity-90"
                 >
-                    <span className="xl:block block">Añadir </span> <span className="xl:block hidden">al carrito</span>
+                    <span>Añadir </span> <span className="xl:block hidden">al carrito</span>
                     <PiShoppingCartLight size={20} />
                 </button>
                 
-                <button 
-                    onClick={toggleFavorite}
-                    className="p-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
-                >
-                    {isFavorite 
-                        ? <HiMiniHeart size={24} className="text-red-500" /> 
-                        : <RiHeart3Line size={24} className="text-gray-600" />
-                    }
-                </button>
             </div>
 
 

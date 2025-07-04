@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StarIcon } from 'lucide-react';
 import { PiShoppingCartLight } from "react-icons/pi";
@@ -6,12 +5,9 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import type { ProductCardProps } from '../types';
 
 export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({ 
-    product,
-    onAddToCart,
-    onToggleFavorite 
+    product
 }) => {
     const navigate = useNavigate();
-    const [isFavorite, setIsFavorite] = useState(false);
 
     const formatPrice = (price: number): string => {
         return new Intl.NumberFormat('es-PE', {
@@ -24,16 +20,9 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
         navigate(`/product/${product.id}`);
     };
 
-    const handleAddToCartClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        onAddToCart?.(product.id);
+    const handleAddToCartClick = () => {
     };
 
-    const handleToggleFavorite = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setIsFavorite(!isFavorite);
-        onToggleFavorite?.(product.id);
-    };
 
     return (
         <div className="max-w-sm mx-auto gap-4">

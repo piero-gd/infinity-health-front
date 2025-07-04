@@ -1,6 +1,9 @@
-import { FaFacebookF, FaTwitter, FaPinterestP, FaApplePay, FaGooglePay, FaCcVisa, FaCcMastercard, FaCcAmex } from 'react-icons/fa';
+import { FaFacebookF, FaApplePay, FaGooglePay, FaCcVisa, FaCcMastercard, FaCcAmex } from 'react-icons/fa';
 import { SiPaytm } from 'react-icons/si';
 import { RiLockPasswordLine } from "react-icons/ri";
+import { AiOutlineInstagram } from "react-icons/ai";
+import { FaWhatsapp } from "react-icons/fa6";
+
 
 interface ShareOptionsProps {
     productId: number | string;
@@ -15,11 +18,10 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
     switch(platform) {
       case 'facebook':
         return `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`;
-      case 'twitter':
-        return `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(productUrl)}`;
-      case 'pinterest':
-        const mediaUrl = 'https://via.placeholder.com/800'; 
-        return `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(productUrl)}&media=${encodeURIComponent(mediaUrl)}&description=${encodeURIComponent(shareText)}`;
+      case 'instagram':
+        return `https://www.instagram.com/?url=${encodeURIComponent(productUrl)}`;
+      case 'whatsapp':
+        return `https://wa.me/?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(productUrl)}`;
       default:
         return productUrl;
     }
@@ -29,25 +31,25 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
     { 
       icon: FaFacebookF, 
       label: 'Facebook', 
-      color: 'hover:bg-blue-100 text-blue-600',
+      color: 'text-gray-500',
       onClick: () => {
         const url = getShareUrl('facebook');
         window.open(url, '_blank', 'width=600,height=400');
       }
     },
     { 
-      icon: FaTwitter, 
-      label: 'Twitter', 
-      color: 'hover:bg-blue-50 text-blue-400',
+      icon: AiOutlineInstagram, 
+      label: 'Instagram', 
+      color: 'text-gray-500',
       onClick: () => {
         const url = getShareUrl('twitter');
         window.open(url, '_blank', 'width=600,height=400');
       }
     },
     { 
-      icon: FaPinterestP, 
-      label: 'Pinterest', 
-      color: 'hover:bg-red-50 text-red-600',
+      icon: FaWhatsapp, 
+      label: 'Whatsapp', 
+      color: 'text-gray-500',
       onClick: () => {
         const url = getShareUrl('pinterest');
         window.open(url, '_blank', 'width=750,height=600');
@@ -85,11 +87,11 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
       
       <div className="flex items-center gap-4 p-4 pt-5">
         <h4 className="text-sm font-medium text-gray-900">Compartir</h4>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           {shareOptions.map(({ icon: Icon, label, color }) => (
             <button
               key={label}
-              className={`p-2 rounded-md hover:bg-gray-100 transition-colors ${color}`}
+              className={`p-1 transition-colors ${color}`}
               aria-label={`Compartir en ${label}`}
             >
               <Icon size={20} />

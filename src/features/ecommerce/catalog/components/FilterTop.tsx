@@ -14,7 +14,7 @@ import CategoriesSlideMenu from './CategoriesSlideMenu';
 
 const categories = [
   { id: 'all', name: 'Todos', icon: <PiSquaresFour/>, color: 'bg-[var(--color-primary)] text-white border-[var(--color-primary)] hover:bg-white hover:text-[var(--color-primary)]' },
-  { id: 'energy', name: 'Energy', icon: <TbBolt/>, color: 'bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200 hover:text-blue-700' },
+  { id: 'energy', name: 'Energy', icon: <TbBolt/>, color: 'bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200 hover:text-blue-700' },
   { id: 'detox', name: 'Detox', icon: <MdOutlineWaterDrop/>, color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200 hover:text-green-700' },
   { id: 'relax', name: 'Relax', icon: <BiLeaf/>, color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200 hover:text-purple-700' },
   { id: 'glow', name: 'Glow', icon: <BsStars/>, color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200 hover:text-yellow-700' },
@@ -110,20 +110,29 @@ export default function FilterTop() {
       </div>
 
       {/* Filtros de categorías */}
-      <div className="mt-4 flex xl:flex-wrap p-3 gap-5 overflow-x-auto snap-x">
+      <div className="mt-4 flex xl:flex-wrap p-3 gap-5 overflow-x-auto snap-x pb-1">
         {categories.map(category => (
-          <div key={category.id} className={`${selectedCategory === category.id ? 'border-b-2 border-[var(--color-primary)]'
-           : '  border-none'}`}>
+          <div 
+            key={category.id} 
+            className="relative pb-1"
+          >
             <button
-              onClick={() => console.log('Categoría seleccionada:', category.name)}
-              className={`flex items-center gap-2 mb-4 px-4 py-2 rounded-full border text-sm font-medium
-                        transition-all duration-200 hover:shadow-md
-                        ${category.color} border-2 shadow-sm ring-2 ring-offset-1 ring-blue-300
+              onClick={() => setSelectedCategory(category.id)}
+              className={`flex items-center gap-2 px-4 py-2 mb-2 rounded-full text-sm font-medium
+                        transition-all duration-200 border-2 shadow-sm
+                        ${category.color}
+                        ${selectedCategory === category.id 
+                          ? `ring-2 ring-offset-1 ring-${category.color} scale-105` 
+                          : 'ring-0 hover:scale-105'}
                         `}
             >
               {category.name}
               <span className="text-base">{category.icon}</span>
             </button>
+            {/* Línea inferior para la categoría seleccionada */}
+            {selectedCategory === category.id && (
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[var(--color-primary)] rounded-full" />
+            )}          
           </div>
         ))}
       </div>

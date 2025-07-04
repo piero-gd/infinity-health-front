@@ -1,13 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { FaRegHeart, FaStar } from "react-icons/fa";
-import { FaBolt } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 import { PiShoppingCartLight } from "react-icons/pi";
-
-import type { ProductCardProps } from '../types';
+import { CategoriesTag } from './CategoriesTag';
+import type { ProductCardProps } from '../features/ecommerce/productDetail/types';
 
 export const ProductCardDashboard: React.FC<ProductCardProps> = ({
-    product,
-    onAddToCart
+    product
 }) => {
     const navigate = useNavigate();
 
@@ -22,44 +20,37 @@ export const ProductCardDashboard: React.FC<ProductCardProps> = ({
         navigate(`/product/${product.id}`);
     };
 
-    const handleAddToCartClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        onAddToCart?.(product.id);
-    };
-
     return (
         <div 
             onClick={handleCardClick}
-            className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer h-full flex flex-col"
+            className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer h-full flex flex-col"
             style={{
-                background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)'
+                backgroundImage: `url(${product.imagenes[0]})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center 30%',
+                backgroundRepeat: 'no-repeat',
+                backgroundColor: '#f8fafc', // Fallback color
+                paddingTop: '75%', // Proporción más alta para la imagen
+                position: 'relative'
             }}
         >
-            {/* Favorite Button */}
-            <button 
-                className="absolute top-3 right-3 z-10 p-2 bg-white/90 rounded-full hover:bg-white transition-colors shadow-sm"
-            >
-                <FaRegHeart className="w-4 h-4 text-gray-600 hover:text-red-400" />
-            </button>
 
             {/* Category Badge */}
-            <div className="absolute top-3 left-3 z-10 px-3 py-1 bg-blue-100 rounded-full flex items-center space-x-1 text-xs font-semibold text-blue-700 border border-blue-200">
-                <span>Energy</span>
-                <FaBolt className="w-3 h-3" />
+            <div className="absolute top-5 left-3 z-20 px-3">
+                <CategoriesTag categoryName={product.categoria} />
             </div>
 
-            {/* Product Image */}
-            <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden p-4">
+            {/* Product Image - Hidden but kept for SEO and accessibility */}
+            <div className="absolute opacity-0 w-0 h-0 overflow-hidden">
                 <img 
-                    src={product.imagenes[0] || 'https://via.placeholder.com/300'}
+                    src={product.imagenes[0]}
                     alt={product.nombre}
-                    className="w-full h-full object-contain transition-transform group-hover:scale-105"
                     loading="lazy"
                 />
             </div>
 
             {/* Product Info */}
-            <div className="bg-white p-4 flex-1 flex flex-col rounded-t-2xl -mt-4 relative z-10">
+            <div className="bg-white/95 backdrop-blur-sm p-4 flex-1 flex flex-col rounded-t-2xl mt-[35%] relative z-10">
                 {/* Title and Rating */}
                 <div className="flex items-start justify-between mb-2">
                     <h3 className="font-bold text-gray-900 text-lg leading-tight flex-1">
@@ -90,15 +81,14 @@ export const ProductCardDashboard: React.FC<ProductCardProps> = ({
                             {formatPrice(product.precio)}
                         </span>
                         {product.precioAnterior && (
-                            <FaBolt className="w-4 h-4 text-blue-500" />
+                         <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         )}
                     </div>
                 </div>
 
                 {/* Add to Cart Button */}
                 <button
-                    onClick={handleAddToCartClick}
-                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-4 rounded-xl shadow-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 hover:shadow-xl"
+                    className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-3 px-4 rounded-full shadow-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 hover:shadow-xl"
                 >
                     <PiShoppingCartLight className="w-5 h-5" />
                     Agregar
