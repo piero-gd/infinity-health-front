@@ -24,7 +24,7 @@ export const mockProduct = [
     categoria: 'Detox',
     slogan: 'Descripción del producto 2',
     descripcion: 'Descripción del producto 2',
-    imagenes: ['../img/productodestacado.png', '../img/productodestacado.png', '../img/productodestacado.png'],
+    imagenes: ['../img/pruebapro.png', '../img/productodestacado.png', '../img/productodestacado.png'],
     videos: ['https://www.youtube.com/watch?v=dQw4w9WgXcQ'],
     videoThumbnails: ['../img/productodestacado.png'],
     stock: 15,

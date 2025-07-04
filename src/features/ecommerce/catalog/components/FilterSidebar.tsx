@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaAngleDown } from "react-icons/fa6";
-import DualRangeSlider from './p2';
+import DualRangeSlider from './DualRangeSlider';
 
 const Accordion = ({ 
   title, 
@@ -29,7 +29,8 @@ const Accordion = ({
   </div>
 );
 
-export default function FilterSidebar() {
+export const FilterSidebar =()=>{
+
   const [openSections, setOpenSections] = useState({
     productos: true,
     merchandising: true
@@ -177,9 +178,12 @@ export default function FilterSidebar() {
         </div>
 
         {/* Featured Product */}
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100">
-         
-        </div>
+          <h3 className="font-semibold mb-3 text-gray-800">Destacado</h3>
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100">
+            
+           
+          </div>
+        
       </div>
     </div>
   );

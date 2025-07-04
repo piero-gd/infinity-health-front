@@ -1,17 +1,19 @@
 export interface CartItem {
-  id: string;
+  id: string;  // Changed from Product[] to string
   nombre: string;
   categoria: string;
   imagenes: string[];
   precio: number;
+  precioAnterior?: number;
   cantidad: number;
 }
 
 export interface ListCartProps {
   items: CartItem[];
-  onUpdateQuantity: (id: string, quantity: number) => void;
+  onUpdateQuantity: (id: string, cantidad: number) => void;
   onRemoveItem: (id: string) => void;
   className?: string;
+
 }
 
 export interface ProgressCartProps {
@@ -26,7 +28,8 @@ export interface Step {
 }
 
 export interface TotalCartProps {
-  subtotal: number;
+  subtotalNormalPrice: number;
+  subtotalEmbajadorPrice: number;
   shipping: number;
   discount: number;
   onApplyPromoCode: (code: string) => void;

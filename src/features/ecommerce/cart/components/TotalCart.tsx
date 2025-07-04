@@ -1,28 +1,38 @@
 import React, { useState } from 'react';
 import { RiLock2Line } from 'react-icons/ri';
 import { FaShoppingCart } from 'react-icons/fa';
+import { FaCheckDouble } from "react-icons/fa6";
 import type { TotalCartProps } from '../types';
 export default function TotalCart({
-  subtotal,
+  subtotalNormalPrice,
+  subtotalEmbajadorPrice,
   shipping,
   discount,
   onApplyPromoCode,
   onProceedToCheckout
 }: TotalCartProps) {
-        const [promoCode, setPromoCode] = useState('');
-      
-        const total = subtotal + shipping - discount;
+  const [promoCode, setPromoCode] = useState('');
+  const [isAmbassador, setIsAmbassador] = useState(false);
+  
+  const handlePromoCodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (promoCode.trim().toUpperCase() === 'EMBAJADOR') {
+      setIsAmbassador(true);
+    } else {
+      setIsAmbassador(false);
+      if (promoCode.trim()) {
+        onApplyPromoCode(promoCode.trim());
+      }
+    }
+  };
+
+  const totalNormalPrice = subtotalNormalPrice + shipping - (isAmbassador ? 0 : discount);
+  const totalEmbajadorPrice = subtotalEmbajadorPrice + shipping - (isAmbassador ? discount : 0);
       
         const formatPrice = (price: number) => {
           return `$ ${price.toFixed(2)}`;
         };
       
-        const handlePromoCodeSubmit = (e: React.FormEvent) => {
-          e.preventDefault();
-          if (promoCode.trim()) {
-            onApplyPromoCode(promoCode.trim());
-          }
-        };
       
         const paymentMethods = [
           {
@@ -93,17 +103,38 @@ export default function TotalCart({
               type="text"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
-              placeholder="Ingresa un código de Embajador"
-              className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Ingresa el código de Embajador"
+              className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             />
           </div>
         </form>
 
         {/* Price Breakdown */}
         <div className="space-y-4 mb-6">
+          {isAmbassador && (
+            <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                <FaCheckDouble className="w-6 h-6 text-green-400" />
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-black">¡Código de Embajador aplicado!<br /> Precios especiales activados.</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <div className="flex justify-between items-center">
             <span className="text-gray-700 font-medium">Subtotal:</span>
-            <span className="text-gray-900 font-semibold">{formatPrice(subtotal)}</span>
+            {isAmbassador ? (
+              <div className="flex items-center">
+                <span className="text-gray-500 line-through mr-2">{formatPrice(subtotalNormalPrice)}</span>
+                <span className="text-[var(--color-primary)] font-semibold">{formatPrice(subtotalEmbajadorPrice)}</span>
+                <img src="img/payInfinity.svg" className="w-6 h-6 ml-1" />
+              </div>
+            ) : (
+              <span className="text-gray-900 font-semibold">{formatPrice(subtotalNormalPrice)}</span>
+            )}
           </div>
           
           <div className="flex justify-between items-center">
@@ -120,7 +151,16 @@ export default function TotalCart({
           
           <div className="flex justify-between items-center">
             <span className="text-lg font-bold text-gray-900">Total</span>
-            <span className="text-2xl font-bold text-blue-600">{formatPrice(total)}</span>
+            <span className="text-2xl font-bold text-blue-600">
+              {isAmbassador ? (
+                <div className="flex items-center">
+                  <span className="text-gray-500 line-through text-lg mr-2">{formatPrice(totalNormalPrice + discount)}</span>
+                  <span className="text-[var(--color-primary)]">{formatPrice(totalEmbajadorPrice)}</span>
+                </div>
+              ) : (
+                formatPrice(totalNormalPrice)
+              )}
+            </span>
           </div>
         </div>
 

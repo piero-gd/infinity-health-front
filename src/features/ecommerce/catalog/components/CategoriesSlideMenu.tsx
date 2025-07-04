@@ -1,6 +1,6 @@
 
 import { IoCloseSharp } from "react-icons/io5";
-import DualRangeSlider from './p2';
+import DualRangeSlider from './DualRangeSlider';
 import { FaAngleDown } from "react-icons/fa6";
 import { useState } from 'react';
 

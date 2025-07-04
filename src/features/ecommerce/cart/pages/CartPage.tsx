@@ -5,18 +5,18 @@ import ListCart from '../components/ListCart';
 import TotalCart from '../components/TotalCart';
 import type { CartItem } from '../types';
 import { mockProduct } from '../../productDetail/data/mockProduct';
-//import { ProductCardDashboard } from '../../productDetail/components/ProductCardDashboard';
 import { RelatedProducts } from '../../productDetail/components/RelatedProducts';
 
 export default function CartPage() {
-    // Take first 3 products and map to CartItem format
+   //PRIMERO TOMA LOS PRIMEROS 3 PRODUCTOS Y LOS Mapea al formato CartItem
     const initialCartItems: CartItem[] = mockProduct.slice(0, 3).map(product => ({
         id: product.id.toString(),
         nombre: product.nombre,
         categoria: product.categoria,
-        imagenes: [product.imagenes[0]], // Take first image
+        imagenes: [product.imagenes[0]], //TOMA LA PRIMERA IMAGEN
         precio: product.precio,
-        cantidad: 1 // Default quantity
+        precioAnterior: product.precioAnterior, // INCLUYE EL PRECIO ORIGINAL SI EXISTE
+        cantidad: 1 // CANTIDAD DEFAULT
     }));
 
     const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
@@ -31,10 +31,10 @@ export default function CartPage() {
         setCartItems(cartItems.filter(item => item.id !== id));
     };
 
-    // Calculate cart totals
+    //CALCULA LOS TOTALES DEL CARRITO
     const subtotal = cartItems.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    const shipping = 5.99; // Flat rate shipping
-    const discount = 0; // No discount by default
+    const shipping = 5.99; //ENVIO FLAT RATE
+    const discount = 0; // DESCUENTO DEFAULT
 
     return (
         <div className="mx-auto max-w-7xl">
@@ -52,7 +52,8 @@ export default function CartPage() {
                 </div>
                 <div className="lg:col-span-1">
                     <TotalCart 
-                      subtotal={subtotal}
+                      subtotalNormalPrice={subtotal}
+                      subtotalEmbajadorPrice={subtotal}
                       shipping={shipping}
                       discount={discount}
                       onApplyPromoCode={(code) => alert(`Código aplicado: ${code}`)}
@@ -76,14 +77,6 @@ export default function CartPage() {
                   category={cartItems[0].categoria} 
                 />
             </div>
-{/* 
-            <div className="mt-8 mb-8 grid grid-cols-1 lg:grid-cols-4 gap-4">
-                <ProductCardDashboard 
-                  product={mockProduct[0]}
-                  onAddToCart={() => alert('Añadir al carrito')}
-                  onToggleFavorite={() => alert('Toggle favorito')}
-                />
-            </div> */}
             
         </div>
     );

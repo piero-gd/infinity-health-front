@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import FilterTop from '../components/FilterTop';
-import CategoriesSide from '../components/CategoriesSide';
+import { FilterSidebar } from '../components/FilterSidebar';
 import ProductList from '../components/ProductList';
 import ButtonLoader from '../components/ButtonLoader';
 export default function CatalogPage() {
@@ -18,7 +18,7 @@ export default function CatalogPage() {
           {/* Sidebar de categorías */}
           <aside className="xl:block hidden w-full xl:w-1/4">
             <div className="bg-white rounded-lg shadow-sm p-4 sticky top-4">
-              <CategoriesSide />
+              <FilterSidebar />
             </div>
           </aside>
 

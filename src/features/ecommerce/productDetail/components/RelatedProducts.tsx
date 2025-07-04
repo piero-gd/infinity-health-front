@@ -25,7 +25,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
     if (relatedProducts.length === 0) return null;
     
     return (
-        <div className="mt-16 w-full px-4 sm:px-6 lg:px-8">
+        <div className="mt-16 w-full px-4 sm:px-6 lg:px-8 ">
             {/* Title and Description */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
                 <div>

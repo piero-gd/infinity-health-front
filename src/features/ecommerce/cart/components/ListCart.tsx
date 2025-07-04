@@ -8,18 +8,14 @@ export default function ListCart({
     onRemoveItem,
     className = ''
   }: ListCartProps) {
-    const formatPrice = (price: number) => {
-      return `$${price.toFixed(2)}`;
+
+    const handleQuantityChange = (id: string, newCantidad: number) => {
+
+      if (newCantidad < 1) return;
+      onUpdateQuantity(id, newCantidad);
     };
-  
-    const calculateSubtotal = (price: number, quantity: number) => {
-      return price * quantity;
-    };
-  
-    const handleQuantityChange = (id: string, newQuantity: number) => {
-      if (newQuantity < 1) return;
-      onUpdateQuantity(id, newQuantity);
-    };
+
+    console.log(items);
   
     return (
     <div className={`w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl ${className}`}>
@@ -28,16 +24,16 @@ export default function ListCart({
       {/* Header - Solo visible en desktop */}
       <div className="hidden xl:grid xl:grid-cols-5 gap-4 pb-4 mb-6 border-b border-gray-200">
         <div className="col-span-2">
-          <span className="text-sm font-medium text-gray-600">Producto</span>
+          <span className="text-sm font-semibold text-gray-600">Producto</span>
         </div>
         <div className="text-center">
-          <span className="text-sm font-medium text-gray-600">Cantidad</span>
+          <span className="text-sm font-semibold text-gray-600">Cantidad</span>
         </div>
         <div className="text-center">
-          <span className="text-sm font-medium text-gray-600">Precio Unidad</span>
+          <span className="text-sm font-semibold text-gray-600">Precio Unidad</span>
         </div>
         <div className="text-center">
-          <span className="text-sm font-medium text-gray-600">Subtotal</span>
+          <span className="text-sm font-semibold text-gray-600">Subtotal</span>
         </div>
       </div>
 
@@ -53,7 +49,6 @@ export default function ListCart({
               <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                 <img
                   src={item.imagenes[0]}
-                  alt={item.nombre}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -61,14 +56,14 @@ export default function ListCart({
               {/* Product Info and Controls Mobile */}
               <div className="flex-1 min-w-0">
                 {/* Header with name and delete button */}
-                <div className="flex justify-between items-start mb-3 border-b border-gray-200">
+                <div className="flex justify-between items-start mb-3 pb-2 border-b border-gray-200">
                   <h4 className="font-semibold text-gray-900 text-lg">{item.nombre}</h4>
                   <button
-                    onClick={() => onRemoveItem(item.id)}
-                    className="p-1 text-gray-400 hover:text-red-500 transition-colors ml-2 flex-shrink-0"
+                    onClick={() => onRemoveItem(item.id.toString())}
+                    className="p-1 text-gray-600 border-1 border-black rounded-full hover:text-red-500 transition-colors ml-2 flex-shrink-0"
                     title="Eliminar producto"
                   >
-                    <RiDeleteBinLine className="w-5 h-5" />
+                    <RiDeleteBinLine className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -76,24 +71,25 @@ export default function ListCart({
                 <div className="space-y-2 ">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Precio Unidad</span>
-                    <span className="font-medium text-gray-900">{formatPrice(item.precio)}</span>
+                   
+                   <span className="font-medium text-gray-600">{item.precio}</span>
                   </div>
                   
                   <div className="flex justify-between items-center border-t mt-2 border-gray-200">
                     <span className="text-sm text-gray-600 mt-2">Cantidad</span>
                     <div className="flex items-center border border-gray-300 rounded-full mt-2">
                       <button
-                        onClick={() => handleQuantityChange(item.id, item.cantidad - 1)}
+                        onClick={() => handleQuantityChange(item.id.toString(), item.cantidad - 1)}
                         className="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-l-full transition-colors text-sm"
                         disabled={item.cantidad <= 1}
                       >
                         −
                       </button>
-                      <span className="w-10 text-center text-sm font-medium">
+                      <span className="w-4 text-center text-sm font-medium">
                         {item.cantidad}
                       </span>
                       <button
-                        onClick={() => handleQuantityChange(item.id, item.cantidad + 1)}
+                        onClick={() => handleQuantityChange(item.id.toString(), item.cantidad + 1)}
                         className="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-r-full transition-colors text-sm"
                       >
                         +
@@ -103,8 +99,8 @@ export default function ListCart({
                   
                   <div className="flex justify-between items-center pt-2 border-t border-gray-100">
                     <span className="text-sm text-gray-600">Subtotal</span>
-                    <span className="font-bold text-blue-600 text-lg">
-                      {formatPrice(calculateSubtotal(item.precio, item.cantidad))}
+                    <span className="font-bold text-[var(--color-primary)] text-lg">
+                      {(item.precio * item.cantidad)}
                     </span>
                   </div>
                 </div>
@@ -118,57 +114,71 @@ export default function ListCart({
                 <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
                   <img
                     src={item.imagenes[0]}
-                    alt={item.nombre}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900">{item.nombre}</h4>
-                  <p className="text-sm text-gray-500">{item.categoria}</p>
+                  <p className="text-sm text-black">{item.categoria}</p>
                 </div>
               </div>
 
               {/* Quantity Controls Desktop */}
               <div className="flex items-center justify-center">
                 <button
-                  onClick={() => onRemoveItem(item.id)}
-                  className="p-2 text-gray-400 hover:text-red-500 transition-colors mr-4"
+                  onClick={() => onRemoveItem(item.id.toString())}
+                  className="p-2 text-gray-400 border border-gray-300 rounded-full hover:text-red-500 transition-colors mr-4"
                   title="Eliminar producto"
                 >
-                  <RiDeleteBinLine className="w-8 h-8" />
+                  <RiDeleteBinLine className="w-5 h-5" />
                 </button>
                 
                 <div className="flex items-center border border-gray-300 rounded-full">
                   <button
-                    onClick={() => handleQuantityChange(item.id, item.cantidad - 1)}
+                    onClick={() => handleQuantityChange(item.id.toString(), item.cantidad - 1)}
                     className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-l-full transition-colors text-lg"
                     disabled={item.cantidad <= 1}
                   >
                     −
                   </button>
-                  <span className="w-14 text-center text-base font-medium">
+                  <span className="w-6 text-center text-base font-medium">
                     {item.cantidad}
                   </span>
                   <button
-                    onClick={() => handleQuantityChange(item.id, item.cantidad + 1)}
+                    onClick={() => handleQuantityChange(item.id.toString(), item.cantidad + 1)}
                     className="w-10 h-10 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-r-full transition-colors text-lg"
                   >
                     +
                   </button>
                 </div>
               </div>
-
               {/* Unit Price Desktop */}
-              <div className="text-center">
-                <span className="text-sm text-gray-900">{formatPrice(item.precio)}</span>
+              <div className="text-center flex items-start justify-center">
+                <div className="grid grid-cols-1">
+                  {item.precioAnterior && (
+                    <span className="text-base text-gray-600">S/ {item.precioAnterior}</span>
+                  )}
+                  <div className="flex items-center">
+                    <span className="text-lg text-[var(--color-primary)] font-semibold">S/ {item.precio}</span>
+                    <img src="img/payInfinity.svg" className="w-5 h-5" />
+                  </div>
+                </div>
               </div>
 
               {/* Subtotal Desktop */}
-              <div className="text-center">
-                <span className="font-medium text-gray-900">
-                  {formatPrice(calculateSubtotal(item.precio, item.cantidad))}
-                </span>
+
+              <div className="text-center flex items-start justify-center">
+                <div className="grid grid-cols-1">
+                  {item.precioAnterior && (
+                    <span className="text-base text-gray-600">S/ {item.precioAnterior * item.cantidad}</span>
+                  )}
+                  <div className="flex items-center">
+                    <span className="text-lg text-[var(--color-primary)] font-semibold">S/ {item.precio * item.cantidad}</span>
+                    <img src="img/payInfinity.svg" className="w-5 h-5" />
+                  </div>
+                </div>
               </div>
+
             </div>
           </div>
         ))}

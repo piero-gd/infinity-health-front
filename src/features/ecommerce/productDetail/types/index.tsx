@@ -28,7 +28,7 @@ export interface DeliveryOption {
     id: number;
     zona: string;
     tiempo: string;
-    costoAprox: number;  // Corregido a camelCase
+    costoAprox: number; 
 }
 
 export interface CartItem {
@@ -36,7 +36,7 @@ export interface CartItem {
     productoId: number;
     cantidad: number;
     favorito: boolean;
-    sabor?: string;  // Hacer opcional si no siempre se usa
+    sabor?: string;  
 }
 
 // Tipos para props de componentes

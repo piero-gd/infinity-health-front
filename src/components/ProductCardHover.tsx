@@ -4,7 +4,7 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import { CategoriesTag } from './CategoriesTag';
 import type { ProductCardProps } from '../features/ecommerce/productDetail/types';
 
-export const ProductCardDashboard: React.FC<ProductCardProps> = ({
+export const ProductCardHover: React.FC<ProductCardProps> = ({
     product
 }) => {
     const navigate = useNavigate();
@@ -23,15 +23,12 @@ export const ProductCardDashboard: React.FC<ProductCardProps> = ({
     return (
         <div 
             onClick={handleCardClick}
-            className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer h-full flex flex-col"
+            className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg
+            transition-all cursor-pointer h-full flex flex-col
+            bg-cover bg-center bg-no-repeat bg-gray-100
+            pt-[75%]"
             style={{
-                backgroundImage: `url(${product.imagenes[0]})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center 30%',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: '#f8fafc', // Fallback color
-                paddingTop: '75%', // Proporción más alta para la imagen
-                position: 'relative'
+                backgroundImage: `url(${product.imagenes[0]})`
             }}
         >
 
