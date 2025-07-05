@@ -8,15 +8,17 @@ import { mockProduct } from '../../productDetail/data/mockProduct';
 import { RelatedProducts } from '../../productDetail/components/RelatedProducts';
 
 export default function CartPage() {
-   //PRIMERO TOMA LOS PRIMEROS 3 PRODUCTOS Y LOS Mapea al formato CartItem
+
+   //PRIMERO TOMA LOS PRIMEROS 3 PRODUCTOS USANDO CartItem
+
     const initialCartItems: CartItem[] = mockProduct.slice(0, 3).map(product => ({
         id: product.id.toString(),
         nombre: product.nombre,
         categoria: product.categoria,
         imagenes: [product.imagenes[0]], //TOMA LA PRIMERA IMAGEN
-        precio: product.precio,
-        precioAnterior: product.precioAnterior, // INCLUYE EL PRECIO ORIGINAL SI EXISTE
-        cantidad: 1 // CANTIDAD DEFAULT
+        precioNormal: product.precioNormal,
+        precioEmbajador: product.precioEmbajador,
+        cantidad: 1 
     }));
 
     const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
@@ -31,9 +33,10 @@ export default function CartPage() {
         setCartItems(cartItems.filter(item => item.id !== id));
     };
 
-    //CALCULA LOS TOTALES DEL CARRITO
-    const subtotal = cartItems.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-    const shipping = 5.99; //ENVIO FLAT RATE
+    //CALCULA LOS TOTALES DEL CARRITO NORMALES
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.precioNormal * item.cantidad), 0);
+    const subtotalEmbajador = cartItems.reduce((sum, item) => sum + (item.precioEmbajador * item.cantidad), 0);
+    const shipping = 5.99; //COSTO DE ENVIO
     const discount = 0; // DESCUENTO DEFAULT
 
     return (
@@ -53,7 +56,7 @@ export default function CartPage() {
                 <div className="lg:col-span-1">
                     <TotalCart 
                       subtotalNormalPrice={subtotal}
-                      subtotalEmbajadorPrice={subtotal}
+                      subtotalEmbajadorPrice={subtotalEmbajador}
                       shipping={shipping}
                       discount={discount}
                       onApplyPromoCode={(code) => alert(`Código aplicado: ${code}`)}

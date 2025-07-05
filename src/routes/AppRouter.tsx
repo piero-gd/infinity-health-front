@@ -24,7 +24,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           {/* Rutas de ecommerce */}
             <Route path="/cart" element={<CartPage />} />
             <Route path="/catalog" element={<CatalogPage />} />
-            <Route path="/product/:productId" element={<DetailPage />} />
+            <Route path="/product/:slug" element={<DetailPage />} />
           
           {/* Redirección temporal para pruebas */}
           <Route path="/" element={<Navigate to="/catalog" replace />} />

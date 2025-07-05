@@ -3,8 +3,8 @@ export interface CartItem {
   nombre: string;
   categoria: string;
   imagenes: string[];
-  precio: number;
-  precioAnterior?: number;
+  precioNormal: number;
+  precioEmbajador: number;
   cantidad: number;
 }
 

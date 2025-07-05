@@ -9,6 +9,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
 }) => {
     const navigate = useNavigate();
 
+    //format de precio en soles, uede cambiarse a dolares
     const formatPrice = (price: number): string => {
         return new Intl.NumberFormat('es-PE', {
             style: 'currency',
@@ -17,14 +18,15 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
     };
 
     const handleCardClick = () => {
-        navigate(`/product/${product.id}`);
+        navigate(`/product/${product.slug}`);
     };
 
     return (
         <div 
             onClick={handleCardClick}
             className="group relative bg-white rounded-xl overflow-hidden 
-            cursor-pointer h-full flex flex-col border border-gray-100"
+            cursor-pointer h-full w-[280px] flex-shrink-0 flex flex-col border border-gray-100"
+            style={{ width: '280px' }}
         >
             {/* Categoria */}
             <div className="absolute top-5 left-5 z-20">
@@ -32,10 +34,10 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
             </div>
 
             {/* Imagen del Producto */}
-            <div className="relative bg-white flex justify-center items-center h-56">
+            <div className="relative bg-white flex justify-center items-center h-56 p-4">
                 <img 
                     src={product.imagenes[0]}
-                    className="w-full h-full max-w-none object-contain max-h-[200px]"
+                    className="w-full h-full object-contain max-h-[200px]"
                     loading="lazy"
                 />
             </div>
@@ -62,16 +64,16 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
 
                 {/* Precio */}
                 <div className="mb-1 text-center">
-                    {product.precioAnterior && (
+                    {product.precioNormal && (
                         <div className="text-sm text-gray-700 mb-1">
-                            {formatPrice(product.precioAnterior)}
+                            {formatPrice(product.precioNormal)}
                         </div>
                     )}
                     <div className="flex items-center justify-center gap-2">
                         <span className="text-md font-bold text-[var(--color-primary)]">
-                            {formatPrice(product.precio)}
+                            {formatPrice(product.precioEmbajador)}
                         </span>
-                        {product.precioAnterior && (
+                        {product.precioNormal && (
                          <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         )}
                     </div>

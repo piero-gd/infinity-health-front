@@ -200,7 +200,7 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
 
       </div>
 
-      {/* Click outside to close */}
+      {/* Click para cerrar */}
       <div className="flex-1" onClick={onClose}></div>
     </div>
   );

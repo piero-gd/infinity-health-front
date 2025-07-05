@@ -9,6 +9,7 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
 }) => {
     const navigate = useNavigate();
 
+    //format de precio en soles, uede cambiarse a dolares
     const formatPrice = (price: number): string => {
         return new Intl.NumberFormat('es-PE', {
             style: 'currency',
@@ -17,40 +18,36 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
     };
 
     const handleCardClick = () => {
-        navigate(`/product/${product.id}`);
+        navigate(`/product/${product.slug}`);
     };
 
     return (
         <div 
             onClick={handleCardClick}
-            className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-lg
-            transition-all cursor-pointer h-full flex flex-col
-            bg-cover bg-center bg-no-repeat bg-gray-100
-            pt-[75%]"
-            style={{
-                backgroundImage: `url(${product.imagenes[0]})`
-            }}
+            className="group relative bg-white rounded-xl overflow-hidden 
+            cursor-pointer h-full w-[280px] flex-shrink-0 flex flex-col border border-gray-100"
+            style={{ width: '280px' }}
         >
-
             {/* Category Badge */}
-            <div className="absolute top-5 left-3 z-20 px-3">
+            <div className="absolute top-5 left-5 z-20">
                 <CategoriesTag categoryName={product.categoria} />
             </div>
 
-            {/* Product Image - Hidden but kept for SEO and accessibility */}
-            <div className="absolute opacity-0 w-0 h-0 overflow-hidden">
+            {/* Product Image */}
+            <div className="relative bg-white flex justify-center items-center h-56 p-4">
                 <img 
-                    src={product.imagenes[0]}
+                    src={product.imagenes[1]}
                     alt={product.nombre}
+                    className="w-full h-full object-contain max-h-[200px]"
                     loading="lazy"
                 />
             </div>
 
             {/* Product Info */}
-            <div className="bg-white/95 backdrop-blur-sm p-4 flex-1 flex flex-col rounded-t-2xl mt-[35%] relative z-10">
+            <div className="bg-white p-4 flex-1 flex flex-col">
                 {/* Title and Rating */}
                 <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-bold text-gray-900 text-lg leading-tight flex-1">
+                    <h3 className="font-semibold text-gray-900 text-lg leading-tight flex-1">
                         {product.nombre}
                     </h3>
                     <div className="flex items-center gap-1 ml-2">
@@ -68,16 +65,16 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
 
                 {/* Price */}
                 <div className="mb-4">
-                    {product.precioAnterior && (
-                        <div className="text-sm text-gray-400 line-through mb-1">
-                            {formatPrice(product.precioAnterior)}
+                    {product.precioNormal && (
+                        <div className="text-sm text-gray-400 mb-1">
+                            {formatPrice(product.precioNormal)}
                         </div>
                     )}
                     <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold text-blue-600">
-                            {formatPrice(product.precio)}
+                        <span className="text-xl font-bold text-[var(--color-primary)]">
+                            {formatPrice(product.precioEmbajador)}
                         </span>
-                        {product.precioAnterior && (
+                        {product.precioNormal && (
                          <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         )}
                     </div>

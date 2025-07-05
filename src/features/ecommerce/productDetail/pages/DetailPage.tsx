@@ -10,18 +10,20 @@ import AboutProduct from '../components/AboutProduct';
 
 
 export default function DetailPage() {
-  const { productId } = useParams<{ productId: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    console.log('ID del producto desde la URL:', productId);
+    console.log('Slug del producto desde la URL:', slug);
     console.log('Lista de productos:', mockProduct);
     
     // Simulando carga de datos
     const fetchProduct = () => {
       try {
         // Encontrar el producto por ID
-        const product = mockProduct.find(p => p.id === Number(productId));
+        
+        // Buscar por slug en lugar de ID
+        const product = mockProduct.find(p => p.slug === slug);
         console.log('Producto encontrado:', product);
         setCurrentProduct(product || null);
       } catch (error) {
@@ -33,7 +35,7 @@ export default function DetailPage() {
     };
 
     fetchProduct();
-  }, [productId]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -73,7 +75,7 @@ export default function DetailPage() {
         {/* Product Info - Columna Derecha */}
         <div className="space-y-2">
           <InfoDetail product={currentProduct} />
-          <ShareOptions productId={currentProduct.id} />
+          <ShareOptions slug={currentProduct.slug} />
         </div>
       </div>
 

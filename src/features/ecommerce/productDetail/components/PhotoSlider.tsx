@@ -52,14 +52,19 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
 
     // FUNCIONALIDAD DE MODAL VIDEO
 
-  const openVideoModal = (videoUrl: string) => {
+  const openVideoModal = (videoUrl: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrentVideo(videoUrl);
     setShowVideoModal(true);
+    // Deshabilitar scroll del body cuando el modal está abierto
+    document.body.style.overflow = 'hidden';
   };
 
   const closeVideoModal = () => {
     setShowVideoModal(false);
     setCurrentVideo('');
+    // Restaurar scroll del body
+    document.body.style.overflow = 'auto';
   };
 
   const renderThumbnail = (item: MediaItem, index: number) => {
@@ -103,7 +108,7 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
           <div className="w-full h-full flex items-center justify-center">
             {isVideo ? (
               <button
-                onClick={() => openVideoModal(currentMedia.url)}
+                onClick={(e) => openVideoModal(currentMedia.url, e)}
                 className="w-full h-full flex items-center justify-center relative group"
               >
                 <div className="absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity group-hover:opacity-100">
@@ -168,26 +173,35 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
 
       {/* Video Modal */}
       {showVideoModal && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={closeVideoModal}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              closeVideoModal();
-            }}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
-            aria-label="Close video"
-          >
-            <X size={32} />
-          </button>
-          <div className="relative w-full max-w-4xl aspect-video" onClick={(e) => e.stopPropagation()}>
-            <video
-              src={currentVideo}
-              controls
-              autoPlay
-              className="w-full h-full rounded-lg"
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+          {/* Fondo oscuro */}
+          <div 
+            className="fixed inset-0 bg-black/90 transition-opacity"
+            onClick={closeVideoModal}
+            aria-hidden="true"
+          />
+          
+          {/* Contenedor del modal */}
+          <div className="relative z-10 w-full max-w-4xl mx-auto">
+            {/* Botón de cerrar */}
+            <button
+              onClick={closeVideoModal}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+              aria-label="Cerrar video"
             >
-              
-            </video>
+              <X size={32} />
+            </button>
+            
+            {/* Reproductor de video */}
+            <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
+              <video
+                src={currentVideo}
+                controls
+                autoPlay
+                className="w-full h-full"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
           </div>
         </div>
       )}

@@ -1,20 +1,22 @@
-// Tipos base
 export interface Product {
     id: number;
     nombre: string;
-    precio: number;
-    precioAnterior?: number;  // Hacerlo opcional con ?
+    slug: string;
+    precioEmbajador: number;
+    precioNormal: number; 
     categoria: string;
     slogan: string;
     descripcion: string;
     imagenes: string[];
     videos: string[];
-    videoThumbnails?: string[];  // Nuevo campo para miniaturas de video
+    videoThumbnails?: string[]; 
     stock: number;
     resena: string;
     calificacion: number;
     disponible: boolean;
-    peso: string;  // Unificado a solo string ya que todos los pesos usan '100g'
+    objetivo: string;
+    formato: string;
+    peso: string;
 }
 
 export interface Category {
@@ -24,6 +26,30 @@ export interface Category {
     color: string;
 }
 
+//MERCHANDISING
+export interface Merchandising {
+    id: number;
+    category: string;
+    subCategory: string;
+    name: string;
+    slug: string;
+    description: string;
+    price: string;
+    slogan: string;
+    discount: string;
+    rating: string;
+    short_description: string;
+    images: string[];
+    details: {
+        id: number;
+        product_merch: number;
+        color: string;
+        size: string;
+        stock: number;
+    }[];
+}
+
+//ENVIO  
 export interface DeliveryOption {
     id: number;
     zona: string;
@@ -31,6 +57,7 @@ export interface DeliveryOption {
     costoAprox: number; 
 }
 
+//CATALOG
 export interface CartItem {
     id: number;
     productoId: number;
@@ -39,12 +66,15 @@ export interface CartItem {
     sabor?: string;  
 }
 
-// Tipos para props de componentes
+// COMPONENTS PROPS
+
+//PRODUCT CARD GLOBAL
 export interface ProductCardProps {
     product: Product;
     onAddToCart?: (productId: number) => void;
 }
 
+//PRODUCT DETAIL / PHOTO SLIDER
 export interface PhotoSliderProps {
     images: string[];
     videos: string[];
@@ -53,12 +83,14 @@ export interface PhotoSliderProps {
     onIndexChange?: (index: number) => void;
 }
 
+//PRODUCT DETAIL / RELATED PRODUCTS
 export interface RelatedProductsProps {
     currentProductId: number;
     category: string;
     products?: Product[]; 
 }
 
+//PRODUCT DETAIL / INFO DETAIL
 export interface InfoDetailProps {
     product: Product;
     onAddToCart?: (product: Product, quantity: number) => void;

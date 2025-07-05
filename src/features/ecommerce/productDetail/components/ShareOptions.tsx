@@ -4,15 +4,14 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa6";
 
-
 interface ShareOptionsProps {
-    productId: number | string;
+    slug: string;
 }
 
-export const ShareOptions: React.FC<ShareOptionsProps> = ({ productId }) => {
+export const ShareOptions: React.FC<ShareOptionsProps> = ({ slug }) => {
   
   const getShareUrl = (platform: string) => {
-    const productUrl = `${window.location.origin}/product/${productId}`;
+    const productUrl = `${window.location.origin}/product/${slug}`;
     const shareText = `¡Mira este producto en Infinity Health!`;
     
     switch(platform) {

@@ -57,7 +57,7 @@ interface CategoriesTagProps {
 }
 
 export const CategoriesTag: React.FC<CategoriesTagProps> = ({ categoryName, className = '' }) => {
-  // Buscar la categoría por nombre (case insensitive)
+  // Buscar la categoría por nombre 
   const category = categoryStyles.find(
     cat => cat.categoria.toLowerCase() === categoryName.toLowerCase()
   ) || categoryStyles[0]; // Si no encuentra la categoría, usa 'Todos' por defecto

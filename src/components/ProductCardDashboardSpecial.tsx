@@ -8,16 +8,18 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
     product
 }) => {
     const navigate = useNavigate();
-
+    
+    //format de precio en soles, uede cambiarse a dolares
     const formatPrice = (price: number): string => {
         return new Intl.NumberFormat('es-PE', {
             style: 'currency',
             currency: 'PEN',
         }).format(price);
     };
-
+    
+    //click de card
     const handleCardClick = () => {
-        navigate(`/product/${product.id}`);
+        navigate(`/product/${product.slug}`);
     };
 
     //Implementacion para el futuro
@@ -70,13 +72,13 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                     <div className="relative bg-white/60 backdrop-blur rounded-full px-4 py-2 shadow-lg flex border border-white items-center justify-between">
                         {/* Precios */}
                         <div className="flex flex-col">
-                            {product.precioAnterior && (
+                            {product.precioNormal && (
                                 <span className="text-gray-500  text-xs">
-                                    {formatPrice(product.precioAnterior)}
+                                    {formatPrice(product.precioNormal)}
                                 </span>
                             )}
                             <span className="text-lg font-black text-[var(--color-primary)] flex items-center gap-1">
-                                {formatPrice(product.precio)}
+                                {formatPrice(product.precioEmbajador)}
                                 <img src="../../img/payInfinity.svg" className="w-4 h-4 mb-0.5"/>
                             </span>
                         </div>

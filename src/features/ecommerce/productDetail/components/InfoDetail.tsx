@@ -14,10 +14,11 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
     const handleAddToCart = () => {
         onAddToCart(product, quantity);
     };
-
+    
+    //calcular descuento
     const calculateDiscount = (): number => {
-        if (!product.precioAnterior) return 0;
-        return Math.round(((product.precioAnterior - product.precio) / product.precioAnterior) * 100);
+        if (!product.precioNormal) return 0;
+        return Math.round(((product.precioNormal - product.precioEmbajador) / product.precioNormal) * 100);
     };
 
     const discount = calculateDiscount();
@@ -35,14 +36,14 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
             <div className="flex flex-col gap-2">
-                    {product.precioAnterior && (
+                    {product.precioNormal && (
                         <span className="xl:text-lg text-md text-gray-500">
-                            S/ {product.precioAnterior.toFixed(2)}
+                            S/ {product.precioNormal.toFixed(2)}
                         </span>
                     )}
                     <div className="flex items-center gap-3">
                         <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)] flex items-center gap-1">
-                            S/ {product.precio.toFixed(2)}
+                            S/ {product.precioEmbajador.toFixed(2)}
                             <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         </span>
                         {discount > 0 && (
