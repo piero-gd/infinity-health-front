@@ -1,30 +1,21 @@
-import React, { useState } from 'react';
 import { RiLock2Line } from 'react-icons/ri';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCheckDouble } from "react-icons/fa6";
 import type { TotalCartProps } from '../types';
+import { useAmbassadorValidation } from '../hooks/useAmbassadorValidation';
 export default function TotalCart({
   subtotalNormalPrice,
   subtotalEmbajadorPrice,
   shipping,
   discount,
-  onApplyPromoCode,
-  onProceedToCheckout
 }: TotalCartProps) {
-  const [promoCode, setPromoCode] = useState('');
-  const [isAmbassador, setIsAmbassador] = useState(false);
-  
-  const handlePromoCodeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (promoCode.trim().toUpperCase() === 'EMBAJADOR') {
-      setIsAmbassador(true);
-    } else {
-      setIsAmbassador(false);
-      if (promoCode.trim()) {
-        onApplyPromoCode(promoCode.trim());
-      }
-    }
-  };
+  const {
+    isAmbassador,
+    promoCode,
+    setPromoCode,
+    handlePromoCodeSubmit,
+    validationMessage
+  } = useAmbassadorValidation({ onApplyPromoCode: () => {} });
 
   const totalNormalPrice = subtotalNormalPrice + shipping - (isAmbassador ? 0 : discount);
   const totalEmbajadorPrice = subtotalEmbajadorPrice + shipping - (isAmbassador ? discount : 0);
@@ -111,14 +102,24 @@ export default function TotalCart({
 
         {/* Price Breakdown */}
         <div className="space-y-4 mb-6">
-          {isAmbassador && (
-            <div className="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+          {validationMessage.type && (
+            <div className={`p-4 mb-4 rounded border-l-4 ${
+              validationMessage.type === 'success' 
+                ? 'bg-green-50 border-green-400' 
+                : 'bg-red-50 border-red-400'
+            }`}>
               <div className="flex">
                 <div className="flex-shrink-0">
-                <FaCheckDouble className="w-6 h-6 text-green-400" />
+                  {validationMessage.type === 'success' ? (
+                    <FaCheckDouble className="w-6 h-6 text-green-400" />
+                  ) : (
+                    <svg className="w-6 h-6 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-black">¡Código de Embajador aplicado!<br /> Precios especiales activados.</p>
+                  <p className="text-sm text-black whitespace-pre-line">{validationMessage.text}</p>
                 </div>
               </div>
             </div>
@@ -166,7 +167,6 @@ export default function TotalCart({
 
         {/* Checkout Button */}
         <button
-          onClick={onProceedToCheckout}
           className="w-full bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
         >
           <span>Proceder a pagar</span>

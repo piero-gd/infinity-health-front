@@ -8,7 +8,6 @@ interface CategoriesSlideMenuProps {
   onClose: () => void;
 }
 
-
 const Accordion = ({ 
   title, 
   children, 

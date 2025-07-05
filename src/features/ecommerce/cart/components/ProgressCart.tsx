@@ -2,7 +2,6 @@ import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { CiWallet } from "react-icons/ci";
 import { TbTruckDelivery } from "react-icons/tb";
-
 import type { ProgressCartProps, Step } from '../types';
 
 const ProgressCart: React.FC<ProgressCartProps> = ({ 

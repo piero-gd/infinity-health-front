@@ -59,8 +59,6 @@ export default function CartPage() {
                       subtotalEmbajadorPrice={subtotalEmbajador}
                       shipping={shipping}
                       discount={discount}
-                      onApplyPromoCode={(code) => alert(`Código aplicado: ${code}`)}
-                      onProceedToCheckout={() => alert('Procediendo al pago...')}
                     />
                 </div>
            </div>

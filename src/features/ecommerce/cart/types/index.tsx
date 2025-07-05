@@ -1,5 +1,5 @@
 export interface CartItem {
-  id: string;  // Changed from Product[] to string
+  id: string; 
   nombre: string;
   categoria: string;
   imagenes: string[];
@@ -32,7 +32,17 @@ export interface TotalCartProps {
   subtotalEmbajadorPrice: number;
   shipping: number;
   discount: number;
-  onApplyPromoCode: (code: string) => void;
-  onProceedToCheckout: () => void;
   className?: string;
+}
+
+export interface UseAmbassadorValidationProps {
+  onApplyPromoCode: (code: string) => void;
+}
+
+export interface UseAmbassadorValidationReturn {
+  isAmbassador: boolean;
+  promoCode: string;
+  setPromoCode: (code: string) => void;
+  handlePromoCodeSubmit: (e: React.FormEvent) => void;
+  validationMessage: { text: string; type: 'success' | 'error' | null };
 }
