@@ -15,7 +15,7 @@ const categoryStyles = [
   },
   { 
     id: 'energy', 
-    categoria: 'Energía', 
+    categoria: 'Energy', 
     icon: <TbBolt className="inline-block mr-1" />, 
     className: 'bg-blue-100 text-blue-800 border-blue-200 ' 
   },

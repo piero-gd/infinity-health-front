@@ -9,13 +9,9 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    //format de precio en soles, uede cambiarse a dolares
-    const formatPrice = (price: number): string => {
-        return new Intl.NumberFormat('es-PE', {
-            style: 'currency',
-            currency: 'PEN',
-        }).format(price);
-    };
+    const formatPrice = (price: number) => {
+        return `$ ${price.toFixed(2)}`;
+      };
 
     const handleCardClick = () => {
         navigate(`/product/${product.slug}`);
@@ -64,7 +60,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
 
                 {/* Precio */}
                 <div className="mb-1 text-center">
-                    {product.precioNormal && (
+                    {formatPrice(product.precioNormal) && (
                         <div className="text-sm text-gray-700 mb-1">
                             {formatPrice(product.precioNormal)}
                         </div>
@@ -73,7 +69,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
                         <span className="text-md font-bold text-[var(--color-primary)]">
                             {formatPrice(product.precioEmbajador)}
                         </span>
-                        {product.precioNormal && (
+                        {formatPrice(product.precioNormal) && (
                          <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         )}
                     </div>

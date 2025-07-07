@@ -14,6 +14,10 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
     const handleAddToCart = () => {
         onAddToCart(product, quantity);
     };
+
+    const formatPrice = (price: number) => {
+        return `$ ${price.toFixed(2)}`;
+      };
     
     //calcular descuento
     const calculateDiscount = (): number => {
@@ -36,14 +40,14 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
             <div className="flex flex-col gap-2">
-                    {product.precioNormal && (
+                    {formatPrice(product.precioNormal) && (
                         <span className="xl:text-lg text-md text-gray-500">
-                            S/ {product.precioNormal.toFixed(2)}
+                            {formatPrice(product.precioNormal)}
                         </span>
                     )}
                     <div className="flex items-center gap-3">
                         <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)] flex items-center gap-1">
-                            S/ {product.precioEmbajador.toFixed(2)}
+                            {formatPrice(product.precioEmbajador)}
                             <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         </span>
                         {discount > 0 && (

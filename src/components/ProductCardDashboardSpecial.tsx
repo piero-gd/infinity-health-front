@@ -9,13 +9,9 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
 }) => {
     const navigate = useNavigate();
     
-    //format de precio en soles, uede cambiarse a dolares
-    const formatPrice = (price: number): string => {
-        return new Intl.NumberFormat('es-PE', {
-            style: 'currency',
-            currency: 'PEN',
-        }).format(price);
-    };
+    const formatPrice = (price: number) => {
+        return `$ ${price.toFixed(2)}`;
+      };
     
     //click de card
     const handleCardClick = () => {
@@ -72,7 +68,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                     <div className="relative bg-white/60 backdrop-blur rounded-full px-4 py-2 shadow-lg flex border border-white items-center justify-between">
                         {/* Precios */}
                         <div className="flex flex-col">
-                            {product.precioNormal && (
+                            { formatPrice(product.precioNormal) && (
                                 <span className="text-gray-500  text-xs">
                                     {formatPrice(product.precioNormal)}
                                 </span>

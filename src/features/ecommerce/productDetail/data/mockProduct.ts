@@ -5,7 +5,7 @@ export const mockProduct = [
     slug: 'producto-1',
     precioEmbajador: 100,
     precioNormal: 150,
-    categoria:'Energía',
+    categoria:'Energy',
     slogan: 'Esto es un solgan ok? ',
     descripcion: 'Des Refresca tu cuerpo y mente con Aloe Vera Spark: una bebida carbonatada con liofilizados naturales, extracto puro de aloe vera y un boost de cafeína natural. Ideal para antes del gym o como reemplazo de bebidas azucaradas.',
     imagenes: ['../img/pruebapro.png', '../img/productodestacado.png', '../img/productodestacado.png'],

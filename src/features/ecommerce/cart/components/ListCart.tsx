@@ -14,6 +14,12 @@ export default function ListCart({
       if (newCantidad < 1) return;
       onUpdateQuantity(id, newCantidad);
     };
+
+    const formatPrice = (price: number) => {
+      return `$ ${price.toFixed(2)}`;
+    };
+  
+  
   
     return (
     <div className={`w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl ${className}`}>
@@ -70,7 +76,7 @@ export default function ListCart({
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Precio Unidad</span>
                    
-                   <span className="font-medium text-gray-600">{item.precioNormal}</span>
+                   <span className="font-medium text-gray-600">{formatPrice(item.precioNormal)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center border-t mt-2 border-gray-200">
@@ -98,7 +104,7 @@ export default function ListCart({
                   <div className="flex justify-between items-center pt-2 border-t border-gray-100">
                     <span className="text-sm text-gray-600">Subtotal</span>
                     <span className="font-bold text-[var(--color-primary)] text-lg">
-                      {(item.precioNormal * item.cantidad)}
+                      {formatPrice(item.precioNormal * item.cantidad)}
                     </span>
                   </div>
                 </div>
@@ -153,29 +159,31 @@ export default function ListCart({
               {/* Unit Price Desktop */}
               <div className="text-center flex items-start justify-center">
                 <div className="grid grid-cols-1">
-                  {item.precioNormal && (
-                    <span className="text-base text-gray-600">S/ {item.precioNormal}</span>
+                  {formatPrice(item.precioNormal) && (
+                    <span className="text-base text-gray-600">{formatPrice(item.precioNormal)}</span>
                   )}
                   <div className="flex items-center">
-                    <span className="text-lg text-[var(--color-primary)] font-semibold">S/ {item.precioEmbajador}</span>
+                    <span className="text-lg text-[var(--color-primary)] font-semibold">{formatPrice(item.precioEmbajador)}</span>
                     <img src="img/payInfinity.svg" className="w-5 h-5" />
                   </div>
                 </div>
               </div>
+                
 
               {/* Subtotal Desktop */}
 
               <div className="text-center flex items-start justify-center">
                 <div className="grid grid-cols-1">
-                  {item.precioNormal && (
-                    <span className="text-base text-gray-600">S/ {item.precioNormal * item.cantidad}</span>
+                  {formatPrice(item.precioNormal) && (
+                    <span className="text-base text-gray-600">{formatPrice(item.precioNormal * item.cantidad)}</span>
                   )}
                   <div className="flex items-center">
-                    <span className="text-lg text-[var(--color-primary)] font-semibold">S/ {item.precioEmbajador * item.cantidad}</span>
+                    <span className="text-lg text-[var(--color-primary)] font-semibold">{formatPrice(item.precioEmbajador * item.cantidad)}</span>
                     <img src="img/payInfinity.svg" className="w-5 h-5" />
                   </div>
                 </div>
               </div>
+
 
             </div>
           </div>
