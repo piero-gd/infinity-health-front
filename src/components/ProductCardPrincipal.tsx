@@ -22,7 +22,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
             onClick={handleCardClick}
             className="group relative bg-white rounded-xl overflow-hidden 
             cursor-pointer h-full w-[280px] flex-shrink-0 flex flex-col border border-gray-100"
-            style={{ width: '280px' }}
+            style={{ width: '280px', height: '400px' }}
         >
             {/* Categoria */}
             <div className="absolute top-5 left-5 z-20">
@@ -30,53 +30,54 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
             </div>
 
             {/* Imagen del Producto */}
-            <div className="relative bg-white flex justify-center items-center h-56 p-4">
+            <div
+                className="relative m-2 overflow-hidden flex justify-center items-center bg-white p-0"
+                style={{ height: '60%' }} // 60% de la altura
+            >
                 <img 
                     src={product.images[0]}
-                    className="w-full h-full object-contain max-h-[200px]"
+                    alt={product.name}
+                    className="w-full h-full object-cover"
                     loading="lazy"
                 />
             </div>
 
             {/* Informacion del Producto */}
-            <div className="bg-white p-4 flex-1 flex flex-col">
+            <div
+                className="bg-white p-3 flex flex-col items-center justify-between"
+                style={{ height: '40%' }} // 40% de la altura
+            >
                 {/* Titulo y Calificacion */}
-                <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900 text-xl leading-tight flex-1 text-center">
+                <div className="flex flex-col items-center w-full mb-1 relative">
+                    <h4 className="font-semibold text-gray-900 text-base leading-tight truncate text-center w-full">
                         {product.name}
-                    </h3>
-                    <div className="flex items-center gap-1 ml-2 absolute top-6 right-6">
-                        <FaStar className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm font-semibold text-gray-700">
-                            {product.rating}
-                        </span>
-                    </div>
+                    </h4>
                 </div>
 
                 {/* Slogan */}
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2 text-center">
+                <p className="text-xs text-gray-500 mb-2 leading-snug truncate text-center w-full">
                     {product.slogan}
                 </p>
 
                 {/* Precio */}
-                <div className="mb-1 text-center">
+                <div className="mb-1 w-full flex flex-col items-center">
                     {formatPrice(product.price) && (
-                        <div className="text-sm text-gray-700 mb-1">
+                        <div className="text-xs text-gray-400 mb-0.5 line-through">
                             {formatPrice(product.price)}
                         </div>
                     )}
-                    <div className="flex items-center justify-center gap-2">
-                        <span className="text-md font-bold text-[var(--color-primary)]">
+                    <div className="flex items-center gap-2 justify-center">
+                        <span className="text-sm font-bold text-[var(--color-primary)]">
                             {formatPrice(product.price_amb)}
                         </span>
                         {formatPrice(product.price) && (
-                         <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
+                         <img src="../../img/payInfinity.svg" className="w-4 h-4 mb-0.5" />
                         )}
                     </div>
                 </div>
 
                 {/* Boton */}
-                <div className="flex justify-end mb-10">
+                <div className="flex justify-end w-full mt-auto">
                     <button
                         className="w-12 h-12 bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]
                         text-white rounded-full shadow-lg transition-all absolute bottom-6 right-6 flex items-center justify-center hover:shadow-xl group-hover:scale-110"

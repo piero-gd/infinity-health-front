@@ -19,7 +19,7 @@ export default function ProductList() {
                     >
                         {/* Tarjeta normal */}
                         <div 
-                            className={`transition-all duration-500 ease-in-out transform ${hoveredProduct === product.id ? 'opacity-0 scale-95 absolute' : 'opacity-100 scale-100'}`}
+                            className={`transition-all duration-800 ease-in-out transform ${hoveredProduct === product.id ? 'opacity-0 scale-95 absolute' : 'opacity-100 scale-100'}`}
                             style={{ transitionProperty: 'opacity, transform' }}
                         >
                             <ProductCardPrincipal 
@@ -29,8 +29,8 @@ export default function ProductList() {
                         
                         {/* Tarjeta hover */}
                         <div 
-                            className={`transition-all duration-500 ease-in-out transform ${hoveredProduct === product.id ? 'opacity-100 scale-100' : 'opacity-0 scale-95 absolute top-0'}`}
-                            style={{ transitionProperty: 'opacity, transform' }}
+                            className={`transition-all duration-800 ease-in-out transform ${hoveredProduct === product.id ? 'opacity-100 scale-100' : 'opacity-0 scale-95 absolute top-0'}`}
+                            
                         >
                             <ProductCardHover 
                                 product={product}
