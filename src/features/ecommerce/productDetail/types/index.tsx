@@ -1,52 +1,33 @@
 export interface Product {
     id: number;
-    nombre: string;
+    name: string;
     slug: string;
-    precioEmbajador: number;
-    precioNormal: number; 
-    categoria: string;
+    description: string;
     slogan: string;
-    descripcion: string;
-    imagenes: string[];
+    price: number;
+    price_amb: number;
+    rating: number;
+    product_type: string;
+
+    created: string;
+    updated: string;
+    images: string[];
+
+    specifications: string[];
+    featured_image: string;
+    category: string;
+    
+    stock: number;
     videos: string[];
     videoThumbnails?: string[]; 
-    stock: number;
-    resena: string;
-    calificacion: number;
-    disponible: boolean;
-    objetivo: string;
-    formato: string;
-    peso: string;
+
 }
 
 export interface Category {
     id: string;
-    categoria: Product["categoria"] ;
+    category: Product["category"] ;
     icon: React.ReactNode;
     color: string;
-}
-
-//MERCHANDISING
-export interface Merchandising {
-    id: number;
-    category: string;
-    subCategory: string;
-    name: string;
-    slug: string;
-    description: string;
-    price: string;
-    slogan: string;
-    discount: string;
-    rating: string;
-    short_description: string;
-    images: string[];
-    details: {
-        id: number;
-        product_merch: number;
-        color: string;
-        size: string;
-        stock: number;
-    }[];
 }
 
 //ENVIO  

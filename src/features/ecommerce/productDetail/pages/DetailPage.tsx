@@ -66,7 +66,7 @@ export default function DetailPage() {
         {/* Photo Slider - Columna Izquierda */}
         <div className="lg:sticky lg:top-4 lg:h-fit">
           <PhotoSlider 
-            images={currentProduct.imagenes} 
+            images={currentProduct.images} 
             videos={currentProduct.videos}
             videoThumbnails={currentProduct.videoThumbnails || []}
           />
@@ -83,7 +83,7 @@ export default function DetailPage() {
       <div className="mt-16 w-full">
         <RelatedProducts 
           currentProductId={currentProduct.id} 
-          category={currentProduct.categoria} 
+          category={currentProduct.category} 
         />
       </div>
 

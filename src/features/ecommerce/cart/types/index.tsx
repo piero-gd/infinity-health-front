@@ -1,10 +1,10 @@
 export interface CartItem {
   id: string; 
-  nombre: string;
-  categoria: string;
-  imagenes: string[];
-  precioNormal: number;
-  precioEmbajador: number;
+  name: string;
+  category: string;
+  images: string[];
+  price: number;
+  price_amb: number;
   cantidad: number;
 }
 

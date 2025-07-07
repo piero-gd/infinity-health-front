@@ -52,7 +52,7 @@ export default function ListCart({
               {/* Product Image Mobile */}
               <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                 <img
-                  src={item.imagenes[0]}
+                  src={item.images[0]}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -61,7 +61,7 @@ export default function ListCart({
               <div className="flex-1 min-w-0">
                 {/* Header with name and delete button */}
                 <div className="flex justify-between items-start mb-3 pb-2 border-b border-gray-200">
-                  <h4 className="font-semibold text-gray-900 text-lg">{item.nombre}</h4>
+                  <h4 className="font-semibold text-gray-900 text-lg">{item.name}</h4>
                   <button
                     onClick={() => onRemoveItem(item.id.toString())}
                     className="p-1 text-gray-600 border-1 border-black rounded-full hover:text-red-500 transition-colors ml-2 flex-shrink-0"
@@ -76,7 +76,7 @@ export default function ListCart({
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Precio Unidad</span>
                    
-                   <span className="font-medium text-gray-600">{formatPrice(item.precioNormal)}</span>
+                   <span className="font-medium text-gray-600">{formatPrice(item.price)}</span>
                   </div>
                   
                   <div className="flex justify-between items-center border-t mt-2 border-gray-200">
@@ -104,7 +104,7 @@ export default function ListCart({
                   <div className="flex justify-between items-center pt-2 border-t border-gray-100">
                     <span className="text-sm text-gray-600">Subtotal</span>
                     <span className="font-bold text-[var(--color-primary)] text-lg">
-                      {formatPrice(item.precioNormal * item.cantidad)}
+                      {formatPrice(item.price * item.cantidad)}
                     </span>
                   </div>
                 </div>
@@ -117,13 +117,13 @@ export default function ListCart({
               <div className="col-span-2 flex items-center space-x-4">
                 <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
                   <img
-                    src={item.imagenes[0]}
+                    src={item.images[0]}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">{item.nombre}</h4>
-                  <p className="text-sm text-black">{item.categoria}</p>
+                  <h4 className="font-semibold text-gray-900">{item.name}</h4>
+                  <p className="text-sm text-black">{item.category}</p>
                 </div>
               </div>
 
@@ -159,11 +159,11 @@ export default function ListCart({
               {/* Unit Price Desktop */}
               <div className="text-center flex items-start justify-center">
                 <div className="grid grid-cols-1">
-                  {formatPrice(item.precioNormal) && (
-                    <span className="text-base text-gray-600">{formatPrice(item.precioNormal)}</span>
+                  {formatPrice(item.price) && (
+                    <span className="text-base text-gray-600">{formatPrice(item.price)}</span>
                   )}
                   <div className="flex items-center">
-                    <span className="text-lg text-[var(--color-primary)] font-semibold">{formatPrice(item.precioEmbajador)}</span>
+                    <span className="text-lg text-[var(--color-primary)] font-semibold">{formatPrice(item.price_amb)}</span>
                     <img src="img/payInfinity.svg" className="w-5 h-5" />
                   </div>
                 </div>
@@ -174,11 +174,11 @@ export default function ListCart({
 
               <div className="text-center flex items-start justify-center">
                 <div className="grid grid-cols-1">
-                  {formatPrice(item.precioNormal) && (
-                    <span className="text-base text-gray-600">{formatPrice(item.precioNormal * item.cantidad)}</span>
+                  {formatPrice(item.price) && (
+                    <span className="text-base text-gray-600">{formatPrice(item.price * item.cantidad)}</span>
                   )}
                   <div className="flex items-center">
-                    <span className="text-lg text-[var(--color-primary)] font-semibold">{formatPrice(item.precioEmbajador * item.cantidad)}</span>
+                    <span className="text-lg text-[var(--color-primary)] font-semibold">{formatPrice(item.price_amb * item.cantidad)}</span>
                     <img src="img/payInfinity.svg" className="w-5 h-5" />
                   </div>
                 </div>

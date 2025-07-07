@@ -31,8 +31,8 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                 {/* Imagen de Producto - Cubre toda la card */}
                 <div className="absolute inset-0 w-full h-full">
                     <img 
-                        src={product.imagenes[0]} 
-                        alt={product.nombre} 
+                        src={product.images[0]} 
+                        alt={product.name} 
                         className="object-cover w-full h-full"
                     />
                 </div>
@@ -44,21 +44,21 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                 <div className="absolute top-6 left-5 z-10 max-w-[55%]">
                     {/* Nombre */}
                     <h2 className="text-lg font-black text-black mb-2 leading-tight">
-                        {product.nombre}
+                        {product.name}
                     </h2>
 
                     {/* Calificacion */}
                     <div className="flex items-center gap-1 mb-3">
                         <StarIcon className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                         <span className="text-sm font-medium text-black">
-                            {product.calificacion}
+                            {product.rating}
                         </span>
                     </div>
 
                     {/* Category Tag */}
                     <div className="inline-block">
                         <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-sm font-medium border border-purple-300">
-                            {product.categoria}
+                            {product.category}
                         </span>
                     </div>
                 </div>
@@ -68,13 +68,13 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                     <div className="relative bg-white/60 backdrop-blur rounded-full px-4 py-2 shadow-lg flex border border-white items-center justify-between">
                         {/* Precios */}
                         <div className="flex flex-col">
-                            { formatPrice(product.precioNormal) && (
+                            { formatPrice(product.price) && (
                                 <span className="text-gray-500  text-xs">
-                                    {formatPrice(product.precioNormal)}
+                                    {formatPrice(product.price)}
                                 </span>
                             )}
                             <span className="text-lg font-black text-[var(--color-primary)] flex items-center gap-1">
-                                {formatPrice(product.precioEmbajador)}
+                                {formatPrice(product.price_amb)}
                                 <img src="../../img/payInfinity.svg" className="w-4 h-4 mb-0.5"/>
                             </span>
                         </div>

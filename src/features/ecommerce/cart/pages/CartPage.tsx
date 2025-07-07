@@ -13,11 +13,11 @@ export default function CartPage() {
 
     const initialCartItems: CartItem[] = mockProduct.slice(0, 3).map(product => ({
         id: product.id.toString(),
-        nombre: product.nombre,
-        categoria: product.categoria,
-        imagenes: [product.imagenes[0]], //TOMA LA PRIMERA IMAGEN
-        precioNormal: product.precioNormal,
-        precioEmbajador: product.precioEmbajador,
+        name: product.name,
+        category: product.category,
+        images: [product.images[0]], //TOMA LA PRIMERA IMAGEN
+        price: product.price,
+        price_amb: product.price_amb,
         cantidad: 1 
     }));
 
@@ -34,8 +34,8 @@ export default function CartPage() {
     };
 
     //CALCULA LOS TOTALES DEL CARRITO NORMALES
-    const subtotal = cartItems.reduce((sum, item) => sum + (item.precioNormal * item.cantidad), 0);
-    const subtotalEmbajador = cartItems.reduce((sum, item) => sum + (item.precioEmbajador * item.cantidad), 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.cantidad), 0);
+    const subtotalEmbajador = cartItems.reduce((sum, item) => sum + (item.price_amb * item.cantidad), 0);
     const shipping = 5.99; //COSTO DE ENVIO
     const discount = 0; // DESCUENTO DEFAULT
 
@@ -75,7 +75,7 @@ export default function CartPage() {
             <div>
                 <RelatedProducts 
                   currentProductId={Number(cartItems[0].id)} 
-                  category={cartItems[0].categoria} 
+                  category={cartItems[0].category} 
                 />
             </div>
             

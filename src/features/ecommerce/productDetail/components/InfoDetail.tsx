@@ -21,8 +21,8 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
     
     //calcular descuento
     const calculateDiscount = (): number => {
-        if (!product.precioNormal) return 0;
-        return Math.round(((product.precioNormal - product.precioEmbajador) / product.precioNormal) * 100);
+        if (!product.price) return 0;
+        return Math.round(((product.price - product.price_amb) / product.price) * 100);
     };
 
     const discount = calculateDiscount();
@@ -31,23 +31,23 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
         <div className="xl:p-5 p-0 md:p-6">
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
-                <h1 className="text-3xl font-bold text-gray-800">{product.nombre}</h1> 
+                <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1> 
                 <div className="xl:block hidden">
-                    <CategoriesTag categoryName={product.categoria} className="text-sm" />
+                    <CategoriesTag categoryName={product.category} className="text-sm" />
                 </div>
             </div>
 
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
             <div className="flex flex-col gap-2">
-                    {formatPrice(product.precioNormal) && (
+                    {formatPrice(product.price) && (
                         <span className="xl:text-lg text-md text-gray-500">
-                            {formatPrice(product.precioNormal)}
+                            {formatPrice(product.price)}
                         </span>
                     )}
                     <div className="flex items-center gap-3">
                         <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)] flex items-center gap-1">
-                            {formatPrice(product.precioEmbajador)}
+                            {formatPrice(product.price_amb)}
                             <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         </span>
                         {discount > 0 && (
@@ -64,7 +64,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         {[...Array(5)].map((_, i) => (
                             <svg
                                 key={i}
-                                className={`w-4 h-4 ${i < (product.calificacion || 0) ? 'text-yellow-400' : 'text-gray-300'}`}
+                                className={`w-4 h-4 ${i < (product.rating || 0) ? 'text-yellow-400' : 'text-gray-300'}`}
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                             >
@@ -73,14 +73,14 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         ))}
                     </div>
                     <span className="text-sm text-gray-500 ml-1">
-                        ({product.resena || 0})
+                        12 reseñas
                     </span>
                 </div>
             </div>
 
             {/* DESCRIPCIÓN */}
             <div className="mt-6">
-                <p className="text-gray-600">{product.descripcion}</p>
+                <p className="text-gray-600">{product.description}</p>
             </div>
 
             {/* BOTONES */}

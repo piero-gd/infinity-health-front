@@ -26,14 +26,14 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
         >
             {/* Category Badge */}
             <div className="absolute top-5 left-5 z-20">
-                <CategoriesTag categoryName={product.categoria} />
+                <CategoriesTag categoryName={product.category} />
             </div>
 
             {/* Product Image */}
             <div className="relative bg-white flex justify-center items-center h-56 p-4">
                 <img 
-                    src={product.imagenes[1]}
-                    alt={product.nombre}
+                    src={product.images[1]}
+                    alt={product.name}
                     className="w-full h-full object-contain max-h-[200px]"
                     loading="lazy"
                 />
@@ -44,12 +44,12 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
                 {/* Title and Rating */}
                 <div className="flex items-start justify-between mb-2">
                     <h3 className="font-semibold text-gray-900 text-lg leading-tight flex-1">
-                        {product.nombre}
+                        {product.name}
                     </h3>
                     <div className="flex items-center gap-1 ml-2">
                         <FaStar className="w-4 h-4 text-yellow-400 fill-current" />
                         <span className="text-sm font-semibold text-gray-700">
-                            {product.calificacion || '4.9'}
+                            {product.rating || '4.9'}
                         </span>
                     </div>
                 </div>
@@ -61,16 +61,16 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
 
                 {/* Price */}
                 <div className="mb-4">
-                    { formatPrice(product.precioNormal) && (
+                    { formatPrice(product.price) && (
                         <div className="text-sm text-gray-400 mb-1">
-                            {formatPrice(product.precioNormal)}
+                            {formatPrice(product.price)}
                         </div>
                     )}
                     <div className="flex items-center gap-2">
                         <span className="text-xl font-bold text-[var(--color-primary)]">
-                            {formatPrice(product.precioEmbajador)}
+                            {formatPrice(product.price_amb)}
                         </span>
-                        {formatPrice(product.precioNormal) && (
+                        {formatPrice(product.price) && (
                          <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
                         )}
                     </div>

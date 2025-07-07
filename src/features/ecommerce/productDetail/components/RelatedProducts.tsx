@@ -9,7 +9,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
 }) => {
     let relatedProducts = products.filter(
         (product) => 
-            product.categoria.toLowerCase() === category.toLowerCase() && 
+            product.category.toLowerCase() === category.toLowerCase() && 
             product.id !== currentProductId
     );
 
@@ -35,7 +35,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
                 </div>
                 <div>
                     <p className="xl:block hidden text-gray-500 text-sm leading-relaxed">
-                        {relatedProducts.some(p => p.categoria.toLowerCase() === category.toLowerCase()) 
+                        {relatedProducts.some(p => p.category.toLowerCase() === category.toLowerCase()) 
                             ? 'Descubre más productos de la misma categoría que podrían interesarte.'
                             : 'Productos que podrían interesarte.'}
                     </p>
