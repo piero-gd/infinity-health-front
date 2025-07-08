@@ -12,6 +12,8 @@ import { GoPerson } from "react-icons/go";
 import { SlArrowDown } from "react-icons/sl";
 
 import { useState } from "react";
+//Ad
+//import NavBarAd from "./NavBarAd";
 
 interface Props {
   onLogout: () => void;
@@ -31,10 +33,19 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-white px-4 py-3 shadow-sm">
+   <div className="sticky top-0 z-40">
+
+            {/* Ad 
+  
+      <NavBarAd />   */}
+   
+
+    <nav className="bg-white px-4 py-3 shadow-sm"> 
+ 
       <div className="max-w-7xl mx-auto">
+      
         <div className="flex items-center justify-between">
-          
+     
           {/* VERSIÓN DESKTOP */}
           {/* Logo - Solo desktop */}
           <div className="hidden lg:flex flex-shrink-0">
@@ -76,7 +87,10 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
             
             <button className="w-10 h-10 text-black rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200">
               <LiaShoppingBagSolid className="h-8 w-8" />
-              <span className="absolute ml-5 top-5 text-sm bg-[var(--color-primary)] rounded-full w-5 h-5 text-white">0</span>
+          {/* posisición varía*/}
+            <div className="relative">
+            <span className="absolute -top-4 -right-4 text-sm bg-[var(--color-primary)] rounded-full w-5 h-5 text-white">0</span>
+            </div>
             </button>
 
             <div className="flex items-center space-x-2 ml-4">
@@ -216,5 +230,6 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
 
       </div>
     </nav>
+    </div>
   );
 }
