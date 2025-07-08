@@ -8,3 +8,10 @@ export interface AuthResponse {
   refresh: string;
   username: string;
 }
+
+export interface RegisterCredentials {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+}

@@ -117,7 +117,7 @@ export default function LoginForm() {
           <span className="font-semibold text-text-muted">
             ¿Aún no tienes una cuenta?
           </span>
-          <a href="#" className="font-bold text-[var(--color-primary)] hover:underline">
+          <a href="/register" className="font-bold text-[var(--color-primary)] hover:underline">
             Crear cuenta
           </a>
         </div>
