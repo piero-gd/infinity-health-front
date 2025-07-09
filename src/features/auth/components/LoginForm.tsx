@@ -35,7 +35,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full ">
       {/* Branding mobile eliminado */}
       <form
         onSubmit={handleSubmit}
@@ -105,8 +105,8 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-xl text-white font-bold text-lg mt-2 transition-all
-            bg-gradient-to-r from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]
+          className={`w-full py-3 rounded-full text-white font-bold text-lg mt-2 transition-all
+            bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]
             hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)]
             shadow-md ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >

@@ -9,8 +9,8 @@ export default function RegisterPage() {
     <div className="min-h-screen flex flex-col bg-white">
       {/* Fondo solo para desktop */}
       <div className="hidden md:block fixed inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/img/login-desktop-bg.png')" }} />
-      <div className="relative z-10 flex flex-col flex-1">
-        <div className="flex flex-col flex-1 md:items-center md:justify-center">
+      <div className="relative z-10 flex flex-col flex-1 mx-12">
+        <div className="flex flex-col flex-1 md:items-center md:justify-center ">
           {/* Header móvil con flecha y logo */}
           <div className="md:hidden w-full pt-8 pb-6 px-4">
             <button 
@@ -30,13 +30,14 @@ export default function RegisterPage() {
           </div>
           
           {/* Contenedor del formulario */}
-          <div className="flex-1 md:flex-none w-full md:max-w-6xl bg-white rounded-t-3xl md:rounded-3xl xl:shadow-lg flex flex-col md:flex-row overflow-visible relative md:my-12 transform md:transform-none scale-[0.98] md:scale-100 origin-top">
+          <div className="flex-1 md:flex-none w-full max-w-5xl bg-white rounded-t-3xl md:rounded-3xl
+          xl:rounded-3xl xl:shadow-lg md:shadow-lg flex flex-col md:flex-row overflow-visible relative md:my-12 transformmd:transform-none scale-[0.98] md:scale-100 origin-top">
             {/* Imagen desktop */}
-            <div className="hidden md:block md:w-[45%] h-[494px] relative z-10">
+            <div className="hidden xl:block md:w-[45%] h-[494px] relative z-10">
               <img
-                src="/img/login-desktop.png"
+                src="/img/FOTO MARCO Y CECILIA LOGIN.png"
                 alt="Infinity Health"
-                className="w-full h-[110%] object-contain border-2"
+                className="w-full h-full top-25 -right-5 scale-135 object-contain relative"
               />
             </div>
             {/* Formulario */}

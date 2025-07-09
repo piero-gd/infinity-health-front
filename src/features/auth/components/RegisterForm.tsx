@@ -76,7 +76,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-3 w-full"
@@ -91,7 +91,8 @@ export default function RegisterForm() {
         
         {/* Nombre de usuario */}
         <div>
-          <label htmlFor="username" className="block text-sm font-semibold text-text-soft mb-1">
+          <label htmlFor="username"
+          className="block text-sm font-semibold text-text-soft mb-1">
             Nombre de usuario
           </label>
           <input

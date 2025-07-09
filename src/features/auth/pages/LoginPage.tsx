@@ -3,7 +3,7 @@ import LoginForm from '../components/LoginForm';
 export default function LoginPage() {
   return (
     <div
-      className="min-h-screen flex flex-col md:items-center md:justify-center bg-cover bg-center px-0 md:px-2"
+      className="min-h-screen flex flex-col md:items-center md:justify-center bg-cover bg-center px-0 md:px-6"
       style={{ backgroundImage: "url('/img/login-desktop-bg.png')" }}
     >
       {/* Imagen arriba solo en mobile */}
@@ -15,13 +15,15 @@ export default function LoginPage() {
         />
       </div>
       {/* Card blanco */}
-      <div className="flex-1 md:flex-none w-full md:max-w-6xl bg-white rounded-t-3xl md:rounded-3xl shadow-lg flex flex-col md:flex-row overflow-visible relative md:my-12 mt-[-30%]">
+      <div className="flex-1 md:flex-none w-full max-w-4xl  bg-white rounded-t-3xl
+      md:rounded-3xl shadow-lg flex flex-col md:flex-row overflow-visible relative md:my-12 mt-[-30%]">
         {/* Imagen desktop */}
-        <div className="hidden md:block md:w-[45%] h-[494px] relative z-10">
+        <div className="hidden xl:block md:w-[45%] h-[494px] relative z-10">
           <img
-            src="/img/login-desktop.png"
+            src="/img/FOTO MARCO Y CECILIA LOGIN.png"
             alt="Infinity Health"
-            className="w-full h-[110%] object-contain border-2"
+            className="absolute top-5 right-0 w-full h-full scale-110
+           object-contain"
           />
         </div>
         {/* Formulario */}
