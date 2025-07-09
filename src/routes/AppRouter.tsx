@@ -9,6 +9,8 @@ import RegisterPage from "../features/auth/pages/RegisterPage";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 import AcademyPage from "../features/academy/pages/AcademyPage";
+import MailConfirmation from "../features/auth/components/MailConfirmation";
+import RegisterConfirmation from "../features/auth/components/RegisterConfirmation";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -59,6 +61,10 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+
+        {/* Confirmaciones - A partir de LOGIN */}
+        <Route path="/mail-confirmation" element={<MailConfirmation />} />
+        <Route path="/register-confirmation" element={<RegisterConfirmation />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
