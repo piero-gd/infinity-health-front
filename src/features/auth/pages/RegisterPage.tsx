@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { RxChevronLeft } from "react-icons/rx";
+
 import RegisterForm from "../components/RegisterForm";
 
 export default function RegisterPage() {
@@ -15,10 +16,10 @@ export default function RegisterPage() {
           <div className="md:hidden w-full pt-8 pb-6 px-4">
             <button 
               onClick={() => navigate(-1)}
-              className="mb-4 text-gray-600"
+              className="mb-4 text-[var(--color-primary)]"
               aria-label="Volver atrás"
             >
-              <ArrowLeft size={24} />
+              <RxChevronLeft size={24} />
             </button>
             <div className="flex justify-center">
               <img
@@ -28,6 +29,12 @@ export default function RegisterPage() {
               />
             </div>
           </div>
+
+<div className="hidden md:flex absolute left-0 top-6 items-left gap-2 mb-4 text-white
+cursor-pointer hover:opacity-80 transition-opacity"
+     onClick={() => navigate(-1)}>
+  <RxChevronLeft size={24} />
+</div>
           
           {/* Contenedor del formulario */}
           <div className="flex-1 md:flex-none w-full max-w-5xl bg-white rounded-t-3xl md:rounded-3xl
