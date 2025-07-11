@@ -40,6 +40,13 @@
     --color-btn-gradient-top: #1798E0;
     --color-btn-gradient-border: #1798E0;
     --color-btn-whatsapp: #25D366;
+
+    /* Colores de Estados */
+    --color-informativo: #84C5E9;
+    --color-exito: #232323;
+    --color-exito-icon: #83C438;
+    --color-advertencia: #232323;
+    --color-error: #232323;
 }
 
 body {

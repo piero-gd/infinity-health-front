@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRegister } from '../hooks/useRegister';
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
+  const { register, isLoading, error: apiError, fieldErrors } = useRegister();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -8,8 +12,7 @@ export default function RegisterForm() {
     confirmPassword: ''
   });
   
-  const [error, setError] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,36 +21,78 @@ export default function RegisterForm() {
       [name]: value
     }));
     
-    // Clear error for the field being edited
-    if (error[name]) {
-      setError(prev => ({
-        ...prev,
-        [name]: ''
-      }));
+    // Limpiar errores del campo que se está editando
+    if (formErrors[name] || fieldErrors[name as keyof typeof fieldErrors]) {
+      setFormErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
     }
   };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
+    let isValid = true;
     
+    // Validar nombre de usuario
     if (!formData.username.trim()) {
       newErrors.username = 'El nombre de usuario es requerido';
+      isValid = false;
+    } else if (formData.username.length < 3) {
+      newErrors.username = 'El nombre de usuario debe tener al menos 3 caracteres';
+      isValid = false;
+    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+      newErrors.username = 'Solo se permiten letras, números y guiones bajos';
+      isValid = false;
     }
     
-    if (!formData.email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+    // Validar correo electrónico
+    if (!formData.email.trim()) {
+      newErrors.email = 'El correo electrónico es requerido';
+      isValid = false;
+    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) {
       newErrors.email = 'Por favor ingresa un correo electrónico válido';
+      isValid = false;
     }
     
-    if (formData.password.length < 8) {
+    // Validar contraseña
+    if (!formData.password) {
+      newErrors.password = 'La contraseña es requerida';
+      isValid = false;
+    } else if (formData.password.length < 8) {
       newErrors.password = 'La contraseña debe tener al menos 8 caracteres';
+      isValid = false;
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      newErrors.password = 'Debe contener al menos una mayúscula, una minúscula y un número';
+      isValid = false;
     }
     
+    // Validar confirmación de contraseña
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Las contraseñas no coinciden';
+      isValid = false;
     }
     
-    setError(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setFormErrors(newErrors);
+    return isValid;
+  };
+  
+  // Combinar errores del formulario con los de la API
+  const getFieldError = (field: string) => {
+    // Priorizar errores del formulario sobre los de la API
+    if (formErrors[field]) {
+      return formErrors[field];
+    }
+    
+    // Manejar errores de la API
+    const apiError = fieldErrors[field as keyof typeof fieldErrors];
+    if (apiError) {
+      // Si el error es un array, tomar el primer mensaje
+      return Array.isArray(apiError) ? apiError[0] : apiError;
+    }
+    
+    return '';
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,21 +102,22 @@ export default function RegisterForm() {
       return;
     }
     
-    setLoading(true);
-    
     try {
-      // Aquí iría la lógica de registro real
-      // Por ahora simulamos una llamada a la API
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      
-      // Redirigir al usuario después del registro exitoso
-      // navigate('/login');
-    } catch (err) {
-      setError({
-        general: 'Ocurrió un error al registrar la cuenta. Por favor, inténtalo de nuevo.'
+      await register({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
       });
-    } finally {
-      setLoading(false);
+      
+      // Redirigir a la página de confirmación de correo después del registro exitoso
+      navigate('/mail-confirmation', { 
+        state: { from: '/register' },
+        replace: true
+      });
+      
+    } catch (error) {
+      // Los errores ya son manejados por el hook useRegister
+      console.error('Error en el registro:', error);
     }
   };
 
@@ -103,13 +149,13 @@ export default function RegisterForm() {
             value={formData.username}
             onChange={handleChange}
             className={`w-full px-4 py-2.5 rounded-3xl border ${
-              error.username ? 'border-red-400' : 'border-gray-200'
+              getFieldError('username') ? 'border-red-400' : 'border-gray-200'
             } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
-            disabled={loading}
+            disabled={isLoading}
             autoFocus
           />
-          {error.username && (
-            <span className="text-xs text-red-500 mt-1 block">{error.username}</span>
+          {getFieldError('username') && (
+            <span className="text-xs text-red-500 mt-1 block">{getFieldError('username')}</span>
           )}
         </div>
         
@@ -126,12 +172,12 @@ export default function RegisterForm() {
             value={formData.email}
             onChange={handleChange}
             className={`w-full px-4 py-2.5 rounded-3xl border ${
-              error.email ? 'border-red-400' : 'border-gray-200'
+              getFieldError('email') ? 'border-red-400' : 'border-gray-200'
             } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
-            disabled={loading}
+            disabled={isLoading}
           />
-          {error.email && (
-            <span className="text-xs text-red-500 mt-1 block">{error.email}</span>
+          {getFieldError('email') && (
+            <span className="text-xs text-red-500 mt-1 block">{getFieldError('email')}</span>
           )}
         </div>
         
@@ -148,12 +194,12 @@ export default function RegisterForm() {
             value={formData.password}
             onChange={handleChange}
             className={`w-full px-4 py-2.5 rounded-3xl border ${
-              error.password ? 'border-red-400' : 'border-gray-200'
+              getFieldError('password') ? 'border-red-400' : 'border-gray-200'
             } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
-            disabled={loading}
+            disabled={isLoading}
           />
-          {error.password && (
-            <span className="text-xs text-red-500 mt-1 block">{error.password}</span>
+          {getFieldError('password') && (
+            <span className="text-xs text-red-500 mt-1 block">{getFieldError('password')}</span>
           )}
           <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
         </div>
@@ -171,19 +217,19 @@ export default function RegisterForm() {
             value={formData.confirmPassword}
             onChange={handleChange}
             className={`w-full px-4 py-2.5 rounded-3xl border ${
-              error.confirmPassword ? 'border-red-400' : 'border-gray-200'
+              getFieldError('confirmPassword') ? 'border-red-400' : 'border-gray-200'
             } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
-            disabled={loading}
+            disabled={isLoading}
           />
-          {error.confirmPassword && (
-            <span className="text-xs text-red-500 mt-1 block">{error.confirmPassword}</span>
+          {getFieldError('confirmPassword') && (
+            <span className="text-xs text-red-500 mt-1 block">{getFieldError('confirmPassword')}</span>
           )}
         </div>
         
         {/* Error general */}
-        {error.general && (
+        {apiError && (
           <div className="text-red-500 text-sm text-center py-2">
-            {error.general}
+            {apiError}
           </div>
         )}
 
@@ -195,10 +241,10 @@ export default function RegisterForm() {
         {/* Botón de registro */}
         <button
           type="submit"
-          disabled={loading}
-          className={`w-full py-2.5 px-4 rounded-3xl text-white font-medium mt-1 bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] transition-colors shadow-lg`}
+          disabled={isLoading}
+          className={`w-full py-2.5 px-4 rounded-3xl text-white font-medium mt-1 bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] transition-colors shadow-lg ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
         >
-          Crear cuenta
+          {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
         </button>
 
        

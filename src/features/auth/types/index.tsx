@@ -10,8 +10,13 @@ export interface AuthResponse {
 }
 
 export interface RegisterCredentials {
-  name: string;
-  email: string;
   username: string;
+  email: string;
   password: string;
 }
+
+export interface RegisterResponse {
+  username: string;
+  email: string;
+}
+

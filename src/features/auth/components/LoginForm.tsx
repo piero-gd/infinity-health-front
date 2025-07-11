@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import { useLogin } from '../hooks/useLogin';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { login, isLoading: loading } = useLogin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -12,26 +13,30 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    // Validación simple
+    
+    // Validaciones
     if (!formData.username.match(/^[^@]+@[^@]+\.[^@]+$/)) {
-      setError('Por favor Ingresa un usuario correcto');
-      setLoading(false);
+      setError('Por favor ingresa un correo electrónico válido');
       return;
-    }
+    } 
+
     if (!formData.password) {
       setError('Por favor ingresa tu contraseña');
-      setLoading(false);
       return;
     }
 
-    // Aquí va la lógica de login real
-    setTimeout(() => {
-      setLoading(false);
-      // setError('Usuario o contraseña incorrectos'); // Simula error
-    }, 1200);
+    try {
+      // Intentar hacer login
+      await login({
+        username: formData.username,
+        password: formData.password
+      });
+      
+      // La redirección se maneja en el hook useLogin
+    } catch (err) {
+      setError('Usuario o contraseña incorrectos');
+      console.error('Error en el login:', err);
+    }
   };
 
   return (
@@ -51,12 +56,12 @@ export default function LoginForm() {
         {/* Usuario */}
         <div>
           <label htmlFor="username" className="block text-sm font-semibold text-text-soft mb-1">
-            Usuario
+            Email
           </label>
           <input
             id="username"
             name="username"
-            type="text"
+            type="email"
             placeholder="Ej: jimmy@gmail.com"
             value={formData.username}
             onChange={handleChange}
@@ -97,7 +102,7 @@ export default function LoginForm() {
               />
               Recordar contraseña
             </label>
-          <a href="#" className="text-[var(--color-primary)] font-medium hover:underline">
+          <a href="/forgot-password" className="text-[var(--color-primary)] font-medium hover:underline">
             ¿Olvidaste tu contraseña?
           </a>
         </div>
