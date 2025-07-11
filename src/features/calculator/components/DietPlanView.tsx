@@ -5,6 +5,7 @@ import { chatWhatsApp } from '../utils/chatWhatsApp';
 import type { CalculatorResults } from '../types';
 import { useDiet } from '../hooks/useDiet';
 import { useLoadingMessages } from '../hooks/useLoadingMessages';
+import Loader from '../../../components/Loader';
 
 interface DietPlanProps {
   resultado: CalculatorResults;
@@ -25,11 +26,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
   if (isLoading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-[var(--color-primary-dark)] overflow-hidden p-8 text-center">
-        <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[var(--color-primary)] mb-4"></div>
-        </div>
-        <p className="mt-4 text-gray-600">Cargando tu plan de alimentación</p>
-        <p className="mt-2 text-xs text-gray-600 animate-pulse h-4">{loadingMessage}</p>
+        <Loader message={loadingMessage} />
       </div>
     );
   }
@@ -109,12 +106,12 @@ const DietPlan: React.FC<DietPlanProps> = ({
             aria-label="Consulta Nutricional"
           >
             <FaWhatsapp className="block w-5 h-5" />
-           <span className="ml-2 block flex"> Consulta Asesoría Nutricional</span>
+           <span className="ml-2 block"> Consulta Asesoría Nutricional</span>
           </button>
         <button 
             onClick={handleDownload}
             id="download-pdf"
-            className="flex items-center justify-center shadow-sm px-3 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
+            className="flex items-center justify-center shadow-sm px-3 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)]"
             aria-label="Descargar plan"
           >
            <BsDownload className="w-5 h-5 xl:block lg:block md:block block" />

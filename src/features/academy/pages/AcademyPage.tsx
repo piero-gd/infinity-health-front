@@ -11,8 +11,7 @@ export default function AcademyPage() {
   const { session, loading, error } = useZoomSession(courseId);
 
   if (loading) return <Loader message="Cargando sesión..." />;
-  if (error) return <div className="text-center text-red-500">{error}</div>;
-  //TODO: error boundary
+  if (error) throw new Error("Error al cargar la sesión de Zoom");
   if (!session) return <div className="text-center mt-10">Sesión no encontrada</div>;
 
   return (

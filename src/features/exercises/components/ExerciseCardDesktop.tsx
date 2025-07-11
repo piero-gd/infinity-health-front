@@ -25,7 +25,7 @@ export default function ExerciseCardDesktop({ exercise, onClick }: Props) {
         <div className="absolute bottom-0 left-0 w-full flex items-end px-4 pb-4">
           <div>
             <span className="text-white text-lg font-normal" style={{ fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>
-              {exercise.category}
+              {String(exercise.category).charAt(0).toUpperCase() + String(exercise.category).slice(1)}
             </span>
           </div>
         </div>
