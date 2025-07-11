@@ -76,7 +76,7 @@ export default function FilterTop() {
             <button 
               onClick={handleFilterCategories}
               className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-full 
-                       bg-white text-gray-400 hover:bg-gray-50 xl:hidden block text-sm font-medium whitespace-nowrap"
+                       bg-white text-gray-400 hover:bg-gray-50 xl:hidden text-sm font-medium whitespace-nowrap"
             >
               <VscSettings className="h-4 w-4" />
               <span className="md:hidden">Filtros</span>
