@@ -9,8 +9,8 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
 }) => {
     const navigate = useNavigate();
 
-    const formatPrice = (price: number) => {
-        return `$ ${price.toFixed(2)}`;
+    const formatPrice = (price: string) => {
+        return `$ ${parseFloat(price).toFixed(2)}`;
       };
 
     const handleCardClick = () => {
@@ -26,7 +26,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
         >
             {/* Categoria */}
             <div className="absolute top-5 left-5 z-20">
-                <CategoriesTag categoryName={product.category} />
+                <CategoriesTag categoryName={product.category_info?.name || 'Producto'} />
             </div>
 
             {/* Imagen del Producto */}
@@ -35,7 +35,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
                 style={{ height: '60%' }} // 60% de la altura
             >
                 <img 
-                    src={product.images[0]}
+                    src={product.images[0]?.image_url || product.featured_image}
                     alt={product.name}
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -61,7 +61,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
 
                 {/* Precio */}
                 <div className="mb-1 w-full flex flex-col items-center">
-                    {formatPrice(product.price) && (
+                    {product.price !== product.price_amb && (
                         <div className="text-xs text-gray-400 mb-0.5 line-through">
                             {formatPrice(product.price)}
                         </div>
@@ -70,7 +70,7 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
                         <span className="text-sm font-bold text-[var(--color-primary)]">
                             {formatPrice(product.price_amb)}
                         </span>
-                        {formatPrice(product.price) && (
+                        {product.price !== product.price_amb && (
                          <img src="../../img/payInfinity.svg" className="w-4 h-4 mb-0.5" />
                         )}
                     </div>

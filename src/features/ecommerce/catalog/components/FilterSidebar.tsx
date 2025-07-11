@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaAngleDown } from "react-icons/fa6";
 import DualRangeSlider from './DualRangeSlider';
+import { useFiltersStore } from '../stores/useFiltersStore';
 
 const Accordion = ({ 
   title, 
@@ -29,12 +30,27 @@ const Accordion = ({
   </div>
 );
 
-export const FilterSidebar =()=>{
-
+export const FilterSidebar =() => {
   const [openSections, setOpenSections] = useState({
     productos: true,
     merchandising: true
   });
+
+  // Estados y acciones desde Zustand
+  const { 
+    selectedProduct, 
+    selectedMerchandising, 
+    selectedObjective, 
+    selectedFormat,
+    minPrice,
+    maxPrice,
+    setProduct,
+    setMerchandising,
+    setObjective,
+    setFormat,
+    setPriceRange,
+    resetFilters
+  } = useFiltersStore();
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections(prev => ({
@@ -42,11 +58,6 @@ export const FilterSidebar =()=>{
       [section]: !prev[section]
     }));
   };
-
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [selectedMerchandising, setSelectedMerchandising] = useState('');
-  const [selectedObjective, setSelectedObjective] = useState('');
-  const [selectedFormat, setSelectedFormat] = useState('');
 
   const products = [
     'Energy', 'Detox', 'Relax', 'Glow', 'Power'
@@ -60,15 +71,8 @@ export const FilterSidebar =()=>{
     'Aumentar energía', 'Subir masa muscular', 'Reducir el estrés', 
     'Mejorar el rendimiento', 'Reforzar defensas'
   ];
-  
-  const formats = ['Bebida instantánea', 'Polvo / Suplemento'];
 
-  const handleClearAll = () => {
-    setSelectedProduct('');
-    setSelectedMerchandising('');
-    setSelectedObjective('');
-    setSelectedFormat('');
-  };
+  const formats = ['Bebida instantánea', 'Polvo / Suplemento'];
 
   return (
     <div className="w-full">
@@ -77,7 +81,7 @@ export const FilterSidebar =()=>{
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold text-gray-800">Filtros</h2>
           <button
-            onClick={handleClearAll}
+            onClick={resetFilters}
             className="text-sm text-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
           >
             Limpiar todo
@@ -85,8 +89,11 @@ export const FilterSidebar =()=>{
         </div>
 
         <h3 className="font-semibold mb-3 text-gray-800">Precio</h3>
-        <DualRangeSlider />
-
+        <DualRangeSlider 
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          onPriceChange={(min, max) => setPriceRange(min, max)}
+        />
 
         {/* Categories */}
         <div className="mb-6">
@@ -105,7 +112,7 @@ export const FilterSidebar =()=>{
                     name="product"
                     value={product}
                     checked={selectedProduct === product}
-                    onChange={(e) => setSelectedProduct(e.target.value)}
+                    onChange={(e) => setProduct(e.target.value)}
                     className="mr-2 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="truncate">{product}</span>
@@ -127,7 +134,7 @@ export const FilterSidebar =()=>{
                     name="merchandising"
                     value={item}
                     checked={selectedMerchandising === item}
-                    onChange={(e) => setSelectedMerchandising(e.target.value)}
+                    onChange={(e) => setMerchandising(e.target.value)}
                     className="mr-2 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="truncate">{item}</span>
@@ -148,7 +155,7 @@ export const FilterSidebar =()=>{
                   name="objective"
                   value={objective}
                   checked={selectedObjective === objective}
-                  onChange={(e) => setSelectedObjective(e.target.value)}
+                  onChange={(e) => setObjective(e.target.value)}
                   className="mr-2 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="truncate">{objective}</span>
@@ -168,7 +175,7 @@ export const FilterSidebar =()=>{
                   name="format"
                   value={format}
                   checked={selectedFormat === format}
-                  onChange={(e) => setSelectedFormat(e.target.value)}
+                  onChange={(e) => setFormat(e.target.value)}
                   className="mr-2 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="truncate">{format}</span>
@@ -178,12 +185,10 @@ export const FilterSidebar =()=>{
         </div>
 
         {/* Featured Product */}
-          <h3 className="font-semibold mb-3 text-gray-800">Destacado</h3>
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100">
-            
-           {/* AÑADIR UNA IMAGEN DE UN PRODUCTO */}
-          </div>
-        
+        <h3 className="font-semibold mb-3 text-gray-800">Destacado</h3>
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100">
+          {/* AÑADIR UNA IMAGEN DE UN PRODUCTO */}
+        </div>
       </div>
     </div>
   );

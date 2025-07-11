@@ -1,5 +1,6 @@
 import { Search, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { useFiltersStore } from '../stores/useFiltersStore';
 
 import { TbBolt } from "react-icons/tb";
 import { MdOutlineWaterDrop } from "react-icons/md";
@@ -30,22 +31,30 @@ const sortOptions = [
 ];
 
 export default function FilterTop() {
+  // Estado local solo para UI
   const [showSort, setShowSort] = useState(false);
-  const [selectedSort, setSelectedSort] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  // Estados y acciones desde Zustand
+  const { 
+    selectedCategory, 
+    selectedSort, 
+    searchQuery,
+    setCategory, 
+    setSort, 
+    setSearchQuery 
+  } = useFiltersStore();
 
   const handleFilterCategories = () => {
     setShowMobileFilters(!showMobileFilters);
   };
-
 
   return (
     <div className="w-full p-5">
       {/* Barra de búsqueda y ordenamiento */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         {/* Header para móvil */}
-        <div className="w-full flex items-center justify-between  md:justify-start gap-3">
+        <div className="w-full flex items-center justify-between md:justify-start gap-3">
           <h3 className="font-medium text-gray-900 whitespace-nowrap">Tienda</h3>
           
           <div className="flex-1 flex items-center gap-2 justify-end md:justify-start">
@@ -54,6 +63,8 @@ export default function FilterTop() {
               <input
                 type="text"
                 placeholder="Buscar producto..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="block w-full pr-10 pl-3 py-2 border border-gray-300 rounded-full 
                          focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                          placeholder-gray-500 text-sm"
@@ -93,7 +104,7 @@ export default function FilterTop() {
                     <button
                       key={option.id}
                       onClick={() => {
-                        setSelectedSort(option.name);
+                        setSort(option.name);
                         setShowSort(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50"
@@ -106,7 +117,6 @@ export default function FilterTop() {
             </div>
           </div>
         </div>
-        
       </div>
 
       {/* Filtros de categorías */}
@@ -117,7 +127,7 @@ export default function FilterTop() {
             className="relative pb-1"
           >
             <button
-              onClick={() => setSelectedCategory(category.id)}
+              onClick={() => setCategory(category.id)}
               className={`flex items-center gap-2 px-4 py-2 mb-2 rounded-full text-sm font-medium
                         transition-all duration-200 border-2 shadow-sm
                         ${category.color}
@@ -136,8 +146,6 @@ export default function FilterTop() {
           </div>
         ))}
       </div>
-
-   
     </div>
   );
 }

@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 
-export default function DualRangeSlider() {
-  const [minValue, setMinValue] = useState(100);
-  const [maxValue, setMaxValue] = useState(500);
-  const [minPrice, setMinPrice] = useState(100);
-  const [maxPrice, setMaxPrice] = useState(500);
+interface DualRangeSliderProps {
+  minPrice: number;
+  maxPrice: number;
+  onPriceChange: (min: number, max: number) => void;
+}
+
+export default function DualRangeSlider({ minPrice, maxPrice, onPriceChange }: DualRangeSliderProps) {
+  const [minValue, setMinValue] = useState(minPrice);
+  const [maxValue, setMaxValue] = useState(maxPrice);
   const [isDragging, setIsDragging] = useState(false);
   const [startOffsetX, setStartOffsetX] = useState(0);
 
@@ -16,12 +20,18 @@ export default function DualRangeSlider() {
   const minInputRef = useRef<HTMLInputElement>(null);
   const maxInputRef = useRef<HTMLInputElement>(null);
 
+  // Sincronizar con props
+  useEffect(() => {
+    setMinValue(minPrice);
+    setMaxValue(maxPrice);
+  }, [minPrice, maxPrice]);
+
   const updateProgress = () => {
     const range = MAX_RANGE - MIN_RANGE;
     const valueRange = maxValue - minValue;
     const width = (valueRange / range) * 100;
     const minOffset = ((minValue - MIN_RANGE) / range) * 100;
-
+    
     if (progressRef.current) {
       progressRef.current.style.width = `${width}%`;
       progressRef.current.style.left = `${minOffset}%`;
@@ -32,26 +42,26 @@ export default function DualRangeSlider() {
     updateProgress();
   }, [minValue, maxValue]);
 
-
-
   const handleMinSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     if (value >= maxValue) {
       setMaxValue(value);
-      setMaxPrice(value);
+      onPriceChange(value, value);
+    } else {
+      setMinValue(value);
+      onPriceChange(value, maxValue);
     }
-    setMinValue(value);
-    setMinPrice(value);
   };
 
   const handleMaxSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     if (value <= minValue) {
       setMinValue(value);
-      setMinPrice(value);
+      onPriceChange(value, value);
+    } else {
+      setMaxValue(value);
+      onPriceChange(minValue, value);
     }
-    setMaxValue(value);
-    setMaxPrice(value);
   };
 
   const handleProgressMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -78,8 +88,7 @@ export default function DualRangeSlider() {
 
     setMinValue(newMin);
     setMaxValue(newMax);
-    setMinPrice(newMin);
-    setMaxPrice(newMax);
+    onPriceChange(newMin, newMax);
 
     if (minInputRef.current) minInputRef.current.value = newMin.toString();
     if (maxInputRef.current) maxInputRef.current.value = newMax.toString();
@@ -101,8 +110,6 @@ export default function DualRangeSlider() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      
-
       {/* Dual Range Slider */}
       <div className="mb-6">
         <div 
@@ -113,8 +120,7 @@ export default function DualRangeSlider() {
           <div
             ref={progressRef}
             onMouseDown={handleProgressMouseDown}
-            className="absolute w-[80%] left-[10%] h-full bg-[var(--color-primary)] rounded-lg cursor-grab hover:bg-[var(--color-primary)]  transition-colors"
-            
+            className="absolute w-[80%] left-[10%] h-full bg-[var(--color-primary)] rounded-lg cursor-grab hover:bg-[var(--color-primary)] transition-colors"
           />
           
           {/* Min Range Input */}
@@ -125,8 +131,7 @@ export default function DualRangeSlider() {
             max={MAX_RANGE}
             value={minValue}
             onChange={handleMinSliderChange}
-            className="absolute w-full h-2 bg-transparent transparent pointer-events-none  appearance-none cursor-pointer range-slider-thumb"
-           
+            className="absolute w-full h-2 bg-transparent transparent pointer-events-none appearance-none cursor-pointer range-slider-thumb"
           />
           
           {/* Max Range Input */}
@@ -138,19 +143,17 @@ export default function DualRangeSlider() {
             value={maxValue}
             onChange={handleMaxSliderChange}
             className="absolute w-full h-2 transparent pointer-events-none bg-transparent appearance-none cursor-pointer range-slider-thumb"
-            
           />
         </div>
         
-       
         <div className="flex gap-2">
           <div className="flex-1">
             <input
               type="number"
               value={minValue}
               onChange={(e) => handleMinSliderChange(e)}
-              min={minPrice}
-              max={maxPrice}
+              min={MIN_RANGE}
+              max={MAX_RANGE}
               className="w-full px-2 py-1 text-sm border border-gray-300 rounded-full focus:ring-1 focus:ring-[var(--color-primary)] outline-none"
             />
           </div>
@@ -160,14 +163,13 @@ export default function DualRangeSlider() {
               type="number"
               value={maxValue}
               onChange={(e) => handleMaxSliderChange(e)}
-              min={minPrice}
-              max={maxPrice}
+              min={MIN_RANGE}
+              max={MAX_RANGE}
               className="w-full px-2 py-1 text-sm border border-gray-300 rounded-full focus:ring-1 focus:ring-[var(--color-primary)] outline-none"
             />
           </div>
         </div>
       </div>
-
     </div>
   );
-};
+}
