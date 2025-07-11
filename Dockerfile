@@ -1,0 +1,61 @@
+# Etapa 1: Construcción
+FROM node:20 AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY vite.config.* ./
+COPY . .
+
+RUN rm -rf node_modules package-lock.json
+RUN npm install
+RUN npm install rollup --force
+RUN npm run build
+
+# Etapa 2: Servidor de producción
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instala un servidor estático ligero
+RUN npm install -g serve
+
+# Copia archivos estáticos generados
+COPY --from=builder /app/dist /app/dist
+
+# Exponer el puerto 3000
+EXPOSE 3000
+
+# Comando para servir la app
+CMD ["serve", "-s", "dist", "-l", "3000"]# Etapa 1: Construcción
+FROM node:20 AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY vite.config.* ./
+COPY . .
+
+RUN rm -rf node_modules package-lock.json
+RUN npm install
+RUN npm install rollup --force
+RUN npm run build
+
+# Etapa 2: Servidor de producción
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Instala un servidor estático ligero
+RUN npm install -g serve
+
+# Copia archivos estáticos generados
+COPY --from=builder /app/dist /app/dist
+
+# Exponer el puerto 3000
+EXPOSE 3000
+
+# Comando para servir la app
+CMD ["serve", "-s", "dist", "-l", "3000"]
