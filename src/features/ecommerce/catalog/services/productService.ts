@@ -54,12 +54,13 @@ export const fetchProducts = async ({
   // Filtro por categoría principal
   if (category && category !== 'all') {
     filteredProducts = filteredProducts.filter(product => {
-      if (category === 'energy') return product.category_info?.name === 'Energy';
-      if (category === 'detox') return product.category_info?.name === 'Detox';
-      if (category === 'relax') return product.category_info?.name === 'Relax';
-      if (category === 'glow') return product.category_info?.name === 'Glow';
-      if (category === 'power') return product.category_info?.name === 'Power';
-      if (category === 'merch') return product.product_type === 'merchandise';
+      if (category === 'energy') return product.category_info?.subcategory === 'energy';
+      if (category === 'detox') return product.category_info?.subcategory === 'detox';
+      if (category === 'relax') return product.category_info?.subcategory === 'relax';
+      if (category === 'glow') return product.category_info?.subcategory === 'glow';
+      if (category === 'power') return product.category_info?.subcategory === 'power';
+      if (category === 'ropa_deportiva') return product.category_info?.subcategory === 'ropa_deportiva';
+      if (category === 'accesorios') return product.category_info?.subcategory === 'accesorios';
       return false;
     });
   }

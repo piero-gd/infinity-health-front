@@ -20,7 +20,8 @@ const categories = [
   { id: 'relax', name: 'Relax', icon: <BiLeaf/>, color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200 hover:text-purple-700' },
   { id: 'glow', name: 'Glow', icon: <BsStars/>, color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200 hover:text-yellow-700' },
   { id: 'power', name: 'Power', icon: <FaFire/>, color: 'bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200 hover:text-orange-700' },
-  { id: 'merch', name: 'Merch', icon: <PiBaseballCapLight/>, color: 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:text-gray-700' }
+  { id: 'ropa_deportiva', name: 'Ropa deportiva', icon: <PiBaseballCapLight/>, color: 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:text-gray-700' },
+  { id: 'accesorios', name: 'Accesorios', icon: <PiBaseballCapLight/>, color: 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:text-gray-700' }
 ];
 
 const sortOptions = [
