@@ -14,8 +14,6 @@ export default function ForgotPassword() {
         await resetPassword(email);
     };
     
-    // Success message will be shown below the form
-    
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
             {/* Boton flecha Desktop y Mobile */}

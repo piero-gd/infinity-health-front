@@ -100,7 +100,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
 
         {/* New Password */}
         <Route 
-          path="/new-password" 
+          path="/new-password/:token?" 
           element={
             <NewPassPage />
           } 

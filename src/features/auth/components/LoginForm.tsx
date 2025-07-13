@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useLogin } from '../hooks/useLogin';
+import {toast} from 'react-toastify';
+import { toastSuccess, toastError, toastWarning, toastInfo } from '../../../utils/toastConfig';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -13,15 +15,21 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    toastError('¡Éxito!', {
+      autoClose: 3000,
+      position: 'top-right',
+      className: 'Toastify__toast--error',
+    });
     
     // Validaciones
     if (!formData.username.match(/^[^@]+@[^@]+\.[^@]+$/)) {
-      setError('Por favor ingresa un correo electrónico válido');
+      toastError('Por favor ingresa un correo electrónico válido');
       return;
     } 
 
     if (!formData.password) {
-      setError('Por favor ingresa tu contraseña');
+      toastError('Por favor ingresa tu contraseña');
       return;
     }
 
@@ -34,7 +42,7 @@ export default function LoginForm() {
       
       // La redirección se maneja en el hook useLogin
     } catch (err) {
-      setError('Usuario o contraseña incorrectos');
+      toastError('Usuario o contraseña incorrectos');
       console.error('Error en el login:', err);
     }
   };
