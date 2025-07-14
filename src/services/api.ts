@@ -31,12 +31,12 @@ export const apiRequest = async <T>(
   // Construye la URL completa
   let url = '';
   
-  // Si estamos usando /api como base, simplemente concatenamos
+  // Si estamos en desarrollo (usando proxy)
   if (API_BASE_URL === '/api') {
     url = `${API_BASE_URL}/${normalizedEndpoint}`;
   } else {
-    // Si es URL completa, asegúrate que el path esté correctamente formado
-    url = `${API_BASE_URL}/${normalizedEndpoint}`;
+    // Si estamos en producción, asegúrate de incluir /api/ en la ruta
+    url = `${API_BASE_URL}/api/${normalizedEndpoint}`;
   }
 
   // Combina las opciones predeterminadas con las proporcionadas
