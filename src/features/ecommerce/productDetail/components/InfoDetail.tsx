@@ -1,65 +1,65 @@
 import { useState } from 'react';
 import { PiShoppingCartLight } from "react-icons/pi";
-import { RiHeart3Line } from "react-icons/ri";
-import { HiMiniHeart } from "react-icons/hi2";
-import { RxLightningBolt } from 'react-icons/rx';
+import { CategoriesTag } from '../../../../components/CategoriesTag';
+import { CiDeliveryTruck } from "react-icons/ci";
 import type { InfoDetailProps } from '../types';
 
 export const InfoDetail: React.FC<InfoDetailProps> = ({ 
     product,
     onAddToCart = () => {},
-    onToggleFavorite = () => {}
 }) => {
     const [quantity, setQuantity] = useState(1);
-    const [isFavorite, setIsFavorite] = useState(false);
-    
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-        onToggleFavorite(product.id);
-    };
-
+   
+    //para implementar luego
     const handleAddToCart = () => {
         onAddToCart(product, quantity);
     };
 
+    const formatPrice = (price: string) => {
+        return `$ ${parseFloat(price).toFixed(2)}`;
+    };
+    
+    //calcular descuento
     const calculateDiscount = (): number => {
-        if (!product.precioAnterior) return 0;
-        return Math.round(((product.precioAnterior - product.precio) / product.precioAnterior) * 100);
+        if (!product.price) return 0;
+        const priceNum = parseFloat(product.price);
+        const priceAmbNum = parseFloat(product.price_amb);
+        return Math.round(((priceNum - priceAmbNum) / priceNum) * 100);
     };
 
     const discount = calculateDiscount();
     
     return (
-        <div className="p-5 md:p-6">
+        <div className="xl:p-5 p-0 md:p-6">
             {/* HEADER */}
             <div className="flex items-center justify-between gap-3">
-                <h1 className="text-3xl font-bold text-gray-800">{product.nombre}</h1> 
-                <div className="flex bg-[var(--color-primary-light)] rounded-full border-2 border-white text-white items-center gap-2 px-4 py-1 shadow-lg">
-                    <h4 className="text-[var(--color-primary)] text-sm font-semibold">
-                        {product.categoria}
-                    </h4>
-                    <RxLightningBolt className="h-3 w-3 text-[var(--color-primary)] text-md font-semibold" />
+                <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1> 
+                <div className="xl:block hidden">
+                    <CategoriesTag categoryName={product.category_info?.name || 'Producto'} className="text-sm" />
                 </div>
             </div>
 
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
-                <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-[var(--color-primary)]">
-                        S/ {product.precio.toFixed(2)}
-                    </span>
-                    {product.precioAnterior && (
-                        <>
-                            <span className="text-lg text-gray-500 line-through">
-                                S/ {product.precioAnterior.toFixed(2)}
-                            </span>
-                            {discount > 0 && (
-                                <span className="bg-gray-500 text-white px-2 ml-5 py-1 rounded-full text-sm font-medium">
-                                    -{discount}%
-                                </span>
-                            )}
-                        </>
+            <div className="flex flex-col gap-2">
+                    {product.price !== product.price_amb && (
+                        <span className="xl:text-lg text-md text-gray-500">
+                            {formatPrice(product.price)}
+                        </span>
                     )}
+                    <div className="flex items-center gap-3">
+                        <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)] flex items-center gap-1">
+                            {formatPrice(product.price_amb)}
+                            {product.price !== product.price_amb && (
+                                <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
+                            )}
+                        </span>
+                        {discount > 0 && (
+                            <span className="ml-12 bg-[var(--color-primary)] text-white px-3 py-1 rounded-full text-sm font-medium">
+                                -{discount}%
+                            </span>
+                        )}
+                    </div>
                 </div>
                 
                 {/* Rating */}
@@ -68,7 +68,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         {[...Array(5)].map((_, i) => (
                             <svg
                                 key={i}
-                                className={`w-4 h-4 ${i < (product.calificacion || 0) ? 'text-yellow-400' : 'text-gray-300'}`}
+                                className={`w-4 h-4 ${i < (parseInt(product.rating) || 0) ? 'text-yellow-400' : 'text-gray-300'}`}
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                             >
@@ -77,33 +77,18 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         ))}
                     </div>
                     <span className="text-sm text-gray-500 ml-1">
-                        ({product.resena || 0})
+                        12 reseñas
                     </span>
                 </div>
             </div>
 
             {/* DESCRIPCIÓN */}
             <div className="mt-6">
-                <p className="text-gray-600">{product.descripcion}</p>
+                <p className="text-gray-600">{product.description}</p>
             </div>
 
-            {/* PESO O MEDIDA POSIBLE
-            <div className="mt-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Peso</h3>
-                <p className="text-gray-600">{product.peso}</p>
-            </div> */}
-
-            {/* STOCK POSIBLE
-            <div className="mt-4">
-                <p className="text-green-600 font-medium">
-                    {product.stock > 0 
-                        ? `En stock (${product.stock} disponibles)` 
-                        : 'Agotado'}
-                </p>
-            </div>*/}
-
             {/* BOTONES */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-8 mb-10">
+            <div className="flex flex-row gap-4 mt-8 mb-0 xl:mb-10 xl:relative md:relative fixed bottom-0 left-0 right-0 z-50 xl:p-0 p-8 xl:bg-transparent xl:rounded-none rounded-t-3xl xl:border-none border-2 border-white bg-white/89 md:bg-transparent md:border-none backdrop-blur-sm justify-center xl:justify-start">
                 <div className="flex items-center border border-gray-300 bg-gray-50 rounded-full">
                     <button 
                         onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
@@ -124,44 +109,33 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                     onClick={handleAddToCart}
                     className="bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2 hover:opacity-90"
                 >
-                    Añadir al carrito
+                    <span>Añadir </span> <span className="xl:block hidden">al carrito</span>
                     <PiShoppingCartLight size={20} />
                 </button>
                 
-                <button 
-                    onClick={toggleFavorite}
-                    className="p-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
-                >
-                    {isFavorite 
-                        ? <HiMiniHeart size={24} className="text-red-500" /> 
-                        : <RiHeart3Line size={24} className="text-gray-600" />
-                    }
-                </button>
             </div>
 
+
               {/* DELIVERY */}
-              <div className="mt-4">
-              <h4 className="font-semibold text-gray-900 mb-3">Delivery</h4>
-              <div className="border-b border-gray-300 pb-4">
+              <div className="mt-4  bg-white p-4 rounded-lg ">
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center gap-2"><CiDeliveryTruck className="text-[var(--color-primary)]" size={20} />Delivery</h4>
+              <div className=" pb-4">
                 <p className="text-sm text-gray-600 mb-4">
                   Lorem ipsum proin accumsan nibh lacus vitae lobortis nunc ultricies.
                 </p>
                 
-                <div className="space-y-2 ml-2 px-4">
-                  <div className="grid grid-cols-3 gap-4 text-sm font-medium text-gray-500 pb-3 border-b">
+                <div className="space-y-2  xl:px-4 px-0 ">
+                  <div className="grid grid-cols-2  xl:gap-4 text-sm font-medium text-gray-500 pb-3 border-b">
                     <span>Zona</span>
                     <span>Tiempo</span>
-                    <span>Costo Aprox</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-sm py-2 border-b">
+                  <div className="grid grid-cols-2 xl:gap-4 text-sm py-0 xl:py-2 border-b">
                     <span>Lima Metropolitana</span>
                     <span>4-5 días hábiles</span>
-                    <span>$4.50</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 text-sm py-2 border-b">
+                  <div className="grid grid-cols-2 xl:gap-4 text-sm py-0 xl:py-2 border-b">
                     <span>Delivery a Provincias</span>
                     <span>4-5 días hábiles</span>
-                    <span>$10.00</span>
                   </div>
                 </div>
               </div>

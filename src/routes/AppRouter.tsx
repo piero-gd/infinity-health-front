@@ -7,8 +7,10 @@ import LoginPage from "../features/temporalLogin/pages/LoginPage";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 import AcademyPage from "../features/academy/pages/AcademyPage";
-import TestLayout from "../layouts/TestLayout";
 import EcommerceLayout from "../layouts/EcommerceLayout";
+import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
+import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
+import CartPage from "../features/ecommerce/cart/pages/CartPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -58,9 +60,30 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         </Route>
 
         <Route element={<EcommerceLayout onLogout={onLogout} />}>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route path="/cart" element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <CartPage />
+              </ErrorBoundary>
+              } />
+            <Route path="/catalog" element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <CatalogPage />
+              </ErrorBoundary>  
+              } />
+            <Route path="/product/:slug" element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <DetailPage />
+              </ErrorBoundary>
+              } />
         </Route>
+
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Redirección temporal para pruebas */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+          
+        {/* Redirección para cualquier otra ruta */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
