@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../hooks/useRegister';
+import { showToast } from '../../../utils/toastConfig';
 
 export default function RegisterForm() {
   const navigate = useNavigate();
-  const { register, isLoading, error: apiError, fieldErrors } = useRegister();
+  const { register, isLoading, error: apiError } = useRegister();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -12,7 +13,7 @@ export default function RegisterForm() {
     confirmPassword: ''
   });
   
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,84 +22,31 @@ export default function RegisterForm() {
       [name]: value
     }));
     
-    // Limpiar errores del campo que se está editando
-    if (formErrors[name] || fieldErrors[name as keyof typeof fieldErrors]) {
-      setFormErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    let isValid = true;
-    
-    // Validar nombre de usuario
-    if (!formData.username.trim()) {
-      newErrors.username = 'El nombre de usuario es requerido';
-      isValid = false;
-    } else if (formData.username.length < 3) {
-      newErrors.username = 'El nombre de usuario debe tener al menos 3 caracteres';
-      isValid = false;
-    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
-      newErrors.username = 'Solo se permiten letras, números y guiones bajos';
-      isValid = false;
-    }
-    
-    // Validar correo electrónico
-    if (!formData.email.trim()) {
-      newErrors.email = 'El correo electrónico es requerido';
-      isValid = false;
-    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) {
-      newErrors.email = 'Por favor ingresa un correo electrónico válido';
-      isValid = false;
-    }
-    
-    // Validar contraseña
-    if (!formData.password) {
-      newErrors.password = 'La contraseña es requerida';
-      isValid = false;
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'La contraseña debe tener al menos 8 caracteres';
-      isValid = false;
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = 'Debe contener al menos una mayúscula, una minúscula y un número';
-      isValid = false;
-    }
-    
-    // Validar confirmación de contraseña
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Las contraseñas no coinciden';
-      isValid = false;
-    }
-    
-    setFormErrors(newErrors);
-    return isValid;
-  };
-  
-  // Combinar errores del formulario con los de la API
-  const getFieldError = (field: string) => {
-    // Priorizar errores del formulario sobre los de la API
-    if (formErrors[field]) {
-      return formErrors[field];
-    }
-    
-    // Manejar errores de la API
-    const apiError = fieldErrors[field as keyof typeof fieldErrors];
-    if (apiError) {
-      // Si el error es un array, tomar el primer mensaje
-      return Array.isArray(apiError) ? apiError[0] : apiError;
-    }
-    
-    return '';
+      // Limpiar errores cuando el usuario escribe
+    if (error || apiError) setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) {
+    // Validaciones básicas
+    if (!formData.username.trim()) {
+      showToast.error('El nombre de usuario es requerido', 'Por favor completa el campo');
+      return;
+    }
+    
+    if (!formData.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
+      showToast.error('Ingresa un email válido', 'Por favor verifica el formato');
+      return;
+    }
+    
+    if (!formData.password) {
+      showToast.error('La contraseña es requerida', 'Por favor completa el campo');
+      return;
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      showToast.error('Las contraseñas no coinciden', 'Por favor verifica');
       return;
     }
     
@@ -109,14 +57,24 @@ export default function RegisterForm() {
         password: formData.password
       });
       
-      // Redirigir a la página de confirmación de correo después del registro exitoso
+      // Mostrar mensaje de éxito
+      showToast.success('¡Registro exitoso!', 'Por favor verifica tu correo electrónico');
+      
+      // Redirigir a la página de confirmación de correo
       navigate('/mail-confirmation', { 
         state: { from: '/register' },
         replace: true
       });
       
     } catch (error) {
-      // Los errores ya son manejados por el hook useRegister
+      // Mostrar el error del servidor si existe
+      if (apiError) {
+        showToast.error('Error al registrar', apiError);
+      } else if (error instanceof Error) {
+        showToast.error('Error inesperado', error.message);
+      } else {
+        showToast.error('Error', 'Ocurrió un error inesperado');
+      }
       console.error('Error en el registro:', error);
     }
   };
@@ -148,15 +106,12 @@ export default function RegisterForm() {
             placeholder="Ingresa tu nombre de usuario"
             value={formData.username}
             onChange={handleChange}
-            className={`w-full px-4 py-2.5 rounded-3xl border ${
-              getFieldError('username') ? 'border-red-400' : 'border-gray-200'
+            className={`w-full px-4 py-3 rounded-3xl border ${
+              error ? 'border-red-400' : 'border-gray-200'
             } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
             autoFocus
           />
-          {getFieldError('username') && (
-            <span className="text-xs text-red-500 mt-1 block">{getFieldError('username')}</span>
-          )}
         </div>
         
         {/* Email */}
@@ -171,14 +126,9 @@ export default function RegisterForm() {
             placeholder="ejemplo@correo.com"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full px-4 py-2.5 rounded-3xl border ${
-              getFieldError('email') ? 'border-red-400' : 'border-gray-200'
-            } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
             disabled={isLoading}
           />
-          {getFieldError('email') && (
-            <span className="text-xs text-red-500 mt-1 block">{getFieldError('email')}</span>
-          )}
         </div>
         
         {/* Contraseña */}
@@ -193,14 +143,9 @@ export default function RegisterForm() {
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
-            className={`w-full px-4 py-2.5 rounded-3xl border ${
-              getFieldError('password') ? 'border-red-400' : 'border-gray-200'
-            } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
             disabled={isLoading}
           />
-          {getFieldError('password') && (
-            <span className="text-xs text-red-500 mt-1 block">{getFieldError('password')}</span>
-          )}
           <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
         </div>
         
@@ -216,14 +161,9 @@ export default function RegisterForm() {
             placeholder="••••••••"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className={`w-full px-4 py-2.5 rounded-3xl border ${
-              getFieldError('confirmPassword') ? 'border-red-400' : 'border-gray-200'
-            } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
             disabled={isLoading}
           />
-          {getFieldError('confirmPassword') && (
-            <span className="text-xs text-red-500 mt-1 block">{getFieldError('confirmPassword')}</span>
-          )}
         </div>
         
         {/* Error general */}

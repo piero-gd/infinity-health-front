@@ -1,4 +1,5 @@
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import AppRouter from "./routes/AppRouter";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBoundaryFallback } from "./components/ErrorBoundaryFallback";
@@ -9,11 +10,11 @@ function App() {
   };
 
   return (
-    <>
+    <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
       <AppRouter onLogout={handleLogout} />
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -23,7 +24,7 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-    </>
+    </ErrorBoundary>
   );
 }
 

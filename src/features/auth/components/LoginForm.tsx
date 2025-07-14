@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useLogin } from '../hooks/useLogin';
-import {toast} from 'react-toastify';
-import { toastSuccess, toastError, toastWarning, toastInfo } from '../../../utils/toastConfig';
+import { showToast } from '../../../utils/toastConfig';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const { login, isLoading: loading } = useLogin();
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,20 +16,20 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    toastError('¡Éxito!', {
-      autoClose: 3000,
-      position: 'top-right',
-      className: 'Toastify__toast--error',
-    });
-    
     // Validaciones
     if (!formData.username.match(/^[^@]+@[^@]+\.[^@]+$/)) {
-      toastError('Por favor ingresa un correo electrónico válido');
+      showToast.error(
+        'Ingresa un email válido',
+        'Inténtalo de nuevo'
+      );
       return;
     } 
 
     if (!formData.password) {
-      toastError('Por favor ingresa tu contraseña');
+      showToast.error(
+        'Ingresa tu contraseña',
+        'Inténtalo de nuevo'
+      );
       return;
     }
 
@@ -39,10 +39,17 @@ export default function LoginForm() {
         username: formData.username,
         password: formData.password
       });
+      showToast.success(
+        'Inicio de sesión exitoso',
+        'Bienvenido'
+      );
       
       // La redirección se maneja en el hook useLogin
     } catch (err) {
-      toastError('Usuario o contraseña incorrectos');
+      showToast.error(
+        'Credenciales incorrectas',
+        'Inténtalo de nuevo'
+      );
       console.error('Error en el login:', err);
     }
   };
@@ -123,7 +130,7 @@ export default function LoginForm() {
             hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)]
             shadow-md ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
         >
-          {loading ? 'Entrando...' : 'Entrar'}
+          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
         </button>
         {/* Crear cuenta */}
         <div className="flex justify-between items-center text-sm mt-2">
