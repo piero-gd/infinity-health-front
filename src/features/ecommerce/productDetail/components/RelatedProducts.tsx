@@ -1,7 +1,7 @@
 import ProductCardDashboardSpecial from "../../../../components/ProductCardDashboardSpecial";
 import type { RelatedProductsProps } from "../types";
 import { useQuery } from '@tanstack/react-query';
-import { fetchProducts } from "../../catalog/services/productService";
+import { fetchProducts } from "../../shared/services/productService";
 
 export const RelatedProducts: React.FC<RelatedProductsProps> = ({ 
     currentProductId, 

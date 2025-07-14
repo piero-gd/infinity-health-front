@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Product } from '../../productDetail/types';
 import { ProductCardHover } from '../../../../components/ProductCardHover';
 import { ProductCardPrincipal } from '../../../../components/ProductCardPrincipal';
-import { useProducts } from '../hooks/useProducts';
+import { useProducts } from '../../shared/hooks/useProducts';
 import Loader from '../../../../components/Loader';
 
 export default function ProductList() {

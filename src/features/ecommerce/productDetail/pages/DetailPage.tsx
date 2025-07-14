@@ -5,7 +5,7 @@ import { PhotoSlider } from '../components/PhotoSlider';
 import { ShareOptions } from '../components/ShareOptions';
 import { RelatedProducts } from '../components/RelatedProducts';
 import AboutProduct from '../components/AboutProduct';
-import { useProductBySlug } from '../../catalog/hooks/useProducts';
+import { useProductBySlug } from '../../shared/hooks/useProducts';
 
 
 export default function DetailPage() {

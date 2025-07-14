@@ -1,5 +1,5 @@
 import mockData from '../../productDetail/data/mock.json';
-import type { Product } from '../../productDetail/types';
+import type { Product } from '../types';
 
 // Parámetros para la función de búsqueda
 export interface FetchProductsParams {

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts, fetchProductById, fetchProductBySlug } from '../services/productService';
-import { useFiltersStore } from '../stores/useFiltersStore';
+import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
 
 /**
  * Hook personalizado para obtener productos con React Query
