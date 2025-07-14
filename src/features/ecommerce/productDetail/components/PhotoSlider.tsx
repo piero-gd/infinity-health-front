@@ -26,7 +26,10 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
 
     // Crear array de medios con información de tipo
     const media: MediaItem[] = [
-        ...images.map(url => ({ type: 'image' as const, url })),
+        ...images.map(img => ({ 
+            type: 'image' as const, 
+            url: img.image_url 
+        })),
         ...videos.map((url, index) => ({
             type: 'video' as const, 
             url,

@@ -1,41 +1,27 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { InfoDetail } from '../components/InfoDetail';
 import { PhotoSlider } from '../components/PhotoSlider';
 import { ShareOptions } from '../components/ShareOptions';
-import { mockProduct } from '../data/mockProduct';
 import { RelatedProducts } from '../components/RelatedProducts';
-import type { Product } from '../types';
 import AboutProduct from '../components/AboutProduct';
+import { useProductBySlug } from '../../catalog/hooks/useProducts';
 
 
 export default function DetailPage() {
   const { slug } = useParams<{ slug: string }>();
-  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  
+  // Scroll to top when component mounts
   useEffect(() => {
-    console.log('Slug del producto desde la URL:', slug);
-    console.log('Lista de productos:', mockProduct);
-    
-    // Simulando carga de datos
-    const fetchProduct = () => {
-      try {
-        // Encontrar el producto por ID
-        
-        // Buscar por slug en lugar de ID
-        const product = mockProduct.find(p => p.slug === slug);
-        console.log('Producto encontrado:', product);
-        setCurrentProduct(product || null);
-      } catch (error) {
-        console.error('Error al cargar el producto:', error);
-        setCurrentProduct(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
+    window.scrollTo(0, 0);
   }, [slug]);
+  
+  // Usar el hook para obtener el producto por slug
+  const { 
+    data: currentProduct, 
+    isLoading: loading, 
+    error 
+  } = useProductBySlug(slug);
 
   if (loading) {
     return (
@@ -48,6 +34,23 @@ export default function DetailPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600">Error al cargar el producto</h2>
+          <p className="mt-2 text-gray-500">Ocurrió un error al intentar cargar los detalles del producto.</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
   if (!currentProduct) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -67,7 +70,7 @@ export default function DetailPage() {
         <div className="lg:sticky lg:top-4 lg:h-fit">
           <PhotoSlider 
             images={currentProduct.images} 
-            videos={currentProduct.videos}
+            videos={currentProduct.videos || []}
             videoThumbnails={currentProduct.videoThumbnails || []}
           />
         </div>
@@ -83,7 +86,8 @@ export default function DetailPage() {
       <div className="mt-16 w-full">
         <RelatedProducts 
           currentProductId={currentProduct.id} 
-          category={currentProduct.category} 
+          category={currentProduct.category}
+          categoryName={currentProduct.category_info?.name} 
         />
       </div>
 

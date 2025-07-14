@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchProducts, fetchProductById } from '../services/productService';
+import { fetchProducts, fetchProductById, fetchProductBySlug } from '../services/productService';
 import { useFiltersStore } from '../stores/useFiltersStore';
 
 /**
@@ -71,5 +71,17 @@ export const useProduct = (id: number | null) => {
     queryFn: () => fetchProductById(id!),
     // No ejecutar si no hay ID
     enabled: id !== null,
+  });
+};
+
+/**
+ * Hook para obtener un producto individual por slug
+ */
+export const useProductBySlug = (slug: string | null | undefined) => {
+  return useQuery({
+    queryKey: ['product-by-slug', slug],
+    queryFn: () => fetchProductBySlug(slug!),
+    // No ejecutar si no hay slug
+    enabled: !!slug,
   });
 };

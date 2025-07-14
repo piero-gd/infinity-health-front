@@ -45,7 +45,7 @@ export const useFiltersStore = create<FiltersState>()(
     persist(
       (set) => ({
         ...initialState,
-
+        
         setCategory: (category) => set({ selectedCategory: category }),
         setSort: (sort) => set({ selectedSort: sort }),
         setPriceRange: (min, max) => set({ minPrice: min, maxPrice: max }),
@@ -57,7 +57,17 @@ export const useFiltersStore = create<FiltersState>()(
         
         resetFilters: () => set(initialState),
       }),
-      { name: 'filters-storage' } // Nombre para localStorage
+      { 
+        name: 'filters-storage',
+        partialize: (state) => ({
+          // Solo persistir estas propiedades
+          selectedCategory: state.selectedCategory,
+          minPrice: state.minPrice,
+          maxPrice: state.maxPrice,
+          selectedProduct: state.selectedProduct,
+          // No persistir searchQuery ni otros filtros temporales
+        })
+      }
     )
   )
 );

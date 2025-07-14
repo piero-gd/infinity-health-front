@@ -9,9 +9,9 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
 }) => {
     const navigate = useNavigate();
     
-    const formatPrice = (price: number) => {
-        return `$ ${price.toFixed(2)}`;
-      };
+    const formatPrice = (price: string) => {
+        return `$ ${parseFloat(price).toFixed(2)}`;
+    };
     
     //click de card
     const handleCardClick = () => {
@@ -31,7 +31,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                 {/* Imagen de Producto - Cubre toda la card */}
                 <div className="absolute inset-0 w-full h-full">
                     <img 
-                        src={product.images[0]} 
+                        src={product.featured_image || product.images[0]?.image_url} 
                         alt={product.name} 
                         className="object-cover w-full h-full"
                     />
@@ -58,7 +58,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                     {/* Category Tag */}
                     <div className="inline-block">
                         <span className="bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-sm font-medium border border-purple-300">
-                            {product.category}
+                            {product.category_info?.name || "Categoría"}
                         </span>
                     </div>
                 </div>
@@ -68,8 +68,8 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                     <div className="relative bg-white/60 backdrop-blur rounded-full px-4 py-2 shadow-lg flex border border-white items-center justify-between">
                         {/* Precios */}
                         <div className="flex flex-col">
-                            { formatPrice(product.price) && (
-                                <span className="text-gray-500  text-xs">
+                            {product.price && (
+                                <span className="text-gray-500 text-xs">
                                     {formatPrice(product.price)}
                                 </span>
                             )}

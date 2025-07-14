@@ -84,7 +84,7 @@ export interface ProductCardProps {
 
 //PRODUCT DETAIL / PHOTO SLIDER
 export interface PhotoSliderProps {
-    images: string[];
+    images: ProductImage[];
     videos: string[];
     videoThumbnails?: string[];
     currentIndex?: number;
@@ -94,7 +94,8 @@ export interface PhotoSliderProps {
 //PRODUCT DETAIL / RELATED PRODUCTS
 export interface RelatedProductsProps {
     currentProductId: number;
-    category: string;
+    category: number;
+    categoryName?: string;
     products?: Product[]; 
 }
 

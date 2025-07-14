@@ -1,15 +1,25 @@
-import { mockProduct } from "../data/mockProduct";
 import ProductCardDashboardSpecial from "../../../../components/ProductCardDashboardSpecial";
 import type { RelatedProductsProps } from "../types";
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from "../../catalog/services/productService";
 
 export const RelatedProducts: React.FC<RelatedProductsProps> = ({ 
     currentProductId, 
     category,
-    products = mockProduct 
+    categoryName
 }) => {
+    // Obtener todos los productos usando React Query
+    const { data } = useQuery({
+        queryKey: ['all-products'],
+        queryFn: () => fetchProducts({}),
+        staleTime: 1000 * 60 * 5, // 5 minutos
+    });
+    
+    const products = data?.data || [];
+    
     let relatedProducts = products.filter(
         (product) => 
-            product.category.toLowerCase() === category.toLowerCase() && 
+            product.category === category && 
             product.id !== currentProductId
     );
 
@@ -35,7 +45,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
                 </div>
                 <div>
                     <p className="xl:block hidden text-gray-500 text-sm leading-relaxed">
-                        {relatedProducts.some(p => p.category.toLowerCase() === category.toLowerCase()) 
+                        {relatedProducts.some(p => p.category === category) 
                             ? 'Descubre más productos de la misma categoría que podrían interesarte.'
                             : 'Productos que podrían interesarte.'}
                     </p>

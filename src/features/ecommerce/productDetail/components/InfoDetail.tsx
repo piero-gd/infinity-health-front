@@ -15,14 +15,16 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
         onAddToCart(product, quantity);
     };
 
-    const formatPrice = (price: number) => {
-        return `$ ${price.toFixed(2)}`;
-      };
+    const formatPrice = (price: string) => {
+        return `$ ${parseFloat(price).toFixed(2)}`;
+    };
     
     //calcular descuento
     const calculateDiscount = (): number => {
         if (!product.price) return 0;
-        return Math.round(((product.price - product.price_amb) / product.price) * 100);
+        const priceNum = parseFloat(product.price);
+        const priceAmbNum = parseFloat(product.price_amb);
+        return Math.round(((priceNum - priceAmbNum) / priceNum) * 100);
     };
 
     const discount = calculateDiscount();
@@ -33,14 +35,14 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             <div className="flex items-center justify-between gap-3">
                 <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1> 
                 <div className="xl:block hidden">
-                    <CategoriesTag categoryName={product.category} className="text-sm" />
+                    <CategoriesTag categoryName={product.category_info?.name || 'Producto'} className="text-sm" />
                 </div>
             </div>
 
             {/* PRECIOS + RESEÑAS */}
             <div className="flex items-center gap-3 justify-between pt-8">
             <div className="flex flex-col gap-2">
-                    {formatPrice(product.price) && (
+                    {product.price !== product.price_amb && (
                         <span className="xl:text-lg text-md text-gray-500">
                             {formatPrice(product.price)}
                         </span>
@@ -48,7 +50,9 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                     <div className="flex items-center gap-3">
                         <span className="xl:text-2xl text-lg font-bold text-[var(--color-primary)] flex items-center gap-1">
                             {formatPrice(product.price_amb)}
-                            <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
+                            {product.price !== product.price_amb && (
+                                <img src="../../img/payInfinity.svg" className="w-5 h-5 mb-0.5" />
+                            )}
                         </span>
                         {discount > 0 && (
                             <span className="ml-12 bg-[var(--color-primary)] text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -64,7 +68,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         {[...Array(5)].map((_, i) => (
                             <svg
                                 key={i}
-                                className={`w-4 h-4 ${i < (product.rating || 0) ? 'text-yellow-400' : 'text-gray-300'}`}
+                                className={`w-4 h-4 ${i < (parseInt(product.rating) || 0) ? 'text-yellow-400' : 'text-gray-300'}`}
                                 fill="currentColor"
                                 viewBox="0 0 20 20"
                             >

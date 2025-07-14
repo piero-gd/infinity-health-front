@@ -152,3 +152,14 @@ export const fetchProductById = async (id: number): Promise<Product | null> => {
   const products = mockData as Product[];
   return products.find(product => product.id === id) || null;
 };
+
+/**
+ * Simula una llamada API para obtener un producto por su slug
+ */
+export const fetchProductBySlug = async (slug: string): Promise<Product | null> => {
+  // Simular latencia de red
+  await new Promise(resolve => setTimeout(resolve, 300));
+  
+  const products = mockData as Product[];
+  return products.find(product => product.slug === slug) || null;
+};
