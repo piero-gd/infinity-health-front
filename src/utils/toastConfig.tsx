@@ -44,16 +44,18 @@ export const toast = {
   loading: (title: string, description?: string): string => {
     const toastId = Math.random().toString(36).substring(2, 9);
 
-    toastify(
+    // Usar toastify.info con type: 'loading' para forzar los estilos
+    toastify.info(
       <div className="flex items-center">
         {icons.loading}
         <div className="ml-3">
           <span className="font-bold text-[var(--toastify-color-info)]">{title}</span>
-          {description && <span className="block text-sm text-[var(--toastify-text-color)]">{description}</span>}
+          {description && <span className="block text-sm text-[var(--toastify-color-info)]">{description}</span>}
         </div>
       </div>,
       {
         toastId,
+        type: 'info', // Forzar el tipo 'info' para que herede los estilos
         closeButton: ({ closeToast }: { closeToast: () => void }) => (
           <CloseButton closeToast={closeToast} type="loading" />
         ),
@@ -61,6 +63,8 @@ export const toast = {
         autoClose: false,
         closeOnClick: false,
         draggable: false,
+        theme: 'colored',
+        className: 'toast-loading' // Clase adicional para estilos específicos
       }
     );
 
@@ -73,7 +77,7 @@ export const toast = {
         {icons.success}
         <div className="ml-3">
           <span className="font-bold text-[var(--toastify-color-success)]">{title}</span>
-          {description && <span className="block text-sm text-[var(--toastify-text-color)]">{description}</span>}
+          {description && <span className="block text-sm text-[var(--toastify-color-success)]">{description}</span>}
         </div>
       </div>,
       {
@@ -90,7 +94,7 @@ export const toast = {
         {icons.error}
         <div className="ml-3">
           <span className="font-bold text-[var(--toastify-color-error)]">{title}</span>
-          {description && <span className="block text-sm text-[var(--toastify-text-color)]">{description}</span>}
+          {description && <span className="block text-sm text-[var(--toastify-color-error)]">{description}</span>}
         </div>
       </div>,
       {
@@ -107,7 +111,7 @@ export const toast = {
         {icons.warning}
         <div className="ml-3">
           <span className="font-bold text-[var(--toastify-color-warning)]">{title}</span>
-          {description && <span className="block text-sm text-[var(--toastify-text-color)]">{description}</span>}
+          {description && <span className="block text-sm text-[var(--toastify-color-warning)]">{description}</span>}
         </div>
       </div>,
       {
@@ -124,7 +128,7 @@ export const toast = {
         {icons.info}
         <div className="ml-3">
           <span className="font-bold text-[var(--toastify-color-info)]">{title}</span>
-          {description && <span className="block text-sm text-[var(--toastify-text-color)]">{description}</span>}
+          {description && <span className="block text-sm text-[var(--toastify-color-info)]">{description}</span>}
         </div>
       </div>,
       {

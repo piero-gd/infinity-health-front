@@ -1,5 +1,5 @@
 import type { CalculatorData } from '../types/index';
-import {toast} from 'react-toastify';
+import { showToast } from '../../../utils/toastConfig';
 import { useState, useEffect } from 'react';
 
 interface CalculatorFormProps {
@@ -19,6 +19,7 @@ const CalculatorForm = ({ onCalcular, username }: CalculatorFormProps) => {
     actividad: '',
     objetivo: '',
   }));
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (username && username !== formData.nombre) {
@@ -29,42 +30,99 @@ const CalculatorForm = ({ onCalcular, username }: CalculatorFormProps) => {
     }
   }, [username, formData.nombre]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if(formData.sexo === ""){
-      toast.error("Por favor ingresa tu género"); 
-      return;
+  const validateForm = (): boolean => {
+    if (!formData.sexo) {
+      showToast.error('Campo requerido', 'Por favor selecciona tu género');
+      return false;
     }
 
-    if(formData.actividad === ""){
-      toast.error("Por favor ingresa tu actividad"); 
-      return;
+    if (!formData.actividad) {
+      showToast.error('Campo requerido', 'Por favor selecciona tu nivel de actividad');
+      return false;
     }
 
-    if(formData.objetivo === ""){
-      toast.error("Por favor ingresa tu objetivo"); 
-      return;
+    if (!formData.objetivo) {
+      showToast.error('Campo requerido', 'Por favor selecciona tu objetivo');
+      return false;
     }
-    
-    if(formData.sexo !== "" && formData.actividad !== "" && formData.objetivo !== ""){
-    }
-    
-    onCalcular(formData);
-   
 
+    if (formData.peso < 30 || formData.peso > 200) {
+      showToast.error('Peso inválido', 'El peso debe estar entre 30kg y 200kg');
+      return false;
+    }
+
+    if (formData.altura < 120 || formData.altura > 250) {
+      showToast.error('Altura inválida', 'La altura debe estar entre 120cm y 250cm');
+      return false;
+    }
+
+    if (formData.edad < 18 || formData.edad > 65) {
+      showToast.error('Edad inválida', 'La edad debe estar entre 18 y 65 años');
+      return false;
+    }
+
+    return true;
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  const { name, value } = e.target;
-  setFormData(prev => ({
-    ...prev, 
-    [name]: name === 'edad' || name === 'peso' || name === 'altura' 
-      ? Number(value) 
-      : value
-  }));
-};
+    setIsSubmitting(true);
+    const loadingId = showToast.loading('Calculando', 'Procesando tu información...');
+
+    try {
+      // Simulamos un pequeño retardo para mostrar el estado de carga
+      await new Promise(resolve => setTimeout(resolve, 800));
+      onCalcular(formData);
+      showToast.dismiss(loadingId);
+    } catch (error) {
+      console.error('Error al calcular:', error);
+      showToast.dismiss(loadingId);
+      showToast.error('Error', 'No se pudo procesar tu solicitud. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    // Validación para asegurar que los valores numéricos estén dentro de rangos razonables
+    if (name === 'peso' || name === 'altura' || name === 'edad') {
+      const numValue = Number(value);
+      
+      if (isNaN(numValue)) {
+        return; // No actualizar si no es un número válido
+      }
+      
+      // Asegurarse de que los valores estén dentro de rangos razonables
+      if (name === 'peso' && (numValue < 30 || numValue > 200)) {
+        return;
+      }
+      
+      if (name === 'altura' && (numValue < 120 || numValue > 250)) {
+        return;
+      }
+      
+      if (name === 'edad' && (numValue < 18 || numValue > 65)) {
+        return;
+      }
+      
+      setFormData(prev => ({
+        ...prev,
+        [name]: numValue
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col h-full">
@@ -402,10 +460,27 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
           <button 
             type="submit"
             id="submit"
-            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-bold py-4 px-6 rounded-4xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[var(--color-btn-gradient-top)] focus:ring-opacity-50"
+            disabled={isSubmitting}
+            className={`w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white font-bold py-4 px-6 rounded-4xl transition-all duration-200 shadow-lg ${
+              isSubmitting 
+                ? 'opacity-80 cursor-not-allowed' 
+                : 'hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] hover:shadow-xl hover:-translate-y-0.5'
+            } focus:outline-none focus:ring-2 focus:ring-[var(--color-btn-gradient-top)] focus:ring-opacity-50`}
           >
-            Calcular mis macros ahora
-            <span className="ml-2">→</span>
+            {isSubmitting ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Procesando...
+              </span>
+            ) : (
+              <>
+                Calcular mis macros ahora
+                <span className="ml-2">→</span>
+              </>
+            )}
           </button>
           <p className="text-sm text-center text-gray-500 mt-3">Tus datos están seguros y no serán compartidos</p>
         </div>

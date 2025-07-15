@@ -1,23 +1,31 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { RxChevronLeft } from "react-icons/rx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNewPass } from "../hooks/useNewPass";
+import { showToast } from "../../../utils/toastConfig";
 
 interface ResetPasswordData {
   password: string;
   confirmPassword: string;
-  token: string;
 }
 
 export default function NewPassword() {
     const navigate = useNavigate();
     const { token } = useParams<{ token: string }>();
-    const [formData, setFormData] = useState<Omit<ResetPasswordData, 'token'>>({ 
+    const [formData, setFormData] = useState<ResetPasswordData>({ 
         password: '', 
         confirmPassword: '' 
     });
-    const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { resetPassword, isLoading } = useNewPass();
+
+    // Verificar si el token está presente
+    useEffect(() => {
+        if (!token) {
+            showToast.error('Error', 'El enlace de restablecimiento no es válido');
+            navigate('/forgot-password');
+        }
+    }, [token, navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -25,30 +33,25 @@ export default function NewPassword() {
             ...prev,
             [name]: value
         }));
-        // Clear error when user types
-        if (errors[name as keyof typeof errors]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: undefined
-            }));
-        }
     };
 
-    const validateForm = () => {
-        const newErrors: { password?: string; confirmPassword?: string } = {};
-        
+    const validateForm = (): boolean => {
         if (!formData.password) {
-            newErrors.password = 'La contraseña es requerida';
-        } else if (formData.password.length < 8) {
-            newErrors.password = 'La contraseña debe tener al menos 8 caracteres';
+            showToast.error('Error', 'La contraseña es requerida');
+            return false;
+        }
+        
+        if (formData.password.length < 8) {
+            showToast.error('Error', 'La contraseña debe tener al menos 8 caracteres');
+            return false;
         }
         
         if (formData.password !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'Las contraseñas no coinciden';
+            showToast.error('Error', 'Las contraseñas no coinciden');
+            return false;
         }
         
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        return true;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -57,14 +60,17 @@ export default function NewPassword() {
         if (!validateForm() || !token) return;
         
         try {
+            setIsSubmitting(true);
             await resetPassword({
                 password: formData.password,
                 token: token
             });
-            // Navigation is handled by the useNewPass hook on success
+            // La navegación se maneja en el hook useNewPass
         } catch (error) {
-            // Error is already handled by the useNewPass hook
-            console.error('Password reset error:', error);
+            // El error ya se maneja en el hook useNewPass
+            console.error('Error al restablecer la contraseña:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
     
@@ -98,53 +104,48 @@ export default function NewPassword() {
                 <form onSubmit={handleSubmit}>
                     {/* Campo de contraseña */}
                     <div className="mb-4">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-text-soft text-sm font-medium mb-2" htmlFor="password">
                             Nueva Contraseña
                         </label>
                         <input
+                            type="password"
                             id="password"
                             name="password"
-                            type="password"
-                            placeholder="••••••••"
                             value={formData.password}
                             onChange={handleChange}
-                            className={`w-full px-4 py-3 rounded-full border ${
-                                errors.password ? 'border-red-500' : 'border-gray-300'
-                            } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent text-base placeholder-gray-400`}
+                            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+                            placeholder="••••••••"
+                            disabled={isLoading || isSubmitting}
+                            autoComplete="new-password"
                         />
-                        {errors.password && (
-                            <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                        )}
+                        <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
                     </div>
 
                     {/* Campo de confirmar contraseña */}
                     <div className="mb-6">
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-text-soft text-sm font-medium mb-2" htmlFor="confirmPassword">
                             Confirmar Contraseña
                         </label>
                         <input
+                            type="password"
                             id="confirmPassword"
                             name="confirmPassword"
-                            type="password"
-                            placeholder="••••••••"
                             value={formData.confirmPassword}
                             onChange={handleChange}
-                            className={`w-full px-4 py-3 rounded-full border ${
-                                errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                            } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent text-base placeholder-gray-400`}
+                            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+                            placeholder="••••••••"
+                            disabled={isLoading || isSubmitting}
+                            autoComplete="new-password"
                         />
-                        {errors.confirmPassword && (
-                            <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
-                        )}
                     </div>
 
                     {/* Botón enviar */}
                     <button 
                         type="submit"
-                        disabled={isLoading}
-                        className="w-full text-white bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:opacity-90 transition-opacity px-6 py-3 rounded-full font-medium shadow-md mb-6 disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-[var(--color-primary)] text-white py-3 px-4 rounded-3xl font-medium hover:bg-opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
+                        disabled={isLoading || isSubmitting}
                     >
-                        {isLoading ? 'Actualizando...' : 'Actualizar Contraseña'}
+                        {isLoading || isSubmitting ? 'Actualizando...' : 'Restablecer Contraseña'}
                     </button>
                 </form>
 

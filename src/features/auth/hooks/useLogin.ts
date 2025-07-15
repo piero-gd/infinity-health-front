@@ -38,7 +38,6 @@ export const useLogin = () => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error de autenticación';
       toast.dismiss(toastId);
-      toast.error('Error de inicio de sesión', 'Usuario o contraseña incorrectos');
       setError(errorMessage);
       throw err;
     } finally {

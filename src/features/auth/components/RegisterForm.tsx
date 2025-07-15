@@ -4,16 +4,54 @@ import { useRegister } from '../hooks/useRegister';
 import { showToast } from '../../../utils/toastConfig';
 
 export default function RegisterForm() {
+  const { register } = useRegister();
   const navigate = useNavigate();
-  const { register, isLoading, error: apiError } = useRegister();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  
-  const [error, setError] = useState('');
+
+  const validateForm = (): boolean => {
+    if (!formData.email.trim()) {
+      showToast.error('Error', 'El correo electrónico es requerido');
+      return false;
+    }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      showToast.error('Error', 'Ingresa un correo electrónico válido');
+      return false;
+    }
+    
+    if (!formData.username.trim()) {
+      showToast.error('Error', 'El nombre de usuario es requerido');
+      return false;
+    }
+    
+    if (formData.username.length < 3) {
+      showToast.error('Error', 'El nombre de usuario debe tener al menos 3 caracteres');
+      return false;
+    }
+    
+    if (!formData.password) {
+      showToast.error('Error', 'La contraseña es requerida');
+      return false;
+    }
+    
+    if (formData.password.length < 8) {
+      showToast.error('Error', 'La contraseña debe tener al menos 8 caracteres');
+      return false;
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      showToast.error('Error', 'Las contraseñas no coinciden');
+      return false;
+    }
+    
+    return true;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,34 +59,17 @@ export default function RegisterForm() {
       ...prev,
       [name]: value
     }));
-    
-      // Limpiar errores cuando el usuario escribe
-    if (error || apiError) setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validaciones básicas
-    if (!formData.username.trim()) {
-      showToast.error('El nombre de usuario es requerido', 'Por favor completa el campo');
+    if (!validateForm()) {
       return;
     }
     
-    if (!formData.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
-      showToast.error('Ingresa un email válido', 'Por favor verifica el formato');
-      return;
-    }
-    
-    if (!formData.password) {
-      showToast.error('La contraseña es requerida', 'Por favor completa el campo');
-      return;
-    }
-    
-    if (formData.password !== formData.confirmPassword) {
-      showToast.error('Las contraseñas no coinciden', 'Por favor verifica');
-      return;
-    }
+    setIsLoading(true);
+    const loadingId = showToast.loading('Procesando registro', 'Por favor espera...');
     
     try {
       await register({
@@ -57,25 +78,41 @@ export default function RegisterForm() {
         password: formData.password
       });
       
-      // Mostrar mensaje de éxito
+      showToast.dismiss(loadingId);
       showToast.success('¡Registro exitoso!', 'Por favor verifica tu correo electrónico');
       
       // Redirigir a la página de confirmación de correo
       navigate('/mail-confirmation', { 
-        state: { from: '/register' },
+        state: { 
+          from: '/register',
+          email: formData.email,
+          username: formData.username
+        },
         replace: true
       });
-      
     } catch (error) {
-      // Mostrar el error del servidor si existe
-      if (apiError) {
-        showToast.error('Error al registrar', apiError);
-      } else if (error instanceof Error) {
-        showToast.error('Error inesperado', error.message);
+      console.error('Registration error:', error);
+      showToast.dismiss(loadingId);
+      
+      if (error instanceof Error) {
+        let errorMessage = error.message;
+        
+        if (errorMessage.includes('email already exists')) {
+          errorMessage = 'Ya existe una cuenta con este correo electrónico';
+        } else if (errorMessage.includes('username already exists')) {
+          errorMessage = 'El nombre de usuario ya está en uso';
+        } else if (errorMessage.includes('password')) {
+          errorMessage = 'La contraseña no cumple con los requisitos';
+        } else if (errorMessage.includes('network')) {
+          errorMessage = 'Error de conexión. Por favor verifica tu conexión a internet';
+        }
+        
+        showToast.error('Error al registrar', errorMessage);
       } else {
-        showToast.error('Error', 'Ocurrió un error inesperado');
+        showToast.error('Error inesperado', 'Ocurrió un error al intentar registrar la cuenta');
       }
-      console.error('Error en el registro:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -103,14 +140,11 @@ export default function RegisterForm() {
             id="username"
             name="username"
             type="text"
-            placeholder="Ingresa tu nombre de usuario"
+            placeholder="Tu nombre de usuario"
             value={formData.username}
             onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border ${
-              error ? 'border-red-400' : 'border-gray-200'
-            } bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
-            autoFocus
           />
         </div>
         
@@ -126,7 +160,7 @@ export default function RegisterForm() {
             placeholder="ejemplo@correo.com"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
         </div>
@@ -143,7 +177,7 @@ export default function RegisterForm() {
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
           <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
@@ -161,20 +195,13 @@ export default function RegisterForm() {
             placeholder="••••••••"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
         </div>
         
-        {/* Error general */}
-        {apiError && (
-          <div className="text-red-500 text-sm text-center py-2">
-            {apiError}
-          </div>
-        )}
-
-<label className="text-sm font-semibold text-text-soft mb-1">
-        Al registrarme, entiendo los <a href="#" className="text-[var(--color-primary)] ">Términos y condiciones</a> y la <a href="#" className="text-[var(--color-primary)]">Política de privacidad</a>
+        <label className="text-sm font-semibold text-text-soft mb-1">
+          Al registrarme, entiendo los <a href="#" className="text-[var(--color-primary)] ">Términos y condiciones</a> y la <a href="#" className="text-[var(--color-primary)]">Política de privacidad</a>
         </label>
 
         

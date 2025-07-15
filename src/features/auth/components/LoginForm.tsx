@@ -5,7 +5,24 @@ import { showToast } from '../../../utils/toastConfig';
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
+  const [hasError, setHasError] = useState(false);
   const { login, isLoading: loading } = useLogin();
+
+  // Function to clear previous error message
+  const clearError = () => {
+    setError('');
+    setHasError(false);
+  };
+
+  // Function to show error with toast
+  const showError = (title: string, description: string) => {
+    if (!hasError) {
+      showToast.error(title, description);
+      setHasError(true);
+      // Clear error after 3 seconds
+      setTimeout(clearError, 3000);
+    }
+  };
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,10 +34,32 @@ export default function LoginForm() {
     e.preventDefault();
 
     // Validaciones
-    if (!formData.username.match(/^[^@]+@[^@]+\.[^@]+$/)) {
-      showToast.error(
-        'Ingresa un email válido',
-        'Inténtalo de nuevo'
+    const email = formData.username.trim();
+    
+    // Verificar si el campo está vacío
+    if (!email) {
+      showError(
+        'El email es requerido',
+        'Por favor ingresa tu email'
+      );
+      return;
+    }
+
+    // Verificar si contiene @
+    if (!email.includes('@')) {
+      showError(
+        'El email debe contener @',
+        'Por ejemplo: nombre@dominio.com'
+      );
+      return;
+    }
+
+    // Verificar formato básico de email
+    const emailRegex = /^[^@]+@[^@]+\.[^@]+$/;
+    if (!emailRegex.test(email)) {
+      showError(
+        'Formato de email inválido',
+        'Por favor ingresa un email válido'
       );
       return;
     } 
@@ -39,17 +78,36 @@ export default function LoginForm() {
         username: formData.username,
         password: formData.password
       });
-      showToast.success(
-        'Inicio de sesión exitoso',
-        'Bienvenido'
-      );
       
       // La redirección se maneja en el hook useLogin
-    } catch (err) {
-      showToast.error(
-        'Credenciales incorrectas',
-        'Inténtalo de nuevo'
-      );
+    } catch (err: any) {
+      if (err.message.includes('email not found')) {
+        showError(
+          'Email no encontrado',
+          'Este email no está registrado en nuestro sistema'
+        );
+      } else if (err.message.includes('invalid password')) {
+        showError(
+          'Contraseña incorrecta',
+          'La contraseña ingresada no es correcta'
+        );
+      } else if (err.message.includes('inactive account')) {
+        showError(
+          'Cuenta inactiva',
+          'Por favor contacta al administrador'
+        );
+      } else if (err.message.includes('too many attempts')) {
+        showError(
+          'Demasiados intentos',
+          'Has excedido el número de intentos permitidos'
+        );
+      } else if (!hasError) {
+        // Only show generic error if no error is currently showing
+        showError(
+          'Error al iniciar sesión',
+          err.message || 'Por favor intenta de nuevo'
+        );
+      }
       console.error('Error en el login:', err);
     }
   };
@@ -76,7 +134,7 @@ export default function LoginForm() {
           <input
             id="username"
             name="username"
-            type="email"
+            type="text"
             placeholder="Ej: jimmy@gmail.com"
             value={formData.username}
             onChange={handleChange}
