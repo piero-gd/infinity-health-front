@@ -141,7 +141,6 @@ export const MiniCart: React.FC<MiniCartProps> = ({ className = '' }) => {
                 <Link 
                   to="/cart"
                   className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-2 px-4 rounded-full text-center text-sm font-medium"
-                  onClick={handleToggleCart}
                 >
                   Ver carrito
                 </Link>
