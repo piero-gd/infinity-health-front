@@ -4,7 +4,7 @@ import ProgressCart from '../components/ProgressCart';
 import ListCart from '../components/ListCart';
 import TotalCart from '../components/TotalCart';
 import type { CartItem } from '../types';
-import { mockProduct } from '../../productDetail/data/mockProduct';
+import { mockProduct } from '../../shared/data/mockProduct';
 import { RelatedProducts } from '../../productDetail/components/RelatedProducts';
 
 export default function CartPage() {

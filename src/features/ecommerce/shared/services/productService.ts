@@ -1,4 +1,4 @@
-import mockData from '../../productDetail/data/mock.json';
+import mockData from '../data/mock.json';
 import type { Product } from '../types';
 
 // Parámetros para la función de búsqueda
