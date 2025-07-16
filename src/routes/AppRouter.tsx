@@ -11,6 +11,7 @@ import EcommerceLayout from "../layouts/EcommerceLayout";
 import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
 import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
 import CartPage from "../features/ecommerce/cart/pages/CartPage";
+import ProfilePage from "../features/ecommerce/profle/pages/ProfilePage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -59,6 +60,8 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
           />
         </Route>
 
+        
+
         <Route element={<EcommerceLayout onLogout={onLogout} />}>
             <Route path="/cart" element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
@@ -75,6 +78,11 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
                 <DetailPage />
               </ErrorBoundary>
               } />
+            <Route path="/profile" element={
+          <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+            <ProfilePage />
+          </ErrorBoundary>
+        } />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />
