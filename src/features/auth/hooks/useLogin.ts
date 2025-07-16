@@ -20,15 +20,11 @@ export const useLogin = () => {
       
       // Save data to localStorage
       localStorage.setItem('accessToken', response.access);
-      if (response.refresh) {
-        localStorage.setItem('refreshToken', response.refresh);
-      }
       
       // Save username to localStorage
-      if (response.username) {
-        localStorage.setItem('username', response.username);
+      if (response.user_data.username) {
+        localStorage.setItem('username', response.user_data.username);
       }
-      
       // Show success message and redirect
       toast.dismiss(toastId);
       toast.success('¡Bienvenido!', 'Sesión iniciada correctamente');

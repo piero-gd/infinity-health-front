@@ -14,7 +14,8 @@ const API_URL = 'https://api.infinityhealth.fit/api/users/password-reset-confirm
 
 export const resetPassword = async (data: { password: string; token: string }): Promise<ResetPasswordResponse> => {
   try {
-    const response = await fetch(`${API_URL}${data.token}`, {
+    const tokenTemporal = 'MTM/ct1f2a-e4eb98e0f8d01062e6ba737b358fa932/';
+    const response = await fetch(`${API_URL}${tokenTemporal}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

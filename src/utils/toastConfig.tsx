@@ -44,7 +44,6 @@ export const toast = {
   loading: (title: string, description?: string): string => {
     const toastId = Math.random().toString(36).substring(2, 9);
 
-    // Usar toastify.info con type: 'loading' para forzar los estilos
     toastify.info(
       <div className="flex items-center">
         {icons.loading}
@@ -63,8 +62,8 @@ export const toast = {
         autoClose: false,
         closeOnClick: false,
         draggable: false,
-        theme: 'colored',
-        className: 'toast-loading' // Clase adicional para estilos específicos
+        theme: 'light',
+        className: 'toast-loading',
       }
     );
 
