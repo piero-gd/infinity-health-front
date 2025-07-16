@@ -1,30 +1,30 @@
-import { BsBoxSeam } from "react-icons/bs";
 import { TbHeadset } from "react-icons/tb";
 import { TbLogout } from "react-icons/tb";
 import { TbBolt } from "react-icons/tb";
 import { GoPerson } from "react-icons/go";
+import { PiPackageLight } from "react-icons/pi";
 
 const cardInfo = [
     {
         title: "Mis pedidos",
-        icon: <BsBoxSeam className="text-green-500 bg-green-50 p-2 rounded-full size-8" />
+        icon: <PiPackageLight className="text-green-500 bg-green-50 p-2 rounded-full size-10" />
     },
     {
         title: "Datos personales",
-        icon: <GoPerson className="text-blue-500 bg-blue-50 p-2 rounded-full size-8" />,
+        icon: <GoPerson className="text-violet-500 bg-violet-50 p-2 rounded-full size-10" />,
         isActive: true
     },
     {
         title: "Atención al cliente",
-        icon: <TbHeadset className="text-yellow-500 bg-yellow-50 p-2 rounded-full size-8" />
+        icon: <TbHeadset className="text-orange-500 bg-orange-50 p-2 rounded-full size-10" />
     },
     {
         title: "Conviértete en embajador",
-        icon: <TbBolt className="text-blue-500 bg-blue-50 p-2 rounded-full size-8" />
+        icon: <TbBolt className="text-blue-500 bg-blue-50 p-2 rounded-full size-10" />
     },
     {
         title: "Salir",
-        icon: <TbLogout className="text-gray-500 bg-gray-50 p-2 rounded-full size-8" />
+        icon: <TbLogout className="text-gray-500 bg-gray-50 p-2 rounded-full size-10" />
     },
 ];
 export default function CardsPanel() {
@@ -33,20 +33,21 @@ export default function CardsPanel() {
         {cardInfo.map((card, index) => (
             <div
                 key={index}
-                className={`flex flex-col items-center justify-center gap-3 p-6 rounded-2xl shadow-sm border transition-all duration-200 hover:shadow-md cursor-pointer ${
+                className={`flex items-center justify-center gap-4 p-4 rounded-2xl shadow-lg border transition-all duration-200 hover:shadow-md cursor-pointer ${
                     card.isActive
-                        ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-300'
+                        ? 'bg-gray-100 border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]'
                         : 'bg-white border-gray-200 hover:border-gray-300'
                 }`}
             >
-                <div className="flex-shrink-0">
+                <div className={`flex items-center gap-3 min-w-[120px]`}>
+                    
+                    <h4  className={`text-xs font-semibold leading-tight ${
+                        card.isActive ? 'text-[var(--color-primary)]' : 'text-gray-700'
+                    }`}>
+                        {card.title}
+                    </h4>
                     {card.icon}
                 </div>
-                <h3 className={`text-sm font-medium text-center leading-tight ${
-                    card.isActive ? 'text-blue-700' : 'text-gray-700'
-                }`}>
-                    {card.title}
-                </h3>
             </div>
         ))}
     </div>
