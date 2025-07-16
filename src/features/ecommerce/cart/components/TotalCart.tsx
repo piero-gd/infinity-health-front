@@ -169,7 +169,7 @@ export default function TotalCart({
         <button
           className="w-full bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
         >
-          <span>Proceder a pagar</span>
+          <span>Continuar compra</span>
           <FaShoppingCart className="text-white" size={20} />
         </button>
       </div>

@@ -137,7 +137,7 @@ export const MiniCart: React.FC<MiniCartProps> = ({ className = '' }) => {
                       <div className="bg-white px-5 py-4 border-t border-gray-100">
                         <div className="flex justify-between items-center">
                           <span className="text-lg font-semibold text-gray-900">Subtotal:</span>
-                          <span className="font-bold text-xl text-[#0099ff]">
+                          <span className="font-bold text-xl text-[var(--color-primary)]">
                             $ {subtotal.toFixed(2)}
                           </span>
                         </div>
@@ -146,16 +146,16 @@ export const MiniCart: React.FC<MiniCartProps> = ({ className = '' }) => {
                       <div className="p-5 flex flex-col gap-3 bg-white">
                         <Link 
                           to="/cart"
-                          className="flex items-center justify-center w-full bg-white border border-[#0099ff] text-[#0099ff] py-3 px-6 rounded-full text-center font-medium gap-2"
+                          className="flex items-center justify-center w-full bg-white border border-[var(--color-primary)] text-[var(--color-primary)] py-3 px-6 rounded-full text-center font-medium gap-2"
                           onClick={() => close()}
                         >
                           Ver carrito
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 12H16M16 12L12 8M16 12L12 16" stroke="#0099ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M8 12H16M16 12L12 8M16 12L12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </Link>
                         <button 
-                          className="w-full bg-[#0099ff] text-white py-3 px-6 rounded-full font-medium flex items-center justify-center gap-2"
+                          className="w-full bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 rounded-full font-medium flex items-center justify-center gap-2"
                           onClick={(e) => {
                             e.stopPropagation();
                             // Lógica de checkout cuando esté implementada
@@ -163,7 +163,7 @@ export const MiniCart: React.FC<MiniCartProps> = ({ className = '' }) => {
                         >
                           Proceder a pagar
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 9V7C17 5.89543 16.1046 5 15 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H15C16.1046 19 17 18.1046 17 17V15M21 12H7M7 12L11 16M7 12L11 8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M17 9V7C17 5.89543 16.1046 5 15 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H15C16.1046 19 17 18.1046 17 17V15M21 12H7M7 12L11 16M7 12L11 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </button>
                       </div>
