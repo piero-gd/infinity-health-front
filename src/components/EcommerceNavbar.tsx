@@ -10,6 +10,7 @@ import {
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { GoPerson } from "react-icons/go";
 import { SlArrowDown } from "react-icons/sl";
+import { MiniCart } from "../features/ecommerce/cart";
 
 import { useState } from "react";
 //Ad
@@ -85,13 +86,8 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
               </button>
             </div>
             
-            <button className="w-10 h-10 text-black rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200">
-              <LiaShoppingBagSolid className="h-8 w-8" />
-          {/* posisición varía*/}
-            <div className="relative">
-            <span className="absolute -top-4 -right-4 text-sm bg-[var(--color-primary)] rounded-full w-5 h-5 text-white">0</span>
-            </div>
-            </button>
+            {/* Mini Carrito */}
+            <MiniCart />
 
             <div className="flex items-center space-x-2 ml-4">
               <GoPerson className="h-8 w-8" />
@@ -128,10 +124,7 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
 
           {/* Iconos derecha - móvil */}
           <div className="lg:hidden flex items-center space-x-3">
-            <button className="w-10 h-10 flex items-center justify-center relative">
-              <LiaShoppingBagSolid className="h-6 w-6 text-gray-700" />
-              <span className="absolute -top-1 -right-1 text-xs bg-[var(--color-primary)] rounded-full w-5 h-5 text-white flex items-center justify-center">3</span>
-            </button>
+            <MiniCart className="w-10 h-10 flex items-center justify-center relative" />
             
             <button className="w-10 h-10 flex items-center justify-center">
               <GoPerson className="h-6 w-6 text-gray-700" />
@@ -201,12 +194,12 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
                       <span>Favoritos</span>
                     </button>
                     
-                    <button className="flex items-center space-x-3 w-full py-3 px-3 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                    <a href="/cart" className="flex items-center space-x-3 w-full py-3 px-3 text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200">
                       <div className="w-8 h-8 bg-[var(--color-primary)] text-white rounded-full flex items-center justify-center">
                         <ShoppingBagIcon className="h-4 w-4" />
                       </div>
                       <span>Carrito de compras</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
 

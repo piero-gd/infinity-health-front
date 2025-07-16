@@ -61,3 +61,16 @@ export interface ProductCardProps {
     product: Product;
     onAddToCart?: (productId: number) => void;
 }
+
+// Tipos para el carrito
+export interface CartProduct {
+    id: number;
+    name: string;
+    slug: string;
+    price: string;
+    price_amb: string;
+    images: ProductImage[];
+    category_info: CategoryInfo;
+    quantity: number;
+    specifications?: ProductSpecification[];
+}

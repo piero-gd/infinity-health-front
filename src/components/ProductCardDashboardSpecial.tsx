@@ -5,7 +5,8 @@ import { PiShoppingCartLight } from "react-icons/pi";
 import type { ProductCardProps } from '../features/ecommerce/productDetail/types';
 
 export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
-    product
+    product,
+    onAddToCart
 }) => {
     const navigate = useNavigate();
     
@@ -18,8 +19,12 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
         navigate(`/product/${product.slug}`);
     };
 
-    //Implementacion para el futuro
-    const handleAddToCartClick = () => {
+    // Integración con el carrito
+    const handleAddToCartClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Evitar navegación al hacer clic en el botón
+        if (onAddToCart) {
+            onAddToCart(product.id);
+        }
     };
 
     return (

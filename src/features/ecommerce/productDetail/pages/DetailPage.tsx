@@ -6,6 +6,7 @@ import { ShareOptions } from '../components/ShareOptions';
 import { RelatedProducts } from '../components/RelatedProducts';
 import AboutProduct from '../components/AboutProduct';
 import { useProductBySlug } from '../../shared/hooks/useProducts';
+import { useCart } from '../../cart';
 
 
 export default function DetailPage() {
@@ -22,6 +23,9 @@ export default function DetailPage() {
     isLoading: loading, 
     error 
   } = useProductBySlug(slug);
+  
+  // Usar el hook del carrito
+  const { addToCartBySlug } = useCart();
 
   if (loading) {
     return (
@@ -77,7 +81,10 @@ export default function DetailPage() {
         
         {/* Product Info - Columna Derecha */}
         <div className="space-y-2">
-          <InfoDetail product={currentProduct} />
+          <InfoDetail 
+            product={currentProduct} 
+            onAddToCart={(_, quantity) => addToCartBySlug(currentProduct.slug, quantity)}
+          />
           <ShareOptions slug={currentProduct.slug} />
         </div>
       </div>
