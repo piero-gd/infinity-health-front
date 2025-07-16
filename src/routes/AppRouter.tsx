@@ -24,14 +24,14 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
             <SimpleLayout onLogout={onLogout} />
           </ProtectedRoute>
         }>
-          <Route
+        {/*   <Route
             path="/exercises"
             element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
                 <ExercisesHome />
               </ErrorBoundary>
             }
-          />
+          />  */}
           <Route
             path="/exercises/:id"
             element={
@@ -40,7 +40,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
               </ErrorBoundary>
             }
           />
-          <Route
+      {/*     <Route
             path="/calculator"
             element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
@@ -48,14 +48,15 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
               </ErrorBoundary>
             }
           />
-          <Route
+ */}
+        {/*   <Route
             path="/academy"
             element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
                 <Navigate to="/academy/course/1" replace />
               </ErrorBoundary>
             }
-          />
+          /> */}
           <Route
             path="/academy/course/:id"
             element={
@@ -81,6 +82,44 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
             </ProtectedRoute>
           } 
         />
+
+<Route 
+          path="/calculator"
+          element={
+            <ProtectedRoute 
+              allowedFrom="/login"
+              requireAuth={true}
+            >
+              <CalculatorPage />
+            </ProtectedRoute>
+          } 
+          />
+
+          <Route 
+          path="/academy"
+          element={
+            <ProtectedRoute 
+              allowedFrom="/login"
+              requireAuth={true}
+            >
+              <CalculatorPage />
+            </ProtectedRoute>
+          } 
+          />
+
+          <Route 
+          path="/exercises"
+          element={
+            <ProtectedRoute 
+              allowedFrom="/login"
+              requireAuth={true}
+            >
+              <ExercisesHome />
+            </ProtectedRoute>
+          } 
+          />
+
+
         
         {/* Email confirmation link (from email) */}
         <Route 
@@ -105,6 +144,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
             <NewPassPage />
           } 
         />
+
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
