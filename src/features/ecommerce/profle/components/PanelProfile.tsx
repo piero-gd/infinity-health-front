@@ -2,6 +2,8 @@ import type { dataProfile } from "../type";
 import { TbApps, TbShoppingCart } from "react-icons/tb";
 import CardsPanel from "./CardsPanel";
 import { useNavigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
+
 
 interface PanelProfileProps {
     user: dataProfile;
@@ -21,11 +23,11 @@ export default function PanelProfile({ user, activeComponent, onCardClick }: Pan
                     </div>
                     {/* Mobile Shopping Cart Icon */}
                     <button 
-                        className="md:hidden p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+                        className="md:hidden p-2 bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] rounded-full shadow-xl hover:shadow-lg transition-shadow"
                         aria-label="Carrito de compras"
                         onClick={() => navigate('/catalog')}
                     >
-                        <TbShoppingCart size={24} className="text-gray-700" />
+                        <MdLogout size={24} className="text-white" />
                     </button>
                 </div>
                 <h1 className="text-2xl font-bold text-gray-600">
