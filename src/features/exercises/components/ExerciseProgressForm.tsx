@@ -13,6 +13,25 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Input sanitization functions
+  const handleRepsChange = (value: string) => {
+    // Allow only numbers
+    const sanitized = value.replace(/[^\d]/g, '');
+    setReps(sanitized);
+  };
+
+  const handleWeightChange = (value: string) => {
+    // Allow numbers and one decimal point
+    const sanitized = value.replace(/[^\d.]/g, '').replace(/(\..*)\./g, '$1');
+    setWeight(sanitized);
+  };
+
+  const handleCommentChange = (value: string) => {
+    // Limit to 500 characters
+    const sanitized = value.substring(0, 500);
+    setComment(sanitized);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -22,7 +41,7 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
         repetitions: reps,
         weight,
         comment,
-        date: new Date().toISOString(),
+        date: new Date().toISOString().split('T')[0], // Format: YYYY-MM-DD
       });
       toast.success("Registro Guardado");
       setReps("");
@@ -51,10 +70,9 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
           type="button"
           className={`
             px-2 py-1 transition
-            ${
-              tab === "registro"
-                ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]"
-                : "text-gray-500"
+            ${tab === "registro"
+              ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]"
+              : "text-gray-500"
             }
           `}
           onClick={() => setTab("registro")}
@@ -63,11 +81,10 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
         </button>
         <button
           type="button"
-          className={`ml-2 sm:ml-4 px-2 py-1 transition ${
-            tab === "comentarios"
-              ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]"
-              : "text-gray-500"
-          }`}
+          className={`ml-2 sm:ml-4 px-2 py-1 transition ${tab === "comentarios"
+            ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]"
+            : "text-gray-500"
+            }`}
           onClick={() => setTab("comentarios")}
         >
           Comentarios
@@ -84,9 +101,9 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
             <input
               type="text"
               className="w-full rounded-lg border border-gray-200 px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:border-[var(--color-primary)]"
-              placeholder="12 repeticiones"
+              placeholder="12"
               value={reps}
-              onChange={(e) => setReps(e.target.value)}
+              onChange={(e) => handleRepsChange(e.target.value)}
             />
           </div>
           <div className="flex-1">
@@ -96,9 +113,9 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
             <input
               type="text"
               className="w-full rounded-lg border border-gray-200 px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:border-[var(--color-primary)]"
-              placeholder="2 kg"
+              placeholder="2.5"
               value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              onChange={(e) => handleWeightChange(e.target.value)}
             />
           </div>
         </div>
@@ -112,8 +129,13 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
             className="w-full rounded-lg border border-gray-200 px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base focus:outline-none focus:border-[var(--color-primary)]"
             placeholder="Agrega un comentario"
             value={comment}
-            onChange={(e) => setComment(e.target.value)}
+            onChange={(e) => handleCommentChange(e.target.value)}
           />
+          {comment.length > 450 && (
+            <p className="text-xs text-gray-500 mt-1">
+              {500 - comment.length} caracteres restantes
+            </p>
+          )}
         </div>
       )}
 
