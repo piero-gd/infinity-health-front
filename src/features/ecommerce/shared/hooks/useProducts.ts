@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts, fetchProductById, fetchProductBySlug } from '../services/productService';
 import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
+// Para cambiar entre mock y API real, simplemente edita el valor en .env o importa directamente:
+// import { fetchProducts, fetchProductById, fetchProductBySlug } from '../services/productMockService'; // Para usar solo mock
+// import { fetchRealProducts as fetchProducts, fetchRealProductById as fetchProductById, fetchRealProductBySlug as fetchProductBySlug } from '../services/productRealService'; // Para usar solo API real
 
 /**
  * Hook personalizado para obtener productos con React Query
