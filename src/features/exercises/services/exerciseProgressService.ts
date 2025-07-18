@@ -7,10 +7,9 @@ export interface ExerciseProgressPayload {
 }
 
 import { post } from '../../../services/api';
+import { getAuthHeaders } from "../../../services/authService";
 
 export async function sendExerciseProgress(payload: ExerciseProgressPayload) {
-  const token = localStorage.getItem('accessToken');
-  
   // Transform payload to match API expectations (data already sanitized at form level)
   const apiPayload = {
     reply: parseInt(payload.repetitions) || 0,  // repetitions -> reply (as integer)
@@ -24,9 +23,7 @@ export async function sendExerciseProgress(payload: ExerciseProgressPayload) {
     console.log('Original payload:', payload);
     console.log('Sanitized & Transformed API payload:', apiPayload);
     return await post<any>('fit-bibliotec/exercise-progress/', apiPayload, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
+      headers: getAuthHeaders()
     });
   } catch (error) {
     console.error('Error al guardar el progreso:', error);

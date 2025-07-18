@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../services/authApi';
 import type { LoginCredentials, AuthResponse } from '../types';
+import { useAuthStore } from '../../auth/stores/useAuthStore';
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
-  const username = localStorage.getItem('username');
+  
+  // Usamos el store de Zustand para la autenticación
+  const { login: setAuthState, username } = useAuthStore();
 
   const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
     setIsLoading(true);
@@ -17,16 +19,13 @@ export const useLogin = () => {
     try {
       const response = await authApi(credentials);
       console.log('Login response:', response);
-      // Guardar datos en localStorage
-      localStorage.setItem('accessToken', response.access);
-      if (response.refresh) {
-        localStorage.setItem('refreshToken', response.refresh);
-      }
       
-      // Guardar el username en localStorage
-      if (response.username) {
-        localStorage.setItem('username', response.username);
-      }
+      // Guardamos los datos en Zustand en lugar de localStorage
+      setAuthState({
+        access: response.access,
+        refresh: response.refresh,
+        username: response.username
+      });
       
       // Redirigir a la calculadora
       navigate('/calculator');

@@ -16,7 +16,7 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
       {/* Botón hamburguesa SOLO en mobile */}
       {setSidebarOpen && (
         <button
-          className="hidden sm:block mr-2 text-[var(--color-primary)]"
+          className="block sm:hidden mr-2 text-[var(--color-primary)]"
           onClick={() => setSidebarOpen(true)}
           aria-label="Abrir menú"
         >
@@ -46,7 +46,11 @@ export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
           <span className="text-[var(--color-text)]">Perfil</span>
         </button>
         <button
-          onClick={onLogout}
+          onClick={() => {
+            onLogout();
+            // Nota: La navegación debería ocurrir automáticamente por el useEffect 
+            // en ProtectedRoute cuando isAuthenticated cambia a false
+          }}
           className="flex items-center gap-1 hover:text-[var(--color-primary-accent)] transition"
         >
           <ArrowRightOnRectangleIcon className="h-5 w-5" />

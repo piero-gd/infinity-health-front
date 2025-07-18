@@ -1,13 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import SimpleLayout from "../layouts/SimpleLayout";
 import ExercisesHome from "../features/exercises/pages/ExercisesHome";
 import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
-//import TestLayout from "../layouts/TestLayout";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
-import { ErrorBoundary } from "react-error-boundary";
-import { ErrorBoundaryFallback } from "../components/ErrorBoundaryFallback";
 import AcademyPage from "../features/academy/pages/AcademyPage";
 import VerificationPage from "../features/auth/pages/VerificationPage";
 import ConfirmationPage from "../features/auth/pages/ConfirmationPage";
@@ -18,137 +15,107 @@ import EcommerceLayout from "../layouts/EcommerceLayout";
 import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
 import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
 import CartPage from "../features/ecommerce/cart/pages/CartPage";
+import { withErrorBoundary } from "../utils/withErrorBoundary";
+
+// Aplicamos el HOC withErrorBoundary a los componentes de página
+const ProtectedExerciseDetailPage = withErrorBoundary(ExerciseDetailPage);
+const ProtectedAcademyPage = withErrorBoundary(AcademyPage);
+const ProtectedCalculatorPage = withErrorBoundary(CalculatorPage);
+const ProtectedExercisesHome = withErrorBoundary(ExercisesHome);
+
+// Componentes de e-commerce con ErrorBoundary
+const SafeCartPage = withErrorBoundary(CartPage);
+const SafeCatalogPage = withErrorBoundary(CatalogPage);
+const SafeDetailPage = withErrorBoundary(DetailPage);
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          element={
-            <ProtectedRoute requireAuth>
-              <SimpleLayout onLogout={onLogout} />
-            </ProtectedRoute>
-          }
-        >
-          {/*   <Route
-            path="/exercises"
-            element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <ExercisesHome />
-              </ErrorBoundary>
-            }
-          />  */}
-          <Route
-            path="/exercises/:id"
-            element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <ExerciseDetailPage />
-              </ErrorBoundary>
-            }
-          />
-          {/*     <Route
-            path="/calculator"
-            element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <CalculatorPage />
-              </ErrorBoundary>
-            }
-          />
- */}
-          {/*   <Route
-            path="/academy"
-            element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <Navigate to="/academy/course/1" replace />
-              </ErrorBoundary>
-            }
-          /> */}
-          <Route
-            path="/academy/course/:id"
-            element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <AcademyPage />
-              </ErrorBoundary>
-            }
-          />
-        </Route>
+    <Routes>
+      {/* ===== RUTAS DE AUTENTICACIÓN (SIN LAYOUT) ===== */}
+      {/* Login */}
+      <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+      {/* Registro */}
+      <Route path="/register" element={<RegisterPage />} />
 
-        {/* Mail confirmation page (after registration) */}
+      {/* Confirmación de correo (después del registro) */}
+      <Route
+        path="/mail-confirmation"
+        element={
+          <ProtectedRoute allowedFrom="/register" requireAuth={false}>
+            <VerificationPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Confirmación de registro (desde el enlace de correo) */}
+      <Route path="/register-confirmation" element={<ConfirmationPage />} />
+
+      {/* Recuperación de contraseña */}
+      <Route path="/forgot-password" element={<ForgotPassPage />} />
+
+      {/* Nueva contraseña */}
+      <Route path="/new-password/:token?" element={<NewPassPage />} />
+
+      {/* ===== RUTAS PROTEGIDAS CON SIMPLE LAYOUT ===== */}
+      <Route
+        element={
+          <ProtectedRoute requireAuth>
+            <SimpleLayout onLogout={onLogout} />
+          </ProtectedRoute>
+        }
+      >
+        {/* Detalle de ejercicio */}
         <Route
-          path="/mail-confirmation"
-          element={
-            <ProtectedRoute allowedFrom="/register" requireAuth={false}>
-              <VerificationPage />
-            </ProtectedRoute>
-          }
+          path="/exercises/:id"
+          element={<ProtectedExerciseDetailPage />}
         />
 
+        {/* Cursos de academia */}
+        <Route path="/academy/course/:id" element={<ProtectedAcademyPage />} />
+        
+        {/* Calculadora */}
         <Route
           path="/calculator"
           element={
-            <ProtectedRoute allowedFrom="/login" requireAuth={true}>
-              <CalculatorPage />
+            <ProtectedRoute requireAuth>
+              <ProtectedCalculatorPage />
             </ProtectedRoute>
           }
         />
 
+        {/* Academia - redireccionamiento */}
         <Route
           path="/academy"
           element={
-            <ProtectedRoute allowedFrom="/login" requireAuth={true}>
-              <CalculatorPage />
+            <ProtectedRoute requireAuth>
+              <Navigate to="/academy/course/1" replace />
             </ProtectedRoute>
           }
         />
 
+        {/* Ejercicios - listado */}
         <Route
           path="/exercises"
           element={
-            <ProtectedRoute allowedFrom="/login" requireAuth={true}>
-              <ExercisesHome />
+            <ProtectedRoute requireAuth>
+              <ProtectedExercisesHome />
             </ProtectedRoute>
           }
         />
+      </Route>
 
-        {/* Email confirmation link (from email) */}
-        <Route path="/register-confirmation" element={<ConfirmationPage />} />
+      {/* ===== RUTAS DE E-COMMERCE (CON LAYOUT PROPIO) ===== */}
+      <Route element={<EcommerceLayout onLogout={onLogout} />}>
+        <Route path="/cart" element={<SafeCartPage />} />
+        <Route path="/catalog" element={<SafeCatalogPage />} />
+        <Route path="/product/:slug" element={<SafeDetailPage />} />
+      </Route>
 
-        {/* Forgot Password */}
-        <Route path="/forgot-password" element={<ForgotPassPage />} />
-
-        {/* New Password */}
-        <Route path="/new-password/:token?" element={<NewPassPage />} />
-
-        <Route element={<EcommerceLayout onLogout={onLogout} />}>
-            <Route path="/cart" element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <CartPage />
-              </ErrorBoundary>
-              } />
-            <Route path="/catalog" element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <CatalogPage />
-              </ErrorBoundary>  
-              } />
-            <Route path="/product/:slug" element={
-              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-                <DetailPage />
-              </ErrorBoundary>
-              } />
-        </Route>
-
-        <Route path="/login" element={<LoginPage />} />
-
-        {/* Redirección temporal para pruebas */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
-          
-        {/* Redirección para cualquier otra ruta */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+      {/* ===== REDIRECCIONES ===== */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 };
 

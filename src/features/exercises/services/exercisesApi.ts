@@ -1,14 +1,11 @@
 import type { Exercise } from "../types/exercise";
 import { get } from "../../../services/api";
+import { getAuthHeaders } from "../../../services/authService";
 
 export async function fetchExercises(): Promise<Exercise[]> {
-  const token = localStorage.getItem('accessToken');
-  
   try {
     const data = await get<Exercise[]>('fit-bibliotec/exercises', {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      },
+      headers: getAuthHeaders(),
     });
     
     console.log("[exercisesApi] fetchExercises data:", data);

@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import { useAuthStore } from '../features/auth/stores/useAuthStore';
 
 type ProtectedRouteProps = {
   children: ReactNode;
@@ -16,25 +17,24 @@ export const ProtectedRoute = ({
   requireAuth = true,
 }: ProtectedRouteProps) => {
   const location = useLocation();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  
+  // Usamos el store de Zustand para obtener el estado de autenticación
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
   useEffect(() => {
-    // Verificar si el usuario está autenticado
-    const checkAuth = () => {
-      const username = localStorage.getItem('username');
-      const token = localStorage.getItem('token'); // Si usas tokens JWT
-      
-      // Verificar si hay un usuario autenticado
-      const authStatus = !!(username || token);
-      setIsAuthenticated(authStatus);
-      setIsLoading(false);
-    };
-
-    checkAuth();
+    // Efecto para manejar la carga inicial
+    setIsLoading(false);
   }, []);
 
-  // Si aún está cargando, muestra un indicador de carga o null
+  // Efecto para manejar cambios en la autenticación
+  useEffect(() => {
+    // Este efecto se ejecutará cuando cambie el estado de autenticación
+    // No hay que hacer nada especial aquí, ya que el siguiente bloque if
+    // se encargará de redirigir cuando sea necesario
+  }, [isAuthenticated]);
+
+  // Si aún está cargando, muestra un indicador de carga
   if (isLoading) {
     return null; // O puedes devolver un componente de carga
   }

@@ -1,14 +1,11 @@
 import type { CalculatorResults, Diet } from "../types";
 import { post } from "../../../services/api";
+import { getAuthHeaders } from "../../../services/authService";
 
 export const calculateDiet = async (data: CalculatorResults): Promise<Diet> => {
   try {
-    const token = localStorage.getItem('accessToken');
-    
     const response = await post<Diet>('calcMacros/', data, {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
+      headers: getAuthHeaders()
     });
 
     console.log("[mealApi] calculateDiet response:", response);
