@@ -19,12 +19,14 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={
-          <ProtectedRoute requireAuth>
-            <SimpleLayout onLogout={onLogout} />
-          </ProtectedRoute>
-        }>
-        {/*   <Route
+        <Route
+          element={
+            <ProtectedRoute requireAuth>
+              <SimpleLayout onLogout={onLogout} />
+            </ProtectedRoute>
+          }
+        >
+          {/*   <Route
             path="/exercises"
             element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
@@ -40,7 +42,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
               </ErrorBoundary>
             }
           />
-      {/*     <Route
+          {/*     <Route
             path="/calculator"
             element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
@@ -49,7 +51,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
             }
           />
  */}
-        {/*   <Route
+          {/*   <Route
             path="/academy"
             element={
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
@@ -71,79 +73,50 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/register" element={<RegisterPage />} />
 
         {/* Mail confirmation page (after registration) */}
-        <Route 
-          path="/mail-confirmation" 
+        <Route
+          path="/mail-confirmation"
           element={
-            <ProtectedRoute 
-              allowedFrom="/register"
-              requireAuth={false}
-            >
+            <ProtectedRoute allowedFrom="/register" requireAuth={false}>
               <VerificationPage />
             </ProtectedRoute>
-          } 
+          }
         />
 
-<Route 
+        <Route
           path="/calculator"
           element={
-            <ProtectedRoute 
-              allowedFrom="/login"
-              requireAuth={true}
-            >
+            <ProtectedRoute allowedFrom="/login" requireAuth={true}>
               <CalculatorPage />
             </ProtectedRoute>
-          } 
-          />
+          }
+        />
 
-          <Route 
+        <Route
           path="/academy"
           element={
-            <ProtectedRoute 
-              allowedFrom="/login"
-              requireAuth={true}
-            >
+            <ProtectedRoute allowedFrom="/login" requireAuth={true}>
               <CalculatorPage />
             </ProtectedRoute>
-          } 
-          />
+          }
+        />
 
-          <Route 
+        <Route
           path="/exercises"
           element={
-            <ProtectedRoute 
-              allowedFrom="/login"
-              requireAuth={true}
-            >
+            <ProtectedRoute allowedFrom="/login" requireAuth={true}>
               <ExercisesHome />
             </ProtectedRoute>
-          } 
-          />
-
-
-        
-        {/* Email confirmation link (from email) */}
-        <Route 
-          path="/register-confirmation" 
-          element={
-            <ConfirmationPage />
-          } 
+          }
         />
+
+        {/* Email confirmation link (from email) */}
+        <Route path="/register-confirmation" element={<ConfirmationPage />} />
 
         {/* Forgot Password */}
-        <Route 
-          path="/forgot-password" 
-          element={
-            <ForgotPassPage />
-          } 
-        />
+        <Route path="/forgot-password" element={<ForgotPassPage />} />
 
         {/* New Password */}
-        <Route 
-          path="/new-password/:token?" 
-          element={
-            <NewPassPage />
-          } 
-        />
+        <Route path="/new-password/:token?" element={<NewPassPage />} />
 
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
