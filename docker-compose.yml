@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: infinity-health-front
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./:/app
+      - /app/node_modules

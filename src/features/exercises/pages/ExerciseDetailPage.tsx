@@ -14,7 +14,7 @@ export default function ExerciseDetailPage() {
   const navigate = useNavigate();
 
   if (loading) return <Loader message="Cargando ejercicio..." />;
-  if (error) return <div>Error: {error}</div>;
+  if (error) throw new Error('Error al cargar el ejercicio');
 
   const exercise = exercises.find(e => String(e.id) === String(id));
   if (!exercise) return <div className="text-center mt-10">Ejercicio no encontrado</div>;
@@ -38,7 +38,9 @@ export default function ExerciseDetailPage() {
         <h1 className="order-2 sm:order-none text-2xl sm:text-3xl md:text-4xl font-black text-center mb-4 mx-2">{exercise.title}</h1>
         {/* Categoría y duración */}
         <div className="order-3 sm:order-none flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6">
-          <span className="text-base sm:text-lg font-semibold text-gray-700">{exercise.category}</span>
+          <span className="text-base sm:text-lg font-semibold text-gray-700">
+            {String(exercise.category).charAt(0).toUpperCase() + String(exercise.category).slice(1)}
+          </span>
           <span className="flex items-center text-gray-500 text-sm sm:text-base">
             <ClockIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-1 text-primary-dark" />
             {exercise.duration} min

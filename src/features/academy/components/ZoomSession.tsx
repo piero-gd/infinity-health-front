@@ -106,8 +106,7 @@ const ZoomSession: React.FC<Props> = ({ session }) => {
   return (
     <div className="zs-wrapper">
       {loading && <Loader message="Cargando sesión..." />}
-      {error && <div className="error-message">Error al cargar la sesión</div>}
-      {/*TODO: error boundary */}
+      {error && (() => { throw new Error('Error al cargar la sesión'); })()}
       <iframe
         ref={iframeRef}
         className="zs-iframe"
