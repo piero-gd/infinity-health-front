@@ -1,5 +1,5 @@
 import type { dataProfile } from "../type";
-import { TbApps, TbShoppingCart } from "react-icons/tb";
+import { TbApps } from "react-icons/tb";
 import CardsPanel from "./CardsPanel";
 import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
@@ -14,7 +14,8 @@ interface PanelProfileProps {
 export default function PanelProfile({ user, activeComponent, onCardClick }: PanelProfileProps) {
     const navigate = useNavigate();
     return (
-        <div className="flex flex-col gap-8 bg-slate-100 p-6 md:p-12 rounded-2xl mb-8">
+        <div className="relative flex flex-col gap-8 p-6 md:p-12 rounded-2xl mb-8 overflow-hidden bg-white/80 backdrop-blur-sm shadow-md">
+            <div className="absolute inset-0 bg-exercises-wallpaper bg-contain bg-center bg-no-repeat rounded-2xl -z-10" />
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex items-center justify-between w-full md:w-auto">
                     <div className="flex items-center gap-2">
@@ -39,6 +40,11 @@ export default function PanelProfile({ user, activeComponent, onCardClick }: Pan
                 onCardClick={(component) => {
                     if (component === 'logout') {
                         // Lógica para cerrar sesión
+
+                        //OPCIONAL
+                        localStorage.removeItem('token');
+                        navigate('/login');
+                        
                         console.log('Cerrar sesión');
                         return;
                     }

@@ -1,8 +1,25 @@
-export interface dataProfile{
-    name:string,
-    lastName:string,
-    email:string,
-    phone:string,
+export interface dataProfile {
+    first_name: string;
+    last_name: string;
+    email:string;
+    birth_date: string;
+    phone: string;
+    district?: string;
+    department?: string;
+    province?: string;
+    address_detail: string;
+    address_reference: string;
+}
+export interface dataProfileResponse {
+    first_name: string;
+    last_name: string;
+    phone: string;
+    birth_date: string;
+    department: string;
+    province: string;
+    district: string;
+    address_detail: string;
+    adress_reference: string;
 }
 
 export interface CartProduct {

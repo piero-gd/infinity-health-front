@@ -9,7 +9,7 @@ export const useCart = (): UseCartReturn => {
     useEffect(() => {
         const fetchCartProducts = async () => {
             try {
-                // Simulating API call with a timeout
+                // Simular API call with a timeout
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
                 // Mock data - in a real app, this would be an API call
