@@ -52,7 +52,8 @@ export default function ExerciseDetailPage() {
         </div>
         {/* Descripción */}
         <div className="order-4 sm:order-none bg-white rounded-xl shadow p-4 sm:p-6 mb-8 text-gray-700 text-center max-w-3xl mx-auto">
-          <p className="text-sm sm:text-base">{exercise.description}</p>
+          <div className="text-sm sm:text-base" dangerouslySetInnerHTML={{ __html: exercise.description }}
+          ></div>
         </div>
         {/* Formulario de registro de entrenamiento */}
         <div className='order-5 sm:order-none'>
