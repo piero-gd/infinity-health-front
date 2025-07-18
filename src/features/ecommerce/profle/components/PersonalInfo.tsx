@@ -1,13 +1,29 @@
+
+import { useState } from "react";
 import type { dataProfile } from "../type";
 import { CiCircleCheck } from "react-icons/ci";
 import { useLocation } from "../hooks/useLocation";
+import { updatePersonalInfo } from "../services/apiPersonalInfo";
+import type { PersonalInfoPayload } from "../type";
 
 interface PersonalInfoProps {
     user: dataProfile;
 }
 
 export default function PersonalInfo({ user }: PersonalInfoProps) {
-    const {
+
+    const [form, setForm] = useState<PersonalInfoPayload>({
+        first_name: user.first_name ?? "",
+        last_name: user.last_name ?? "",
+        phone: user.phone ?? "",
+        department: user.department ?? "",
+        province: user.province ?? "",
+        district: user.district ?? "",
+        address_detail: user.address_detail ?? "",
+        address_reference: user.address_reference ?? ""
+    });
+
+    const { 
         location,
         locationOptions,
         isLoading,
@@ -19,18 +35,40 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
     });
 
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+     // Enviar al API
+     const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await updatePersonalInfo(form);
+            alert("¡Datos guardados!");
+        } catch {
+            alert("Error al guardar");
+        }
+    };
+
+
+
     // Handle location changes
     const handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onLocationChange('department', e.target.value);
-        
+        const value = e.target.value;
+        setForm({ ...form, department: value, province: "", district: "" });
+        onLocationChange('department', value);
     };
-
+    
     const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onLocationChange('province', e.target.value);
+        const value = e.target.value;
+        setForm({ ...form, province: value, district: "" });
+        onLocationChange('province', value);
     };
-
+    
     const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onLocationChange('district', e.target.value);
+        const value = e.target.value;
+        setForm({ ...form, district: value });
+        onLocationChange('district', value);
     };
 
 
@@ -47,7 +85,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                 </div>
             </div>
 
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Primera fila: Nombre y Apellidos */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-2">
@@ -57,7 +95,9 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         <input 
                             type="text" 
                             id="name" 
-                            name="name" 
+                            name="first_name" 
+                            value={form.first_name}
+                            onChange={handleChange}
                             placeholder={user.first_name || ''}
                             className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                         />
@@ -69,7 +109,9 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         <input 
                             type="text" 
                             id="lastName" 
-                            name="lastName" 
+                            name="last_name" 
+                            value={form.last_name}
+                            onChange={handleChange}
                             placeholder={user.last_name || ''}
                             className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                         />
@@ -86,6 +128,8 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                             type="tel" 
                             id="phone" 
                             name="phone" 
+                            value={form.phone}
+                            onChange={handleChange}
                             placeholder={user.phone || ''}
                             className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                         />
@@ -98,6 +142,8 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                             type="email" 
                             id="email" 
                             name="email" 
+                            value={user.email}
+                            onChange={handleChange}
                             disabled
                             placeholder={user.email || ''}
                             className="w-full px-4 py-3 bg-blue-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
@@ -143,7 +189,8 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         </label>
                         <select
                             id="department"
-                            value={location.department}
+                            value={form.department}
+
                             onChange={handleDepartmentChange}
                             className={`w-full px-4 py-3 border ${isLoading.departments ? 'border-gray-300 bg-gray-50' : 'border-gray-200'} rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all appearance-none`}
                             disabled={isLoading.departments}
@@ -163,7 +210,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         </label>
                         <select
                             id="province"
-                            value={location.province}
+                            value={form.province}
                             onChange={handleProvinceChange}
                             className={`w-full px-4 py-3 border ${isLoading.provinces ? 'border-gray-300 bg-gray-50' : 'border-gray-200'} rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all appearance-none ${!location.department || isLoading.provinces ? 'bg-gray-50 text-gray-400' : 'bg-white'}`}
                             disabled={!location.department || isLoading.provinces}
@@ -183,7 +230,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         </label>
                         <select
                             id="district"
-                            value={location.district}
+                            value={form.district}
                             onChange={handleDistrictChange}
                             className={`w-full px-4 py-3 border ${isLoading.districts ? 'border-gray-300 bg-gray-50' : 'border-gray-200'} rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all appearance-none ${!location.province || isLoading.districts ? 'bg-gray-50 text-gray-400' : 'bg-white'}`}
                             disabled={!location.province || isLoading.districts}
@@ -208,6 +255,8 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         type="text" 
                         id="address" 
                         name="address" 
+                        value={form.address_detail}
+                        onChange={handleChange}
                         placeholder={user.address_detail || ''}
                         className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                     />
@@ -222,6 +271,8 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         type="text" 
                         id="reference" 
                         name="reference" 
+                        value={form.address_reference}
+                        onChange={handleChange}
                         placeholder={user.address_reference || ''}
                         className="w-full px-4 py-3 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
                     />
@@ -238,7 +289,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
                         <CiCircleCheck size={20} />
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

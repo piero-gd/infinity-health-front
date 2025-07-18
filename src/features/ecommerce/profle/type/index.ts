@@ -10,17 +10,17 @@ export interface dataProfile {
     address_detail: string;
     address_reference: string;
 }
-export interface dataProfileResponse {
+export interface PersonalInfoPayload {
     first_name: string;
     last_name: string;
     phone: string;
-    birth_date: string;
     department: string;
     province: string;
     district: string;
     address_detail: string;
-    adress_reference: string;
+    address_reference: string;
 }
+
 
 export interface CartProduct {
     id: string;
