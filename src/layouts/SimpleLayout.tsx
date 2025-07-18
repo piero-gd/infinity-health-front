@@ -6,6 +6,7 @@ import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 
 interface Props {
   onLogout: () => void;
+  
 }
 
 export default function SimpleLayout({ onLogout }: Props) {

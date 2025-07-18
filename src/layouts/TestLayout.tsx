@@ -8,7 +8,7 @@ interface Props {
 export default function TestLayout({ onLogout }: Props) {
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="min-h-screen bg-[var(--color-background-2)] text-[var(--color-text)]">
         <AppNavbar onLogout={onLogout} />
         <Outlet />
     </div>

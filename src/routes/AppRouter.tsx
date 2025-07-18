@@ -14,6 +14,10 @@ import ConfirmationPage from "../features/auth/pages/ConfirmationPage";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
 import ForgotPassPage from "../features/auth/pages/ForgotPassPage";
 import NewPassPage from "../features/auth/pages/NewPassPage";
+import EcommerceLayout from "../layouts/EcommerceLayout";
+import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
+import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
+import CartPage from "../features/ecommerce/cart/pages/CartPage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -118,6 +122,30 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         {/* New Password */}
         <Route path="/new-password/:token?" element={<NewPassPage />} />
 
+        <Route element={<EcommerceLayout onLogout={onLogout} />}>
+            <Route path="/cart" element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <CartPage />
+              </ErrorBoundary>
+              } />
+            <Route path="/catalog" element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <CatalogPage />
+              </ErrorBoundary>  
+              } />
+            <Route path="/product/:slug" element={
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+                <DetailPage />
+              </ErrorBoundary>
+              } />
+        </Route>
+
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Redirección temporal para pruebas */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+          
+        {/* Redirección para cualquier otra ruta */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>

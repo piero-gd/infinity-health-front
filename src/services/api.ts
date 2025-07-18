@@ -38,6 +38,9 @@ export const apiRequest = async <T>(
     // Si estamos en producción, asegúrate de incluir /api/ en la ruta
     url = `${API_BASE_URL}/api/${normalizedEndpoint}`;
   }
+  
+  console.log(`[API] Sending request to: ${url}`);
+  console.log(`[API] Environment API_BASE_URL: ${API_BASE_URL}`);
 
   // Combina las opciones predeterminadas con las proporcionadas
   const fetchOptions = {
@@ -48,20 +51,64 @@ export const apiRequest = async <T>(
       ...options.headers,
     },
   };
+  
+  console.log(`[API] Request options:`, {
+    method: fetchOptions.method || 'GET',
+    headers: fetchOptions.headers
+  });
 
-  // Realiza la petición
-  const response = await fetch(url, fetchOptions);
-
-  // Si la respuesta no es exitosa, lanza un error
-  if (!response.ok) {
-    throw new Error(`API error ${response.status}: ${response.statusText}`);
-  }
-
-  // Intenta parsear como JSON, si falla devuelve la respuesta directamente
   try {
-    return await response.json() as T;
+    // Realiza la petición
+    const response = await fetch(url, fetchOptions);
+    
+    console.log(`[API] Response status: ${response.status} ${response.statusText}`);
+    
+    // Si la respuesta no es exitosa, lanza un error
+    if (!response.ok) {
+      // Intentar obtener más detalles del error
+      let errorDetails = '';
+      try {
+        const errorBody = await response.text();
+        errorDetails = errorBody;
+      } catch (e) {
+        errorDetails = 'No additional error details available';
+      }
+      
+      console.error(`[API] Error details: ${errorDetails}`);
+      throw new Error(`API error ${response.status}: ${response.statusText} - ${errorDetails}`);
+    }
+
+    // Verificar si la respuesta tiene contenido
+    const contentType = response.headers.get('content-type') || '';
+    
+    // Si el tipo de contenido indica JSON
+    if (contentType.includes('application/json')) {
+      try {
+        const jsonData = await response.json();
+        console.log(`[API] Successful JSON response received`);
+        return jsonData as T;
+      } catch (error) {
+        console.error('[API] Failed to parse JSON response:', error);
+        throw new Error('Invalid JSON response from API');
+      }
+    } else {
+      // Para otros tipos de contenido
+      console.log(`[API] Non-JSON response received (${contentType})`);
+      const textResponse = await response.text();
+      
+      // Intentar parsear como JSON de todos modos (a veces el tipo de contenido está mal configurado)
+      try {
+        const jsonData = JSON.parse(textResponse);
+        console.log('[API] Successfully parsed text as JSON');
+        return jsonData as T;
+      } catch {
+        console.log('[API] Response is not JSON, returning as is');
+        return textResponse as unknown as T;
+      }
+    }
   } catch (error) {
-    return response as unknown as T;
+    console.error(`[API] Request failed:`, error);
+    throw error;
   }
 };
 

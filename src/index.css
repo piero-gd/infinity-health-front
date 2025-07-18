@@ -70,6 +70,7 @@
   
     /* Fondo y superficies claras */
     --color-background: #ffffff; /* fondo principal: blanco */
+    --color-background-2: #f5f7fa; /* fondo secundario: gris muy claro */
     --color-surface: #f5f7fa; /* superficie: gris muy claro para tarjetas y secciones */
 
   
@@ -95,16 +96,19 @@
     --color-btn-gradient-border: #1798E0;
     --color-btn-whatsapp: #25D366;
 
-    /* Colores de Estados */
-    --color-informativo: #84C5E9;
-    --color-exito: #232323;
-    --color-exito-icon: #83C438;
-    --color-advertencia: #232323;
-    --color-error: #232323;
+    /* Footer */
+    --color-footer: #2F2F2F;
+    --color-gray: #36454F	;
+    --footer-bluemain: #1798E0;
+    --footer-bluedark: #012F4A;
+    --footer-bluelight: #4DB8F0;
+    --footer-gradient: radial-gradient(circle at center, #1798E0 94%, #012F4A 100%);
+
 }
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: var(--color-background);
 }
 
 h1, h2 {
@@ -264,4 +268,55 @@ h3 {
 .Toastify__close-button:hover,
 .Toastify__close-button:focus {
   opacity: 0.7 !important;
+}
+.slider-thumb::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.slider-thumb::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+
+.range-slider-thumb::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 3px solid var(--color-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: all;
+}
+
+.range-slider-thumb::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: 3px solid var(--color-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: all;
+}
+
+.range-slider-thumb::-webkit-slider-track {
+  background: transparent;
+}
+
+.range-slider-thumb::-moz-range-track {
+  background: transparent;
 }
