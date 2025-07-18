@@ -52,7 +52,7 @@ export default function ExerciseDetailPage() {
         </div>
         {/* Descripción */}
         <div className="order-4 sm:order-none bg-white rounded-xl shadow p-4 sm:p-6 mb-8 text-gray-700 text-center max-w-3xl mx-auto">
-          <div style={{ all: 'initial' }} dangerouslySetInnerHTML={{ __html: exercise.description }}
+          <div style={{ all: 'initial', fontFamily: 'inherit'}} dangerouslySetInnerHTML={{ __html: exercise.description }}
           ></div>
         </div>
         {/* Formulario de registro de entrenamiento */}
