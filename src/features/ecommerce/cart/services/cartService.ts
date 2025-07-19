@@ -79,7 +79,7 @@ export const cartService = {
   /**
    * Actualiza la cantidad de un producto en el carrito
    */
-  async updateQuantity(productId: number, quantity: number): Promise<boolean> {
+  async updateQuantity(_productId: number, _quantity: number): Promise<boolean> {
     // Simular latencia de red
     await new Promise(resolve => setTimeout(resolve, 200));
     // En una API real, aquí haríamos un PUT/PATCH
@@ -89,7 +89,7 @@ export const cartService = {
   /**
    * Elimina un producto del carrito
    */
-  async removeFromCart(productId: number): Promise<boolean> {
+  async removeFromCart(_productId: number): Promise<boolean> {
     // Simular latencia de red
     await new Promise(resolve => setTimeout(resolve, 200));
     // En una API real, aquí haríamos un DELETE
@@ -122,7 +122,7 @@ export const cartService = {
   /**
    * Procesa el checkout del carrito
    */
-  async checkout(cartItems: CartProduct[]): Promise<{
+  async checkout(_cartItems: CartProduct[]): Promise<{
     success: boolean;
     orderId?: string;
     error?: string;

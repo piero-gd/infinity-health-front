@@ -2,11 +2,10 @@ import Header from '../components/Header';
 import FilterTop from '../components/FilterTop';
 import { FilterSidebar } from '../components/FilterSidebar';
 import ProductList from '../components/ProductList';
-import ButtonLoader from '../components/ButtonLoader';
 import { useFiltersStore } from '../stores/useFiltersStore';
 
 export default function CatalogPage() {
-  const { resetFilters } = useFiltersStore();
+  useFiltersStore();
 
   // Limpiar filtros al desmontar o al iniciar (opcional)
   // useEffect(() => {

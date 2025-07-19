@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { Category } from '../index';
 
 interface FiltersState {
   // Filtros actuales

@@ -7,7 +7,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 
-import { LiaShoppingBagSolid } from "react-icons/lia";
 import { GoPerson } from "react-icons/go";
 import { SlArrowDown } from "react-icons/sl";
 import { MiniCart } from "../features/ecommerce/cart";
@@ -21,7 +20,7 @@ interface Props {
   setSidebarOpen?: (open: boolean) => void;
 }
 
-export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
+export default function AppNavbar({ onLogout }: Props) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("Inicio");
   

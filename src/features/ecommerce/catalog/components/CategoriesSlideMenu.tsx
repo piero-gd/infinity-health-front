@@ -45,16 +45,11 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
   const { 
     selectedProduct, 
     selectedMerchandising, 
-    selectedObjective, 
-    selectedFormat,
     minPrice,
     maxPrice,
     setProduct,
     setMerchandising,
-    setObjective,
-    setFormat,
     setPriceRange,
-    resetFilters,
     selectedSort,
     setSort
   } = useFiltersStore();

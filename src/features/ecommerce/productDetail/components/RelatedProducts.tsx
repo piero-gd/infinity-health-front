@@ -5,9 +5,7 @@ import { fetchProducts } from "../../shared/services/productService";
 
 export const RelatedProducts: React.FC<RelatedProductsProps> = ({ 
     currentProductId, 
-    category,
-    categoryName
-}) => {
+    category}) => {
     // Obtener todos los productos usando React Query
     const { data } = useQuery({
         queryKey: ['all-products'],

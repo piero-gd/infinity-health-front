@@ -5,7 +5,7 @@ import { useAuthStore } from "./features/auth/stores/useAuthStore";
 import { BrowserRouter } from "react-router-dom";
 
 function App() {
-  const logout = useAuthStore(state => state.logout);
+  const logout = useAuthStore((state: { logout: any; }) => state.logout);
   
   const handleLogout = () => {
     console.log("Logout");

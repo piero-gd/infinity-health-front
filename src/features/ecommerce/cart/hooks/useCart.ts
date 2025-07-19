@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCartStore } from '../stores/useCartStore';
 import { cartService } from '../services/cartService';
 import type { CartHookReturn } from '../types';
