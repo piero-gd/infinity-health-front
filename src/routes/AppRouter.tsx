@@ -55,7 +55,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
       <Route path="/forgot-password" element={<ForgotPassPage />} />
 
       {/* Nueva contraseña */}
-      <Route path="/new-password/:token?" element={<NewPassPage />} />
+      <Route path="/new-password/:uid/:token" element={<NewPassPage />} />
 
       {/* ===== RUTAS PROTEGIDAS CON SIMPLE LAYOUT ===== */}
       <Route

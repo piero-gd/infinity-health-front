@@ -11,7 +11,7 @@ interface ResetPasswordData {
 
 export default function NewPassword() {
     const navigate = useNavigate();
-    const { token } = useParams<{ token: string }>();
+    const { uid, token } = useParams<{ uid: string; token: string }>();
     const [formData, setFormData] = useState<ResetPasswordData>({ 
         password: '', 
         confirmPassword: '' 
@@ -19,13 +19,13 @@ export default function NewPassword() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { resetPassword, isLoading } = useNewPass();
 
-    // Verificar si el token está presente
+    // Verificar si el uid y token están presentes
     useEffect(() => {
-        if (!token) {
+        if (!uid || !token) {
             showToast.error('Error', 'El enlace de restablecimiento no es válido');
             navigate('/forgot-password');
         }
-    }, [token, navigate]);
+    }, [uid, token, navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -61,9 +61,12 @@ export default function NewPassword() {
         
         try {
             setIsSubmitting(true);
+            if (!uid || !token) return;
+            
             await resetPassword({
                 password: formData.password,
-                token: token
+                uid,
+                token
             });
             // La navegación se maneja en el hook useNewPass
         } catch (error) {

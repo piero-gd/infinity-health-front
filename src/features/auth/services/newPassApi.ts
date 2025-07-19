@@ -10,18 +10,24 @@ interface ApiError extends Error {
   };
 }
 
-const API_URL = 'https://api.infinityhealth.fit/api/users/password-reset-confirm/';
+const API_BASE_URL = 'https://api.infinityhealth.fit/api/users/password-reset-confirm';
 
-export const resetPassword = async (data: { password: string; token: string }): Promise<ResetPasswordResponse> => {
+interface ResetPasswordParams {
+  password: string;
+  uid: string;
+  token: string;
+}
+
+export const resetPassword = async (data: ResetPasswordParams): Promise<ResetPasswordResponse> => {
   try {
-    const tokenTemporal = 'MTM/ct1f2a-e4eb98e0f8d01062e6ba737b358fa932/';
-    const response = await fetch(`${API_URL}${tokenTemporal}`, {
+    const response = await fetch(`${API_BASE_URL}/${data.uid}/${data.token}/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         password: data.password,
+        uid: data.uid,
         token: data.token
       }),
     });

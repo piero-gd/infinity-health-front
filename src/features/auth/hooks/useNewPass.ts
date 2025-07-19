@@ -3,8 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { showToast } from '../../../utils/toastConfig';
 import { resetPassword } from '../services/newPassApi';
 
+interface ResetPasswordParams {
+  password: string;
+  uid: string;
+  token: string;
+}
+
 interface UseNewPassReturn {
-  resetPassword: (data: { password: string; token: string }) => Promise<void>;
+  resetPassword: (data: ResetPasswordParams) => Promise<void>;
   isLoading: boolean;
   resetError: () => void;
 }
@@ -13,13 +19,14 @@ export const useNewPass = (): UseNewPassReturn => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleResetPassword = async (data: { password: string; token: string }) => {
+  const handleResetPassword = async (data: ResetPasswordParams) => {
     setIsLoading(true);
     const loadingId = showToast.loading('Actualizando contraseña', 'Por favor espera...');
 
     try {
       const response = await resetPassword({
         password: data.password,
+        uid: data.uid,
         token: data.token
       });
       
