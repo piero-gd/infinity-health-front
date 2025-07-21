@@ -195,7 +195,7 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     doc.save(`${fileName}.pdf`);
     
   } catch (error) {
-    console.error('Error al generar el PDF:', error);
+    console.error('Error al generar el PDF (downloadPDF):', error);
     alert('Error al generar el PDF. Por favor, inténtalo de nuevo.');
   }
 };
