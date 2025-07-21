@@ -63,7 +63,7 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     //LOGO DE INFINITY
     console.log('[PDF] Agregando logo de Infinity Health');
     try {
-      doc.addImage('../public/img/health-logo-light-mode.png', 'PNG', pageWidth - margin - 40, margin + 10, 40, 13);
+      doc.addImage('/img/health-logo-light-mode.png', 'PNG', pageWidth - margin - 40, margin + 10, 40, 13);
       console.log('[PDF] Logo agregado correctamente');
     } catch (error) {
       console.error('[PDF] Error al agregar logo:', error);
@@ -199,7 +199,7 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       const logoHeight = 25;
       const logoX = (pageWidth - logoWidth) / 2; // Centrar el logo
       doc.addImage(
-        '../public/img/health-logo-light-mode.png',
+        '/img/health-logo-light-mode.png',
         'PNG',
         logoX,
         y,
