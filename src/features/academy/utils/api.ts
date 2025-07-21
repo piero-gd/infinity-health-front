@@ -1,7 +1,9 @@
 import { apiRequest } from '../../../services/api';
+import { useAuthStore } from '../../auth/stores/useAuthStore';
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const token = localStorage.getItem('accessToken');
+  // Usamos el store de Zustand en lugar de localStorage
+  const token = useAuthStore.getState().getAccessToken();
   
   try {
     // Usamos la capa centralizada de API
