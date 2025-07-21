@@ -1,23 +1,16 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import { useCalculator } from '../hooks/useCalculator';
 import CalculatorForm from '../components/CalculatorForm';
 import CalculatorRecomendations from '../components/CalculatorRecomendations';
 import CalculatorResult from '../components/CalculatorResult';
 import CalculatorInfo from '../components/CalculatorInfo';
 import DietPlanView from '../components/DietPlanView';
+import { useAuthStore } from '../../auth/stores/useAuthStore';
 
 export default function CalculatorPage() {
-  const [username, setUsername] = useState('');
+  // Obtenemos el username del store de autenticación
+  const username = useAuthStore(state => state.username) || '';
 
-  useEffect(() => {
-    // Obtener el username del localStorage
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-  }, []);
-
-  console.log('Usuario actual:', username);
   const {
     resultado,
     showDietPlan,
