@@ -30,8 +30,8 @@ export const ProtectedRoute = ({
   // Efecto para manejar cambios en la autenticación
   useEffect(() => {
     // Este efecto se ejecutará cuando cambie el estado de autenticación
-    // No hay que hacer nada especial aquí, ya que el siguiente bloque if
-    // se encargará de redirigir cuando sea necesario
+    // El siguiente bloque if se encargará de redirigir cuando sea necesario
+    console.log('[ProtectedRoute] Estado de autenticación cambiado:', { isAuthenticated });
   }, [isAuthenticated]);
 
   // Si aún está cargando, muestra un indicador de carga
@@ -41,6 +41,21 @@ export const ProtectedRoute = ({
 
   // Si se requiere autenticación y el usuario no está autenticado, redirigir al login
   if (requireAuth && !isAuthenticated) {
+    // Si ya estamos en proceso de redirección, no redirigir nuevamente
+    const isRedirecting = sessionStorage.getItem('redirecting_to_login');
+    if (isRedirecting === 'true') {
+      console.log('[ProtectedRoute] Ya se está redirigiendo al login, evitando redirección duplicada');
+      return null;
+    }
+    
+    // Marcar que estamos en proceso de redirección
+    sessionStorage.setItem('redirecting_to_login', 'true');
+    
+    // Limpiar el estado después de un tiempo
+    setTimeout(() => {
+      sessionStorage.removeItem('redirecting_to_login');
+    }, 1000);
+    
     return <Navigate to={redirectTo} replace state={{ from: location }} />;
   }
 

@@ -75,6 +75,14 @@ export const apiRequest = async <T>(
       }
       
       console.error(`[API] Error details: ${errorDetails}`);
+      
+      // Si el error es 401 (Unauthorized), probablemente el token expiró
+      if (response.status === 401) {
+        console.error('[API] Error 401: Token expirado o no autorizado');
+        // Esta señal será capturada por un interceptor que crearemos
+        throw new Error(`TOKEN_EXPIRED:${response.status}: ${response.statusText} - ${errorDetails}`);
+      }
+      
       throw new Error(`API error ${response.status}: ${response.statusText} - ${errorDetails}`);
     }
 
@@ -108,6 +116,17 @@ export const apiRequest = async <T>(
     }
   } catch (error) {
     console.error(`[API] Request failed:`, error);
+    
+    // Importamos el interceptor de errores aquí para evitar problemas de importación circular
+    import('./errorInterceptor').then(module => {
+      // Solo procesamos el error si es de tipo Error
+      if (error instanceof Error) {
+        module.handleApiError(error);
+      }
+    }).catch(importError => {
+      console.error('[API] Error al cargar el interceptor:', importError);
+    });
+    
     throw error;
   }
 };
