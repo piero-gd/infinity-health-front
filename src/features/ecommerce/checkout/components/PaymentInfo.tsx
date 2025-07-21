@@ -58,7 +58,7 @@ export default function PaymentInfo() {
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl shadow-lg">
       <h2 className="text-2xl font-bold text-gray-900 mb-8">Datos de Facturación</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 mb-8">
         {/* Nombre */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Nombre</label>
@@ -108,15 +108,15 @@ export default function PaymentInfo() {
         </div>
 
         {/* Tipo de comprobante */}
-        <div className="space-y-2 col-span-2">
+        <div className="space-y-2 md:col-span-2">
           <label className="text-sm font-medium text-gray-700">Tipo de comprobante</label>
           <div className="relative">
             <button
               type="button"
               onClick={() => toggleDropdown("tipoComprobante")}
-              className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
+              className="w-full px-4 py-3 border border-gray-300   rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
             >
-              <span className={formData.tipoComprobante ? "text-gray-900" : "text-gray-500"}>
+              <span className={formData.tipoComprobante ? "text-gray-900 ml-2" : "text-gray-500 ml-2"}>
                 {formData.tipoComprobante ? 
                   tiposComprobante.find(t => t.value === formData.tipoComprobante)?.label : 
                   "Selecciona tipo de comprobante"
@@ -126,15 +126,16 @@ export default function PaymentInfo() {
             </button>
             
             {dropdowns.tipoComprobante && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-full shadow-lg">
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-3xl shadow-lg">
                 {tiposComprobante.map((tipo) => (
                   <button
                     key={tipo.value}
                     type="button"
                     onClick={() => selectOption("tipoComprobante", "tipoComprobante", tipo.value)}
-                    className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-full last:rounded-b-full transition-colors"
+                    className="w-full px-4 py-3 text-left hover:bg-gray-50
+                    first:rounded-t-3xl last:rounded-b-3xl transition-colors"
                   >
-                    {tipo.label}
+                   <span className="ml-2 text-gray-500 text-sm">{tipo.label}</span>
                   </button>
                 ))}
               </div>
@@ -183,7 +184,7 @@ export default function PaymentInfo() {
               onClick={() => toggleDropdown("tipoDocumento")}
               className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
             >
-              <span className={formData.tipoDocumento ? "text-gray-900" : "text-gray-500"}>
+              <span className={formData.tipoDocumento ? "text-gray-900 ml-2" : "text-gray-500 ml-2"}>
                 {formData.tipoDocumento ? 
                   tiposDocumento.find(t => t.value === formData.tipoDocumento)?.label :
                   "Selecciona tipo de documento"
@@ -193,15 +194,15 @@ export default function PaymentInfo() {
             </button>
             
             {dropdowns.tipoDocumento && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-full shadow-lg">
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-3xl shadow-lg">
                 {tiposDocumento.map((tipo) => (
                   <button
                     key={tipo.value}
                     type="button"
                     onClick={() => selectOption("tipoDocumento", "tipoDocumento", tipo.value)}
-                    className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-full last:rounded-b-full transition-colors"
+                    className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-3xl last:rounded-b-3xl transition-colors"
                   >
-                    {tipo.label}
+                    <span className="ml-2 text-gray-500 text-sm">{tipo.label}</span>
                   </button>
                 ))}
               </div>
@@ -252,7 +253,7 @@ export default function PaymentInfo() {
                 onClick={() => toggleDropdown("tipoDocumentoEntrega")}
                 className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
               >
-                <span className="text-gray-900">
+                <span className="text-gray-900 ml-2">
                   {tiposDocumento.find(t => t.value === formData.tipoDocumentoEntrega)?.label || "DNI"}
                 </span>
                 <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${dropdowns.tipoDocumentoEntrega ? 'rotate-180' : ''}`} />
