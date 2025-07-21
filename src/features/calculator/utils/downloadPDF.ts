@@ -10,13 +10,11 @@ import healthLogoLightMode from '/public/img/health-logo-light-mode.png';
 
 // Función para precargar una imagen y convertirla a base64
 const loadImageAsBase64 = (url: string): Promise<string> => {
-  console.log('[PDF] Precargando imagen:', url);
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = 'Anonymous'; // Importante para evitar errores CORS
     
     img.onload = () => {
-      console.log('[PDF] Imagen cargada correctamente, convirtiendo a base64');
       try {
         // Crear un canvas para convertir la imagen a base64
         const canvas = document.createElement('canvas');
@@ -34,7 +32,6 @@ const loadImageAsBase64 = (url: string): Promise<string> => {
         
         // Convertir a base64
         const dataUrl = canvas.toDataURL('image/png');
-        console.log('[PDF] Imagen convertida a base64 exitosamente');
         resolve(dataUrl);
       } catch (e) {
         console.error('[PDF] Error al convertir imagen a base64:', e);
@@ -52,7 +49,7 @@ const loadImageAsBase64 = (url: string): Promise<string> => {
 };
 
 export const downloadPDF = async (element: HTMLElement, fileName: string): Promise<void> => {
-  console.log('[PDF] Iniciando generación de PDF:', { fileName });
+  console.log('[PDF] Iniciando generación de PDF');
   try {
     if (!element) {
       console.error('[PDF] Error: No se proporcionó ningún elemento');
@@ -60,20 +57,16 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     }
     
     // Precargar la imagen del logo para evitar problemas
-    console.log('[PDF] Precargando logo...');
     let logoDataUrl: string;
     try {
       logoDataUrl = await loadImageAsBase64(healthLogoLightMode);
     } catch (error) {
-      console.error('[PDF] Error al precargar el logo, usando alternativa:', error);
+      console.error('[PDF] Error al precargar el logo:', error);
       // Si falla la carga, usaremos un placeholder vacío
       logoDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Imagen transparente
     }
     
-    console.log('[PDF] Elemento recibido:', element.tagName);
-    
     // Crear PDF con márgenes
-    console.log('[PDF] Inicializando jsPDF');
     const doc = new window.jspdf.jsPDF('p', 'mm', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
@@ -81,9 +74,7 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     
     // Función para agregar texto con manejo de saltos de página
     const addText = (text: string, isHeader = false) => {
-      console.log('[PDF] Agregando texto:', { text, isHeader, posicionY: y });
       if (y > 270) { // Nueva página si se pasa del margen inferior
-        console.log('[PDF] Agregando nueva página por límite de altura');
         doc.addPage();
         y = 20;
       }
@@ -93,42 +84,33 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       // Agregar espacios al texto para que se vea mejor en el PDF
       const textWithSpaces = text.replace(/\s/g, '');
       // Dividir texto en líneas
-      console.log('[PDF] Dividiendo texto en líneas');
       const lines = doc.splitTextToSize(textWithSpaces, pageWidth - (margin * 2 ) );
       
       // Agregar cada línea
-      lines.forEach((line: string, index: number) => {
-        console.log(`[PDF] Agregando línea ${index+1}/${lines.length}:`, { longitud: line.length });
+      lines.forEach((line: string) => {
         if (y > 270) {
-          console.log('[PDF] Agregando nueva página durante escritura de líneas');
           doc.addPage();
           y = 40;
         }
         doc.text(line, margin, y);
         y += 1; // Espaciado fijo entre líneas
       });
-
       
       // Espacio adicional después de cada bloque
       y += isHeader ? 1 : 5;
-      console.log('[PDF] Texto agregado, nueva posición Y:', y);
     };
      // Ajustar posición inicial más abajo
     y = 40;
-    console.log('[PDF] Posición inicial ajustada a Y:', y);
     
     //LOGO DE INFINITY
-    console.log('[PDF] Agregando logo de Infinity Health');
     try {
       // Usar la versión precargada del logo en base64
       doc.addImage(logoDataUrl, 'PNG', pageWidth - margin - 40, margin + 10, 40, 13);
-      console.log('[PDF] Logo agregado correctamente');
     } catch (error) {
       console.error('[PDF] Error al agregar logo:', error);
     }
     
     //TITULO
-    console.log('[PDF] Agregando título:', fileName);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(18);
     doc.text(fileName, margin, y);
@@ -146,19 +128,11 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     y += 5;
     
     // Procesar cada comida
-    console.log('[PDF] Buscando comidas en el elemento HTML');
-    const meals = element.querySelectorAll('.border-gray-100');
-    console.log(`[PDF] Encontradas ${meals.length} comidas para procesar`);
-    
-    element.querySelectorAll('.border-gray-100').forEach((meal, mealIndex) => {
-      console.log(`[PDF] Procesando comida ${mealIndex+1}/${meals.length}`);
-      
+    element.querySelectorAll('.border-gray-100').forEach((meal) => {
       // Obtener el nombre de la comida y las calorías
       const mealName = meal.querySelector('h3')?.textContent?.trim() || '';
-      console.log('[PDF] Nombre de comida:', mealName);
       addText('');
       const mealCalories = meal.querySelector('.bg-yellow-100')?.textContent?.trim() || '';
-      console.log('[PDF] Calorías de comida:', mealCalories);
       
             // Agregar nombre de la comida en color y negrita
       doc.setFont('helvetica', 'bold');
@@ -181,15 +155,11 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       
       // Procesar los items de la comida
       const items = meal.querySelectorAll('li');
-      console.log(`[PDF] Encontrados ${items.length} alimentos en la comida`);
       
-      items.forEach((item, itemIndex) => {
-        console.log(`[PDF] Procesando alimento ${itemIndex+1}/${items.length}`);
+      items.forEach((item) => {
         const food = item.querySelector('.text-gray-700')?.textContent?.trim() || '';
         const quantity = item.querySelector('.text-gray-500')?.textContent?.trim() || '';
         const calories = item.querySelector('.text-gray-400')?.textContent?.trim() || '';
-        
-        console.log('[PDF] Datos del alimento:', { food, quantity, calories });
         
         // Formatear línea de ítem con mejor espaciado
         doc.setFont('helvetica', 'normal');
@@ -209,15 +179,11 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
         // Calcular el ancho del texto para manejar saltos de línea
         const bullet = '• ';
         const foodText = `${bullet}${food}`;
-        console.log('[PDF] Dividiendo texto de alimento:', foodText);
         const foodLines = doc.splitTextToSize(foodText, pageWidth - (margin * 2) - 30); // Ajustar ancho para dejar espacio a la derecha
-        console.log(`[PDF] Texto dividido en ${foodLines.length} líneas`);
         
         // Imprimir cada línea del alimento
-        foodLines.forEach((line: string, lineIndex: number) => {
-          console.log(`[PDF] Agregando línea ${lineIndex+1}/${foodLines.length} del alimento`);
+        foodLines.forEach((line: string) => {
           if (y > 260) {
-            console.log('[PDF] Agregando nueva página para alimento');
             doc.addPage();
             y = 20;
           }
@@ -244,14 +210,12 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     });
 
     // --- PIE DE PÁGINA ---
-    console.log('[PDF] Agregando pie de página');
     // Añadir línea decorativa
     doc.setDrawColor(200, 200, 200);
     doc.line(margin, y, pageWidth - margin, y);
     y += 10;
     
     // Agregar logo de Infinity Health
-    console.log('[PDF] Intentando agregar logo en el pie de página');
     try {
       const logoWidth = 80;
       const logoHeight = 25;
@@ -265,26 +229,22 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
         logoWidth,
         logoHeight
       );
-      console.log('[PDF] Logo en pie de página agregado correctamente');
       y += logoHeight + 10;
     } catch (e) {
       console.error('[PDF] Error al cargar el logo en el pie de página:', e);
     }
     
     // Texto de descargo de responsabilidad
-    console.log('[PDF] Agregando texto de descargo de responsabilidad');
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(9);
     doc.setTextColor(120, 120, 120); // Gris un poco más oscuro
     
     const disclaimer = 'Este es un plan referencial generado por Infinity Health. Para una atención personalizada, te recomendamos consultar con tu nutricionista o médico de cabecera.';
     const disclaimerLines = doc.splitTextToSize(disclaimer, pageWidth - (margin * 2));
-    console.log(`[PDF] Disclaimer dividido en ${disclaimerLines.length} líneas`);
     
     // Calcular posición Y para centrar verticalmente
     const disclaimerHeight = disclaimerLines.length * 4; // Altura aproximada del texto
     const startY = y + ((270 - y - disclaimerHeight) / 2);
-    console.log('[PDF] Posición Y calculada para disclaimer:', startY);
     
     doc.text(disclaimerLines, pageWidth / 2, startY, { align: 'center' });
     
@@ -295,13 +255,11 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     doc.text(`© ${new Date().getFullYear()} Infinity Health - Todos los derechos reservados`, pageWidth / 2, 285, { align: 'center' });
 
     // Guardar PDF
-    console.log('[PDF] Guardando PDF con nombre:', `${fileName}.pdf`);
     doc.save(`${fileName}.pdf`);
-    console.log('[PDF] PDF generado y guardado correctamente');
+    console.log('[PDF] PDF generado correctamente');
     
   } catch (error) {
-    console.error('[PDF] Error crítico al generar el PDF:', error);
-    console.trace('[PDF] Stack trace del error:');
+    console.error('[PDF] Error al generar el PDF:', error);
     alert('Error al generar el PDF. Por favor, inténtalo de nuevo.');
   }
 };
