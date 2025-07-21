@@ -5,12 +5,69 @@ declare global {
   }
 }
 
+// Importa el logo como URL utilizando Vite
+import healthLogoLightMode from '/public/img/health-logo-light-mode.png';
+
+// Función para precargar una imagen y convertirla a base64
+const loadImageAsBase64 = (url: string): Promise<string> => {
+  console.log('[PDF] Precargando imagen:', url);
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous'; // Importante para evitar errores CORS
+    
+    img.onload = () => {
+      console.log('[PDF] Imagen cargada correctamente, convirtiendo a base64');
+      try {
+        // Crear un canvas para convertir la imagen a base64
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        
+        // Dibujar la imagen en el canvas
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('No se pudo crear el contexto del canvas'));
+          return;
+        }
+        
+        ctx.drawImage(img, 0, 0);
+        
+        // Convertir a base64
+        const dataUrl = canvas.toDataURL('image/png');
+        console.log('[PDF] Imagen convertida a base64 exitosamente');
+        resolve(dataUrl);
+      } catch (e) {
+        console.error('[PDF] Error al convertir imagen a base64:', e);
+        reject(e);
+      }
+    };
+    
+    img.onerror = (e) => {
+      console.error('[PDF] Error al cargar la imagen:', e);
+      reject(new Error(`No se pudo cargar la imagen: ${url}`));
+    };
+    
+    img.src = url;
+  });
+};
+
 export const downloadPDF = async (element: HTMLElement, fileName: string): Promise<void> => {
   console.log('[PDF] Iniciando generación de PDF:', { fileName });
   try {
     if (!element) {
       console.error('[PDF] Error: No se proporcionó ningún elemento');
       throw new Error('No se proporcionó ningún elemento');
+    }
+    
+    // Precargar la imagen del logo para evitar problemas
+    console.log('[PDF] Precargando logo...');
+    let logoDataUrl: string;
+    try {
+      logoDataUrl = await loadImageAsBase64(healthLogoLightMode);
+    } catch (error) {
+      console.error('[PDF] Error al precargar el logo, usando alternativa:', error);
+      // Si falla la carga, usaremos un placeholder vacío
+      logoDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Imagen transparente
     }
     
     console.log('[PDF] Elemento recibido:', element.tagName);
@@ -63,7 +120,8 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     //LOGO DE INFINITY
     console.log('[PDF] Agregando logo de Infinity Health');
     try {
-      doc.addImage('/img/health-logo-light-mode.png', 'PNG', pageWidth - margin - 40, margin + 10, 40, 13);
+      // Usar la versión precargada del logo en base64
+      doc.addImage(logoDataUrl, 'PNG', pageWidth - margin - 40, margin + 10, 40, 13);
       console.log('[PDF] Logo agregado correctamente');
     } catch (error) {
       console.error('[PDF] Error al agregar logo:', error);
@@ -198,8 +256,9 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
       const logoWidth = 80;
       const logoHeight = 25;
       const logoX = (pageWidth - logoWidth) / 2; // Centrar el logo
+      // Usar la versión precargada del logo en base64
       doc.addImage(
-        '/img/health-logo-light-mode.png',
+        logoDataUrl,
         'PNG',
         logoX,
         y,
