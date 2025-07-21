@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import type { PaymentInfoType, DropdownType } from "../types";
 
 export default function PaymentInfo() {
-
   const [formData, setFormData] = useState<PaymentInfoType>({
     nombre: "",
     apellidos: "",
@@ -14,7 +13,6 @@ export default function PaymentInfo() {
     numeroDocumento: "",
     ruc: "",
     razonSocial: "",
-    pais: "",
     tipoDocumentoEntrega: ""
   });
 
@@ -34,6 +32,26 @@ export default function PaymentInfo() {
     { value: "carnet", label: "Carnet de Extranjería" }
   ];
 
+  // Ref para los dropdowns
+  const tipoDocumentoRef = useRef<HTMLDivElement>(null);
+  const tipoComprobanteRef = useRef<HTMLDivElement>(null);
+
+  // Cerrar los dropdowns si se hace click fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdowns.tipoDocumento && tipoDocumentoRef.current && !tipoDocumentoRef.current.contains(event.target as Node)) {
+        setDropdowns(prev => ({ ...prev, tipoDocumento: false }));
+      }
+      if (dropdowns.tipoComprobante && tipoComprobanteRef.current && !tipoComprobanteRef.current.contains(event.target as Node)) {
+        setDropdowns(prev => ({ ...prev, tipoComprobante: false }));
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdowns.tipoDocumento, dropdowns.tipoComprobante]);
+
   const handleInputChange = (field: keyof PaymentInfoType, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -49,7 +67,6 @@ export default function PaymentInfo() {
     setFormData(prev => ({ ...prev, [field]: value }));
     setDropdowns(prev => ({ ...prev, [dropdown]: false }));
   };
-
 
   const shouldShowRucFields = formData.tipoComprobante === "factura";
   const shouldShowDocumentFields = formData.tipoDocumento !== "" && formData.tipoDocumento !== null;
@@ -110,11 +127,11 @@ export default function PaymentInfo() {
         {/* Tipo de comprobante */}
         <div className="space-y-2 md:col-span-2">
           <label className="text-sm font-medium text-gray-700">Tipo de comprobante</label>
-          <div className="relative">
+          <div className="relative" ref={tipoComprobanteRef}>
             <button
               type="button"
               onClick={() => toggleDropdown("tipoComprobante")}
-              className="w-full px-4 py-3 border border-gray-300   rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
+              className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
             >
               <span className={formData.tipoComprobante ? "text-gray-900 ml-2" : "text-gray-500 ml-2"}>
                 {formData.tipoComprobante ? 
@@ -132,10 +149,9 @@ export default function PaymentInfo() {
                     key={tipo.value}
                     type="button"
                     onClick={() => selectOption("tipoComprobante", "tipoComprobante", tipo.value)}
-                    className="w-full px-4 py-3 text-left hover:bg-gray-50
-                    first:rounded-t-3xl last:rounded-b-3xl transition-colors"
+                    className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-3xl last:rounded-b-3xl transition-colors"
                   >
-                   <span className="ml-2 text-gray-500 text-sm">{tipo.label}</span>
+                    <span className="ml-2 text-gray-500 text-sm">{tipo.label}</span>
                   </button>
                 ))}
               </div>
@@ -178,7 +194,7 @@ export default function PaymentInfo() {
         {/* Tipo de documento y N° de documento en la misma fila */}
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">Tipo de documento</label>
-          <div className="relative">
+          <div className="relative" ref={tipoDocumentoRef}>
             <button
               type="button"
               onClick={() => toggleDropdown("tipoDocumento")}
@@ -227,66 +243,6 @@ export default function PaymentInfo() {
         )}
       </div>
 
-      {/* Sección Delivery / Entrega */}
-      <div className="border-t pt-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-6">Delivery / Entrega</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* País */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">País</label>
-            <input
-              type="text"
-              value={formData.pais}
-              onChange={(e) => handleInputChange("pais", e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
-              placeholder="Selecciona o escribe el país"
-            />
-          </div>
-
-          {/* Tipo de documento para entrega */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Tipo de documento</label>
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => toggleDropdown("tipoDocumentoEntrega")}
-                className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
-              >
-                <span className="text-gray-900 ml-2">
-                  {tiposDocumento.find(t => t.value === formData.tipoDocumentoEntrega)?.label || "DNI"}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${dropdowns.tipoDocumentoEntrega ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {dropdowns.tipoDocumentoEntrega && (
-                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-full shadow-lg">
-                  {tiposDocumento.map((tipo) => (
-                    <button
-                      key={`entrega-${tipo.value}`}
-                      type="button"
-                      onClick={() => selectOption("tipoDocumentoEntrega", "tipoDocumentoEntrega", tipo.value)}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-full last:rounded-b-full transition-colors"
-                    >
-                      {tipo.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Botón de envío (opcional) */}
-      <div className="mt-8 flex justify-end">
-        <button
-          type="button"
-          className="px-8 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium"
-        >
-          Continuar
-        </button>
-      </div>
     </div>
   );
 }
