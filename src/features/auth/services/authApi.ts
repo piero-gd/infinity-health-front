@@ -38,10 +38,10 @@ export const authApi = async (credentials: LoginCredentials): Promise<AuthRespon
       );
     }
 
-    // Ensure the response includes the username
+    // Ensure the response includes all required data
     const authResponse: AuthResponse = {
       ...data,
-      username: data.username || credentials.username
+      username: data.username || data.user_data?.username || credentials.username
     };
 
     return authResponse;

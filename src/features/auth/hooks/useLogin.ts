@@ -29,7 +29,8 @@ export const useLogin = () => {
       setAuthState({
         access: response.access,
         refresh: undefined, // Este API no devuelve refresh token
-        username: response.user_data.username
+        username: response.user_data.username,
+        user_data: response.user_data
       });
       
       // Registro para debugging en consola (F12)

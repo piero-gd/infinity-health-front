@@ -5,13 +5,15 @@ import { useState, useEffect } from 'react';
 interface CalculatorFormProps {
   onCalcular: (formData: CalculatorData) => void;
   username: string;
+  firstName: string;
 }
 
-const CalculatorForm = ({ onCalcular, username }: CalculatorFormProps) => {
-  console.log('username recibido en CalculatorForm:', username);
+const CalculatorForm = ({ onCalcular, username, firstName }: CalculatorFormProps) => {
+  // Usa firstName si está disponible, de lo contrario usa username
+  const displayName = firstName || username;
   
   const [formData, setFormData] = useState<CalculatorData>(() => ({
-    nombre: username,
+    nombre: displayName,
     sexo: '',
     edad: 25,
     peso: 70,
@@ -22,13 +24,15 @@ const CalculatorForm = ({ onCalcular, username }: CalculatorFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (username && username !== formData.nombre) {
+    // Actualiza el nombre si cambia firstName o username
+    const newDisplayName = firstName || username;
+    if (newDisplayName && newDisplayName !== formData.nombre) {
       setFormData(prev => ({
         ...prev,
-        nombre: username
+        nombre: newDisplayName
       }));
     }
-  }, [username, formData.nombre]);
+  }, [firstName, username, formData.nombre]);
 
   const validateForm = (): boolean => {
     if (!formData.sexo) {
@@ -138,7 +142,7 @@ const CalculatorForm = ({ onCalcular, username }: CalculatorFormProps) => {
           <div className="space-y-4">
             <h2 className="flex items-center justify-start mb-2 text-gray-700 text-xl transition-all duration-200">
               <span className="mr-1">¡Hola</span>
-              <span className="font-bold text-[var(--color-primary)]">{formData.nombre}{'!'}</span>
+              <span className="font-bold text-[var(--color-primary)]">{formData.nombre || ''}{'!'}</span>
             </h2>
             <p className="text-sm text-gray-500 mt-1">Prueba nuestra calculadora de macros</p>
 

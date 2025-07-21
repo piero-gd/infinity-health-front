@@ -8,7 +8,9 @@ import DietPlanView from '../components/DietPlanView';
 import { useAuthStore } from '../../auth/stores/useAuthStore';
 
 export default function CalculatorPage() {
-  // Obtenemos el username del store de autenticación
+  // Obtenemos el userData del store de autenticación
+  const userData = useAuthStore(state => state.userData);
+  const firstName = userData?.first_name || '';
   const username = useAuthStore(state => state.username) || '';
 
   const {
@@ -27,7 +29,7 @@ export default function CalculatorPage() {
         {/* Columna izquierda - Formulario */}
         <div className="lg:col-span-6 xl:col-span-6 2xl:col-span-6">
           <div className="bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden h-auto">
-            <CalculatorForm onCalcular={manejarCalculo} username={username}/>
+            <CalculatorForm onCalcular={manejarCalculo} username={username} firstName={firstName}/>
           </div>
         </div>
         
