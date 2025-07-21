@@ -32,7 +32,7 @@ export default function PanelProfile({ user, activeComponent, onCardClick }: Pan
                     </button>
                 </div>
                 <h1 className="text-2xl font-bold text-gray-600">
-                    Hola <span className="text-gray-800">{user.name}</span> 👋
+                    Hola <span className="text-gray-800">{user.first_name}</span> 👋
                 </h1>
             </div>
             <CardsPanel 
