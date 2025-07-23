@@ -13,21 +13,21 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
       id: 1,
       title: 'Carrito',
       icon: (
-        <FaShoppingCart className="text-xl md:text-base xl:text-lg" />
+        <FaShoppingCart className="text-xl md:text-base xl:text-xl" />
       )
     },
     {
       id: 2,
       title: 'Entrega',
       icon: (
-        <TbTruckDelivery className="text-xl md:text-base xl:text-lg" />
+        <TbTruckDelivery className="text-xl md:text-base xl:text-xl" />
       )
     },
     {
       id: 3,
       title: 'Pago',
       icon: (
-        <CiWallet className="text-xl md:text-base xl:text-lg" />
+        <CiWallet className="text-xl md:text-base xl:text-xl" />
       )
     }
   ];
@@ -46,7 +46,7 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
       case 'completed':
         return `${baseClasses} bg-[var(--color-primary)] border-[var(--color-primary)] text-white`;
       case 'current':
-        return `${baseClasses} bg-white border-[var(--color-primary)] text-black`;
+        return `${baseClasses} bg-white border-[var(--color-primary)] text-[var(--color-primary)]`;
       case 'pending':
         return `${baseClasses} bg-white border-gray-200 text-gray-400`;
       default:
@@ -56,12 +56,13 @@ const ProgressCart: React.FC<ProgressCartProps> = ({
 
   const getTitleClasses = (stepId: number) => {
     const status = getStepStatus(stepId);
-    const baseClasses = 'text-xs xl:text-sm mt-1 md:mt-1 transition-all duration-300 text-center w-20 xl:whitespace-nowrap';
+    const baseClasses = 'text-xs xl:text-sm  mt-1 md:mt-1 transition-all duration-300 text-center w-20 xl:whitespace-nowrap';
     
     switch (status) {
       case 'completed':
+        return `${baseClasses} text-gray-400 font-medium`;
       case 'current':
-        return `${baseClasses} text-[var(--color-primary)] font-medium`;
+        return `${baseClasses} text-[var(--color-primary)] font-semibold`;
       case 'pending':
         return `${baseClasses} text-gray-400`;
       default:

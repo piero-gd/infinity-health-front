@@ -72,13 +72,13 @@ export default function PaymentInfo() {
   const shouldShowDocumentFields = formData.tipoDocumento !== "" && formData.tipoDocumento !== null;
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl shadow-lg">
-      <h2 className="text-2xl font-bold text-gray-900 mb-8">Datos de Facturación</h2>
+    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl ">
+      <h2 className="text-xl font-bold text-gray-900 mb-8">Datos de Facturación</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 mb-8">
         {/* Nombre */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Nombre</label>
+          <label className="block text-sm font-medium text-gray-700 text-left">Nombre</label>
           <input
             type="text"
             value={formData.nombre}
@@ -90,7 +90,7 @@ export default function PaymentInfo() {
 
         {/* Apellidos */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Apellidos</label>
+          <label className="block text-sm font-medium text-gray-700 text-left">Apellidos</label>
           <input
             type="text"
             value={formData.apellidos}
@@ -102,7 +102,7 @@ export default function PaymentInfo() {
 
         {/* Teléfono / WhatsApp */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Teléfono / WhatsApp</label>
+          <label className="block text-sm font-medium text-gray-700 text-left">Teléfono / Celular</label>
           <input
             type="tel"
             value={formData.telefono}
@@ -114,7 +114,7 @@ export default function PaymentInfo() {
 
         {/* Correo electrónico */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Correo electrónico</label>
+          <label className="block text-sm font-medium text-gray-700 text-left">Correo Electrónico</label>
           <input
             type="email"
             value={formData.correo}
@@ -126,7 +126,7 @@ export default function PaymentInfo() {
 
         {/* Tipo de comprobante */}
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-gray-700">Tipo de comprobante</label>
+          <label className="block text-sm font-medium text-gray-700 text-left">Tipo de Comprobante</label>
           <div className="relative" ref={tipoComprobanteRef}>
             <button
               type="button"
@@ -164,7 +164,7 @@ export default function PaymentInfo() {
           <>
             {/* RUC */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">RUC</label>
+              <label className="block text-sm font-medium text-gray-700 text-left">RUC</label>
               <input
                 type="text"
                 value={formData.ruc}
@@ -176,7 +176,7 @@ export default function PaymentInfo() {
 
             {/* Razón social */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Razón social</label>
+              <label className="block text-sm font-medium text-gray-700 text-left">Razón Social</label>
               <input
                 type="text"
                 value={formData.razonSocial}
@@ -193,7 +193,7 @@ export default function PaymentInfo() {
 
         {/* Tipo de documento y N° de documento en la misma fila */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Tipo de documento</label>
+          <label className="block text-sm font-medium text-gray-700 text-left">Tipo de Documento</label>
           <div className="relative" ref={tipoDocumentoRef}>
             <button
               type="button"

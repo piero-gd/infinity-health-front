@@ -49,7 +49,7 @@ export default function Delivery() {
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl">
       {/* Sección Delivery / Entrega */}
       <div>
-        <h3 className="text-xl font-bold text-gray-900 mb-3">Delivery / Entrega</h3>
+        <h2 className="text-xl font-bold text-gray-900 mb-3">Delivery / Entrega</h2>
         <div className="mb-4">
           <span className="text-sm text-gray-600 underline">Perú</span>
         </div>
@@ -86,19 +86,19 @@ export default function Delivery() {
                     {/* Selects de ubicación */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
-                        <div className="block text-sm text-gray-600 mb-1">Departamento</div>
+                        <div className="block text-sm text-gray-600 mb-1 text-left">Departamento</div>
                         <select className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
                       <div>
-                        <div className="block text-sm text-gray-600 mb-1">Provincia</div>
+                        <div className="block text-sm text-gray-600 mb-1 text-left">Provincia</div>
                         <select className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
                           <option value="">Seleccionar</option>
                         </select>
                       </div>
                       <div>
-                        <div className="block text-sm text-gray-600 mb-1">Zona de Lima Metropolitana</div>
+                        <div className="block text-sm text-gray-600 mb-1 text-left">Zona de Lima Metropolitana</div>
                         <div className="w-full px-4 py-3 border border-gray-200 rounded-full text-sm bg-gray-50 text-gray-400 cursor-not-allowed text-left">
                           (Las zonas se cargarán automáticamente)
                         </div>
@@ -107,7 +107,7 @@ export default function Delivery() {
 
                     {/* Dirección completa */}
                     <div>
-                      <div className="block text-sm text-gray-600 mb-1">Dirección completa</div>
+                      <div className="block text-sm text-gray-600 mb-1 text-left">Dirección completa</div>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -116,7 +116,7 @@ export default function Delivery() {
 
                     {/* Apartamento, Casa, etc */}
                     <div>
-                      <div className="block text-sm text-gray-600 mb-1">Apartamento, Casa, etc</div>
+                      <div className="block text-sm text-gray-600 mb-1 text-left">Apartamento, Casa, etc</div>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -125,7 +125,7 @@ export default function Delivery() {
 
                     {/* Referencia */}
                     <div>
-                      <div className="block text-sm text-gray-600 mb-1">Referencia ( Opcional )</div>
+                      <div className="block text-sm text-gray-600 mb-1 text-left">Referencia ( Opcional )</div>
                       <input
                         type="text"
                         className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
