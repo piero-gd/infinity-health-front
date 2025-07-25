@@ -2,6 +2,44 @@
  * Servicio API centralizado para todas las llamadas HTTP
  * Esta capa de abstracción maneja automáticamente las diferencias entre dev y producción
  */
+import { useAuthStore } from '../features/auth/stores/useAuthStore';
+import { showToast } from '../utils/toastConfig';
+
+// Variable para rastrear si ya se está manejando un error de token expirado
+let isHandlingTokenExpired = false;
+
+/**
+ * Función para manejar el caso específico de un token expirado
+ * Se asegura que solo se ejecute una vez incluso si hay múltiples errores simultáneos
+ */
+function handleTokenExpired(): void {
+  // Evitamos múltiples ejecuciones simultáneas
+  if (isHandlingTokenExpired) return;
+  
+  try {
+    isHandlingTokenExpired = true;
+    console.log('[API] Manejando token expirado');
+    
+    // Obtenemos y ejecutamos la función de logout del store
+    const logout = useAuthStore.getState().logout;
+    logout();
+    
+    // Mostramos un mensaje al usuario
+    showToast.error(
+      'Sesión expirada',
+      'Tu sesión ha expirado. Por favor inicia sesión nuevamente.'
+    );
+    
+    console.log('[API] Sesión cerrada por token expirado');
+  } catch (e) {
+    console.error('[API] Error al manejar token expirado:', e);
+  } finally {
+    // Después de un tiempo prudente, permitimos manejar otro error si ocurre
+    setTimeout(() => {
+      isHandlingTokenExpired = false;
+    }, 2000);
+  }
+}
 
 // Obtener la URL base desde las variables de entorno
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
@@ -117,16 +155,16 @@ export const apiRequest = async <T>(
   } catch (error) {
     console.error(`[API] Request failed:`, error);
     
-    // Importamos el interceptor de errores aquí para evitar problemas de importación circular
-    import('./errorInterceptor').then(module => {
-      // Solo procesamos el error si es de tipo Error
-      if (error instanceof Error) {
-        module.handleApiError(error);
-      }
-    }).catch(importError => {
-      console.error('[API] Error al cargar el interceptor:', importError);
-    });
+    // Manejamos el error de token expirado directamente aquí
+    // sin depender de importaciones dinámicas o módulos externos
+    if (error instanceof Error && error.message.startsWith('TOKEN_EXPIRED:')) {
+      console.error('[API] Token expirado detectado');
+      
+      // Llamamos a la función especializada que se encarga del manejo de errores de token
+      handleTokenExpired();
+    }
     
+    // Siempre propagamos el error original
     throw error;
   }
 };

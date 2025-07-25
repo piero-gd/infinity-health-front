@@ -2,7 +2,8 @@
  * Utilitario para manejar errores de API de forma consistente
  */
 
-import { handleApiError } from "../services/errorInterceptor";
+import { useAuthStore } from '../features/auth/stores/useAuthStore';
+import { showToast } from '../utils/toastConfig';
 
 /**
  * Función auxiliar para manejar errores de API en servicios específicos
@@ -14,9 +15,19 @@ import { handleApiError } from "../services/errorInterceptor";
 export function handleServiceError(error: unknown, defaultMessage: string = "Error en la petición"): never {
   console.error('[Service Error]:', error);
   
-  // Si es un error conocido, intentamos manejar la expiración de token
-  if (error instanceof Error) {
-    handleApiError(error);
+  // Si es un error conocido, verificamos si es un error de token expirado
+  if (error instanceof Error && error.message.startsWith('TOKEN_EXPIRED:')) {
+    console.log('[Service Error] Detectado error de token expirado');
+    
+    // Obtenemos y ejecutamos la función de logout del store
+    const logout = useAuthStore.getState().logout;
+    logout();
+    
+    // Mostramos un mensaje al usuario una sola vez
+    showToast.error(
+      'Sesión expirada',
+      'Tu sesión ha expirado. Por favor inicia sesión nuevamente.'
+    );
   }
   
   // Re-lanzamos el error para que pueda ser manejado más arriba
