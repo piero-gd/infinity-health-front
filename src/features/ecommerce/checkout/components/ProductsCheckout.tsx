@@ -28,8 +28,8 @@ export default function ProductsCheckout() {
     const total = subtotal + shipping - discount;
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="max-w-md mx-auto space-y-6">
+        <div className="bg-gray-50 w-full">
+            <div className="w-full max-auto md:max-w-full lg:max-w-md mx-auto space-y-6 pb-6">
                 
                 {/* Main Checkout Card */}
                 <div className="bg-white rounded-2xl p-6 ">
@@ -88,8 +88,8 @@ export default function ProductsCheckout() {
                         <hr className="border-gray-200 my-4" />
                         
                         <div className="flex justify-between items-center border-b pb-4 text-gray-200">
-                            <span className="text-xl font-bold text-gray-900">Total</span>
-                            <span className="text-2xl font-bold text-[var(--color-primary)]">
+                            <h2 className="text-xl font-bold text-gray-900">Total</h2>
+                            <span className="text-2xl font-semibold text-[var(--color-primary)]">
                                 $ {total.toFixed(2)}
                             </span>
                         </div>
@@ -103,15 +103,15 @@ export default function ProductsCheckout() {
                 </div>
 
                 {/* Payment Methods Section */}
-                <div className="bg-white rounded-2xl px-2 ">
+                <div className="bg-white rounded-2xl">
                     <div className="flex items-center space-x-2 ml-4 mb-1 pt-4">
                         <RiLock2Line className="text-gray-400" size={20} />
                         <span className="text-sm text-gray-500 font-medium">Pagos seguros con:</span>
                     </div>
                     
-                    <div className="gap-3">
+                    <div className="gap-3 mr-4 ml-2">
                         <div
-                            className="flex items-center justify-center p-2"
+                            className="flex items-center justify-center p-3"
                         >
                           <PaymentLogos />
                         </div>

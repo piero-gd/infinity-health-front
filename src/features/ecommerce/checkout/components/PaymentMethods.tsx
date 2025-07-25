@@ -70,8 +70,8 @@ export default function PaymentMethods() {
                                     <div className="flex flex-col items-start">
                                         <h3 className="font-semibold text-gray-900 mb-2">Capital Staking X (Cripto)</h3>
                                         <p className="text-sm text-gray-600 mb-4">Paga con Staking en automático y en tiempo real</p>
-                                        <div className="w-12 h-6 rounded flex items-center justify-center">
-                                            <img src="../../img/thetherUSDT.png" className="p-1" alt="" />
+                                        <div className="w-15 h-10 border-1 border-gray-300 rounded flex items-center justify-center">
+                                            <img src="../../img/thetherUSDT.png" className="p-1 pb-4 pt-2" alt="" />
                                         </div>
                                     </div>
                                 </div>
