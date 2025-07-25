@@ -109,7 +109,7 @@ export default function ProductsCheckout() {
                         <span className="text-sm text-gray-500 font-medium">Pagos seguros con:</span>
                     </div>
                     
-                    <div className="gap-3 mr-4 ml-2">
+                    <div className="gap-3 mr-4 ml-2 pb-2">
                         <div
                             className="flex items-center justify-center p-3"
                         >
