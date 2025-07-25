@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../services/authApi';
 import type { LoginCredentials, AuthResponse } from '../types';
-import { toast } from '../../../utils/toastConfig';
+import { showToast } from '../../../utils/toastConfig';
 import { useAuthStore } from '../stores/useAuthStore';
 
 export const useLogin = () => {
@@ -16,7 +16,7 @@ export const useLogin = () => {
   const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
     setIsLoading(true);
     setError(null);
-    const toastId = toast.loading('Iniciando sesión...', 'Por favor espera...');
+    const toastId = showToast.loading('Iniciando sesión...', 'Por favor espera...');
 
     try {
       const response = await authApi(credentials);
@@ -40,14 +40,14 @@ export const useLogin = () => {
       });
       
       // Show success message and redirect
-      toast.dismiss(toastId);
-      toast.success('¡Bienvenido!', 'Sesión iniciada correctamente');
+      showToast.dismiss(toastId);
+      showToast.success('¡Bienvenido!', 'Sesión iniciada correctamente');
       navigate('/calculator');
       
       return response;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error de autenticación';
-      toast.dismiss(toastId);
+      showToast.dismiss(toastId);
       setError(errorMessage);
       throw err;
     } finally {

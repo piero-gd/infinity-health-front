@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
 import { sendExerciseProgress } from "../services/exerciseProgressService"; // Asegúrate de que la ruta sea correcta
+import { showToast } from "../../../utils/toastConfig";
 
 interface Props {
   exerciseId: number | string;
@@ -43,12 +43,12 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
         comment,
         date: new Date().toISOString().split('T')[0], // Format: YYYY-MM-DD
       });
-      toast.success("Registro Guardado");
+      showToast.success("Registro Guardado");
       setReps("");
       setWeight("");
       setComment("");
     } catch (error) {
-      toast.error("Error al guardar el progreso");
+      showToast.error("Error al guardar el progreso");
     } finally {
       setLoading(false);
     }
