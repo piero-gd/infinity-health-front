@@ -1,59 +1,7 @@
 import { RiLock2Line } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa";
+import PaymentLogos from "../../../../components/PaymentLogos";
 
-const paymentMethods = [
-  {
-    name: 'Capital One',
-    logo: (
-      <div className="w-12 h-8 bg-orange-500 rounded flex items-center justify-center text-white text-xs font-bold">
-        C1
-      </div>
-    )
-  },
-  {
-    name: 'Mastercard',
-    logo: (
-      <div className="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center">
-        <div className="flex">
-          <div className="w-3 h-3 bg-red-500 rounded-full opacity-80"></div>
-          <div className="w-3 h-3 bg-yellow-500 rounded-full -ml-1 opacity-80"></div>
-        </div>
-      </div>
-    )
-  },
-  {
-    name: 'Visa',
-    logo: (
-      <div className="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center">
-        <span className="text-blue-600 font-bold text-xs">VISA</span>
-      </div>
-    )
-  },
-  {
-    name: 'Mastercard Alt',
-    logo: (
-      <div className="w-12 h-8 bg-red-600 rounded flex items-center justify-center">
-        <span className="text-white font-bold text-xs">MC</span>
-      </div>
-    )
-  },
-  {
-    name: 'American Express',
-    logo: (
-      <div className="w-12 h-8 bg-blue-600 rounded flex items-center justify-center">
-        <span className="text-white font-bold text-xs">AE</span>
-      </div>
-    )
-  },
-  {
-    name: 'Diners Club',
-    logo: (
-      <div className="w-12 h-8 bg-white border border-gray-200 rounded flex items-center justify-center">
-        <div className="w-4 h-4 border-2 border-blue-600 rounded-full"></div>
-      </div>
-    )
-  }
-];
 
 const products = [
   {
@@ -155,22 +103,18 @@ export default function ProductsCheckout() {
                 </div>
 
                 {/* Payment Methods Section */}
-                <div className="bg-white rounded-2xl p-6 ">
-                    <div className="flex items-center space-x-2 mb-4">
+                <div className="bg-white rounded-2xl px-2 ">
+                    <div className="flex items-center space-x-2 ml-4 mb-1 pt-4">
                         <RiLock2Line className="text-gray-400" size={20} />
                         <span className="text-sm text-gray-500 font-medium">Pagos seguros con:</span>
                     </div>
                     
-                    <div className="grid grid-cols-3 gap-3">
-                        {paymentMethods.map((method, index) => (
-                            <div
-                                key={index}
-                                className="flex items-center justify-center p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
-                                title={method.name}
-                            >
-                                {method.logo}
-                            </div>
-                        ))}
+                    <div className="gap-3">
+                        <div
+                            className="flex items-center justify-center p-2"
+                        >
+                          <PaymentLogos />
+                        </div>
                     </div>
                 </div>
             </div>

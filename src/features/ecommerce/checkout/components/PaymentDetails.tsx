@@ -52,8 +52,8 @@ export default function PaymentDetails() {
                     
                     {/* SSL Security */}
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <Shield className="w-5 h-5 text-blue-600" />
+                        <div className="w-13 h-13 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
+                            <Shield className="w-6 h-6 text-white" />
                         </div>
                         <div className="text-gray-700">
                             <span>Pago seguro con SSL</span>
@@ -62,8 +62,8 @@ export default function PaymentDetails() {
 
                     {/* 24/7 Support */}
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <Headphones className="w-5 h-5 text-blue-600" />
+                        <div className="w-13 h-13 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
+                            <Headphones className="w-6 h-6 text-white" />
                         </div>
                         <div className="text-gray-700">
                             <span>Soporte disponible 24/7</span>
@@ -72,8 +72,8 @@ export default function PaymentDetails() {
 
                     {/* Payment Methods */}
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <CreditCard className="w-5 h-5 text-blue-600" />
+                        <div className="w-13 h-13 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
+                            <CreditCard className="w-6 h-6 text-white" />
                         </div>
                         <div className="text-gray-700">
                             <span>Diferentes métodos de pago</span>
