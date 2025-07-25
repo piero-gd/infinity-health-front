@@ -2,9 +2,8 @@ import { Shield, Headphones, CreditCard } from "lucide-react";
 
 export default function PaymentDetails() {
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="max-w-md mx-auto px-4">
-                
+        <div className="w-full">
+            <div className="w-full">
                 {/* Main Details Card */}
                 <div className="bg-white rounded-2xl p-6 text-left w-full">
                     
@@ -44,13 +43,10 @@ export default function PaymentDetails() {
                             <div>Apto 203, Torre C</div>
                         </div>
                     </div>
-
                 </div>
-
-                {/* Security Features - Outside main card */}
-                <div className="space-y-4 mt-6">
-                    
-                    {/* SSL Security */}
+                
+                {/* Security Features */}
+                <div className="space-y-4 mt-6 w-full">
                     <div className="flex items-center space-x-3">
                         <div className="w-13 h-13 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
                             <Shield className="w-6 h-6 text-white" />
@@ -60,7 +56,6 @@ export default function PaymentDetails() {
                         </div>
                     </div>
 
-                    {/* 24/7 Support */}
                     <div className="flex items-center space-x-3">
                         <div className="w-13 h-13 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
                             <Headphones className="w-6 h-6 text-white" />
@@ -70,7 +65,6 @@ export default function PaymentDetails() {
                         </div>
                     </div>
 
-                    {/* Payment Methods */}
                     <div className="flex items-center space-x-3">
                         <div className="w-13 h-13 bg-[var(--color-primary)] rounded-full flex items-center justify-center">
                             <CreditCard className="w-6 h-6 text-white" />
@@ -79,11 +73,8 @@ export default function PaymentDetails() {
                             <span>Diferentes métodos de pago</span>
                         </div>
                     </div>
-                    
                 </div>
-                </div>
-                
             </div>
-        
+        </div>
     );
 }
