@@ -3,10 +3,10 @@ import { Shield, Headphones, CreditCard } from "lucide-react";
 export default function PaymentDetails() {
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="max-w-md mx-auto space-y-6">
+            <div className="max-w-md mx-auto px-4">
                 
                 {/* Main Details Card */}
-                <div className="bg-white rounded-2xl p-6">
+                <div className="bg-white rounded-2xl p-6 text-left w-full">
                     
                     {/* Personal Details Section */}
                     <div className="mb-8 border-b pb-6 border-gray-200">
@@ -48,7 +48,7 @@ export default function PaymentDetails() {
                 </div>
 
                 {/* Security Features - Outside main card */}
-                <div className="space-y-4">
+                <div className="space-y-4 mt-6">
                     
                     {/* SSL Security */}
                     <div className="flex items-center space-x-3">

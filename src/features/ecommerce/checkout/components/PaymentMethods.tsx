@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Check, Shield } from 'lucide-react';
+import { Check } from 'lucide-react';
+import { RiLock2Line } from "react-icons/ri";
 
 export default function PaymentMethods() {
     const [selectedMethod, setSelectedMethod] = useState('crypto');
@@ -26,18 +27,18 @@ export default function PaymentMethods() {
             
             {/* Security notice */}
             <div className="flex items-center gap-2 mb-6 text-sm text-gray-600">
-                <Shield className="w-4 h-4 text-blue-500" />
+                <RiLock2Line className="w-4 h-4 text-[var(--color-primary)]" />
                 <span>Todas las transacciones son seguras y están encriptadas.</span>
             </div>
 
             <div className="grid md:grid-cols-1 gap-6">
-                {/* Left Column - Payment Options */}
+                {/* Payment Options */}
                 <div className="space-y-4">
                     {/* Capital Staking X (Crypto) */}
                     <div 
                         className={`border-2 rounded-2xl p-4 cursor-pointer transition-all ${
                             selectedMethod === 'crypto' 
-                                ? 'border-blue-500 bg-blue-50' 
+                                ? 'border-[var(--color-primary)] bg-white' 
                                 : 'border-gray-200 hover:border-gray-300'
                         }`}
                         onClick={() => handleMethodSelect('crypto')}
@@ -69,7 +70,7 @@ export default function PaymentMethods() {
                                 
                                 {selectedMethod === 'crypto' && (
                                     <div className="mt-4 pt-4 border-t border-gray-200">
-                                        <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                                        <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-3 px-4 rounded-full font-medium transition-colors flex items-center justify-center gap-2">
                                             <span className="text-lg">∞</span>
                                             Pagar con Capital Staking X
                                         </button>
@@ -98,7 +99,7 @@ export default function PaymentMethods() {
                     <div 
                         className={`border-2 rounded-2xl p-4 cursor-pointer transition-all ${
                             selectedMethod === 'whatsapp' 
-                                ? 'border-blue-500 bg-blue-50' 
+                                ? 'border-[var(--color-primary)] bg-white' 
                                 : 'border-gray-200 hover:border-gray-300'
                         }`}
                         onClick={() => handleMethodSelect('whatsapp')}
@@ -138,7 +139,7 @@ export default function PaymentMethods() {
                                 
                                 {selectedMethod === 'whatsapp' && (
                                     <div className="mt-4 pt-4 border-t border-gray-200">
-                                        <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                                        <button className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
                                             <span>💬</span>
                                             Pagar por WhatsApp
                                         </button>
@@ -167,7 +168,7 @@ export default function PaymentMethods() {
                     <div 
                         className={`border-2 rounded-2xl p-4 cursor-pointer transition-all ${
                             selectedMethod === 'card' 
-                                ? 'border-blue-500 bg-blue-50' 
+                                ? 'border-[var(--color-primary)] bg-white' 
                                 : 'border-gray-200 hover:border-gray-300'
                         }`}
                         onClick={() => handleMethodSelect('card')}
@@ -207,7 +208,7 @@ export default function PaymentMethods() {
                                 
                                 {selectedMethod === 'card' && (
                                     <div className="mt-4 pt-4 border-t border-gray-200">
-                                        <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                                        <button className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
                                             <span>💳</span>
                                             Pagar con Tarjeta
                                         </button>
