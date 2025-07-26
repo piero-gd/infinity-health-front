@@ -57,7 +57,7 @@ export default function ProductsCheckout() {
                         ))}
                     </div>
 
-                    {/* Ambassador Code Input */}
+                    {/* Ambassador Code */}
                     <div className="mb-6">
                         <div className="relative">
                             <input
@@ -68,7 +68,7 @@ export default function ProductsCheckout() {
                         </div>
                     </div>
 
-                    {/* Order Summary */}
+                    {/* Order */}
                     <div className="space-y-3 mb-6">
                         <div className="flex justify-between items-center">
                             <span className="text-gray-700 font-medium">Subtotal:</span>
@@ -102,19 +102,15 @@ export default function ProductsCheckout() {
                     </button>
                 </div>
 
-                {/* Payment Methods Section */}
-                <div className="bg-white rounded-2xl">
-                    <div className="flex items-center space-x-2 ml-4 mb-1 pt-4">
+                {/* Payment Methods */}
+                <div className="bg-white rounded-2xl p-6 my-4">
+                    <div className="flex items-center space-x-2 mb-4">
                         <RiLock2Line className="text-gray-400" size={20} />
                         <span className="text-sm text-gray-500 font-medium">Pagos seguros con:</span>
                     </div>
                     
-                    <div className="gap-3 mr-4 ml-2 pb-2">
-                        <div
-                            className="flex items-center justify-center p-3"
-                        >
-                          <PaymentLogos />
-                        </div>
+                    <div className="w-full">
+                        <PaymentLogos />
                     </div>
                 </div>
             </div>

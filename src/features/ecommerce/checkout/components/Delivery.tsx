@@ -15,7 +15,7 @@ export default function Delivery() {
   // Opciones para sedes
   const sedesInfinity = ["Lima", "Arequipa", "Cusco"];
 
-  // Estados para selects custom
+  // Estados para selects 
   const [dropdowns, setDropdowns] = useState({
     sedeInfinity: false,
   });

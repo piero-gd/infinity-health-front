@@ -19,14 +19,15 @@ export default function PaymentLogos({ logos }: PaymentLogosProps) {
     const paymentLogos = logos ?? defaultPaymentLogos;
 
     return (
-        <div>
-            <div className="flex flex-wrap justify-start gap-2">
+        <div className="w-full">
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {paymentLogos.map((logo, index) => (
-                    <div key={logo.src + index} className="w-12 h-8 p-1.5 border border-gray-300 rounded-lg bg-white flex-shrink-0">
+                    <div key={logo.src + index} className="flex items-center justify-center p-2 border border-gray-300 rounded-lg bg-white">
                         <img 
                             src={logo.src} 
-                            className="w-full h-full object-contain" 
+                            className="w-full h-6 object-contain md:h-8" 
                             alt={`Payment method ${index + 1}`} 
+                            loading="lazy"
                         />
                     </div>
                 ))}

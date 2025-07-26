@@ -14,7 +14,10 @@ const cardPaymentLogos = [
 ];
 
 export default function PaymentMethods() {
+
+    //por default crypto
     const [selectedMethod, setSelectedMethod] = useState('crypto');
+    //por default false
     const [acceptedTerms, setAcceptedTerms] = useState({
         crypto: false,
         whatsapp: false,
@@ -33,7 +36,7 @@ export default function PaymentMethods() {
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl">
+        <div className="w-full max-w-4xl mx-auto xl:p-4 bg-white rounded-3xl">
             <h2 className="text-xl font-bold text-gray-900 mb-8 text-left">Métodos de pago</h2>
             
             {/* Security notice */}
@@ -80,7 +83,7 @@ export default function PaymentMethods() {
                                     <div className="mt-4 pt-2">
                                         <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-3 px-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
                                             Pagar con Staking X
-                                            <RiInfinityLine className="w-10 h-6 text-white" />
+                                            <RiInfinityLine className="hidden xl:block md:block w-10 h-6 text-white" />
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
@@ -123,31 +126,31 @@ export default function PaymentMethods() {
                             </div>
                             <div className="flex-1">
                                 <div className="flex grid-cols-2 gap-4 mb-2">
-  <div className="w-20 h-10 xl:block md:block hidden border-1 border-gray-300 rounded-lg flex items-center justify-center">
-    <img src="../../img/whatsApp.png" className="p-1 pb-4 pt-1" alt="WhatsApp" />
-  </div>
-  <div className="flex flex-col items-start">
-    <h3 className="font-semibold text-gray-900 mb-2">Pago por WhatsApp</h3>
-    <p className="text-sm text-gray-600 mb-4">Paga con Yape, Plin y Transferencias (BCP, BBVA, Interbank).</p>
-    <div className="flex items-center gap-2">
-      <div className="w-12 h-8 border-1 border-gray-300 rounded flex items-center justify-center">
-        <img src="../../img/transfer.png" alt="Transferencia" />
-      </div>
-      <div className="w-12 h-8 rounded flex items-center justify-center">
-        <img src="../../img/YAPE.png" className="p-0.5" alt="YAPE" />
-      </div>
-      <div className="w-8 h-8 rounded flex items-center justify-center">
-        <img src="../../img/PLIN.png" alt="PLIN" />
-      </div>
-    </div>
-  </div>
-</div>
+                                <div className="w-20 h-10 xl:block md:block hidden border-1 border-gray-300 rounded-lg flex items-center justify-center">
+                                    <img src="../../img/whatsApp.png" className="p-1 pb-4 pt-1" alt="WhatsApp" />
+                                </div>
+                                <div className="flex flex-col items-start">
+                                    <h3 className="font-semibold text-gray-900 mb-2">Pago por WhatsApp</h3>
+                                    <p className="text-sm text-gray-600 mb-4">Paga con Yape, Plin y Transferencias (BCP, BBVA, Interbank).</p>
+                                    <div className="flex items-center gap-2">
+                                    <div className="w-12 h-8 border-1 border-gray-300 rounded flex items-center justify-center">
+                                        <img src="../../img/transfer.png" alt="Transferencia" />
+                                    </div>
+                                    <div className="w-12 h-8 rounded flex items-center justify-center">
+                                        <img src="../../img/YAPE.png" className="p-0.5" alt="YAPE" />
+                                    </div>
+                                    <div className="w-8 h-8 rounded flex items-center justify-center">
+                                        <img src="../../img/PLIN.png" alt="PLIN" />
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                                 
                                 {selectedMethod === 'whatsapp' && (
                                     <div className="mt-4 pt-2 ">
                                         <button className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
                                              Pagar por WhatsApp
-                                             <ImWhatsapp className="ml-2 w-6 h-6 text-[var(--color-primary)]" />
+                                             <ImWhatsapp className="hidden xl:block md:block ml-2 w-6 h-6 text-[var(--color-primary)]" />
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
@@ -190,24 +193,24 @@ export default function PaymentMethods() {
                             </div>
                             <div className="flex-1">
                                 <div className="flex grid-cols-2 gap-4 mb-2">
-  <div className="w-20 h-11 xl:block md:block hidden border-1 border-gray-300 rounded-lg flex items-center justify-center">
-    <img src="../../img/mercadoPago.png" className='p-1 pb-4'  alt="MercadoPago" />
-  </div>
-  <div className="flex flex-col items-start">
-    <h3 className="font-semibold text-gray-900 mb-2">Tarjeta Débito y Crédito</h3>
-    <p className="text-sm text-gray-600 mb-4">Tu pago será procesado con Mercadopago de forma segura</p>
-    <div className="flex items-center gap-2">
-      <PaymentLogos logos={cardPaymentLogos} />
-    </div>
-  </div>
-</div>
+                            <div className="w-20 h-11 xl:block md:block hidden border-1 border-gray-300 rounded-lg flex items-center justify-center">
+                                <img src="../../img/mercadoPago.png" className='p-1 pb-4'  alt="MercadoPago" />
+                            </div>
+                            <div className="flex flex-col items-start">
+                                <h3 className="font-semibold text-gray-900 mb-2">Tarjeta Débito y Crédito</h3>
+                                <p className="text-sm text-gray-600 mb-4">Tu pago será procesado con Mercadopago de forma segura</p>
+                                <div className="flex items-center gap-2">
+                                <PaymentLogos logos={cardPaymentLogos} />
+                                </div>
+                            </div>
+                            </div>
                                 
                                 {selectedMethod === 'card' && (
                                     <div className="mt-4 pt-2">
                                         <button className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
                 
                                             Pagar con Tarjeta
-                                            <CiCreditCard1 className="ml-2 w-6 h-6 text-[var(--color-primary)]" />
+                                            <CiCreditCard1 className="hidden xl:block md:block ml-2 w-6 h-6 text-[var(--color-primary)]" />
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
