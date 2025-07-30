@@ -32,6 +32,7 @@ const SafeDetailPage = withErrorBoundary(DetailPage);
 
 const SafeSendToPage = withErrorBoundary(SendToPage);
 const SafePaymentPage = withErrorBoundary(PaymentPage);
+import ProfilePage from "../features/ecommerce/profle/pages/ProfilePage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -117,6 +118,13 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/product/:slug" element={<SafeDetailPage />} />
         <Route path="/checkout/send-to" element={<SafeSendToPage />} />
         <Route path="/checkout/payment" element={<SafePaymentPage />} />
+
+        {/* Perfil de usuario PROTECTED */}
+        <Route path="/profile" element={
+          <ProtectedRoute requireAuth>
+            <ProfilePage />
+          </ProtectedRoute>
+        } />
       </Route>
 
       {/* ===== REDIRECCIONES ===== */}
