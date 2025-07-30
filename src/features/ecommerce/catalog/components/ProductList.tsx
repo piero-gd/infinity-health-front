@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Product } from '../../productDetail/types';
 import { ProductCardHover } from '../../../../components/ProductCardHover';
 import { ProductCardPrincipal } from '../../../../components/ProductCardPrincipal';
 import { useProducts } from '../../shared/hooks/useProducts';
+import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
 import Loader from '../../../../components/Loader';
 
 export default function ProductList() {
@@ -10,14 +11,46 @@ export default function ProductList() {
     const [page, setPage] = useState(1);
     const limit = 12;
     
+    // Obtener estado de filtros para detectar cambios
+    const { 
+        selectedCategory,
+        selectedSort,
+        minPrice,
+        maxPrice,
+        searchQuery,
+        selectedProduct,
+        selectedMerchandising,
+        selectedObjective,
+        selectedFormat
+    } = useFiltersStore();
+    
     // Usar React Query a través de nuestro hook personalizado
     const { 
         data, 
         isLoading, 
         isError, 
         error, 
-        isFetching 
+        isFetching,
+        refetch
     } = useProducts(page, limit);
+    
+    // Detectar cambios en los filtros y reiniciar la paginación
+    useEffect(() => {
+        console.log('Filters changed, resetting to page 1');
+        if (page !== 1) {
+            setPage(1);
+        }
+    }, [
+        selectedCategory,
+        selectedSort,
+        minPrice,
+        maxPrice,
+        searchQuery,
+        selectedProduct,
+        selectedMerchandising,
+        selectedObjective,
+        selectedFormat
+    ]);
 
     // Manejar los diferentes estados de la consulta
     if (isLoading) {
@@ -48,7 +81,10 @@ export default function ProductList() {
 
     // Función para cambiar de página
     const handlePageChange = (newPage: number) => {
+        console.log(`Changing page from ${page} to ${newPage}`);
         setPage(newPage);
+        // Forzar refresco de datos con la nueva página
+        refetch();
         // Scroll hacia arriba al cambiar de página
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };

@@ -125,6 +125,10 @@ export const fetchRealProducts = async (params: FetchProductsParams): Promise<Pr
       throw new Error('Invalid API response format');
     }
     
+    // Simular datos de paginación desde el backend
+    // Cuando trabajamos con API real, debería devolver metadata de paginación
+    // Por ahora, vamos a implementar una paginación local para fines de demostración
+    
     // Ordenamos los productos en el cliente como respaldo
     let sortedProducts = [...products];
     
@@ -150,14 +154,27 @@ export const fetchRealProducts = async (params: FetchProductsParams): Promise<Pr
       }
     }
     
+    // Total de productos antes de la paginación
+    const totalProducts = sortedProducts.length;
+    
+    // Aplicar paginación en el cliente
+    const page = params.page || 1;
+    const limit = params.limit || 10;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    
+    // Obtener productos de la página actual
+    const paginatedProducts = sortedProducts.slice(startIndex, endIndex);
+    
+    console.log(`Pagination: page ${page}, showing ${paginatedProducts.length} of ${totalProducts} products (${startIndex}-${endIndex})`);
+    
     // Adaptar la respuesta al formato ProductsResponse que espera el frontend
-    // Calculamos la paginación basada en los productos que tenemos
     const adaptedResponse: ProductsResponse = {
-      data: sortedProducts,
-      total: sortedProducts.length,
-      page: params.page || 1,
-      limit: params.limit || 10,
-      totalPages: Math.ceil(sortedProducts.length / (params.limit || 10))
+      data: paginatedProducts,
+      total: totalProducts,
+      page: page,
+      limit: limit,
+      totalPages: Math.ceil(totalProducts / limit)
     };
     
     console.log('Adapted response for frontend:', adaptedResponse);

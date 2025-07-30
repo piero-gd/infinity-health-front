@@ -10,6 +10,8 @@ import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
  * Usa el estado de Zustand para los filtros
  */
 export const useProducts = (page = 1, limit = 10) => {
+  console.log(`useProducts hook called with page=${page}, limit=${limit}`);
+  
   const {
     selectedCategory,
     selectedSort,
@@ -24,12 +26,15 @@ export const useProducts = (page = 1, limit = 10) => {
 
   // Usar React Query para obtener y cachear datos
   return useQuery({
+    // El queryKey debe contener todos los parámetros que pueden cambiar
+    // Esto garantiza que React Query haga una nueva petición cuando algún parámetro cambie
     queryKey: ['products', {
       category: selectedCategory,
       minPrice,
       maxPrice,
       searchQuery,
       sort: selectedSort || 'recommended',
+      // Incluir explícitamente página y límite para asegurar re-fetch con cambio de página
       page,
       limit,
       product: selectedProduct,
@@ -50,10 +55,11 @@ export const useProducts = (page = 1, limit = 10) => {
       objective: selectedObjective,
       format: selectedFormat
     }),
-    // Mantener datos anteriores mientras se cargan los nuevos
+    // Mantener datos anteriores mientras se cargan los nuevos, pero solo como placeholder
     placeholderData: (previousData) => previousData,
-    // Considerar datos como frescos durante 5 minutos
-    staleTime: 1000 * 60 * 5,
+    // Reducir el tiempo de staleness para la paginación
+    // Esto hace que React Query fetche más frecuentemente cuando cambian los parámetros
+    staleTime: 1000 * 30, // 30 segundos
   });
 };
 
