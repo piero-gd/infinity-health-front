@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import '../styles/ZoomSession.css';
 import type { ZoomSessionData } from '../utils/api';
-import Loader from '../../../components/Loader';
 
 interface Props {
   courseId: number;
@@ -17,6 +16,7 @@ const ZoomSession: React.FC<Props> = ({ session }) => {
   const [connectionAttempts, setConnectionAttempts] = useState(0);
   const [isConnected, setIsConnected] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  // Usamos solo el estado loading para controlar la visibilidad
 
   const maxAttempts = 3;
 
@@ -55,12 +55,20 @@ const ZoomSession: React.FC<Props> = ({ session }) => {
     };
 
     const handleIframeLoad = () => {
-      setLoading(false);
       setIsConnected(true);
       console.log('Conexión exitosa');
+      
+      // Indicamos que se ha cargado pero mantenemos oculto
       if (isDesktop) {
         setTimeout(requestMediaPermissions, 3000);
       }
+      
+      // Añadimos un retraso adicional para dar tiempo a que la sesión de Zoom
+      // complete su carga interna (pantalla negra)
+      setTimeout(() => {
+        console.log('Tiempo de precarga completado, mostrando iframe');
+        setLoading(false); // Esto activará la transición de opacidad
+      }, 500); // 2 segundos de espera adicional
     };
 
     const handleIframeError = () => {
@@ -105,18 +113,26 @@ const ZoomSession: React.FC<Props> = ({ session }) => {
 
   return (
     <div className="zs-wrapper">
-      {loading && <Loader message="Cargando sesión..." />}
+      {/* Eliminamos el loader aquí para usar solo el de la página principal */}
       {error && (() => { throw new Error('Error al cargar la sesión'); })()}
-      <iframe
-        ref={iframeRef}
-        className="zs-iframe"
-        src={zoomUrl}
-        title={`Sesión: ${course_title}`}
-        allow="microphone *; camera *; fullscreen; display-capture; autoplay; encrypted-media; geolocation"
-        allowFullScreen
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals allow-popups-to-escape-sandbox"
-        loading="eager"
-      />
+      
+      {/* Contenedor con posición relativa para permitir el posicionamiento absoluto */}
+      <div className="relative w-full h-full">
+        {/* Fondo blanco permanente */}
+        <div className="absolute inset-0 bg-white"></div>
+        
+        {/* El iframe se superpone gradualmente con una transición de opacidad */}
+        <iframe
+          ref={iframeRef}
+          className={`zs-iframe relative z-10 ${loading ? 'opacity-0' : 'opacity-100 transition-opacity duration-700 ease-in'}`}
+          src={zoomUrl}
+          title={`Sesión: ${course_title}`}
+          allow="microphone *; camera *; fullscreen; display-capture; autoplay; encrypted-media; geolocation"
+          allowFullScreen
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals allow-popups-to-escape-sandbox"
+          loading="eager"
+        />
+      </div>
     </div>
   );
 };
