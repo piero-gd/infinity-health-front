@@ -126,7 +126,7 @@ export default function RegisterForm() {
         <h2 className="text-xl font-bold text-center md:text-left text-text">
           Crea tu cuenta
         </h2>
-        <p className="font-semibold text-center text-text-muted text-sm mb-4">
+        <p className="font-medium text-text-muted text-sm mb-4">
           Por favor ingresa tu cuenta
         </p>
         

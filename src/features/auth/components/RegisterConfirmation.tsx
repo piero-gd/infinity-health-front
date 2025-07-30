@@ -38,7 +38,10 @@ export default function RegisterConfirmation() {
 
                 {/* Botón */}
                 <button 
-                    className="w-full text-white bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:opacity-90 transition-opacity px-6 py-3 rounded-full font-medium shadow-md"
+                    className="w-full text-white bg-gradient-to-t
+                    from-[var(--color-btn-gradient-bottom)]
+                    to-[var(--color-btn-gradient-top)] hover:opacity-90
+                    transition-opacity px-6 py-3 rounded-full font-medium shadow-md"
                     onClick={() => navigate('/login')}
                 >
                     Iniciar sesión
