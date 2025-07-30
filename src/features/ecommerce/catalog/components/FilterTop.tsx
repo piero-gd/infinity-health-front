@@ -95,7 +95,7 @@ export default function FilterTop() {
                 className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-full 
                          bg-white text-gray-400 hover:bg-gray-50 text-sm font-medium whitespace-nowrap"
               >
-                {selectedSort || 'Ordenar por'}
+                {selectedSort ? sortOptions.find(opt => opt.id === selectedSort)?.name || 'Ordenar por' : 'Ordenar por'}
                 <ChevronDown className="h-4 w-4" />
               </button>
               
@@ -105,7 +105,7 @@ export default function FilterTop() {
                     <button
                       key={option.id}
                       onClick={() => {
-                        setSort(option.name);
+                        setSort(option.id);
                         setShowSort(false);
                       }}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50"

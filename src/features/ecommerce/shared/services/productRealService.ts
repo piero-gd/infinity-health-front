@@ -64,22 +64,32 @@ function adaptFiltersForApi(filters: FetchProductsParams): URLSearchParams {
     'price-high': 'price'
   };
   
-  // Determinar la dirección de ordenación
-  const orderMapping: Record<string, string> = {
-    'price-low': 'asc',
-    'price-high': 'desc'
-  };
-  
   // Paginación
   queryParams.append('page', page.toString());
   queryParams.append('limit', limit.toString());
   
-  // Ordenación
+  // Ordenación - Mejor manejo y depuración
+  console.log(`Applying sorting: ${sort}`);
+  
   const sortKey = sort as keyof typeof sortMapping;
-  queryParams.append('sort', sortMapping[sortKey] || 'rating');
-  if (['price-low', 'price-high'].includes(sort)) {
-    const orderKey = sort as keyof typeof orderMapping;
-    queryParams.append('order', orderMapping[orderKey]);
+  const sortField = sortMapping[sortKey] || 'rating';
+  queryParams.append('sort', sortField);
+  
+  // Manejar la dirección de ordenación explícitamente
+  if (sort === 'price-low') {
+    console.log('Setting order to ASC for price-low');
+    queryParams.append('order', 'asc');
+  } else if (sort === 'price-high') {
+    console.log('Setting order to DESC for price-high');
+    queryParams.append('order', 'desc');
+  } else if (sort === 'newest') {
+    // Para newest, queremos orden descendente por fecha
+    console.log('Setting order to DESC for newest');
+    queryParams.append('order', 'desc');
+  } else {
+    // Para recommended (rating), queremos orden descendente
+    console.log('Setting order to DESC for other sort types');
+    queryParams.append('order', 'desc');
   }
   
   // Otros filtros
@@ -115,14 +125,39 @@ export const fetchRealProducts = async (params: FetchProductsParams): Promise<Pr
       throw new Error('Invalid API response format');
     }
     
+    // Ordenamos los productos en el cliente como respaldo
+    let sortedProducts = [...products];
+    
+    // Aplicar ordenación en el cliente para garantizar el orden correcto
+    if (params.sort) {
+      console.log(`Applying client-side sorting: ${params.sort}`);
+      
+      switch (params.sort) {
+        case 'recommended':
+          sortedProducts.sort((a, b) => parseInt(b.rating) - parseInt(a.rating));
+          break;
+        case 'newest':
+          sortedProducts.sort((a, b) => 
+            new Date(b.created).getTime() - new Date(a.created).getTime()
+          );
+          break;
+        case 'price-low':
+          sortedProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+          break;
+        case 'price-high':
+          sortedProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+          break;
+      }
+    }
+    
     // Adaptar la respuesta al formato ProductsResponse que espera el frontend
     // Calculamos la paginación basada en los productos que tenemos
     const adaptedResponse: ProductsResponse = {
-      data: products,
-      total: products.length,
+      data: sortedProducts,
+      total: sortedProducts.length,
       page: params.page || 1,
       limit: params.limit || 10,
-      totalPages: Math.ceil(products.length / (params.limit || 10))
+      totalPages: Math.ceil(sortedProducts.length / (params.limit || 10))
     };
     
     console.log('Adapted response for frontend:', adaptedResponse);

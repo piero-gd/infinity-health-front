@@ -22,14 +22,6 @@ export const useProducts = (page = 1, limit = 10) => {
     selectedFormat
   } = useFiltersStore();
 
-  // Mapeo entre nombres de ordenación en la UI y valores para la API
-  const sortMapping: Record<string, string> = {
-    'Recomendados': 'recommended',
-    'Lo más reciente': 'newest',
-    'Precio: de menor a mayor': 'price-low',
-    'Precio: de mayor a menor': 'price-high',
-  };
-
   // Usar React Query para obtener y cachear datos
   return useQuery({
     queryKey: ['products', {
@@ -37,7 +29,7 @@ export const useProducts = (page = 1, limit = 10) => {
       minPrice,
       maxPrice,
       searchQuery,
-      sort: sortMapping[selectedSort] || 'recommended',
+      sort: selectedSort || 'recommended',
       page,
       limit,
       product: selectedProduct,
@@ -50,7 +42,7 @@ export const useProducts = (page = 1, limit = 10) => {
       minPrice,
       maxPrice,
       searchQuery,
-      sort: sortMapping[selectedSort] || 'recommended',
+      sort: selectedSort || 'recommended',
       page,
       limit,
       product: selectedProduct,
