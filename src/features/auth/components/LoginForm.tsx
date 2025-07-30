@@ -123,9 +123,6 @@ export default function LoginForm() {
         <h2 className="text-xl font-bold text-center md:text-left mb-2 text-text">
           Inicia sesión en tu cuenta
         </h2>
-        <p className="font-semibold text-text-muted mb-2 text-sm md:text-base ">
-          Por favor ingresa tu usuario y contraseña
-        </p>
         {/* Usuario */}
         <div>
           <label htmlFor="username" className="block text-sm font-semibold text-text-soft mb-1">

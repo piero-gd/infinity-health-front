@@ -3,7 +3,7 @@ import { RxChevronLeft } from "react-icons/rx";
 
 export default function RegisterConfirmation() {
     const navigate = useNavigate();
-    
+    const baseUrl = import.meta.env.VITE_HOME_URL || 'https://infinityhealth.fit';
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
            {/* Boton flecha Desktop y Mobile*/}
@@ -20,11 +20,11 @@ export default function RegisterConfirmation() {
                         src="/img/health-logo-light-mode.png"
                         alt="Infinity Health"
                         className="h-10 w-auto object-contain"
-                        onClick={() => window.location.href = 'VITE_PRINCIPAL_WEB' }
+                        onClick={() => window.location.href = baseUrl }
                     />
                 </div>
-                <div className="flex justify-center mb-38 mt-4">
-                <img src="/img/Icono exito.svg" className="w-75 h-75 absolute top-12" />
+                <div className="flex justify-center mb-30 mt-4">
+                <img src="/img/Icono exito.svg" className="w-65 h-65 absolute top-12" />
                 </div>
 
                 {/* Título */}
