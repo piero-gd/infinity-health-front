@@ -15,6 +15,8 @@ import EcommerceLayout from "../layouts/EcommerceLayout";
 import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
 import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
 import CartPage from "../features/ecommerce/cart/pages/CartPage";
+import SendToPage from "../features/ecommerce/checkout/pages/SendToPage";
+import PaymentPage from "../features/ecommerce/checkout/pages/PaymentPage";
 import { withErrorBoundary } from "../utils/withErrorBoundary";
 
 // Aplicamos el HOC withErrorBoundary a los componentes de página
@@ -27,6 +29,9 @@ const ProtectedExercisesHome = withErrorBoundary(ExercisesHome);
 const SafeCartPage = withErrorBoundary(CartPage);
 const SafeCatalogPage = withErrorBoundary(CatalogPage);
 const SafeDetailPage = withErrorBoundary(DetailPage);
+
+const SafeSendToPage = withErrorBoundary(SendToPage);
+const SafePaymentPage = withErrorBoundary(PaymentPage);
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
@@ -110,6 +115,8 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/cart" element={<SafeCartPage />} />
         <Route path="/catalog" element={<SafeCatalogPage />} />
         <Route path="/product/:slug" element={<SafeDetailPage />} />
+        <Route path="/checkout/send-to" element={<SafeSendToPage />} />
+        <Route path="/checkout/payment" element={<SafePaymentPage />} />
       </Route>
 
       {/* ===== REDIRECCIONES ===== */}

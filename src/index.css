@@ -69,8 +69,8 @@
     --color-primary-light: #a8dfff; /* tono claro para fondos suaves o estados hover */
   
     /* Fondo y superficies claras */
-    --color-background: #ffffff; /* fondo principal: blanco */
-    --color-background-2: #f5f7fa; /* fondo secundario: gris muy claro */
+    --color-background: #FFFFFF36; /* fondo principal: blanco */
+    --color-background-2: #F5F7FAD1; /* fondo secundario: gris muy claro */
     --color-surface: #f5f7fa; /* superficie: gris muy claro para tarjetas y secciones */
 
   
@@ -108,7 +108,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--color-background);
+  background-color: var(--color-background-2);
 }
 
 h1, h2 {
