@@ -1,11 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { RxChevronLeft } from "react-icons/rx";
-
 import RegisterForm from "../components/RegisterForm";
-
 export default function RegisterPage() {
   const navigate = useNavigate();
-
+  const baseUrl = import.meta.env.VITE_APP_BASE_URL || 'https://infinityhealth.fit';
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Fondo solo para desktop */}
@@ -15,9 +13,8 @@ export default function RegisterPage() {
           {/* Header móvil con flecha y logo */}
           <div className="md:hidden w-full pt-8 pb-6 px-4">
             <button 
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/login')}
               className="mb-4 text-[var(--color-primary)]"
-              aria-label="Volver atrás"
             >
               <RxChevronLeft size={24} />
             </button>
@@ -26,13 +23,14 @@ export default function RegisterPage() {
                 src="/img/health-logo-light-mode.png"
                 alt="Infinity Health"
                 className="h-10 w-auto object-contain"
+                onClick={() => window.location.href = baseUrl}
               />
             </div>
           </div>
 
 <div className="hidden md:flex absolute left-0 top-6 items-left gap-2 mb-4 text-white
 cursor-pointer hover:opacity-80 transition-opacity"
-     onClick={() => navigate(-1)}>
+     onClick={() => navigate('/login')}>
   <RxChevronLeft size={24} />
 </div>
           

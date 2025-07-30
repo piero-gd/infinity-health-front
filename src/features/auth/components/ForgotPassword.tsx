@@ -6,6 +6,7 @@ import { useForgotPass } from '../hooks/useForgotPass';
 
 export default function ForgotPassword() {
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_APP_BASE_URL || 'https://infinityhealth.fit';
     const [email, setEmail] = useState('');
     const { resetPassword, isLoading, error, success } = useForgotPass();
 
@@ -19,7 +20,7 @@ export default function ForgotPassword() {
             {/* Boton flecha Desktop y Mobile */}
             <div className="md:flex absolute left-12 top-6 items-left gap-2 mb-4 text-[var(--color-primary)]
                   cursor-pointer hover:opacity-80 transition-opacity"
-                   onClick={() => navigate(-1)}>
+                   onClick={() => navigate('/login')}>
                 <RxChevronLeft size={24} />
             </div>
             
@@ -30,6 +31,7 @@ export default function ForgotPassword() {
                         src="/img/health-logo-light-mode.png"
                         alt="Infinity Health"
                         className="h-10 w-auto object-contain"
+                        onClick={() => window.location.href = baseUrl }
                     />
                 </div>
 

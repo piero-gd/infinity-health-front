@@ -11,6 +11,7 @@ interface ResetPasswordData {
 
 export default function NewPassword() {
     const navigate = useNavigate();
+    const baseUrl = import.meta.env.VITE_HOME_URL || 'https://infinityhealth.fit';
     const { uid, token } = useParams<{ uid: string; token: string }>();
     const [formData, setFormData] = useState<ResetPasswordData>({ 
         password: '', 
@@ -84,7 +85,7 @@ export default function NewPassword() {
             <div 
                     className="md:flex absolute left-8 top-8 items-left gap-2 mb-4 text-[var(--color-primary)]
                     cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate('/login')}
                 >
                     <RxChevronLeft size={24} />
                 </div>
@@ -95,6 +96,7 @@ export default function NewPassword() {
                     <img
                         src="/img/health-logo-light-mode.png"
                         alt="Infinity Health"
+                        onClick={() => window.location.href = baseUrl }
                         className="h-10 w-auto object-contain"
                     />
                 </div>
@@ -145,7 +147,7 @@ export default function NewPassword() {
                     {/* Botón enviar */}
                     <button 
                         type="submit"
-                        className="w-full bg-[var(--color-primary)] text-white py-3 px-4 rounded-3xl font-medium hover:bg-opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white py-3 px-4 rounded-3xl font-medium hover:bg-opacity-90 transition-opacity disabled:opacity-70 disabled:cursor-not-allowed"
                         disabled={isLoading || isSubmitting}
                     >
                         {isLoading || isSubmitting ? 'Actualizando...' : 'Restablecer Contraseña'}

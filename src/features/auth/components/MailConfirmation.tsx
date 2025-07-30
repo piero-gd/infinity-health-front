@@ -10,6 +10,7 @@ export default function MailConfirmation() {
                 src="/img/health-logo-light-mode.png"
                 alt="Infinity Health"
                 className="h-10 w-auto object-contain "
+                onClick={() => window.location.href = 'VITE_PRINCIPAL_WEB' }
               />
             </div>
 

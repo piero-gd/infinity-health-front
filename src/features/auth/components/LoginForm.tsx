@@ -166,15 +166,6 @@ export default function LoginForm() {
         </div>
         {/* Recordar y Olvidaste */}
         <div className="flex items-center justify-between text-sm mt-1">
-            <label className="flex items-center gap-2">
-              <input
-              type="checkbox"
-              className="accent-[var(--color-primary)] rounded-full"
-              style={{ width: 20, height: 20 }}
-              disabled={loading}
-              />
-              Recordar contraseña
-            </label>
           <a href="/forgot-password" className="text-[var(--color-primary)] font-medium hover:underline">
             ¿Olvidaste tu contraseña?
           </a>
