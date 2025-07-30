@@ -143,7 +143,8 @@ export default function RegisterForm() {
             placeholder="Tu nombre de usuario"
             value={formData.username}
             onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50
+              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
         </div>
@@ -160,7 +161,8 @@ export default function RegisterForm() {
             placeholder="ejemplo@correo.com"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50
+              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
         </div>
@@ -177,7 +179,8 @@ export default function RegisterForm() {
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50
+              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
           <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
@@ -195,7 +198,8 @@ export default function RegisterForm() {
             placeholder="••••••••"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
+            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50
+              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
             disabled={isLoading}
           />
         </div>
@@ -209,7 +213,10 @@ export default function RegisterForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full py-2.5 px-4 rounded-3xl text-white font-medium mt-1 bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] transition-colors shadow-lg ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
+          className={`w-full py-2.5 px-4 rounded-3xl text-white font-medium mt-1
+            bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]
+            hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)]
+            transition-colors shadow-lg ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
         >
           {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
         </button>
