@@ -1,73 +1,23 @@
 import { IoCloseSharp } from "react-icons/io5";
 import DualRangeSlider from './DualRangeSlider';
-import { FaAngleDown } from "react-icons/fa6";
-import { useState } from 'react';
 import { useFiltersStore } from '../stores/useFiltersStore';
 
 interface CategoriesSlideMenuProps {
   onClose: () => void;
 }
 
-const Accordion = ({ 
-  title, 
-  children, 
-  isOpen = false, 
-  onToggle = () => {} 
-}: { 
-  title: string; 
-  children: React.ReactNode; 
-  isOpen?: boolean; 
-  onToggle?: () => void 
-}) => (
-  <div className="mb-0">
-    <button
-      onClick={onToggle}
-      className="w-full flex justify-between items-center text-left text-sm font-medium text-black p-2 hover:bg-gray-50 rounded-lg transition-colors"
-    >
-      <span className="text-base">{title}</span>
-      <span className={`transform transition-transform ${isOpen ? '' : 'rotate-180'}`}><FaAngleDown /></span>
-    </button>
-    {isOpen && (
-      <div className="mt-1 pl-2 space-y-2">
-        {children}
-      </div>
-    )}
-  </div>
-);
 
 export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProps) {
-  const [openSections, setOpenSections] = useState({
-    productos: true,
-    merchandising: true
-  });
 
   // Estados y acciones desde Zustand
-  const { 
-    selectedProduct, 
-    selectedMerchandising, 
+  const {
     minPrice,
     maxPrice,
-    setProduct,
-    setMerchandising,
     setPriceRange,
     selectedSort,
     setSort
   } = useFiltersStore();
   
-  const toggleSection = (section: keyof typeof openSections) => {
-    setOpenSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
-
-  const products = [
-    'Energy', 'Detox', 'Relax', 'Glow', 'Power'
-  ];
-  
-  const merchandising = [
-    'Ropa Deportiva', 'Accesorios'
-  ];
 
   const sortOptions = [
     'Recomendados', 'Lo más reciente', 'Precio: de menor a mayor', 'Precio: de mayor a menor'
