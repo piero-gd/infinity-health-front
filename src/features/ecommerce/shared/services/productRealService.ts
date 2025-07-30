@@ -1,11 +1,6 @@
 import type { Product } from '../types';
 import { get } from '../../../../services/api';
 import type { FetchProductsParams, ProductsResponse } from './productMockService';
-import { 
-  fetchMockProducts, 
-  fetchMockProductById, 
-  fetchMockProductBySlug 
-} from './productMockService';
 
 const API_PRODUCTS_ENDPOINT = 'products';
 
@@ -181,9 +176,8 @@ export const fetchRealProducts = async (params: FetchProductsParams): Promise<Pr
     return adaptedResponse;
   } catch (error) {
     console.error('Error fetching products from API:', error);
-    // En caso de error, caer de vuelta a los datos de mock
-    console.warn('Falling back to mock data due to API error');
-    return fetchMockProducts(params);
+    // Propagar el error para que la UI pueda manejarlo
+    throw error;
   }
 };
 
@@ -217,9 +211,8 @@ export const fetchRealProductById = async (id: number): Promise<Product | null> 
     return product;
   } catch (error) {
     console.error(`Error fetching product ID ${id} from API:`, error);
-    // En caso de error, caer de vuelta a los datos de mock
-    console.warn('Falling back to mock data due to API error');
-    return fetchMockProductById(id);
+    // Propagar el error para que la UI pueda manejarlo
+    throw error;
   }
 };
 
@@ -229,7 +222,7 @@ export const fetchRealProductById = async (id: number): Promise<Product | null> 
 export const fetchRealProductBySlug = async (slug: string): Promise<Product | null> => {
   try {
     // Llamada a la API real para obtener el producto por slug
-    const endpoint = `${API_PRODUCTS_ENDPOINT}/by-slug/${slug}`;
+    const endpoint = `${API_PRODUCTS_ENDPOINT}/${slug}`;
     console.log(`Fetching product by slug from API: ${endpoint}`);
     
     // Obtener el producto desde la API
@@ -253,8 +246,7 @@ export const fetchRealProductBySlug = async (slug: string): Promise<Product | nu
     return product;
   } catch (error) {
     console.error(`Error fetching product with slug ${slug} from API:`, error);
-    // En caso de error, caer de vuelta a los datos de mock
-    console.warn('Falling back to mock data due to API error');
-    return fetchMockProductBySlug(slug);
+    // Propagar el error para que la UI pueda manejarlo adecuadamente
+    throw error;
   }
 };
