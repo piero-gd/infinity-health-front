@@ -1,4 +1,4 @@
-import type { CartProduct } from '../../shared/types';
+import type { CartProduct } from '../../shared/types/product.model';
 import { fetchProductById, fetchProductBySlug } from '../../shared/services/productService';
 
 /**

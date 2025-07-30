@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { CartProduct } from '../../shared/types';
+import type { CartProduct } from '../../shared/types/product.model';
 
 interface CartState {
   // Estado

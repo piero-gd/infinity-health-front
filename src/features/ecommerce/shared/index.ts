@@ -5,4 +5,5 @@ export * from './services/productService';
 export * from './hooks/useProducts';
 
 // Exportar todos los tipos
-export * from './types';
+export * from './types/product.model';
+export * from './types/product.types';
