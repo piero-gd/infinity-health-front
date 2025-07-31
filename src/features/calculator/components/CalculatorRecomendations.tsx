@@ -14,7 +14,7 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
    
    if (!objetivo || !objectiveData) return null;
   return (
-    <div className="relative overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+    <div className={`relative overflow-hidden rounded-xl border-2 ${objectiveData.tipBorder} bg-white shadow-sm`}>
     
       <div className={`absolute right-0 top-0 flex items-center px-3 py-1 ${objectiveData.color} border-b border-l rounded-bl-lg z-10`}>
         {objectiveData.icon}
@@ -50,10 +50,10 @@ export default function CalculatorRecomendations({ objetivo, nombre, onGenerateD
               </div> 
               <button
                 onClick={onGenerateDiet}
-                className="mt-4 w-full flex items-center justify-center px-5 py-4 text-sm text-[var(--color-primary)] font-semibold border-2 border-[var(--color-btn-gradient-border)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
+                className="mt-4 w-full flex items-center justify-center px-5 py-3 text-sm text-[var(--color-primary)] font-semibold border-2 border-[var(--color-btn-gradient-border)] rounded-full hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
               >
                 <FaAppleAlt className="w-5 h-5 mr-2" />
-                Generar Plan de Alimentación
+                Generar Plan
               </button>
               
               <p className="mt-3 text-sm text-gray-500">

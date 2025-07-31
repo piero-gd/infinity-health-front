@@ -18,7 +18,7 @@ export default function CalculatorResult({ resultado }: CalculatorResultProps) {
           <div className="bg-white/20 p-2 rounded-lg">
             <FaAppleAlt className="h-6 w-6" />
           </div>
-          <div>
+          <div className="xl:ml-0 ml-4">
             <h2 className="text-xl md:text-2xl font-bold">Resultados Macros</h2>
             <p className="text-blue-100 text-sm mt-1">Observa tus objetivos diarios</p>
           </div>

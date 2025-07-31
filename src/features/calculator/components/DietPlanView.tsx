@@ -87,6 +87,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
           <div className="bg-yellow-100 bg-opacity-30 px-3 py-1 rounded-full text-sm font-bold text-yellow-800">
             {resultado.calorias} kcal
           </div>
+          <div className="flex flex-wrap gap-4">
           <div className="bg-blue-50 bg-opacity-30 px-3 py-1 rounded-full text-sm font-medium text-blue-800">
             P: {resultado.proteinas}g
           </div>
@@ -95,6 +96,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
           </div>
           <div className="bg-red-50 bg-opacity-30 px-3 py-1 rounded-full text-sm font-medium text-red-800">
             G: {resultado.grasas}g
+          </div>
           </div>
         </div>
       </div>
@@ -105,13 +107,13 @@ const DietPlan: React.FC<DietPlanProps> = ({
             className="flex items-center justify-center shadow-sm px-3 py-2 text-sm font-bold bg-[var(--color-btn-whatsapp)] text-white rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-green-400)] hover:to-[var(--color-green-500)]"
             aria-label="Consulta Nutricional"
           >
-            <FaWhatsapp className="block w-5 h-5" />
-           <span className="ml-2 block"> Consulta Asesoría Nutricional</span>
+            <FaWhatsapp className="block w-6 h-6" />
+           <span className=" block p-2"> Asesoría Nutricional</span>
           </button>
         <button 
             onClick={handleDownload}
             id="download-pdf"
-            className="flex items-center justify-center shadow-sm px-3 py-2 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-4xl transition-colors hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)]"
+            className="flex items-center justify-center shadow-sm p-4 text-sm text-[var(--color-primary)] font-bold border-2 border-[var(--color-btn-gradient-border)] rounded-full transition-colors hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)]"
             aria-label="Descargar plan"
           >
            <BsDownload className="w-5 h-5 xl:block lg:block md:block block" />
@@ -122,26 +124,35 @@ const DietPlan: React.FC<DietPlanProps> = ({
       </div>
 
       {/* Comidas */}
-      <div id="diet-plan-content"  className="p-5 space-y-4">
+      <div id="diet-plan-content" className="p-4 space-y-6">
         {diet?.content?.map((meal, index) => (
-          <div key={index} className="border border-gray-100 rounded-lg p-4 hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-bold text-gray-800">{meal.name}</h3>
-              <span className="text-sm font-medium bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
-                {meal.calories} kcal
-              </span>
+          <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+            {/* Encabezado de la comida */}
+            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-800">{meal.name}</h3>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-medium rounded-full whitespace-nowrap">
+                  {meal.calories} kcal
+                </span>
+              </div>
             </div>
-            <ul className="space-y-2">
+            
+            {/* Lista de alimentos */}
+            <div className="divide-y divide-gray-100">
               {meal.items.map((item, itemIndex) => (
-                <li key={itemIndex} className="flex justify-between text-sm">
-                  <span className="text-gray-700 mt-2">{item.food}</span>
-                  <div className="flex items-center">
-                    <span className="text-gray-500 mr-2">{item.quantity}</span>
-                    <span className="text-gray-400 text-sm">({item.calories} kcal)</span>
+                <div key={itemIndex} className="px-4 py-3 hover:bg-gray-50 transition-colors">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex-1">
+                      <p className="text-gray-800 font-medium">{item.food}</p>
+                      <p className="text-sm text-gray-500">{item.quantity}</p>
+                    </div>
+                    <div className="mt-1 sm:mt-0">
+                      <span className="text-sm font-medium text-gray-700">{item.calories} kcal</span>
+                    </div>
                   </div>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         ))}
       </div>

@@ -45,7 +45,7 @@ export default function CalculatorPage() {
               </div>
               
               {/* Container para las recomendaciones */}
-              <div className="bg-blue-50 rounded-2xl shadow-sm border border-blue-100 overflow-hidden">
+              <div className="rounded-2xl shadow-sm  overflow-hidden">
                 <CalculatorRecomendations 
                   nombre={resultado.nombre} 
                   objetivo={resultado.objetivo}

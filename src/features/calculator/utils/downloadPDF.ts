@@ -128,81 +128,89 @@ export const downloadPDF = async (element: HTMLElement, fileName: string): Promi
     y += 5;
     
     // Procesar cada comida
-    element.querySelectorAll('.border-gray-100').forEach((meal) => {
+    element.querySelectorAll('.border-gray-200').forEach((meal) => {
       // Obtener el nombre de la comida y las calorías
-      const mealName = meal.querySelector('h3')?.textContent?.trim() || '';
-      addText('');
-      const mealCalories = meal.querySelector('.bg-yellow-100')?.textContent?.trim() || '';
-      
-            // Agregar nombre de la comida en color y negrita
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(14);
-      doc.setTextColor(23, 152, 224); // Color azul
-      doc.text(mealName, pageWidth / 2, y, { align: 'center' });
-      y += 8;
-      
-      // Agregar calorías centradas debajo del título
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(11);
-      doc.setTextColor(100, 100, 100); // Gris oscuro
-      const caloriesText = mealCalories;
-      const caloriesWidth = doc.getStringUnitWidth(caloriesText) * doc.getFontSize() / doc.internal.scaleFactor;
-      doc.text(caloriesText, (pageWidth - caloriesWidth) / 2, y);
-      y += 10;
+      const mealHeader = meal.querySelector('.bg-gray-50');
+      if (mealHeader) {
+        const mealName = mealHeader.querySelector('h3')?.textContent?.trim() || '';
+        const mealCalories = mealHeader.querySelector('.bg-yellow-100')?.textContent?.trim() || '';
+        
+        // Agregar espacio antes de cada comida (excepto la primera)
+        if (y > 30) {
+          y += 5; // Reduje el espacio entre comidas
+        }
+        
+        // Agregar nombre de la comida en color y negrita
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(14);
+        doc.setTextColor(23, 152, 224); // Color azul
+        doc.text(mealName, pageWidth / 2, y, { align: 'center' });
+        y += 8;
+        
+        // Agregar calorías centradas debajo del título
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+        doc.setTextColor(100, 100, 100); // Gris oscuro
+        const caloriesText = mealCalories;
+        const caloriesWidth = doc.getStringUnitWidth(caloriesText) * doc.getFontSize() / doc.internal.scaleFactor;
+        doc.text(caloriesText, (pageWidth - caloriesWidth) / 2, y);
+        y += 10;
+      }
       
       // Restaurar color por defecto
       doc.setTextColor(0, 0, 0);
       
       // Procesar los items de la comida
-      const items = meal.querySelectorAll('li');
+      const items = meal.querySelectorAll('.divide-y > .px-4.py-3');
       
       items.forEach((item) => {
-        const food = item.querySelector('.text-gray-700')?.textContent?.trim() || '';
-        const quantity = item.querySelector('.text-gray-500')?.textContent?.trim() || '';
-        const calories = item.querySelector('.text-gray-400')?.textContent?.trim() || '';
+        const foodElement = item.querySelector('.text-gray-800');
+        const quantityElement = item.querySelector('.text-gray-500');
+        const caloriesElement = item.querySelector('.text-gray-700');
         
-        // Formatear línea de ítem con mejor espaciado
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(11);
-        
-        // Asegurar que haya espacio suficiente para la siguiente línea
-        if (y > 260) {
-          doc.addPage();
-          y = 20;
-        }
-        
-                // Agregar viñeta y nombre del alimento
-        doc.setTextColor(0, 0, 0); // Negro para el texto normal
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(11);
-        
-        // Calcular el ancho del texto para manejar saltos de línea
-        const bullet = '• ';
-        const foodText = `${bullet}${food}`;
-        const foodLines = doc.splitTextToSize(foodText, pageWidth - (margin * 2) - 30); // Ajustar ancho para dejar espacio a la derecha
-        
-        // Imprimir cada línea del alimento
-        foodLines.forEach((line: string) => {
-          if (y > 260) {
+        // Verificar que sea un ítem de comida y no un título
+        if (foodElement && quantityElement && caloriesElement && !foodElement.closest('.bg-gray-50')) {
+          const food = foodElement.textContent?.trim() || '';
+          const quantity = quantityElement.textContent?.trim() || '';
+          // Obtener solo el valor numérico de las calorías (sin 'kcal')
+          const caloriesValue = caloriesElement.textContent?.trim().replace(' kcal', '') || '';
+          const calories = caloriesValue ? `${caloriesValue} kcal` : '';
+          
+          // Asegurar que haya espacio suficiente para la siguiente línea
+          if (y > 270) { // Aumenté el límite para aprovechar mejor el espacio
             doc.addPage();
             y = 20;
           }
-          doc.text(line, margin, y);
-          y += 5; // Espaciado entre líneas del mismo alimento
-        });
-        
-        // Ajustar posición Y después de imprimir todas las líneas del alimento
-        y = Math.max(y, y + ((foodLines.length - 1) * 5));
-        
-        // Agregar cantidad y calorías en la misma línea
-        const itemInfo = `${quantity} ${calories}`;
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10);
-        doc.setTextColor(58, 176, 249); // Color azul para la información nutricional
-        doc.text(itemInfo, pageWidth - margin, y, { align: 'right' });
-        
-        
-        y += 5; // Espacio entre líneas
+          
+          // Agregar viñeta y nombre del alimento
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(11);
+          doc.setTextColor(0, 0, 0); // Negro para el texto normal
+          
+          // Calcular el ancho del texto para manejar saltos de línea
+          const bullet = '• ';
+          const foodText = `${bullet}${food}`;
+          const foodLines = doc.splitTextToSize(foodText, pageWidth - (margin * 2) - 30);
+          
+          // Imprimir cada línea del alimento
+          foodLines.forEach((line: string) => {
+            if (y > 270) { // Aumenté el límite para aprovechar mejor el espacio
+              doc.addPage();
+              y = 20;
+            }
+            doc.text(line, margin, y);
+            y += 4; // Reduje el espaciado entre líneas
+          });
+          
+          // Agregar cantidad y calorías en la misma línea
+          const itemInfo = `${quantity} ${calories}`;
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(10);
+          doc.setTextColor(58, 176, 249); // Color azul para la información nutricional
+          doc.text(itemInfo, pageWidth - margin, y - 5, { align: 'right' });
+          
+          y += 7; // Reduje el espacio después del ítem
+        }
       });
       
       // Agregar espacio entre comidas

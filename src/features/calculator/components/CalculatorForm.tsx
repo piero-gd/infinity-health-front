@@ -481,8 +481,7 @@ const CalculatorForm = ({ onCalcular, username, firstName }: CalculatorFormProps
               </span>
             ) : (
               <>
-                Calcular mis macros ahora
-                <span className="ml-2">→</span>
+                Calcular mis macros
               </>
             )}
           </button>
