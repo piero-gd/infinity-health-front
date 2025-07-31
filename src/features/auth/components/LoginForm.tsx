@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useLogin } from '../hooks/useLogin';
 import { showToast } from '../../../utils/toastConfig';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [hasError, setHasError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading: loading } = useLogin();
 
   // Function to clear previous error message
@@ -153,16 +155,30 @@ export default function LoginForm() {
           <label htmlFor="password" className="block text-sm font-semibold text-text-soft mb-1">
             Contraseña
           </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
-            disabled={loading}
-          />
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 pr-10 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+              disabled={loading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              tabIndex={-1} // Prevent tab focus on the button
+            >
+              {showPassword ? (
+                <EyeIcon className="h-5 w-5" />
+              ) : (
+                <EyeSlashIcon className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
         {/* Recordar y Olvidaste */}
         <div className="flex items-center justify-between text-sm mt-1">

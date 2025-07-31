@@ -25,7 +25,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
   // Estado de carga
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-[var(--color-primary-dark)] overflow-hidden p-8 text-center">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8 text-center">
         <Loader message={loadingMessage} />
       </div>
     );

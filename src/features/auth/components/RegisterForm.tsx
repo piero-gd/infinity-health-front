@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../hooks/useRegister';
 import { showToast } from '../../../utils/toastConfig';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 export default function RegisterForm() {
   const { register } = useRegister();
@@ -13,6 +14,8 @@ export default function RegisterForm() {
     password: '',
     confirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validateForm = (): boolean => {
     if (!formData.email.trim()) {
@@ -172,17 +175,31 @@ export default function RegisterForm() {
           <label htmlFor="password" className="block text-sm font-semibold text-text-soft mb-1">
             Contraseña
           </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50
-              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 pr-10 rounded-3xl border border-gray-200 bg-gray-50
+                focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              tabIndex={-1}
+            >
+              {showPassword ? (
+                <EyeIcon className="h-5 w-5" />
+              ) : (
+                <EyeSlashIcon className="h-5 w-5" />
+              )}
+            </button>
+          </div>
           <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
         </div>
         
@@ -191,17 +208,31 @@ export default function RegisterForm() {
           <label htmlFor="confirmPassword" className="block text-sm font-semibold text-text-soft mb-1">
             Confirmar Contraseña
           </label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            placeholder="••••••••"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50
-              focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base`}
-            disabled={isLoading}
-          />
+          <div className="relative">
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="••••••••"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="w-full px-4 py-3 pr-10 rounded-3xl border border-gray-200 bg-gray-50
+                focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
+              disabled={isLoading}
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              tabIndex={-1}
+            >
+              {showConfirmPassword ? (
+                <EyeIcon className="h-5 w-5" />
+              ) : (
+                <EyeSlashIcon className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
         
         <label className="text-sm font-semibold text-text-soft mb-1">
