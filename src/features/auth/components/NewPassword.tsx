@@ -3,6 +3,7 @@ import { RxChevronLeft } from "react-icons/rx";
 import { useState, useEffect } from "react";
 import { useNewPass } from "../hooks/useNewPass";
 import { showToast } from "../../../utils/toastConfig";
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 interface ResetPasswordData {
   password: string;
@@ -18,6 +19,8 @@ export default function NewPassword() {
         confirmPassword: '' 
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { resetPassword, isLoading } = useNewPass();
 
     // Verificar si el uid y token están presentes
@@ -112,17 +115,30 @@ export default function NewPassword() {
                         <label className="block text-text-soft text-sm font-medium mb-2" htmlFor="password">
                             Nueva Contraseña
                         </label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
-                            placeholder="••••••••"
-                            disabled={isLoading || isSubmitting}
-                            autoComplete="new-password"
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Nueva contraseña"
+                                className="w-full p-3 pr-10 border rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                                disabled={isLoading || isSubmitting}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                tabIndex={-1}
+                            >
+                                {showPassword ? (
+                                    <EyeIcon className="h-5 w-5" />
+                                ) : (
+                                    <EyeSlashIcon className="h-5 w-5" />
+                                )}
+                            </button>
+                        </div>
                         <p className="text-xs text-gray-500 mt-1">Mínimo 8 caracteres</p>
                     </div>
 
@@ -131,17 +147,30 @@ export default function NewPassword() {
                         <label className="block text-text-soft text-sm font-medium mb-2" htmlFor="confirmPassword">
                             Confirmar Contraseña
                         </label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-3xl border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-base"
-                            placeholder="••••••••"
-                            disabled={isLoading || isSubmitting}
-                            autoComplete="new-password"
-                        />
+                        <div className="relative">
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                placeholder="Confirmar nueva contraseña"
+                                className="w-full p-3 pr-10 border rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                                disabled={isLoading || isSubmitting}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+                                tabIndex={-1}
+                            >
+                                {showConfirmPassword ? (
+                                    <EyeIcon className="h-5 w-5" />
+                                ) : (
+                                    <EyeSlashIcon className="h-5 w-5" />
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     {/* Botón enviar */}
