@@ -9,7 +9,7 @@ export default function SecurityFeatures() {
                         <Shield className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-gray-700">
-                        <span>Pago seguro con SSL</span>
+                        <span className="text-sm">Pago seguro con SSL</span>
                     </div>
                 </div>
 
@@ -18,7 +18,7 @@ export default function SecurityFeatures() {
                         <Headphones className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-gray-700">
-                        <span>Soporte disponible 24/7</span>
+                        <span className="text-sm">Soporte disponible 24/7</span>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@ export default function SecurityFeatures() {
                         <CreditCard className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-gray-700">
-                        <span>Diferentes métodos de pago</span>
+                        <span className="text-sm">Diferentes métodos de pago</span>
                     </div>
                 </div>
             </div>

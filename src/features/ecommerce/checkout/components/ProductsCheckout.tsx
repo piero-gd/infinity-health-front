@@ -1,31 +1,35 @@
 import { RiLock2Line } from "react-icons/ri";
 import { FaShoppingCart } from "react-icons/fa";
+import { BiChevronRight } from "react-icons/bi";
 import PaymentLogos from "../../../../components/PaymentLogos";
+import { useCartStore } from '../../cart/stores/useCartStore';
+import { useCheckoutStore } from '../stores/useCheckoutStore';
+import { useCheckout } from '../hooks/useCheckout';
 
+interface ProductsCheckoutProps {
+    showCompletePurchase?: boolean;
+}
 
-const products = [
-  {
-    name: 'Aloex',
-    price: 5.00,
-    image: '🧴'
-  },
-  {
-    name: 'Xgo!',
-    price: 7.00,
-    image: '🥤'
-  },
-  {
-    name: 'Potenciador Masculino',
-    price: 80.00,
-    image: '💊'
-  }
-];
-
-export default function ProductsCheckout() {
-    const subtotal = products.reduce((sum, product) => sum + product.price, 0);
-    const shipping = 5.00;
-    const discount = 0.00;
-    const total = subtotal + shipping - discount;
+export default function ProductsCheckout({ showCompletePurchase = false }: ProductsCheckoutProps) {
+    // Obtener datos del carrito
+    const { 
+        items, 
+        subtotal, 
+        subtotalEmbajador,
+        discount, 
+        shipping 
+    } = useCartStore();
+    
+    // Estado del checkout
+    const { referralCode } = useCheckoutStore();
+    
+    // Hook de checkout para completar la compra y navegar al siguiente paso
+    const { completeOrder, proceedToPayment, isSubmitting } = useCheckout();
+    
+    // Calcular total
+    const isAmbassador = !!referralCode; // Simplificado, idealmente esto vendría del store
+    const effectiveSubtotal = isAmbassador ? subtotalEmbajador : subtotal;
+    const total = effectiveSubtotal + shipping - discount;
 
     return (
         <div className="bg-gray-50 w-full">
@@ -37,21 +41,34 @@ export default function ProductsCheckout() {
                     
                     {/* Product List */}
                     <div className="space-y-4 mb-6">
-                        {products.map((product, index) => (
-                            <div key={index} className="flex items-center space-x-6 pb-4 border-b border-gray-100 last:border-b-0">
-                                {/* Product Image Placeholder */}
-                                <div className="w-15 h-15 bg-gray-200 border border-gray-400 rounded-lg flex items-center justify-center text-xl">
-                                    {product.image}
+                        {items.map((item) => (
+                            <div key={item.id} className="flex items-center space-x-6 pb-4 border-b border-gray-100 last:border-b-0">
+                                {/* Product Image */}
+                                <div className="w-15 h-15 bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                                    {item.images?.[0]?.image_url ? (
+                                        <img 
+                                            src={item.images[0].image_url} 
+                                            alt={item.name} 
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="text-gray-400 text-xl">
+                                            <FaShoppingCart />
+                                        </div>
+                                    )}
                                 </div>
                                 
                                 {/* Product Info */}
                                 <div className="flex-1">
-                                    <h3 className="font-medium text-gray-900 text-left">{product.name}</h3>
+                                    <h3 className="font-medium text-gray-900 text-left">{item.name}</h3>
+                                    <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
                                 </div>
                                 
                                 {/* Product Price */}
                                 <div className="text-right">
-                                    <span className="font-semibold text-gray-900">${product.price.toFixed(2)}</span>
+                                    <span className="font-semibold text-gray-900">
+                                        ${(parseFloat(item.price) * item.quantity).toFixed(2)}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -96,10 +113,30 @@ export default function ProductsCheckout() {
                     </div>
 
                     {/* Checkout Button */}
-                    <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]  hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl ">
-                        <span>Continuar al pago</span>
-                        <FaShoppingCart className="text-white" size={18} />
-                    </button>
+                    {showCompletePurchase ? (
+                        <button 
+                            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+                            onClick={completeOrder}
+                            disabled={isSubmitting || items.length === 0}
+                        >
+                            <span>{isSubmitting ? 'Procesando...' : 'Completar compra'}</span>
+                            <RiLock2Line className="text-white" size={18} />
+                        </button>
+                    ) : (
+                        <>
+                            <button 
+                                className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+                                onClick={proceedToPayment}
+                                disabled={items.length === 0}
+                            >
+                                <span>Continuar al pago</span>
+                                <BiChevronRight className="text-white" size={18} />
+                            </button>
+                            <p className="text-xs text-gray-500 text-center mt-2">
+                                Todos los campos requeridos deben completarse antes de continuar
+                            </p>
+                        </>
+                    )}
                 </div>
 
                 {/* Payment Methods */}

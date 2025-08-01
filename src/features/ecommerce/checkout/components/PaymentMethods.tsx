@@ -154,7 +154,7 @@ export default function PaymentMethods() {
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
-                                                type="checkbox" 
+                                                type="radio" 
                                                 id="terms-whatsapp"
                                                 checked={acceptedTerms.whatsapp}
                                                 onChange={(e) => handleTermsChange('whatsapp', e.target.checked)}
@@ -214,7 +214,7 @@ export default function PaymentMethods() {
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
-                                                type="checkbox" 
+                                                type="radio" 
                                                 id="terms-card"
                                                 checked={acceptedTerms.card}
                                                 onChange={(e) => handleTermsChange('card', e.target.checked)}

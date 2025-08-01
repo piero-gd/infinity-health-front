@@ -3,12 +3,14 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { FaCheckDouble } from "react-icons/fa6";
 import type { TotalCartProps } from '../types';
 import { useAmbassadorValidation } from '../hooks/useAmbassadorValidation';
+import { useCheckout } from '../../checkout/hooks/useCheckout';
 export default function TotalCart({
   subtotalNormalPrice,
   subtotalEmbajadorPrice,
   shipping,
   discount,
 }: TotalCartProps) {
+  // Hook de validación de códigos de embajador
   const {
     isAmbassador,
     promoCode,
@@ -16,6 +18,9 @@ export default function TotalCart({
     handlePromoCodeSubmit,
     validationMessage
   } = useAmbassadorValidation({ onApplyPromoCode: () => {} });
+  
+  // Hook para checkout
+  const { proceedToShipping } = useCheckout();
 
   const totalNormalPrice = subtotalNormalPrice + shipping - (isAmbassador ? 0 : discount);
   const totalEmbajadorPrice = subtotalEmbajadorPrice + shipping - (isAmbassador ? discount : 0);
@@ -167,9 +172,11 @@ export default function TotalCart({
 
         {/* Checkout Button */}
         <button
+          onClick={proceedToShipping}
           className="w-full bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+          disabled={subtotalNormalPrice <= 0}
         >
-          <span>Continuar compra</span>
+          <span>Continuar al envío</span>
           <FaShoppingCart className="text-white" size={20} />
         </button>
       </div>

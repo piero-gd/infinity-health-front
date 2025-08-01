@@ -1,12 +1,16 @@
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProgressCart from '../components/ProgressCart';
 import ListCart from '../components/ListCart';
 import TotalCart from '../components/TotalCart';
 import { RelatedProducts } from '../../productDetail/components/RelatedProducts';
 import { useCart } from '../hooks/useCart';
+import { useCheckout } from '../../checkout/hooks/useCheckout';
+import { useEffect } from 'react';
 
 export default function CartPage() {
+    const navigate = useNavigate();
+    
     // Utilizamos nuestro hook personalizado para el carrito
     const { 
         items, 
@@ -17,6 +21,15 @@ export default function CartPage() {
         updateCartQuantity,
         removeFromCart
     } = useCart();
+    
+    // Hook de checkout para proceder al proceso de pago
+    const { proceedToShipping } = useCheckout();
+    
+    // Reiniciar el paso de checkout cuando se carga la página del carrito
+    useEffect(() => {
+        // Si quieres reiniciar el checkout al entrar al carrito
+        // resetCheckoutProcess();
+    }, []);
 
     // Adaptadores para manejar la conversión entre los tipos antiguos y nuevos
     const handleUpdateQuantity = (id: string, quantity: number) => {

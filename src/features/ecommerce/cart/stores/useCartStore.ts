@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import { createJSONStorage } from 'zustand/middleware';
 import type { CartProduct } from '../../shared/types/product.model';
 
 interface CartState {
@@ -7,43 +8,90 @@ interface CartState {
   items: CartProduct[];
   isOpen: boolean;
   
+  // Valores derivados - calculados automáticamente
+  subtotal: number;
+  subtotalEmbajador: number;
+  itemCount: number;
+  shipping: number;
+  discount: number;
+  total: number;
+  isCheckingOut: boolean;
+  checkoutSuccess: boolean;
+  checkoutError: boolean | string;
+  
   // Acciones
   addItem: (product: CartProduct) => void;
   removeItem: (productId: number) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
   toggleCart: () => void;
+  startCheckout: () => void;
+  completeCheckout: (success: boolean, error?: string) => void;
 }
+
+// Función para calcular valores derivados
+const calculateDerivedValues = (items: CartProduct[]) => {
+  const subtotal = items.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
+  const subtotalEmbajador = items.reduce((sum, item) => sum + (parseFloat(item.price_amb || item.price) * item.quantity), 0);
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  // Valores fijos por ahora, podrían ser calculados según reglas de negocio
+  const shipping = subtotal > 0 ? 10 : 0; // Ejemplo: envío gratuito por compras mayores a cierto valor
+  const discount = 0; // Por implementar: descuentos por cupones, etc.
+  const total = subtotal + shipping - discount;
+  
+  return {
+    subtotal,
+    subtotalEmbajador,
+    itemCount,
+    shipping,
+    discount,
+    total
+  };
+};
 
 export const useCartStore = create<CartState>()(
   devtools(
     persist(
       (set, get) => ({
+        // Estado básico
         items: [],
         isOpen: false,
+        
+        // Valores derivados iniciales
+        ...calculateDerivedValues([]),
+        isCheckingOut: false,
+        checkoutSuccess: false,
+        checkoutError: false,
         
         addItem: (product) => {
           const { items } = get();
           const existingItem = items.find(item => item.id === product.id);
           
+          let newItems;
           if (existingItem) {
             // Si el producto ya está en el carrito, actualizar cantidad
-            set({
-              items: items.map(item => 
-                item.id === product.id 
-                  ? { ...item, quantity: item.quantity + product.quantity }
-                  : item
-              )
-            });
+            newItems = items.map(item => 
+              item.id === product.id 
+                ? { ...item, quantity: item.quantity + product.quantity }
+                : item
+            );
           } else {
             // Si es un producto nuevo, agregarlo al carrito
-            set({ items: [...items, product] });
+            newItems = [...items, product];
           }
+          
+          // Actualizar estado con nuevos items y valores derivados
+          set({ 
+            items: newItems,
+            ...calculateDerivedValues(newItems)
+          });
         },
         
         removeItem: (productId) => {
+          const newItems = get().items.filter(item => item.id !== productId);
           set({
-            items: get().items.filter(item => item.id !== productId)
+            items: newItems,
+            ...calculateDerivedValues(newItems)
           });
         },
         
@@ -51,21 +99,43 @@ export const useCartStore = create<CartState>()(
           // No permitir cantidades menores a 1
           if (quantity < 1) return;
           
+          const newItems = get().items.map(item => 
+            item.id === productId ? { ...item, quantity } : item
+          );
+          
           set({
-            items: get().items.map(item => 
-              item.id === productId ? { ...item, quantity } : item
-            )
+            items: newItems,
+            ...calculateDerivedValues(newItems)
           });
         },
         
-        clearCart: () => set({ items: [] }),
+        clearCart: () => set({ 
+          items: [],
+          ...calculateDerivedValues([]),
+          checkoutSuccess: false,
+          checkoutError: false
+        }),
         
-        toggleCart: () => set(state => ({ isOpen: !state.isOpen }))
+        toggleCart: () => set(state => ({ isOpen: !state.isOpen })),
+
+        // Nuevas acciones para el checkout
+        startCheckout: () => set({
+          isCheckingOut: true,
+          checkoutSuccess: false,
+          checkoutError: false
+        }),
+
+        completeCheckout: (success, error) => set(state => ({
+          isCheckingOut: false,
+          checkoutSuccess: success,
+          checkoutError: error || false,
+          // Si fue exitoso, limpiar el carrito
+          ...(success ? { items: [], ...calculateDerivedValues([]) } : {})
+        }))
       }),
       {
         name: 'infinity-health-cart',
-        // Solo persistir los items, no el estado de UI
-        partialize: (state) => ({ items: state.items }),
+        storage: createJSONStorage(() => localStorage)
       }
     )
   )

@@ -11,6 +11,9 @@ export type PaymentInfoType = {
     tipoDocumentoEntrega: string;
 };
 
+// Alias de tipo para mantener compatibilidad con el componente renombrado
+export type BillingDetailsType = PaymentInfoType;
+
 export type DropdownType = {
     tipoComprobante: boolean;
     tipoDocumento: boolean;
