@@ -33,7 +33,7 @@ export type DetailedPlaceType = {
 export type OptionPlaceFeaturesType = {
     option: PlacesCalculationType[];
     detailedplace: DetailedPlaceType[];
-    departament: string;
+    department: string;
     province: string;
     district: string;
     address: string;

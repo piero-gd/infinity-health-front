@@ -1,14 +1,42 @@
 import { useState, useRef, useEffect } from "react";
 import { MapPin, Search, ChevronDown } from "lucide-react";
-import type { PlacesCalculationType } from "../types";
+import type { PlacesCalculationType , OptionPlaceFeaturesType} from "../types";
+import { useLocation } from "../../profle/hooks/useLocation";
+
+interface DeliveryProps {
+    user: OptionPlaceFeaturesType;
+}
 
 const options: PlacesCalculationType[] = [
-    { option: "lima", place: "Lima Metropolitana", days: "2-3 días hábiles", description: "Delivery a domicilio" },
-    { option: "shalom", place: "Recoger en Agencia SHALOM", days: "4-5 días hábiles", description: "Entrega en agencia a nivel nacional" },
-    { option: "capital", place: "Recoger en Sede Capital Infinity", days: "1 día hábil", description: "Nuestras sedes en Lima, Arequipa y Cusco" }
+    { option: "lima", place: "Lima Metropolitana", days: "2-3 días", description: "Delivery a domicilio" },
+    { option: "shalom", place: "Recoger en Agencia SHALOM", days: "4-5 días", description: "Entrega en agencia a nivel nacional" },
+    { option: "capital", place: "Recoger en Sede Capital Infinity", days: "1 día", description: "Nuestras sedes en Lima, Arequipa y Cusco" }
 ];
 
-export default function Delivery() {
+export default function Delivery({  }: DeliveryProps) {
+  const [form, setForm] = useState<OptionPlaceFeaturesType>({
+    option: [],
+    detailedplace: [],
+    department: 'Lima',
+    province: 'Lima',
+    district: '',
+    address: '',
+    apartment: '',
+    reference: ''
+  });
+  
+  const [showDistrictDropdown, setShowDistrictDropdown] = useState(false);
+  const { 
+    location,
+    locationOptions,
+    isLoading,
+    onLocationChange
+  } = useLocation({
+    department: 'Lima',
+    province: 'Lima',
+    district: form.district
+  });
+
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState('');
   const [showLimaDetails, setShowLimaDetails] = useState(false);
 
@@ -29,6 +57,7 @@ export default function Delivery() {
       if (dropdowns.sedeInfinity && sedeInfinityRef.current && !sedeInfinityRef.current.contains(event.target as Node)) {
         setDropdowns(prev => ({ ...prev, sedeInfinity: false }));
       }
+      
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -57,23 +86,28 @@ export default function Delivery() {
         <div className="space-y-4">
           {/* Lima Metropolitana */}
           <div className="border border-[var(--color-primary)] rounded-2xl p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
-                  id="lima-metro"
-                  className="w-5 h-5 text-blue-600 accent-[var(--color-primary)] border-2 border-gray-300 rounded focus:ring-blue-500"
-                  checked={selectedDeliveryOption === 'lima'}
-                  onChange={() => handleDeliveryOptionChange('lima')}
-                />
-                <div>
-                  <label htmlFor="lima-metro" className="font-medium text-gray-900 cursor-pointer">
-                    {options[0].place}
-                  </label>
-                  <p className="text-sm text-gray-400 mt-1 mr-5">{options[0].description}</p>
+            <div className="flex items-start sm:items-center justify-between gap-4">
+              <div className="flex items-start space-x-3 flex-1">
+                <div className="mt-1">
+                  <input
+                    type="radio"
+                    id="lima-metro"
+                    className="w-5 h-5 text-blue-600 accent-[var(--color-primary)] border-2 border-gray-300 rounded focus:ring-blue-500"
+                    checked={selectedDeliveryOption === 'lima'}
+                    onChange={() => handleDeliveryOptionChange('lima')}
+                  />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="lima-metro" className="xl:font-medium font-sm text-gray-900 cursor-pointer">
+                      {options[0].place}
+                    </label>
+                    <span className="text-sm text-gray-600 whitespace-nowrap sm:hidden ml-2">{options[0].days}</span>
+                  </div>
+                  <p className="text-sm text-gray-400 mt-1">{options[0].description}</p>
                 </div>
               </div>
-              <span className="text-sm text-gray-600">{options[0].days}</span>
+              <span className="text-sm text-gray-600 whitespace-nowrap hidden sm:block">{options[0].days}</span>
             </div>
 
             {/* Panel que se despliega debajo de Lima Metropolitana */}
@@ -87,20 +121,59 @@ export default function Delivery() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
                         <div className="block text-sm text-gray-600 mb-1 text-left">Departamento</div>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                          <option value="">Seleccionar</option>
+                        <div className="flex flex-col gap-2">
+                      
+                        <select
+                            id="department"
+                            value="Lima"
+                            disabled
+                            className="text-sm appearance-none w-full px-4 py-3 border border-gray-200 rounded-full bg-gray-50 text-gray-500 cursor-not-allowed"
+                        >
+                            <option value="Lima">Lima</option>
                         </select>
+                    </div>
                       </div>
                       <div>
                         <div className="block text-sm text-gray-600 mb-1 text-left">Provincia</div>
-                        <select className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                          <option value="">Seleccionar</option>
+                        <select
+                            id="province"
+                            value={location.province || 'Lima'}
+                            disabled
+                            className="text-sm appearance-none w-full px-4 py-3 border border-gray-200 rounded-full bg-gray-50 text-gray-500 cursor-not-allowed"
+                        >
+                            <option value="Lima">Lima</option>
                         </select>
                       </div>
                       <div>
                         <div className="block text-sm text-gray-600 mb-1 text-left">Zona de Lima Metropolitana</div>
-                        <div className="w-full px-4 py-3 border border-gray-200 rounded-full text-sm bg-gray-50 text-gray-400 cursor-not-allowed text-left">
-                          (Las zonas se cargarán automáticamente)
+                        <div className="relative" ref={sedeInfinityRef}>
+                          <div 
+                            className={`flex items-center justify-between text-sm w-full px-4 py-3 border ${isLoading.districts ? 'border-gray-300 bg-gray-50' : 'border-gray-200'} rounded-full ${!location.province || isLoading.districts ? 'bg-gray-50 text-gray-400' : 'bg-white'} cursor-pointer`}
+                            onClick={() => setShowDistrictDropdown(!showDistrictDropdown)}
+                          >
+                            <span className="truncate">{form.district || 'Seleccionar distrito'}</span>
+                            <ChevronDown className={`h-5 w-5 text-gray-400 transition-transform ${showDistrictDropdown ? 'transform rotate-180' : ''}`} />
+                          </div>
+                          
+                          {showDistrictDropdown && (
+                            <div className="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto">
+                              <div className="py-1">
+                                {locationOptions.districts.map((dist) => (
+                                  <div 
+                                    key={dist}
+                                    className={`px-4 py-2 text-sm cursor-pointer hover:bg-gray-100 ${form.district === dist ? 'bg-blue-50 text-[var(--color-primary)]' : 'text-gray-700'}`}
+                                    onClick={() => {
+                                      setForm(prev => ({ ...prev, district: dist }));
+                                      onLocationChange('district', dist);
+                                      setShowDistrictDropdown(false);
+                                    }}
+                                  >
+                                    {dist}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -108,9 +181,15 @@ export default function Delivery() {
                     {/* Dirección completa */}
                     <div>
                       <div className="block text-sm text-gray-600 mb-1 text-left">Dirección completa</div>
-                      <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      <textarea
+                        rows={1}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none overflow-hidden"
+                        style={{ minHeight: '44px' }}
+                        onInput={(e) => {
+                          const target = e.target as HTMLTextAreaElement;
+                          target.style.height = 'auto';
+                          target.style.height = target.scrollHeight + 'px';
+                        }}
                       />
                     </div>
 
@@ -119,16 +198,16 @@ export default function Delivery() {
                       <div className="block text-sm text-gray-600 mb-1 text-left">Apartamento, Casa, etc</div>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                       />
                     </div>
 
                     {/* Referencia */}
                     <div>
-                      <div className="block text-sm text-gray-600 mb-1 text-left">Referencia ( Opcional )</div>
+                      <div className="block text-sm text-gray-600 mb-1 text-left">Referencia (Opcional)</div>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-3xl text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
                       />
                     </div>
                   </div>
@@ -139,26 +218,25 @@ export default function Delivery() {
 
             {/* Agencia SHALOM */}
             <div className="border border-gray-200 rounded-2xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    id="agencia-shalom"
-                    className="w-5 h-5 text-blue-600 accent-[var(--color-primary)] border-2 border-gray-300 rounded focus:ring-blue-500"
-                    checked={selectedDeliveryOption === 'shalom'}
-                    onChange={() => handleDeliveryOptionChange('shalom')}
-                  />
-                  <div>
-                    
-                    <label htmlFor="agencia-shalom" className="mr-10 font-medium text-gray-900 cursor-pointer">
+              <div className="flex items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start space-x-3 flex-1">
+                  <div className="mt-1">
+                    <input
+                      type="radio"
+                      id="agencia-shalom"
+                      className="w-5 h-5 text-blue-600 accent-[var(--color-primary)] border-2 border-gray-300 rounded focus:ring-blue-500"
+                      checked={selectedDeliveryOption === 'shalom'}
+                      onChange={() => handleDeliveryOptionChange('shalom')}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label htmlFor="agencia-shalom" className="font-medium text-gray-900 cursor-pointer">
                       {options[1].place}
                     </label>
-                    <p className="text-sm text-gray-400 mt-1 mr-5">{options[1].description}</p>
-                    
+                    <p className="text-sm text-gray-400 mt-1 mb-2">{options[1].description}</p>
                   </div>
                 </div>
-                <span className="text-sm text-gray-600">{options[1].days}</span>
+                <span className="text-sm text-gray-600 whitespace-nowrap">{options[1].days}</span>
               </div>
               
               <div className="ml-8">
@@ -175,23 +253,25 @@ export default function Delivery() {
 
             {/* Sede Capital Infinity */}
             <div className="border border-gray-200 rounded-2xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center space-x-3">
-                  <input
-                    type="checkbox"
-                    id="sede-capital"
-                    className="w-5 h-5 text-blue-600 accent-[var(--color-primary)] border-2 border-gray-400 rounded focus:ring-[var(--color-primary)]"
-                    checked={selectedDeliveryOption === 'capital'}
-                    onChange={() => handleDeliveryOptionChange('capital')}
-                  />
-                  <div>
-                    <label htmlFor="sede-capital" className="mr-15 font-mediumm text-gray-900 cursor-pointer">
-                        {options[2].place}
+              <div className="flex items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start space-x-3 flex-1">
+                  <div className="mt-1">
+                    <input
+                      type="radio"
+                      id="sede-capital"
+                      className="w-5 h-5 text-blue-600 accent-[var(--color-primary)] border-2 border-gray-400 rounded focus:ring-[var(--color-primary)]"
+                      checked={selectedDeliveryOption === 'capital'}
+                      onChange={() => handleDeliveryOptionChange('capital')}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label htmlFor="sede-capital" className="font-medium text-gray-900 cursor-pointer">
+                      {options[2].place}
                     </label>
-                    <p className="text-sm text-gray-400 mt-1 mr-5">{options[2].description}</p>
+                    <p className="text-sm text-gray-400 mt-1 mb-2">{options[2].description}</p>
                   </div>
                 </div>
-                <span className="text-sm text-gray-600">{options[2].days}</span>
+                <span className="text-sm text-gray-600 whitespace-nowrap">{options[2].days}</span>
               </div>
               
               <div className="ml-8">

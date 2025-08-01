@@ -73,9 +73,9 @@ export default function PaymentInfo() {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 bg-white rounded-3xl ">
-      <h2 className="text-xl font-bold text-gray-900 mb-8">Datos de Facturación</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">Datos de Facturación</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 mb-2">
         {/* Nombre */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700 text-left">Nombre</label>
@@ -228,13 +228,13 @@ export default function PaymentInfo() {
 
         {/* N° de documento - Solo aparece cuando hay tipo de documento seleccionado */}
         {shouldShowDocumentFields ? (
-          <div className="space-y-2">
+          <div className="space-y-2 ">
             <label className="text-sm font-medium text-gray-700">N° de documento</label>
             <input
               type="text"
               value={formData.numeroDocumento}
               onChange={(e) => handleInputChange("numeroDocumento", e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
+              className="w-full mt-1 px-4 py-3 border border-gray-300 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all"
               placeholder={`Ingresa tu ${tiposDocumento.find(t => t.value === formData.tipoDocumento)?.label}`}
             />
           </div>
