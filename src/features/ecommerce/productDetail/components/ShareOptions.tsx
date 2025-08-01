@@ -1,8 +1,8 @@
-import { FaFacebookF, FaApplePay, FaGooglePay, FaCcVisa, FaCcMastercard, FaCcAmex } from 'react-icons/fa';
-import { SiPaytm } from 'react-icons/si';
+import { FaFacebookF } from 'react-icons/fa';
 import { RiLockPasswordLine } from "react-icons/ri";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa6";
+import PaymentLogos from '../../../../components/PaymentLogos';
 
 interface ShareOptionsProps {
     slug: string;
@@ -56,30 +56,14 @@ export const ShareOptions: React.FC<ShareOptionsProps> = ({ slug }) => {
     }
   ];
   
-  const payIcons = [
-    { icon: FaApplePay, label: 'Apple Pay', color: 'text-blue-600' },
-    { icon: FaGooglePay, label: 'Google Pay', color: 'text-blue-400' },
-    { icon: SiPaytm, label: 'Paytm', color: 'text-gray-600' },
-    { icon: FaCcVisa, label: 'Visa', color: 'text-gray-600' },
-    { icon: FaCcMastercard, label: 'Mastercard', color: 'text-gray-600' },
-    { icon: FaCcAmex, label: 'Amex', color: 'text-gray-600' },
-  ];
-  
   return (
-    <div className="xl:px-4 px-0 md:px-6">
+    <div className="xl:px-5 px-0 md:px-6">
 
      {/*MÉTODOS DE PAGOS*/}
-     <div className=" py-3 justify-between pt-4  p-4 bg-white rounded-lg">
+     <div className=" py-3  justify-between pt-4 pb-4 p-4 bg-white rounded-lg">
       <h4 className="font-medium text-gray-900 flex items-center gap-2 pb-4"> <RiLockPasswordLine className=" text-[var(--color-primary)]" size={20}/> Pagos seguros con:</h4>
-        <div className="grid grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-6 xl:gap-3 gap-1">
-          {payIcons.map(({ icon: Icon, color }) => (
-            <button
-              className={`px-3 py-2 rounded-sm border-2 border-gray-300  bg-gray-50  hover:bg-gray-100 transition-colors ${color}`}
-            >
-                <Icon className="text-[var(--color-primary)] md:size-6 xl:size-10 size-7 mx-auto"/>
-           
-            </button>
-          ))}
+        <div className="w-full">
+           <PaymentLogos />
         </div>
       </div>
 

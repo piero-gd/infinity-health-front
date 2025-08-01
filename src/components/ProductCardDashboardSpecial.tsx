@@ -31,7 +31,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
         <div className="w-full h-full flex justify-center">
             <div
                 onClick={handleCardClick}
-                className="relative bg-gradient-to-t from-pink-900 to-pink-500 rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer w-full max-w-[16rem] h-80 flex flex-col"
+                className="relative bg-gradient-to-t from-pink-900 to-pink-500 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer w-full max-w-full h-80 flex flex-col"
             >
                 {/* Imagen de Producto - Cubre toda la card */}
                 <div className="absolute inset-0 w-full h-full">
@@ -46,7 +46,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-br from-pink-100/80 "></div>
 
                 {/* Contenido Principal - Lado Izquierdo */}
-                <div className="absolute top-6 left-5 z-10 max-w-[55%]">
+                <div className="absolute top-6 left-5 max-w-[55%]">
                     {/* Nombre */}
                     <h2 className="text-lg font-black text-black mb-2 leading-tight">
                         {product.name}
@@ -69,7 +69,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
                 </div>
 
                 {/* Sección de Abajo - Precios y Botón */}
-                <div className="absolute bottom-4 left-4 right-4 z-10">
+                <div className="absolute bottom-4 left-4 right-4 ">
                     <div className="relative bg-white/60 backdrop-blur rounded-full px-4 py-2 shadow-lg flex border border-white items-center justify-between">
                         {/* Precios */}
                         <div className="flex flex-col">

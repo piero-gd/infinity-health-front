@@ -98,7 +98,7 @@ export default function DetailPage() {
         />
       </div>
 
-      <div className="mt-16 w-full">
+      <div className="mt-8 w-full">
         <AboutProduct />
       </div>
 
