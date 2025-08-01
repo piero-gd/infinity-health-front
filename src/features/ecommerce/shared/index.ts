@@ -1,5 +1,5 @@
 // Exportar todos los servicios
-export * from './services/productService';
+export * from './services/productsService';
 
 // Exportar todos los hooks
 export * from './hooks/useProducts';

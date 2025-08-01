@@ -1,5 +1,5 @@
 import type { CartProduct } from '../../shared/types/product.model';
-import { fetchProductById, fetchProductBySlug } from '../../shared/services/productService';
+import { fetchProductById, fetchProductBySlug } from '../../shared/services/productsService';
 
 /**
  * Servicio para operaciones del carrito

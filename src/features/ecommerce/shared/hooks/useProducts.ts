@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchProducts, fetchProductById, fetchProductBySlug } from '../services/productService';
+import { fetchProducts, fetchProductById, fetchProductBySlug } from '../services/productsService';
 import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
 
 /**
