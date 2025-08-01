@@ -3,7 +3,7 @@ import ProductsCheckout from "../components/ProductsCheckout";
 import PaymentInfo from "../components/PaymentInfo";
 import ProgressCart from "../../cart/components/ProgressCart";
 
-export default function SendToPage() {
+export default function ShipmentPage() {
     return (
         <div className="mx-auto max-w-7xl">
             <div className="pt-12">

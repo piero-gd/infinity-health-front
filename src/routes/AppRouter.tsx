@@ -15,7 +15,7 @@ import EcommerceLayout from "../layouts/EcommerceLayout";
 import DetailPage from "../features/ecommerce/productDetail/pages/DetailPage";
 import CatalogPage from "../features/ecommerce/catalog/pages/CatalogPage";
 import CartPage from "../features/ecommerce/cart/pages/CartPage";
-import SendToPage from "../features/ecommerce/checkout/pages/SendToPage";
+import ShipmentPage from "../features/ecommerce/checkout/pages/ShipmentPage";
 import PaymentPage from "../features/ecommerce/checkout/pages/PaymentPage";
 import ThankYouPage from "../features/ecommerce/thankyou/pages/ThankYouPage";
 import { withErrorBoundary } from "../utils/withErrorBoundary";
@@ -32,7 +32,7 @@ const SafeCatalogPage = withErrorBoundary(CatalogPage);
 const SafeDetailPage = withErrorBoundary(DetailPage);
 const SafeThankYouPage = withErrorBoundary(ThankYouPage);
 
-const SafeSendToPage = withErrorBoundary(SendToPage);
+const SafeShipmentPage = withErrorBoundary(ShipmentPage);
 const SafePaymentPage = withErrorBoundary(PaymentPage);
 import ProfilePage from "../features/ecommerce/profle/pages/ProfilePage";
 
@@ -118,7 +118,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/cart" element={<SafeCartPage />} />
         <Route path="/catalog" element={<SafeCatalogPage />} />
         <Route path="/product/:slug" element={<SafeDetailPage />} />
-        <Route path="/checkout/send-to" element={<SafeSendToPage />} />
+        <Route path="/checkout/send-to" element={<SafeShipmentPage />} />
         <Route path="/checkout/payment" element={<SafePaymentPage />} />
         <Route path="/thankyou" element={<SafeThankYouPage />} />
 
