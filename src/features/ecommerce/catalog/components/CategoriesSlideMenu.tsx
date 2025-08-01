@@ -6,7 +6,6 @@ interface CategoriesSlideMenuProps {
   onClose: () => void;
 }
 
-
 export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProps) {
 
   // Estados y acciones desde Zustand
