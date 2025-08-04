@@ -19,6 +19,8 @@ import ShipmentPage from "../features/ecommerce/checkout/pages/ShipmentPage";
 import PaymentPage from "../features/ecommerce/checkout/pages/PaymentPage";
 import CheckoutConfirmationPage from "../features/ecommerce/checkout/pages/ConfirmationPage";
 import ThankYouPage from "../features/ecommerce/thankyou/pages/ThankYouPage";
+import SimulatedPaymentPage from "../features/ecommerce/checkout/pages/SimulatedPaymentPage";
+import PaymentResultPage from "../features/ecommerce/checkout/pages/PaymentResultPage";
 import { withErrorBoundary } from "../utils/withErrorBoundary";
 
 // Aplicamos el HOC withErrorBoundary a los componentes de página
@@ -36,6 +38,8 @@ const SafeThankYouPage = withErrorBoundary(ThankYouPage);
 const SafeShipmentPage = withErrorBoundary(ShipmentPage);
 const SafePaymentPage = withErrorBoundary(PaymentPage);
 const SafeCheckoutConfirmationPage = withErrorBoundary(CheckoutConfirmationPage);
+const SafeSimulatedPaymentPage = withErrorBoundary(SimulatedPaymentPage);
+const SafePaymentResultPage = withErrorBoundary(PaymentResultPage);
 import ProfilePage from "../features/ecommerce/profle/pages/ProfilePage";
 
 const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
@@ -123,6 +127,8 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/checkout/shipping" element={<SafeShipmentPage />} />
         <Route path="/checkout/payment" element={<SafePaymentPage />} />
         <Route path="/checkout/confirmation" element={<SafeCheckoutConfirmationPage />} />
+        <Route path="/checkout/simulated-payment" element={<SafeSimulatedPaymentPage />} />
+        <Route path="/checkout/payment-result" element={<SafePaymentResultPage />} />
         <Route path="/thankyou" element={<SafeThankYouPage />} />
 
         {/* Perfil de usuario PROTECTED */}

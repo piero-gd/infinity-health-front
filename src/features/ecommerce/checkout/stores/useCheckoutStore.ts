@@ -21,6 +21,7 @@ export const useCheckoutStore = create<CheckoutStore>((set) => ({
         ruc: '',
         invoiceType: undefined,
         deliveryOption: undefined,
+        method_shipping: undefined,
         shalomDepartment: '',
         shalomAgency: '',
         capitalBranch: ''
@@ -67,6 +68,7 @@ export const useCheckoutStore = create<CheckoutStore>((set) => ({
             ruc: '',
             invoiceType: undefined,
             deliveryOption: undefined,
+            method_shipping: undefined,
             shalomDepartment: '',
             shalomAgency: '',
             capitalBranch: ''

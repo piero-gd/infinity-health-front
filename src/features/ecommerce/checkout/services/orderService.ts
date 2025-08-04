@@ -8,10 +8,10 @@ export interface OrderItem {
 }
 
 export interface ShippingAddress {
-    address: string;
-    city: string;              // Para Lima: ciudad de entrega
-    state: string;             // Para Lima: departamento/región
-    phone: string;
+    address: string | null;    // Dirección para entrega a domicilio, puede ser null para recojo
+    city: string | null;       // Ciudad para entrega a domicilio o sede de recojo 
+    state: string | null;      // Departamento/región para entrega a domicilio
+    phone: string;             // Teléfono siempre es requerido
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -21,13 +21,14 @@ export interface ShippingAddress {
     ruc?: string;
     invoiceType?: 'boleta' | 'factura';
     deliveryOption?: 'lima' | 'shalom' | 'capital';
+    method_shipping?: 'envio_puerta' | 'recojo_oficina' | 'recojo_shalom';
     
-    // Campos específicos para Agencia Shalom
-    shalomDepartment?: string; // Departamento para agencia Shalom
-    shalomAgency?: string;     // Agencia específica Shalom
+    // Campos específicos para Agencia Shalom - solo usados internamente en el frontend
+    shalomDepartment?: string;
+    shalomAgency?: string;
     
-    // Campo específico para Capital Infinity
-    capitalBranch?: string;    // Sede de Capital Infinity
+    // Campo específico para Capital Infinity - solo usado internamente en el frontend
+    capitalBranch?: string;
 }
 
 export interface OrderData {
@@ -64,6 +65,49 @@ export function mapCartItemsToOrderItems(items: CartProduct[]): OrderItem[] {
  */
 export async function createOrder(orderData: OrderData): Promise<OrderResponse> {
     try {
+        // Formatear los datos de envío según el método de envío
+        if (orderData.shipping_address) {
+            const { deliveryOption } = orderData.shipping_address;
+            let method_shipping: 'envio_puerta' | 'recojo_oficina' | 'recojo_shalom' = 'envio_puerta';
+            
+            // Establecer el método de envío según la opción seleccionada
+            switch (deliveryOption) {
+                case 'lima':
+                    method_shipping = 'envio_puerta';
+                    // Asegurar que los campos de dirección estén presentes para envío a puerta
+                    orderData.shipping_address = {
+                        ...orderData.shipping_address,
+                        method_shipping
+                    };
+                    break;
+                case 'capital':
+                    method_shipping = 'recojo_oficina';
+                    // Para recojo en oficina, establecer address y state en null
+                    orderData.shipping_address = {
+                        ...orderData.shipping_address,
+                        method_shipping,
+                        address: null,
+                        state: null,
+                        city: orderData.shipping_address.capitalBranch || null
+                    };
+                    break;
+                case 'shalom':
+                    method_shipping = 'recojo_shalom';
+                    // Para recojo en Shalom, establecer address, city y state en null
+                    orderData.shipping_address = {
+                        ...orderData.shipping_address,
+                        method_shipping,
+                        address: null,
+                        city: null,
+                        state: null
+                    };
+                    break;
+                default:
+                    // Por defecto, usamos envío a puerta
+                    orderData.shipping_address.method_shipping = 'envio_puerta';
+            }
+        }
+        
         const response = await post<OrderResponse>('orders/', orderData);
         return response;
     } catch (error) {

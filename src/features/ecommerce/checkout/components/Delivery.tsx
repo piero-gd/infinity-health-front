@@ -81,6 +81,7 @@ export default function Delivery() {
       setShippingAddress({
         ...shippingAddress,
         deliveryOption: option as 'lima' | 'shalom' | 'capital',
+        method_shipping: 'envio_puerta', // Método de envío a puerta para Lima
         // Mantener los datos de Lima si ya existen
         // Limpiar campos específicos de otras opciones
         shalomDepartment: '',
@@ -95,6 +96,7 @@ export default function Delivery() {
       setShippingAddress({
         ...shippingAddress,
         deliveryOption: option as 'lima' | 'shalom' | 'capital',
+        method_shipping: 'recojo_shalom', // Método de recojo en Shalom
         // Mantener los datos de Shalom si ya existen
         // Limpiar campos específicos de otras opciones
         address: '', // Limpiar dirección de Lima
@@ -109,6 +111,7 @@ export default function Delivery() {
       setShippingAddress({
         ...shippingAddress,
         deliveryOption: option as 'lima' | 'shalom' | 'capital',
+        method_shipping: 'recojo_oficina', // Método de recojo en oficina para Capital
         // Limpiar campos específicos de otras opciones
         address: '', // Limpiar dirección de Lima
         city: '',    // Limpiar ciudad de Lima
@@ -518,7 +521,9 @@ export default function Delivery() {
                             // Actualizar el estado global con la sede seleccionada
                             setShippingAddress({
                               ...shippingAddress,
-                              capitalBranch: sede
+                              capitalBranch: sede,
+                              // Para la API, usamos capitalBranch como city en recojo_oficina
+                              city: sede
                             });
                             // Para fines de debugging
                             console.log('Sede seleccionada:', sede);

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../cart/stores/useCartStore';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { createOrder, mapCartItemsToOrderItems } from '../services/orderService';
+import { createPaymentPreference } from '../services/paymentService';
 import { showToast } from '../../../../utils/toastConfig';
 
 /**
@@ -162,7 +163,7 @@ export const useCheckout = () => {
     };
 
     /**
-     * Completa la orden y la envía al backend
+     * Inicia el proceso de pago con Mercado Pago (simulado)
      */
     const completeOrder = async () => {
         if (isSubmitting) return;
@@ -181,23 +182,45 @@ export const useCheckout = () => {
                 ...(referralCode && { referral_code: referralCode })
             };
             
-            // Simulación de procesamiento de pago (normalmente sería un llamado a un servicio de pago)
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Asegurarse de que el método de envío está establecido correctamente
+            if (orderData.shipping_address) {
+                const { deliveryOption } = orderData.shipping_address;
+                // Establecer method_shipping si no está definido
+                if (!orderData.shipping_address.method_shipping) {
+                    switch (deliveryOption) {
+                        case 'lima':
+                            orderData.shipping_address.method_shipping = 'envio_puerta';
+                            break;
+                        case 'capital':
+                            orderData.shipping_address.method_shipping = 'recojo_oficina';
+                            break;
+                        case 'shalom':
+                            orderData.shipping_address.method_shipping = 'recojo_shalom';
+                            break;
+                        default:
+                            // Por defecto, usamos envío a puerta
+                            orderData.shipping_address.method_shipping = 'envio_puerta';
+                    }
+                }
+            }
             
-            // Crear la orden en el backend
-            const response = await createOrder(orderData);
+            // Guardar temporalmente los datos de la orden
+            localStorage.setItem('pendingOrderData', JSON.stringify(orderData));
             
-            // Actualizar estado y navegar a confirmación
-            setOrderComplete(response.id);
-            clearCart();
-            showToast.success('¡Orden completada!', 'Tu orden ha sido procesada con éxito');
-            navigate('/checkout/confirmation');
+            // Solicitar URL de pago al backend (simulado)
+            const paymentResponse = await createPaymentPreference(orderData);
+            
+            if (!paymentResponse.success) {
+                throw new Error(paymentResponse.error || 'Error al crear preferencia de pago');
+            }
+            
+            // Redirigir a la página de pago simulada (o a Mercado Pago en implementación real)
+            window.location.href = paymentResponse.paymentUrl as string;
             
         } catch (error) {
-            console.error('Error al procesar la orden:', error);
-            setError(error instanceof Error ? error.message : 'Ocurrió un error al procesar tu orden.');
-            showToast.error('Error en el proceso', 'No se pudo procesar tu orden. Por favor intenta nuevamente.');
-        } finally {
+            console.error('Error al iniciar el proceso de pago:', error);
+            setError(error instanceof Error ? error.message : 'Ocurrió un error al iniciar el proceso de pago.');
+            showToast.error('Error en el proceso', 'No se pudo iniciar el proceso de pago. Por favor intenta nuevamente.');
             setIsSubmitting(false);
         }
     };

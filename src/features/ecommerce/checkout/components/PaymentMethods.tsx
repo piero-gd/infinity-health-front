@@ -5,6 +5,8 @@ import { RiInfinityLine } from "react-icons/ri";
 import { ImWhatsapp } from "react-icons/im";
 import { CiCreditCard1 } from "react-icons/ci";
 import PaymentLogos from "../../../../components/PaymentLogos";
+import { useCheckout } from '../hooks/useCheckout';
+import { showToast } from '../../../../utils/toastConfig';
 
 const cardPaymentLogos = [
     { src: "/img/icons/visa-logo.svg" },
@@ -14,15 +16,16 @@ const cardPaymentLogos = [
 ];
 
 export default function PaymentMethods() {
-
-    //por default crypto
-    const [selectedMethod, setSelectedMethod] = useState('crypto');
-    //por default false
+    // Por default card para la simulación de Mercado Pago
+    const [selectedMethod, setSelectedMethod] = useState('card');
+    // Por default false
     const [acceptedTerms, setAcceptedTerms] = useState({
         crypto: false,
         whatsapp: false,
         card: false
     });
+    
+    const { isSubmitting, completeOrder } = useCheckout();
 
     const handleMethodSelect = (method: string) => {
         setSelectedMethod(method);
@@ -33,6 +36,20 @@ export default function PaymentMethods() {
             ...prev,
             [method]: checked
         }));
+    };
+    
+    const handlePayment = (method: string) => {
+        if (!acceptedTerms[method as keyof typeof acceptedTerms]) {
+            showToast.error('Términos y Condiciones', 'Debes aceptar los términos y condiciones para continuar');
+            return;
+        }
+        
+        if (method === 'card') {
+            // Para la simulación, solo implementamos el método de tarjeta
+            completeOrder();
+        } else {
+            showToast.info('Método de pago', 'Este método de pago no está disponible en la simulación');
+        }
     };
 
     return (
@@ -81,7 +98,11 @@ export default function PaymentMethods() {
                                 
                                 {selectedMethod === 'crypto' && (
                                     <div className="mt-4 pt-2">
-                                        <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-3 px-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
+                                        <button
+                                            onClick={() => handlePayment('crypto')}
+                                            disabled={isSubmitting}
+                                            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-3 px-4 rounded-full font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                                        >
                                             Pagar con Staking X
                                             <RiInfinityLine className="hidden xl:block md:block w-10 h-6 text-white" />
                                         </button>
@@ -148,7 +169,11 @@ export default function PaymentMethods() {
                                 
                                 {selectedMethod === 'whatsapp' && (
                                     <div className="mt-4 pt-2 ">
-                                        <button className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
+                                        <button 
+                                            onClick={() => handlePayment('whatsapp')}
+                                            disabled={isSubmitting} 
+                                            className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                                        >
                                              Pagar por WhatsApp
                                              <ImWhatsapp className="hidden xl:block md:block ml-2 w-6 h-6 text-[var(--color-primary)]" />
                                         </button>
@@ -207,10 +232,13 @@ export default function PaymentMethods() {
                                 
                                 {selectedMethod === 'card' && (
                                     <div className="mt-4 pt-2">
-                                        <button className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2">
-                
-                                            Pagar con Tarjeta
-                                            <CiCreditCard1 className="hidden xl:block md:block ml-2 w-6 h-6 text-[var(--color-primary)]" />
+                                        <button 
+                                            onClick={() => handlePayment('card')} 
+                                            disabled={isSubmitting}
+                                            className="w-full bg-white text-[var(--color-primary)] border-[var(--color-primary)] border-2 py-3 px-4 shadow-lg rounded-full font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                                        >
+                                            {isSubmitting ? 'Procesando pago...' : 'Pagar con Tarjeta'}
+                                            {!isSubmitting && <CiCreditCard1 className="hidden xl:block md:block ml-2 w-6 h-6 text-[var(--color-primary)]" />}
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
