@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { MapPin, ChevronDown } from "lucide-react";
 import type { PlacesCalculationType } from "../types";
 import { useCheckoutStore } from '../stores/useCheckoutStore';
+import { useCartStore } from '../../cart/stores/useCartStore';
 
 const options: PlacesCalculationType[] = [
     { option: "lima", place: "Lima Metropolitana", days: "2-3 días hábiles", description: "Delivery a domicilio" },
@@ -11,6 +12,7 @@ const options: PlacesCalculationType[] = [
 
 export default function Delivery() {
   const { setShippingAddress, shippingAddress } = useCheckoutStore();
+  const { setFreeShipping } = useCartStore();
   const [selectedDeliveryOption, setSelectedDeliveryOption] = useState(shippingAddress.deliveryOption || '');
   const [showLimaDetails, setShowLimaDetails] = useState(selectedDeliveryOption === 'lima');
 
@@ -32,6 +34,13 @@ export default function Delivery() {
   const sedeInfinityRef = useRef<HTMLDivElement>(null);
   const departamentoRef = useRef<HTMLDivElement>(null);
   const agenciaShalomRef = useRef<HTMLDivElement>(null);
+
+  // Configurar envío gratuito si ya está seleccionada la opción Capital al cargar
+  useEffect(() => {
+    if (shippingAddress.deliveryOption === 'capital') {
+      setFreeShipping(true);
+    }
+  }, [shippingAddress.deliveryOption, setFreeShipping]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -58,6 +67,10 @@ export default function Delivery() {
 
   const handleDeliveryOptionChange = (option: string) => {
     setSelectedDeliveryOption(option);
+    
+    // Configurar el envío gratuito según la opción seleccionada
+    const isCapitalOption = option === 'capital';
+    setFreeShipping(isCapitalOption);
     
     // Limpiar datos específicos dependiendo de la opción seleccionada
     if (option === 'lima') {
@@ -106,7 +119,7 @@ export default function Delivery() {
     }
     
     // Para fines de debugging
-    console.log('Opción de entrega seleccionada:', option);
+    console.log('Opción de entrega seleccionada:', option, 'Envío gratuito:', isCapitalOption);
   };
 
   return (

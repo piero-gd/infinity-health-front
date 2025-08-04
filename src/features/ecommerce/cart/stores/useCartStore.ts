@@ -7,6 +7,7 @@ interface CartState {
   // Estado
   items: CartProduct[];
   isOpen: boolean;
+  freeShipping: boolean;
   
   // Valores derivados - calculados automáticamente
   subtotal: number;
@@ -27,15 +28,16 @@ interface CartState {
   toggleCart: () => void;
   startCheckout: () => void;
   completeCheckout: (success: boolean, error?: string) => void;
+  setFreeShipping: (isFree: boolean) => void;
 }
 
 // Función para calcular valores derivados
-const calculateDerivedValues = (items: CartProduct[]) => {
+const calculateDerivedValues = (items: CartProduct[], freeShipping: boolean = false) => {
   const subtotal = items.reduce((sum, item) => sum + (parseFloat(item.price) * item.quantity), 0);
   const subtotalEmbajador = items.reduce((sum, item) => sum + (parseFloat(item.price_amb || item.price) * item.quantity), 0);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   // Valores fijos por ahora, podrían ser calculados según reglas de negocio
-  const shipping = subtotal > 0 ? 10 : 0; // Ejemplo: envío gratuito por compras mayores a cierto valor
+  const shipping = (freeShipping || subtotal === 0) ? 0 : 10; // Envío gratis para recojo en sede o carrito vacío
   const discount = 0; // Por implementar: descuentos por cupones, etc.
   const total = subtotal + shipping - discount;
   
@@ -56,6 +58,7 @@ export const useCartStore = create<CartState>()(
         // Estado básico
         items: [],
         isOpen: false,
+        freeShipping: false,
         
         // Valores derivados iniciales
         ...calculateDerivedValues([]),
@@ -64,7 +67,7 @@ export const useCartStore = create<CartState>()(
         checkoutError: false,
         
         addItem: (product) => {
-          const { items } = get();
+          const { items, freeShipping } = get();
           const existingItem = items.find(item => item.id === product.id);
           
           let newItems;
@@ -83,15 +86,16 @@ export const useCartStore = create<CartState>()(
           // Actualizar estado con nuevos items y valores derivados
           set({ 
             items: newItems,
-            ...calculateDerivedValues(newItems)
+            ...calculateDerivedValues(newItems, freeShipping)
           });
         },
         
         removeItem: (productId) => {
-          const newItems = get().items.filter(item => item.id !== productId);
+          const { items, freeShipping } = get();
+          const newItems = items.filter(item => item.id !== productId);
           set({
             items: newItems,
-            ...calculateDerivedValues(newItems)
+            ...calculateDerivedValues(newItems, freeShipping)
           });
         },
         
@@ -99,19 +103,21 @@ export const useCartStore = create<CartState>()(
           // No permitir cantidades menores a 1
           if (quantity < 1) return;
           
-          const newItems = get().items.map(item => 
+          const { items, freeShipping } = get();
+          const newItems = items.map(item => 
             item.id === productId ? { ...item, quantity } : item
           );
           
           set({
             items: newItems,
-            ...calculateDerivedValues(newItems)
+            ...calculateDerivedValues(newItems, freeShipping)
           });
         },
         
         clearCart: () => set({ 
           items: [],
-          ...calculateDerivedValues([]),
+          freeShipping: false,
+          ...calculateDerivedValues([], false),
           checkoutSuccess: false,
           checkoutError: false
         }),
@@ -125,13 +131,21 @@ export const useCartStore = create<CartState>()(
           checkoutError: false
         }),
 
-        completeCheckout: (success, error) => set(state => ({
+        completeCheckout: (success, error) => set({
           isCheckingOut: false,
           checkoutSuccess: success,
           checkoutError: error || false,
           // Si fue exitoso, limpiar el carrito
-          ...(success ? { items: [], ...calculateDerivedValues([]) } : {})
-        }))
+          ...(success ? { items: [], freeShipping: false, ...calculateDerivedValues([]) } : {})
+        }),
+        
+        setFreeShipping: (isFree) => {
+          const { items } = get();
+          set({ 
+            freeShipping: isFree,
+            ...calculateDerivedValues(items, isFree)
+          });
+        }
       }),
       {
         name: 'infinity-health-cart',
