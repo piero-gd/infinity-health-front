@@ -3,6 +3,21 @@ export interface ProductImage {
     is_featured: boolean;
 }
 
+export interface ColorOption {
+    value: string;        // Valor del color (código HEX, RGB, o nombre de color válido)
+    name: string;         // Nombre para mostrar del color
+    borderColor?: string; // Color del borde (opcional, usa value por defecto)
+    available?: boolean;   // Si el color está disponible
+}
+
+export interface SizeOption {
+    value: string;
+    label: string;
+    stock: number;
+    available: boolean;
+    originalLabel?: string; // Para mantener la etiqueta original cuando se muestra tachada
+}
+
 export interface ProductSpecification {
     id: number;
     color?: string;
@@ -10,6 +25,9 @@ export interface ProductSpecification {
     weight?: string;
     stock: number;
     is_available: boolean;
+    // Nuevas propiedades para manejar opciones
+    available_colors?: ColorOption[];
+    available_sizes?: SizeOption[];
 }
 
 export interface CategoryInfo {

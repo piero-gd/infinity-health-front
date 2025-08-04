@@ -68,12 +68,12 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
                 {/* Price */}
                 <div className="mb-1">
                     { product.price !== product.price_amb && (
-                        <div className="text-xs text-gray-400 mb-0.5 line-through">
+                        <div className="text-sm text-gray-400 mb-0.5 line-through">
                             {formatPrice(product.price)}
                         </div>
                     )}
                     <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-[var(--color-primary)]">
+                        <span className="text-base font-bold text-[var(--color-primary)]">
                             {formatPrice(product.price_amb)}
                         </span>
                         {product.price !== product.price_amb && (

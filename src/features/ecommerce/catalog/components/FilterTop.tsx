@@ -137,9 +137,8 @@ export default function FilterTop() {
                           : 'ring-0 hover:scale-105'}
                         `}
             >
-              <div className="flex items-center gap-2">
-                {category.name}
-              <span className="text-base">{category.icon}</span>
+              <div className="whitespace-nowrap inline-flex items-center gap-2">
+                {category.name}{category.icon}
               </div>
             </button>
             {/* Línea inferior para la categoría seleccionada */}

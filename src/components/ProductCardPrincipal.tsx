@@ -54,19 +54,19 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
                 </div>
 
                 {/* Slogan */}
-                <p className="text-xs text-gray-500 mb-2 leading-snug truncate text-center w-full">
+                <p className="text-sm text-gray-500 mb-2 leading-snug truncate text-center w-full">
                     {product.slogan}
                 </p>
 
                 {/* Precio */}
                 <div className="mb-1 w-full flex flex-col items-center">
                     {product.price !== product.price_amb && (
-                        <div className="text-xs text-gray-400 mb-0.5 line-through">
+                        <div className="text-sm text-gray-400 mb-0.5 line-through">
                             {formatPrice(product.price)}
                         </div>
                     )}
                     <div className="flex items-center gap-2 justify-center">
-                        <span className="text-sm font-bold text-[var(--color-primary)]">
+                        <span className="text-base font-bold text-[var(--color-primary)]">
                             {formatPrice(product.price_amb)}
                         </span>
                         {product.price !== product.price_amb && (
