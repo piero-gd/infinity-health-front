@@ -1,66 +1,125 @@
-import React from 'react';
+import { FaShoppingCart } from "react-icons/fa";
 import { useCartStore } from '../../cart/stores/useCartStore';
+import { useCheckoutStore } from '../stores/useCheckoutStore';
 
 interface OrderSummaryProps {
   showItems?: boolean;
+  paymentView?: boolean;
 }
 
 /**
  * Componente que muestra el resumen de la orden (productos, subtotal, envío, descuento, total)
  */
-export const OrderSummary: React.FC<OrderSummaryProps> = ({ showItems = true }) => {
-  const { items, subtotal, shipping, discount, total } = useCartStore();
+export const OrderSummary: React.FC<OrderSummaryProps> = ({ showItems = true, paymentView = false }) => {
+  // Obtener datos del carrito
+  const { items, subtotal, subtotalEmbajador, shipping, discount } = useCartStore();
+  
+  // Estado del checkout
+  const { referralCode } = useCheckoutStore();
+  
+  // Calcular total
+  const isAmbassador = !!referralCode;
+  const effectiveSubtotal = isAmbassador ? subtotalEmbajador : subtotal;
+  const total = effectiveSubtotal + shipping - discount;
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-semibold mb-4">Resumen de la Orden</h3>
+    <div className={`${paymentView ? 'bg-white rounded-2xl' : 'bg-white rounded-lg shadow'} p-6`}>
+      <h2 className={`font-semibold text-lg mb-4 ${paymentView ? 'text-gray-900' : ''}`}>{paymentView ? 'Tu Pedido' : 'Resumen de la Orden'}</h2>
       
-      {showItems && items.length > 0 && (
-        <div className="mb-4">
-          <h4 className="font-medium mb-2">Productos</h4>
-          <div className="space-y-3 max-h-60 overflow-y-auto mb-4">
-            {items.map((item) => (
-              <div key={item.id} className="flex items-center justify-between text-sm">
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded overflow-hidden mr-3">
-                    <img 
-                      src={item.images?.[0]?.image_url || '/img/product-placeholder.png'} 
-                      alt={item.name} 
-                      className="w-full h-full object-cover"
-                    />
+      {showItems && items.length > 0 && !paymentView && (
+        <div className="space-y-4 mb-6">
+          {items.map((item) => (
+            <div key={item.id} className="flex items-center space-x-4 pb-4 border-b border-gray-100 last:border-b-0">
+              {/* Product Image */}
+              <div className="w-15 h-15 bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                {item.images?.[0]?.image_url ? (
+                  <img 
+                    src={item.images[0].image_url} 
+                    alt={item.name} 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="text-gray-400 text-xl">
+                    <FaShoppingCart />
+                  </div>
+                )}
+              </div>
+              
+              {/* Product Info */}
+              <div className="flex-1">
+                <h3 className="font-medium text-gray-900 text-left">{item.name}</h3>
+                <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>
+              </div>
+              
+              {/* Product Price */}
+              <div className="text-right">
+                <span className="font-semibold text-gray-900">
+                  ${(parseFloat(item.price_amb || item.price) * item.quantity).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      <div className={`${paymentView ? 'space-y-3 mb-6' : 'space-y-2 border-t pt-3'}`}>
+        <div className="flex justify-between items-center">
+          <span className={`${paymentView ? 'text-gray-700 font-medium' : ''}`}>Subtotal</span>
+          <span className={`${paymentView ? 'text-gray-900 font-semibold' : ''}`}>$ {subtotal.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className={`${paymentView ? 'text-gray-700 font-medium' : ''}`}>Envío</span>
+          <span className={`${paymentView ? 'text-gray-900 font-semibold' : ''}`}>$ {shipping.toFixed(2)}</span>
+        </div>
+        {discount > 0 && (
+          <div className="flex justify-between items-center">
+            <span className={`${paymentView ? 'text-gray-700 font-medium' : ''} text-green-600`}>Descuento</span>
+            <span className={`${paymentView ? 'text-gray-900 font-semibold' : ''} text-green-600`}>-$ {discount.toFixed(2)}</span>
+          </div>
+        )}
+        
+        {paymentView && <hr className="border-gray-200 my-4" />}
+        <div className={`flex justify-between ${paymentView ? 'items-center pb-4' : 'font-bold text-lg border-t pt-2 mt-2'}`}>
+          <span className={paymentView ? 'text-xl font-bold text-gray-900' : ''}>Total</span>
+          <span className={paymentView ? 'text-2xl font-semibold text-[var(--color-primary)]' : ''}>$ {total.toFixed(2)}</span>
+        </div>
+      </div>
+
+      {paymentView && (
+        <div className="mt-6">
+          <div className="flex items-center justify-between cursor-pointer" 
+               onClick={() => document.getElementById('productsList')?.classList.toggle('hidden')}>
+            <h3 className="font-medium text-gray-800">Productos</h3>
+            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+          
+          <div id="productsList" className="mt-4 hidden">
+            {items.map(item => (
+              <div key={item.id} className="mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden">
+                    {item.images?.[0]?.image_url && (
+                      <img 
+                        src={item.images[0].image_url} 
+                        alt={item.name} 
+                        className="w-full h-full object-cover"
+                      />
+                    )}
                   </div>
                   <div>
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-gray-600">Cantidad: {item.quantity}</p>
+                    <p className="font-medium text-sm">{item.name}</p>
+                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <span>${parseFloat(item.price_amb || item.price).toFixed(2)} x {item.quantity}</span>
+                    </div>
                   </div>
                 </div>
-                <p className="font-medium">${parseFloat(item.price) * item.quantity}</p>
               </div>
             ))}
           </div>
         </div>
       )}
-      
-      <div className="space-y-2 border-t pt-3">
-        <div className="flex justify-between">
-          <span>Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span>Envío</span>
-          <span>${shipping.toFixed(2)}</span>
-        </div>
-        {discount > 0 && (
-          <div className="flex justify-between text-green-600">
-            <span>Descuento</span>
-            <span>-${discount.toFixed(2)}</span>
-          </div>
-        )}
-        <div className="flex justify-between font-bold text-lg border-t pt-2 mt-2">
-          <span>Total</span>
-          <span>${total.toFixed(2)}</span>
-        </div>
-      </div>
     </div>
   );
 };

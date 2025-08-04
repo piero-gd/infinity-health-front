@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressCart from "../../cart/components/ProgressCart";
 import { OrderSummary } from "../components/OrderSummary";
-import ProductsCheckout from "../components/ProductsCheckout";
 import { useCartStore } from "../../cart/stores/useCartStore";
 import { useCheckoutStore } from "../stores/useCheckoutStore";
 import SecurityFeatures from "../components/SecurityFeatures";
@@ -40,17 +39,17 @@ export default function PaymentPage() {
                             <SecurityFeatures />
                         </div>
                     </div>
-                    
+                </div>
+                
+                {/* Sección derecha - 1/3 del ancho en desktop */}
+                <div className="lg:col-span-1 w-full space-y-6">
                     {/* Información del cliente y entrega */}
                     <div className="bg-white rounded-3xl p-6">
                         <PersonalDetails />
                     </div>
-                </div>
-                
-                {/* Sección derecha - 1/3 del ancho en desktop */}
-                <div className="lg:col-span-1 w-full">
-                    <div className="bg-gray-50 rounded-3xl w-full h-full">
-                        <ProductsCheckout showCompletePurchase={true} />
+                    
+                    <div className="bg-gray-50 rounded-3xl w-full">
+                        <OrderSummary paymentView={true} />
                     </div>
                 </div>
             </div>
