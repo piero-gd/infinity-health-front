@@ -49,7 +49,7 @@ export default function PaymentPage() {
                     </div>
                     
                     <div className="bg-gray-50 rounded-3xl w-full">
-                        <OrderSummary paymentView={true} />
+                        <OrderSummary />
                     </div>
                 </div>
             </div>
