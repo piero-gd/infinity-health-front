@@ -39,6 +39,8 @@ export const useCheckout = () => {
         
         setCurrentStep(2);
         navigate('/checkout/shipping');
+        // Scroll al inicio de la página
+        window.scrollTo(0, 0);
     };
 
     /**
@@ -160,6 +162,8 @@ export const useCheckout = () => {
         // Si todas las validaciones pasan, proceder al siguiente paso
         setCurrentStep(3);
         navigate('/checkout/payment');
+        // Scroll al inicio de la página
+        window.scrollTo(0, 0);
     };
 
     /**

@@ -4,6 +4,7 @@ import { Popover, Transition } from '@headlessui/react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useCart } from '../hooks/useCart';
+import { useCheckout } from '../../checkout/hooks/useCheckout';
 
 interface MiniCartProps {
   className?: string;
@@ -17,6 +18,8 @@ export const MiniCart: React.FC<MiniCartProps> = ({ className = '' }) => {
     removeFromCart,
     updateCartQuantity
   } = useCart();
+  
+  const { proceedToShipping } = useCheckout();
   
   return (
     <Popover className={`relative ${className}`}>
@@ -155,10 +158,11 @@ export const MiniCart: React.FC<MiniCartProps> = ({ className = '' }) => {
                           </svg>
                         </Link>
                         <button 
-                          className="w-full bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 rounded-full font-medium flex items-center justify-center gap-2"
+                          className="w-full bg-gradient-to-b from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)] text-white py-3 px-6 rounded-full font-medium flex items-center justify-center gap-2 cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Lógica de checkout cuando esté implementada
+                            close();
+                            proceedToShipping();
                           }}
                         >
                           Proceder a pagar

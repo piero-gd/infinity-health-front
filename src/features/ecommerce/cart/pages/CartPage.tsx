@@ -27,6 +27,9 @@ export default function CartPage() {
     
     // Reiniciar el paso de checkout cuando se carga la página del carrito
     useEffect(() => {
+        // Scroll al inicio de la página cuando se carga el carrito
+        window.scrollTo(0, 0);
+        
         // Si quieres reiniciar el checkout al entrar al carrito
         // resetCheckoutProcess();
     }, []);
