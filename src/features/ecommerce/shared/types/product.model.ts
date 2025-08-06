@@ -5,8 +5,6 @@ export interface ProductImage {
 
 export interface ColorOption {
     value: string;        // Valor del color (código HEX, RGB, o nombre de color válido)
-    name: string;         // Nombre para mostrar del color
-    borderColor?: string; // Color del borde (opcional, usa value por defecto)
     available?: boolean;   // Si el color está disponible
 }
 

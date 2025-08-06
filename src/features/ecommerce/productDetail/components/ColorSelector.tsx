@@ -6,7 +6,6 @@ interface ColorSelectorProps {
     selectedColor?: string;
     onColorSelect?: (color: string) => void;
     label?: string;
-    className?: string;
 }
 
 export const ColorSelector = ({
@@ -14,7 +13,6 @@ export const ColorSelector = ({
     selectedColor: externalSelectedColor,
     onColorSelect,
     label = 'Color',
-    className = ''
 }: ColorSelectorProps) => {
     const [internalSelectedColor, setInternalSelectedColor] = useState<string>('');
     
@@ -37,7 +35,7 @@ export const ColorSelector = ({
     }
 
     return (
-        <div className={className}>
+        <div>
             <h4 className="text-sm font-semibold mb-2 text-gray-700">{label}</h4>
             <div className="flex flex-wrap items-center gap-3">
                 {colors.map((color) => {
@@ -46,7 +44,6 @@ export const ColorSelector = ({
                         <label key={color.value} className="cursor-pointer">
                             <input
                                 type="radio"
-                                name="color"
                                 value={color.value}
                                 checked={isSelected}
                                 onChange={() => handleColorSelect(color.value)}
@@ -56,15 +53,11 @@ export const ColorSelector = ({
                                 className={`
                                     relative w-8 h-8 rounded-full border-2
                                     ${isSelected 
-                                        ? 'ring-2 ring-gray-700 ring-offset-2' 
-                                        : 'hover:ring-2 hover:ring-gray-300 hover:ring-offset-1'
+                                        ? `bg-${color.value}-500 border-${color.value}-500 ring-2 ring-gray-700 ring-offset-2` 
+                                        : `hover:bg-${color.value}-500 hover:border-${color.value}-500 hover:ring-2 hover:ring-gray-300 hover:ring-offset-1`
                                     }
                                     transition-all duration-200
                                 `}
-                                style={{
-                                    backgroundColor: color.value,
-                                    borderColor: color.borderColor || color.value,
-                                }}
                             />
                         </label>
                     );

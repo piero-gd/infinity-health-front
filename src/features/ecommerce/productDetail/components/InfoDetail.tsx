@@ -4,11 +4,11 @@ import { CategoriesTag } from '../../../../components/CategoriesTag';
 import { TbTruckDelivery } from "react-icons/tb";
 import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { BiHomeAlt2 } from "react-icons/bi";
-
 import type { InfoDetailProps } from '../types';
 import { ColorSelector } from './ColorSelector';
 import { SizeSelector } from './SizeSelector';
 import type { ColorOption, SizeOption } from '../../shared/types/product.model';
+import { showToast } from '../../../../utils/toastConfig';
 
 export const InfoDetail: React.FC<InfoDetailProps> = ({ 
     product,
@@ -30,7 +30,6 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                 uniqueColors.set(spec.color, true);
                 const colorOption: ColorOption = {
                     value: spec.color, // Usamos el color directamente del backend
-                    name: spec.color, // Usamos el nombre del color directamente
                     available: spec.is_available !== false
                 };
                 colors.push(colorOption);
@@ -74,7 +73,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
         
         // Convertir a array y ordenar
         return Array.from(sizeMap.values()).sort((a, b) => {
-            const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL', '36', '38', '40', '42', '44', '46', '48', '50'];
+            const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
             const indexA = sizeOrder.indexOf(a.value);
             const indexB = sizeOrder.indexOf(b.value);
             
@@ -114,13 +113,13 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             
             // Validar selección de color si hay colores disponibles
             if (availableColors.length > 0 && !selectedColor) {
-                setError('Por favor selecciona un color');
+                showToast.error('Por favor selecciona un color');
                 return;
             }
             
             // Validar selección de talla si hay tallas disponibles
             if (availableSizes.length > 0 && !selectedSize) {
-                setError('Por favor selecciona una talla');
+                showToast.error('Por favor selecciona una talla');
                 return;
             }
             
@@ -130,7 +129,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             );
             
             if (selectedSpec && selectedSpec.stock < quantity) {
-                setError(`Solo quedan ${selectedSpec.stock} unidades disponibles`);
+                showToast.error(`Producto agotado`);
                 return;
             }
             
@@ -158,7 +157,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
             
         } catch (err) {
             console.error('Error al agregar al carrito:', err);
-            setError('Ocurrió un error al agregar el producto al carrito');
+            showToast.error('Ocurrió un error al agregar el producto al carrito');
         } finally {
             setIsAddingToCart(false);
         }
@@ -203,7 +202,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
                             <span className="text-md font-medium text-gray-700">
-                                {product.rating || '4.9'}
+                                {product.rating}
                             </span>
             
              <span className="text-md text-gray-500 ml-1">
@@ -238,9 +237,11 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                 
             </div>
 
-            {/* DESCRIPCIÓN */}
             <div className="mt-3 mb-2">
-                <p className="text-gray-600 text-sm">{product.description}</p>
+                <div 
+                    className="text-gray-600 text-sm product-description"
+                    dangerouslySetInnerHTML={{ __html: product.description || '' }}
+                />
             </div>
 
             {/* Selector de color */}
@@ -270,7 +271,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
 
             {/* Mensaje de error */}
             {error && (
-                <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
+                <div>
                     {error}
                 </div>
             )}
@@ -329,36 +330,7 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         )}
                     </button>
                 </div>
-                
-                {/* Mostrar stock disponible para la variante seleccionada */}
-                {selectedColor && selectedSize && (
-                    <div className="text-sm text-gray-600 text-center xl:text-left">
-                        {(() => {
-                            const spec = product.specifications?.find(s => 
-                                s.color === selectedColor && s.size === selectedSize
-                            );
-                            
-                            if (!spec) return null;
-                            
-                            const stock = spec.stock || 0;
-                            const isLowStock = stock > 0 && stock <= 5;
-                            const isOutOfStock = stock <= 0;
-                            
-                            if (isOutOfStock) {
-                                return <span className="text-red-600">Agotado</span>;
-                            }
-                            
-                            return (
-                                <span className={isLowStock ? 'text-amber-600' : 'text-green-600'}>
-                                    {isLowStock 
-                                        ? `¡Quedan pocas! Solo ${stock} unidades disponibles`
-                                        : `En stock: ${stock} unidades disponibles`
-                                    }
-                                </span>
-                            );
-                        })()}
-                    </div>
-                )}
+            
             </div>
 
 
