@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { useCartStore } from '../../cart/stores/useCartStore';
@@ -23,10 +23,48 @@ export default function PaymentResultPage() {
   const { setOrderComplete, setError } = useCheckoutStore();
   const { clearCart } = useCartStore();
   
+  // Ref para evitar procesamiento duplicado
+  const hasProcessedRef = useRef(false);
+  
+  // Función para limpiar órdenes procesadas antiguas (más de 24 horas)
+  const cleanupOldProcessedOrders = () => {
+    const oneDay = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+    const now = Date.now();
+    
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith('processed_order_')) {
+        const timestamp = localStorage.getItem(`${key}_timestamp`);
+        if (timestamp && (now - parseInt(timestamp)) > oneDay) {
+          localStorage.removeItem(key);
+          localStorage.removeItem(`${key}_timestamp`);
+        }
+      }
+    });
+  };
+  
   useEffect(() => {
+    // Evitar procesamiento duplicado
+    if (hasProcessedRef.current) {
+      return;
+    }
+    
+    // Limpiar órdenes procesadas antiguas
+    cleanupOldProcessedOrders();
+    
+    // Validar parámetros necesarios antes de procesar
+    if (!status || !paymentId || !orderId) {
+      showToast.error('Error', 'Parámetros de pago inválidos');
+      navigate('/checkout/payment');
+      setIsVerifying(false);
+      return;
+    }
+    
+    // Marcar como procesado para evitar duplicados
+    hasProcessedRef.current = true;
+    
     const processPaymentResult = async () => {
       try {
-        // Validar parámetros recibidos
+        // Validar parámetros recibidos (validación adicional por seguridad)
         if (!status || !paymentId || !orderId) {
           throw new Error('Parámetros de pago inválidos');
         }
@@ -35,6 +73,14 @@ export default function PaymentResultPage() {
         const pendingOrderData = localStorage.getItem('pendingOrderData');
         if (!pendingOrderData) {
           throw new Error('No hay información de orden pendiente');
+        }
+        
+        // Verificar si esta orden ya fue procesada anteriormente
+        const processedOrderKey = `processed_order_${orderId}`;
+        if (localStorage.getItem(processedOrderKey)) {
+          console.log('Orden ya procesada anteriormente, redirigiendo...');
+          navigate('/checkout/confirmation');
+          return;
         }
         
         const orderData = JSON.parse(pendingOrderData);
@@ -50,6 +96,10 @@ export default function PaymentResultPage() {
           // En un escenario real, el backend habría creado la orden al recibir la confirmación de Mercado Pago
           // Aquí simulamos la creación de la orden después de verificar el pago
           const response = await createOrder(orderData);
+          
+          // Marcar esta orden como procesada para evitar duplicados futuros
+          localStorage.setItem(`processed_order_${orderId}`, 'true');
+          localStorage.setItem(`processed_order_${orderId}_timestamp`, Date.now().toString());
           
           // Actualizar estado
           setOrderComplete(response.id);
@@ -81,7 +131,7 @@ export default function PaymentResultPage() {
     };
     
     processPaymentResult();
-  }, [status, paymentId, orderId, navigate, setOrderComplete, clearCart, setError]);
+  }, [status, paymentId, orderId]); // Solo dependencias esenciales de los parámetros URL
   
   // Mostrar un indicador de carga mientras se verifica
   if (isVerifying) {
