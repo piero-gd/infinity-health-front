@@ -1,9 +1,9 @@
 /**
  * Checkout-related types and interfaces
- * Consolidated and standardized to English
+ * Types specific to checkout functionality
  */
 
-import type { ShippingAddress } from './order.types';
+import type { ShippingAddress } from '../../shared/types';
 
 // Payment data for forms
 export interface PaymentData {

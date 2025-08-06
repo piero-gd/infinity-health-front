@@ -1,5 +1,6 @@
 import { post } from '../../../../services/api';
-import type { CartProduct, OrderItem, OrderData, OrderResponse } from '../../shared/types';
+import type { OrderItem, OrderData, OrderResponse } from '../../shared/types';
+import type { CartProduct } from '../../cart/types';
 
 /**
  * Transforma los productos del carrito al formato que espera la API

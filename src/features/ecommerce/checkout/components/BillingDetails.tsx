@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import type { PaymentInfoType, DropdownType } from "../../shared/types";
+import type { PaymentInfoType, DropdownType } from "../types";
 import { useCheckoutStore } from "../stores/useCheckoutStore";
 
 export default function BillingDetails() {

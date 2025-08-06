@@ -1,19 +1,14 @@
 /**
- * Centralized types exports for ecommerce feature
- * Single source of truth for all type definitions
+ * Central types export
+ * Single source of truth for SHARED ecommerce types only
+ * Feature-specific types should be imported from their respective feature/types
  */
 
-// Product types
+// Product types (core domain - shared across features)
 export * from './product.types';
 
-// Cart types  
-export * from './cart.types';
-
-// Order types
+// Order types (shared between checkout, orders, payments)
 export * from './order.types';
 
-// Checkout types
-export * from './checkout.types';
-
-// Common types
+// Common/shared types (used across all features)
 export * from './common.types';
