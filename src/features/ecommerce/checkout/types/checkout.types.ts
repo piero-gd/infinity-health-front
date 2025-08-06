@@ -1,4 +1,4 @@
-import type { ShippingAddress } from '../services/orderService';
+import type { ShippingAddress } from '../../shared/types';
 
 /**
  * Datos de pago del cliente

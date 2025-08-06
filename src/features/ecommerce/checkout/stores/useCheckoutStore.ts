@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { CheckoutStore } from '../types/checkout.types';
+import type { CheckoutStore } from '../../shared/types';
 
 /**
  * Store para manejar el estado del checkout

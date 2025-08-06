@@ -4,6 +4,9 @@ export * from './services/productsService';
 // Exportar todos los hooks
 export * from './hooks/useProducts';
 
-// Exportar todos los tipos
-export * from './types/product.model';
+// Exportar todos los tipos - Centralized types system
 export * from './types/product.types';
+export * from './types/cart.types';
+export * from './types/order.types';
+export * from './types/checkout.types';
+export * from './types/common.types';

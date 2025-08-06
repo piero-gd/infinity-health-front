@@ -1,6 +1,6 @@
 import { get } from '../../../../services/api';
-import type { Product } from '../types/product.model';
-import type { FetchProductsParams, ProductsResponse } from '../types/product.types';
+import type { Product } from '../types';
+import type { FetchProductsParams, ProductsResponse } from '../types';
 import { adaptFiltersForApi } from '../adapters/apiAdapters';
 
 // Re-exportar tipos para mantener la misma API pública

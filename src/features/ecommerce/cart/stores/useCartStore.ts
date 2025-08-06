@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { createJSONStorage } from 'zustand/middleware';
-import type { CartProduct } from '../../shared/types/product.model';
+import type { CartProduct } from '../../shared/types';
 
 interface CartState {
   // Estado

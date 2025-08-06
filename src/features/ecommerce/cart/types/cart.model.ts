@@ -1,4 +1,4 @@
-import type { CartProduct } from '../../shared/types/product.model';
+import type { CartProduct } from '../../shared/types';
 
 /**
  * Representa un item en el carrito con la estructura adaptada para la UI

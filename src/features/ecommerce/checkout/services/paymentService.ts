@@ -1,27 +1,11 @@
-import type { ShippingAddress } from './orderService';
-
-export interface OrderItem {
-  product: number;
-  quantity: number;
-  specification?: number;
-}
-
-export interface OrderData {
-  items: OrderItem[];
-  shipping_address?: ShippingAddress;
-  referral_code?: string;
-}
+import type { OrderData, PaymentPreferenceResponse, PaymentVerificationResponse } from '../../shared/types';
 
 /**
  * Simula la creación de una preferencia de pago en Mercado Pago
  * En un entorno real, esto haría una petición al backend para obtener
  * la URL de pago de Mercado Pago
  */
-export async function createPaymentPreference(orderData: OrderData): Promise<{
-  success: boolean;
-  paymentUrl?: string;
-  error?: string;
-}> {
+export async function createPaymentPreference(orderData: OrderData): Promise<PaymentPreferenceResponse> {
   // Simular latencia de red
   await new Promise(resolve => setTimeout(resolve, 1000));
   
@@ -73,16 +57,7 @@ export async function createPaymentPreference(orderData: OrderData): Promise<{
  * Simula la verificación del estado de un pago
  * En un entorno real, esto verificaría con el backend si el pago fue confirmado
  */
-export async function verifyPayment(paymentId: string, orderId: string): Promise<{
-  verified: boolean;
-  order?: {
-    id: number;
-    total: number;
-    status: string;
-    created_at: string;
-  };
-  error?: string;
-}> {
+export async function verifyPayment(paymentId: string, orderId: string): Promise<PaymentVerificationResponse> {
   // Simular latencia de red
   await new Promise(resolve => setTimeout(resolve, 800));
   

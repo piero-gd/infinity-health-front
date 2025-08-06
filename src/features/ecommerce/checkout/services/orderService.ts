@@ -1,50 +1,5 @@
 import { post } from '../../../../services/api';
-import type { CartProduct } from '../../shared/types/product.model';
-
-export interface OrderItem {
-    product: number;
-    quantity: number;
-    specification?: number;
-}
-
-export interface ShippingAddress {
-    address: string | null;    // Dirección para entrega a domicilio, puede ser null para recojo
-    city: string | null;       // Ciudad para entrega a domicilio o sede de recojo 
-    state: string | null;      // Departamento/región para entrega a domicilio
-    phone: string;             // Teléfono siempre es requerido
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    documentType?: string;
-    documentNumber?: string;
-    companyName?: string;
-    ruc?: string;
-    invoiceType?: 'boleta' | 'factura';
-    deliveryOption?: 'lima' | 'shalom' | 'capital';
-    method_shipping?: 'envio_puerta' | 'recojo_oficina' | 'recojo_shalom';
-    
-    // Campos específicos para Agencia Shalom - solo usados internamente en el frontend
-    shalomDepartment?: string;
-    shalomAgency?: string;
-    
-    // Campo específico para Capital Infinity - solo usado internamente en el frontend
-    capitalBranch?: string;
-}
-
-export interface OrderData {
-    items: OrderItem[];
-    shipping_address?: ShippingAddress;
-    referral_code?: string;
-}
-
-export interface OrderResponse {
-    id: number;
-    status: string;
-    total: string;
-    created_at: string;
-    items: OrderItem[];
-    shipping_address?: ShippingAddress;
-}
+import type { CartProduct, OrderItem, OrderData, OrderResponse } from '../../shared/types';
 
 /**
  * Transforma los productos del carrito al formato que espera la API

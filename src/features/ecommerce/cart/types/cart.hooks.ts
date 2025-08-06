@@ -1,4 +1,4 @@
-import type { CartProduct } from '../../shared/types/product.model';
+import type { CartProduct } from '../../shared/types';
 
 /**
  * Tipo de retorno para el hook useAmbassadorValidation

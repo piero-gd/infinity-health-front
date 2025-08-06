@@ -1,5 +1,5 @@
 import { get } from '../../../../services/api';
-import type { Product } from '../types/product.model';
+import type { Product } from '../types';
 
 const API_PRODUCTS_ENDPOINT = 'products';
 

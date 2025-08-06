@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { Product } from '../../productDetail/types';
+import type { Product } from '../../shared/types';
 import { ProductCardHover } from '../../../../components/ProductCardHover';
 import { ProductCardPrincipal } from '../../../../components/ProductCardPrincipal';
 import { useProducts } from '../../shared/hooks/useProducts';
