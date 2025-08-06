@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { MapPin, ChevronDown } from "lucide-react";
-import type { PlacesCalculationType } from "../types";
+import type { PlacesCalculation } from "../types";
 import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { useCartStore } from '../../cart/stores/useCartStore';
 
-const options: PlacesCalculationType[] = [
+const options: PlacesCalculation[] = [
     { option: "lima", place: "Lima Metropolitana", days: "2-3 días hábiles", description: "Delivery a domicilio" },
     { option: "shalom", place: "Recoger en Agencia SHALOM", days: "4-5 días hábiles", description: "Entrega en agencia a nivel nacional" },
     { option: "capital", place: "Recoger en Sede Capital Infinity", days: "1 día hábil", description: "Nuestras sedes en Lima, Arequipa y Cusco" }
