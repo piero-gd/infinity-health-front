@@ -26,7 +26,7 @@ export default function TotalCart({
         };
 
   return (
-    <div className="space-y-4 max-w-2xl w-full mx-auto">
+    <div className="space-y-4 max-w-full w-full mx-auto">
       {/* First Section - Order Summary */}
       <div className="bg-white rounded-3xl p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Total del carrito</h2>
