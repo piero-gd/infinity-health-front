@@ -2,6 +2,7 @@ import React from "react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { CgCalculator, CgGym } from "react-icons/cg";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { RxDashboard } from "react-icons/rx";
 
 interface AppSidebarProps {
   open: boolean;
@@ -9,6 +10,11 @@ interface AppSidebarProps {
 }
 
 const modules = [
+  {
+    name: "Dashboard",
+    icon: <RxDashboard className="h-6 w-6" />,
+    route: "/dashboard",
+  },
   {
     name: "Ejercicios",
     icon: <CgGym className="h-6 w-6" />,

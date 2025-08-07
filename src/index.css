@@ -67,7 +67,7 @@
     --color-primary: #1798e0;
     --color-primary-dark: #0972AD; /* tono más oscuro */
     --color-primary-light: #a8dfff; /* tono claro para fondos suaves o estados hover */
-  
+ 
     /* Fondo y superficies claras */
     --color-background: #FFFFFF36; /* fondo principal: blanco */
     --color-background-2: #F5F7FAD1; /* fondo secundario: gris muy claro */
@@ -121,6 +121,14 @@ h1, h2 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.bg-exercises-wallpaper-long {
+  
+  background-image: url('/img/exercise-wallpaper-long.png');
+  background-size: cover;
+  
+  
 }
 
 h3 {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AppSidebar from "../components/AppSidebar";
 import AppNavbar from "../components/AppNavbar";
+import StickyClientProgressButton from "../components/StickyClientProgressButton";
 import { Outlet } from "react-router-dom";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 
@@ -46,6 +47,7 @@ export default function SimpleLayout({ onLogout }: Props) {
         } ml-0`}
       >
         <Outlet />
+        <StickyClientProgressButton />
       </main>
     </div>
   );

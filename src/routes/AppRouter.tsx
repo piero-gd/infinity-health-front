@@ -4,7 +4,8 @@ import ExercisesHome from "../features/exercises/pages/ExercisesHome";
 import CalculatorPage from "../features/calculator/pages/CalculatorPage";
 import ExerciseDetailPage from "../features/exercises/pages/ExerciseDetailPage";
 import LoginPage from "../features/auth/pages/LoginPage";
-import RegisterPage from "../features/auth/pages/RegisterPage";
+import RegisterPage from "../features/auth/pages/RegisterPage"; 
+import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import AcademyPage from "../features/academy/pages/AcademyPage";
 import VerificationPage from "../features/auth/pages/VerificationPage";
 import ConfirmationPage from "../features/auth/pages/ConfirmationPage";
@@ -24,10 +25,11 @@ import PaymentResultPage from "../features/ecommerce/checkout/pages/PaymentResul
 import { withErrorBoundary } from "../utils/withErrorBoundary";
 
 // Aplicamos el HOC withErrorBoundary a los componentes de página
+const ProtectedExercisesHome = withErrorBoundary(ExercisesHome);
 const ProtectedExerciseDetailPage = withErrorBoundary(ExerciseDetailPage);
 const ProtectedAcademyPage = withErrorBoundary(AcademyPage);
 const ProtectedCalculatorPage = withErrorBoundary(CalculatorPage);
-const ProtectedExercisesHome = withErrorBoundary(ExercisesHome);
+const ProtectedDashboardPage = withErrorBoundary(DashboardPage);
 
 // Componentes de e-commerce con ErrorBoundary
 const SafeCartPage = withErrorBoundary(CartPage);
@@ -46,10 +48,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
   return (
     <Routes>
       {/* ===== RUTAS DE AUTENTICACIÓN (SIN LAYOUT) ===== */}
-      {/* Login */}
       <Route path="/login" element={<LoginPage />} />
-
-      {/* Registro */}
       <Route path="/register" element={<RegisterPage />} />
 
       {/* Confirmación de correo (después del registro) */}
@@ -65,58 +64,23 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
       {/* Confirmación de registro (desde el enlace de correo) */}
       <Route path="/register-confirmation" element={<ConfirmationPage />} />
 
-      {/* Recuperación de contraseña */}
+      {/* Rutas de contraseña */}
       <Route path="/forgot-password" element={<ForgotPassPage />} />
-
-      {/* Nueva contraseña */}
       <Route path="/new-password/:uid/:token" element={<NewPassPage />} />
 
       {/* ===== RUTAS PROTEGIDAS CON SIMPLE LAYOUT ===== */}
-      <Route
-        element={
-          <ProtectedRoute requireAuth>
-            <SimpleLayout onLogout={onLogout} />
-          </ProtectedRoute>
-        }
-      >
-        {/* Detalle de ejercicio */}
-        <Route
-          path="/exercises/:id"
-          element={<ProtectedExerciseDetailPage />}
-        />
-
-        {/* Cursos de academia */}
-        <Route path="/academy/course/:id" element={<ProtectedAcademyPage />} />
+      <Route element={
+        <ProtectedRoute requireAuth><SimpleLayout onLogout={onLogout} /></ProtectedRoute>
+      }>
         
-        {/* Calculadora */}
-        <Route
-          path="/calculator"
-          element={
-            <ProtectedRoute requireAuth>
-              <ProtectedCalculatorPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/academy/course/:id" element={<ProtectedAcademyPage />} />
+        { /* Redirigir a curso 1 por defecto */ }
+        <Route path="/academy" element={<Navigate to="/academy/course/1" replace />} />
+        <Route path="/calculator" element={<ProtectedCalculatorPage />} />
+        <Route path="/exercises" element={<ProtectedExercisesHome />} />
+        <Route path="/exercises/:id" element={<ProtectedExerciseDetailPage />} />
+        <Route path="/dashboard" element={<ProtectedDashboardPage />} />
 
-        {/* Academia - redireccionamiento */}
-        <Route
-          path="/academy"
-          element={
-            <ProtectedRoute requireAuth>
-              <Navigate to="/academy/course/1" replace />
-            </ProtectedRoute>
-          }
-        />
-
-        {/* Ejercicios - listado */}
-        <Route
-          path="/exercises"
-          element={
-            <ProtectedRoute requireAuth>
-              <ProtectedExercisesHome />
-            </ProtectedRoute>
-          }
-        />
       </Route>
 
       {/* ===== RUTAS DE E-COMMERCE (CON LAYOUT PROPIO) ===== */}
@@ -143,6 +107,9 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
+
+
+       
   );
 };
 
