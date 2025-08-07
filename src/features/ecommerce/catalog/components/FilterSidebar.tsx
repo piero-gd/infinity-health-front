@@ -1,8 +1,30 @@
 import DualRangeSlider from './DualRangeSlider';
 import { useFiltersStore } from '../stores/useFiltersStore';
+import { ProductCardDashboardSpecial } from '../../../../components/ProductCardDashboardSpecial';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '../../shared/services/productService';
+
+const FeaturedProduct = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['featured-product'],
+    queryFn: () => fetchProducts({ limit: 1 }), // el primer producto será el DESTACADO
+  });
+
+  if (isLoading) return <div className="h-64 flex items-center justify-center">Cargando producto destacado...</div>;
+  if (error || !data?.data?.length) return null;
+
+  return (
+    <div className="h-64">
+      <ProductCardDashboardSpecial 
+        product={data.data[0]} 
+        onAddToCart={() => {}}
+      />
+    </div>
+  );
+};
 
 export const FilterSidebar =() => {
-  // Solo utilizamos las propiedades necesarias del store
+
   const { 
     minPrice,
     maxPrice,
@@ -11,7 +33,7 @@ export const FilterSidebar =() => {
   } = useFiltersStore();
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full ">
       <div className="bg-white p-4 sticky">
         {/* Header with Clear Filters */}
         <div className="flex justify-between items-center mb-4">
@@ -33,8 +55,8 @@ export const FilterSidebar =() => {
 
         {/* Featured Product */}
         <h3 className="font-semibold mb-3 mt-6 text-gray-800">Destacado</h3>
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100">
-          {/* AÑADIR UNA IMAGEN DE UN PRODUCTO */}
+        <div className="p-2 mb-12">
+          <FeaturedProduct />
         </div>
       </div>
     </div>
