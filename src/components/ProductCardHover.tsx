@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaStar } from "react-icons/fa";
 import { PiShoppingCartLight } from "react-icons/pi";
 import { CategoriesTag } from './CategoriesTag';
-import type { ProductCardProps } from '../features/ecommerce/productDetail/types';
+import type { ProductCardProps } from '../features/ecommerce/shared/types';
 
 export const ProductCardHover: React.FC<ProductCardProps> = ({
     product

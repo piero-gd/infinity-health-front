@@ -1,4 +1,4 @@
-import Header from "../components/header";
+import Header from "../components/Header";
 import Summary from "../components/Summary";
 import InfoDetail from "../components/InfoDetail";
 import Advice from "../components/Advice";

@@ -1,5 +1,5 @@
 import ProductCardDashboardSpecial from "../../../../components/ProductCardDashboardSpecial";
-import type { RelatedProductsProps } from "../types";
+import type { RelatedProductsProps } from "../../shared/types";
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from "../../shared/services/productsService";
 

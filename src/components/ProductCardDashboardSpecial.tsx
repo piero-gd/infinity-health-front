@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { StarIcon } from 'lucide-react';
 import { PiShoppingCartLight } from "react-icons/pi";
 
-import type { ProductCardProps } from '../features/ecommerce/productDetail/types';
+import type { ProductCardProps } from '../features/ecommerce/shared/types';
 
 export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
     product,

@@ -83,7 +83,7 @@ export default function DetailPage() {
         <div className="space-y-2">
           <InfoDetail 
             product={currentProduct} 
-            onAddToCart={(_, quantity) => addToCartBySlug(currentProduct.slug, quantity)}
+            onAddToCart={(_: any, quantity: number) => addToCartBySlug(currentProduct.slug, quantity)}
           />
           <ShareOptions slug={currentProduct.slug} />
         </div>

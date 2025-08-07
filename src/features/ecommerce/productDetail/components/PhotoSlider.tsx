@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { ArrowLeft, ArrowRight, Play, X } from 'lucide-react';
-import type { PhotoSliderProps } from '../types';
+import type { PhotoSliderProps } from '../../shared/types';
 
 interface MediaItem {
     type: 'image' | 'video';
@@ -26,14 +26,14 @@ export const PhotoSlider: React.FC<PhotoSliderProps> = ({
 
     // Crear array de medios con información de tipo
     const media: MediaItem[] = [
-        ...images.map(img => ({ 
+        ...images.map((img: { image_url: string }) => ({ 
             type: 'image' as const, 
             url: img.image_url 
         })),
-        ...videos.map((url, index) => ({
+        ...videos.map((url: string, index: number) => ({
             type: 'video' as const, 
             url,
-            thumbnail: videoThumbnails[index] || ''
+            thumbnail: videoThumbnails?.[index] || ''
         }))
     ];
 

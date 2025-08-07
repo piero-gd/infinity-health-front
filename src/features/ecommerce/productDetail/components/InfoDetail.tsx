@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PiShoppingCartLight } from "react-icons/pi";
 import { CategoriesTag } from '../../../../components/CategoriesTag';
 import { CiDeliveryTruck } from "react-icons/ci";
-import type { InfoDetailProps } from '../types';
+import type { InfoDetailProps } from '../../shared/types';
 
 export const InfoDetail: React.FC<InfoDetailProps> = ({ 
     product,

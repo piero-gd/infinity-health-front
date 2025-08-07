@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../cart/stores/useCartStore';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
-import { createOrder, mapCartItemsToOrderItems } from '../services/orderService';
+import { mapCartItemsToOrderItems } from '../services/orderService';
 import { createPaymentPreference } from '../services/paymentService';
 import { showToast } from '../../../../utils/toastConfig';
 
@@ -15,15 +15,13 @@ export const useCheckout = () => {
     
     // Acceder al store del carrito
     const { 
-        items, 
-        clearCart 
+        items
     } = useCartStore();
     
     // Acceder al store de checkout
     const { 
         shippingAddress, 
-        referralCode, 
-        setOrderComplete,
+        referralCode,
         setError,
         setCurrentStep 
     } = useCheckoutStore();

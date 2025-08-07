@@ -1,15 +1,15 @@
 import { FaArrowLeft } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ProgressCart from '../components/ProgressCart';
 import ListCart from '../components/ListCart';
 import TotalCart from '../components/TotalCart';
 import { RelatedProducts } from '../../productDetail/components/RelatedProducts';
 import { useCart } from '../hooks/useCart';
-import { useCheckout } from '../../checkout/hooks/useCheckout';
 import { useEffect } from 'react';
+import type { CartProduct, ListCartItem } from '../types';
+import type { ProductImage } from '../../shared/types';
 
 export default function CartPage() {
-    const navigate = useNavigate();
     
     // Utilizamos nuestro hook personalizado para el carrito
     const { 
@@ -21,9 +21,6 @@ export default function CartPage() {
         updateCartQuantity,
         removeFromCart
     } = useCart();
-    
-    // Hook de checkout para proceder al proceso de pago
-    const { proceedToShipping } = useCheckout();
     
     // Reiniciar el paso de checkout cuando se carga la página del carrito
     useEffect(() => {
@@ -43,12 +40,12 @@ export default function CartPage() {
         removeFromCart(Number(id));
     };
 
-    // Convertir CartProduct[] a CartItem[] para compatibilidad
-    const cartItems = items.map(item => ({
+    // Convertir CartProduct[] a ListCartItem[] para compatibilidad
+    const cartItems: ListCartItem[] = items.map((item: CartProduct) => ({
         id: item.id.toString(),
         name: item.name,
         category: item.category_info.name,
-        images: item.images.map(img => img.image_url),
+        images: item.images.map((img: ProductImage) => img.image_url),
         price: parseFloat(item.price),
         price_amb: parseFloat(item.price_amb),
         cantidad: item.quantity

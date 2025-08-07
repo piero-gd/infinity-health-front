@@ -6,7 +6,7 @@ import { useCheckoutStore } from '../stores/useCheckoutStore';
 
 export default function ConfirmationPage() {
     const navigate = useNavigate();
-    const { orderComplete, orderId, currentStep, resetCheckout } = useCheckoutStore();
+    const { orderComplete, orderId, resetCheckout } = useCheckoutStore();
     
     // Redirigir si no se ha completado una orden
     useEffect(() => {
