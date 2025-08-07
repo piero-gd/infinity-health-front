@@ -5,8 +5,6 @@ interface SizeSelectorProps {
     sizes?: SizeOption[];
     selectedSize?: string;
     onSizeSelect?: (size: string) => void;
-    label?: string;
-    className?: string;
     showStock?: boolean;
 }
 
@@ -14,8 +12,6 @@ export const SizeSelector = ({
     sizes = [],
     selectedSize: externalSelectedSize,
     onSizeSelect,
-    label = 'Talla',
-    className = '',
     showStock = true
 }: SizeSelectorProps) => {
     const [internalSelectedSize, setInternalSelectedSize] = useState<string>('');
@@ -55,47 +51,48 @@ export const SizeSelector = ({
     });
 
     return (
-        <div className={className}>
+        <div className="mt-4">
             <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-semibold text-gray-700">{label}</h4>
+                <h4 className="text-sm font-semibold text-gray-700">Talla</h4>
                 {internalSelectedSize && showStock && (
                     <span className="text-xs font-medium" 
                           style={{ color: (sizes.find(s => s.value === internalSelectedSize)?.stock || 0) > 0 ? '#10B981' : '#EF4444' }}>
-                        {(sizes.find(s => s.value === internalSelectedSize)?.stock || 0) > 0 
-                            ? `${sizes.find(s => s.value === internalSelectedSize)?.stock || 0} disponibles` 
-                            : 'Agotado'}
+                        {(sizes.find(s => s.value === internalSelectedSize)?.stock || 0) > 0 ? 'En stock' : 'Agotado'}
                     </span>
                 )}
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
                 {sortedSizes.map((size) => {
                     const isSelected = internalSelectedSize === size.value;
                     const isAvailable = size.available && (size.stock > 0);
                     
                     return (
-                        <button
-                            key={size.value}
-                            type="button"
-                            onClick={() => handleSizeSelect(size.value)}
-                            disabled={!isAvailable}
+                        <label 
+                            key={size.value} 
                             className={`
-                                relative w-12 h-12 border-2 rounded-lg text-sm font-semibold transition-all duration-200 
-                                flex items-center justify-center
+                                relative flex items-center justify-center h-10 px-3 text-sm font-medium border rounded-sm
                                 ${isSelected 
-                                    ? 'bg-black text-white border-black shadow-md' 
-                                    : isAvailable
-                                        ? 'bg-white text-gray-700 border-gray-300 hover:border-gray-400 hover:shadow-sm'
-                                        : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60'
+                                    ? 'border-gray-700 bg-black text-gray-200 cursor-pointer' 
+                                    : 'border-gray-700 text-gray-700'
                                 }
+                                ${!isAvailable ? 'border-gray-300 bg-gray-200 text-gray-700 cursor-not-allowed' : ''}
                             `}
                         >
-                            {size.originalLabel || size.label}
+                            <input
+                                type="radio"
+                                value={size.value}
+                                checked={isSelected}
+                                onChange={() => isAvailable && handleSizeSelect(size.value)}
+                                className="sr-only"
+                                disabled={!isAvailable}
+                            />
+                            {size.value}
                             {!isAvailable && (
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-full h-0.5 bg-gray-400 rotate-45 absolute"></div>
+                                    <div className="w-1/2 h-0.25 bg-gray-700 rotate-180 absolute"></div>
                                 </div>
                             )}
-                        </button>
+                        </label>
                     );
                 })}
             </div>

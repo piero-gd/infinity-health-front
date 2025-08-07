@@ -63,8 +63,6 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                 // Agregar nueva talla
                 sizeMap.set(spec.size, {
                     value: spec.size,
-                    label: spec.size,
-                    originalLabel: spec.size,
                     stock: spec.stock || 0,
                     available: isAvailable
                 });
@@ -251,7 +249,6 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         colors={availableColors}
                         selectedColor={selectedColor}
                         onColorSelect={setSelectedColor}
-                        label="Color"
                     />
                 </div>
             )}
@@ -263,7 +260,6 @@ export const InfoDetail: React.FC<InfoDetailProps> = ({
                         sizes={availableSizes}
                         selectedSize={selectedSize}
                         onSizeSelect={setSelectedSize}
-                        label="Talla"
                         showStock={true}
                     />
                 </div>

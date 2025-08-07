@@ -4,16 +4,14 @@ export interface ProductImage {
 }
 
 export interface ColorOption {
-    value: string;        // Valor del color (código HEX, RGB, o nombre de color válido)
-    available?: boolean;   // Si el color está disponible
+    value: string;
+    available?: boolean;
 }
 
 export interface SizeOption {
     value: string;
-    label: string;
     stock: number;
     available: boolean;
-    originalLabel?: string; // Para mantener la etiqueta original cuando se muestra tachada
 }
 
 export interface ProductSpecification {
