@@ -1,11 +1,10 @@
 import UserHeader from '../components/UserHeader';
 import StatsCards from '../components/StatsCards';
 import ClickeableServices from '../components/ClickeableServices';
-import TemporalProductCard from '../components/TemporalProductCard';
 import NutritionalPlan from '../components/NutritionalPlan';
 import { mockUserData, mockUserStats } from '../data/mockDataUser';
 import ClientProgress from '../components/ClientProgress';
-
+import SliderProductDashboard from '../components/SliderProductDashboard';
 
 export default function DashboardPage() {
 
@@ -20,12 +19,12 @@ export default function DashboardPage() {
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* SECCIÓN PRODUCTOS - 4/6 del ancho */}
-          <div className="w-full lg:w-2/3 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">  
-            <TemporalProductCard />
+          <div className="w-full lg:w-2/3 bg-white rounded-2xl shadow-sm border border-gray-100 px-5 pt-3 pb-5">  
+            <SliderProductDashboard />
           </div>
 
           {/* SECCIÓN PLAN NUTRICIONAL - 2/6 del ancho */}
-          <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border border-gray-100 p-5">  
+          <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border border-gray-100 pt-3 p-4">  
             <NutritionalPlan />
           </div>
         </div>
