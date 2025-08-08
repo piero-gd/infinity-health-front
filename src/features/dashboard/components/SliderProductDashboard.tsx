@@ -40,9 +40,10 @@ const SamplePrevArrow = ({ onClick }: { onClick?: () => void }) => {
 
 export default function SliderProductDashboard() {
     const navigate = useNavigate();
+    const sliderRef = useRef<Slider>(null);
  
-     // Usar React Query a través de nuestro hook personalizado
-     const { 
+    // Usar React Query a través de nuestro hook personalizado
+    const { 
         data, 
         isLoading, 
         isError
@@ -73,8 +74,6 @@ export default function SliderProductDashboard() {
     }
 
     const products = data?.data || [];
-
-    const sliderRef = useRef<Slider>(null);
 
     const sliderSettings = {
         dots: true,
