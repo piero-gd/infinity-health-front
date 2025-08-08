@@ -132,6 +132,9 @@ export const apiRequest = async <T>(
       try {
         const jsonData = await response.json();
         console.log(`[API] Successful JSON response received`);
+        console.log(`[API] Response data:`, jsonData);
+        console.log(`[API] Response data type:`, typeof jsonData);
+        console.log(`[API] Response keys:`, Object.keys(jsonData || {}));
         return jsonData as T;
       } catch (error) {
         console.error('[API] Failed to parse JSON response:', error);

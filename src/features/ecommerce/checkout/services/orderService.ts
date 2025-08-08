@@ -21,6 +21,9 @@ export function mapCartItemsToOrderItems(items: CartProduct[]): OrderItem[] {
  */
 export async function createOrder(orderData: OrderData): Promise<OrderResponse> {
     try {
+        console.log('=== ORDER SERVICE - CREANDO ORDEN ===');
+        console.log('Datos originales enviados:', orderData);
+        
         // Formatear los datos de envío según el método de envío
         if (orderData.shipping_address) {
             const { deliveryOption } = orderData.shipping_address;
@@ -64,7 +67,17 @@ export async function createOrder(orderData: OrderData): Promise<OrderResponse> 
             }
         }
         
+        console.log('Datos procesados antes de enviar al backend:', orderData);
+        
         const response = await post<OrderResponse>('orders/', orderData);
+        
+        console.log('=== RESPUESTA RAW DEL BACKEND ===');
+        console.log('Response del backend:', response);
+        console.log('Tipo:', typeof response);
+        console.log('Keys:', Object.keys(response || {}));
+        console.log('JSON.stringify:', JSON.stringify(response, null, 2));
+        console.log('================================');
+        
         return response;
     } catch (error) {
         console.error('Error creating order:', error);

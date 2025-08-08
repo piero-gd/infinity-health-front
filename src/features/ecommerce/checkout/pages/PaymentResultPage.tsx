@@ -96,7 +96,17 @@ export default function PaymentResultPage() {
           
           // En un escenario real, el backend habría creado la orden al recibir la confirmación de Mercado Pago
           // Aquí simulamos la creación de la orden después de verificar el pago
+          console.log('PaymentResultPage - Enviando datos al backend:', orderData);
           const response = await createOrder(orderData);
+          
+          console.log('=== RESPUESTA COMPLETA DEL BACKEND ===');
+          console.log('Response completa:', response);
+          console.log('Tipo de response:', typeof response);
+          console.log('Es array:', Array.isArray(response));
+          console.log('Keys disponibles:', Object.keys(response || {}));
+          console.log('Values:', Object.values(response || {}));
+          console.log('JSON stringify:', JSON.stringify(response, null, 2));
+          console.log('=====================================');
           
           console.log('PaymentResultPage - Orden creada exitosamente');
           
