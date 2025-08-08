@@ -1,6 +1,6 @@
 import { mockLinkableServices } from '../data/mockLinkeableServices';
 import type { Service } from '../types';
-import TemporalProductCard from './TemporalProductCard';
+import TemporalProductCard from './SliderProductDashboard';
 
 interface LinkeableServicesProps {
   services?: Service[];
