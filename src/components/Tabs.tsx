@@ -17,7 +17,7 @@ const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className
   return (
     <div className={`flex justify-center mb-8 ${className}`}>
       {/* Contenedor interno para centrado */}
-      <div className="flex overflow-x-auto gap-2 px-2 sm:gap-4 md:gap-8 lg:gap-12">
+      <div className="flex overflow-x-auto pb-3 gap-2 px-2 sm:gap-4 md:gap-8 lg:gap-12">
         {options.map((opt) => (
           <button
             key={opt.value}
@@ -28,14 +28,9 @@ const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className
               md:px-4 md:py-2 md:text-base
               lg:px-5 lg:py-2 lg:text-base
               ${selectedValue === opt.value
-                ? "text-white shadow"
+                ? "text-white shadow-md border-2 border-white bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]"
                 : "bg-white text-gray-500 border-gray-200 hover:bg-gray-100"}
             `}
-            style={
-              selectedValue === opt.value
-                ? { background: "var(--gradient-primary)" }
-                : undefined
-            }
             type="button"
           >
             {opt.label}

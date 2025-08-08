@@ -51,7 +51,7 @@ export default function ExerciseDetailPage() {
           <ExerciseVideoPlayer videoUrl={exercise.video_url} />
         </div>
         {/* Descripción */}
-        <div className="order-4 sm:order-none bg-white rounded-xl shadow p-4 sm:p-6 mb-8 text-gray-700 text-center max-w-3xl mx-auto">
+        <div className="order-4 sm:order-none bg-white border-2 border-[var(--color-primary)] rounded-xl shadow p-4 sm:p-6 mb-8 text-gray-700 text-center max-w-3xl mx-auto">
           <div style={{ all: 'initial', fontFamily: 'inherit'}} dangerouslySetInnerHTML={{ __html: exercise.description }}
           ></div>
         </div>
@@ -61,7 +61,7 @@ export default function ExerciseDetailPage() {
         </div>
         <div className="order-6 sm:order-none mt-12">
           <h2 className="text-xl sm:text-2xl font-black mb-6">Entrenamientos Similares</h2>
-          <div className="grid gap-6 sm:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2 sm:gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {exercises
               .filter(
                 (e) =>
