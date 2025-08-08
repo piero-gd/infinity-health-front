@@ -55,14 +55,14 @@ export default function ConfirmationPage() {
                     <div className="flex flex-col md:flex-row gap-4 justify-center">
                         <button
                             onClick={handleBackToStore}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200"
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200 cursor-pointer"
                         >
                             Volver a la tienda
                         </button>
                         
                         <button
                             onClick={() => navigate('/account/orders')}
-                            className="bg-white hover:bg-gray-100 text-indigo-600 border border-indigo-600 py-3 px-6 rounded-lg font-medium transition-colors duration-200"
+                            className="bg-white hover:bg-gray-100 text-indigo-600 border border-indigo-600 py-3 px-6 rounded-lg font-medium transition-colors duration-200 cursor-pointer"
                         >
                             Ver mis pedidos
                         </button>

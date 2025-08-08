@@ -70,7 +70,7 @@ export default function SimulatedPaymentPage() {
           
           <div className="flex flex-col gap-4">
             <button 
-              className="bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-medium transition-colors"
+              className="bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-medium transition-colors cursor-pointer"
               onClick={() => handlePaymentResult('success')}
               disabled={isProcessing}
             >
@@ -78,7 +78,7 @@ export default function SimulatedPaymentPage() {
             </button>
             
             <button 
-              className="bg-yellow-500 hover:bg-yellow-600 text-white py-4 rounded-xl font-medium transition-colors"
+              className="bg-yellow-500 hover:bg-yellow-600 text-white py-4 rounded-xl font-medium transition-colors cursor-pointer"
               onClick={() => handlePaymentResult('pending')}
               disabled={isProcessing}
             >
@@ -86,7 +86,7 @@ export default function SimulatedPaymentPage() {
             </button>
             
             <button 
-              className="bg-red-500 hover:bg-red-600 text-white py-4 rounded-xl font-medium transition-colors"
+              className="bg-red-500 hover:bg-red-600 text-white py-4 rounded-xl font-medium transition-colors cursor-pointer"
               onClick={() => handlePaymentResult('failure')}
               disabled={isProcessing}
             >
@@ -97,7 +97,7 @@ export default function SimulatedPaymentPage() {
         
         <div className="text-center">
           <button
-            className="text-gray-600 hover:text-gray-900"
+            className="text-gray-600 hover:text-gray-900 cursor-pointer"
             onClick={() => navigate('/checkout/payment')}
             disabled={isProcessing}
           >

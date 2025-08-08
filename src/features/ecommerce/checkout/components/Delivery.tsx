@@ -282,7 +282,7 @@ export default function Delivery() {
                     <button
                       type="button"
                       onClick={() => setDropdowns(prev => ({ ...prev, departamento: !prev.departamento }))}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between cursor-pointer"
                     >
                       <span className={shippingAddress.shalomDepartment ? "text-gray-900 ml-2" : "text-gray-500 ml-2"}>
                         {shippingAddress.shalomDepartment ? shippingAddress.shalomDepartment.charAt(0).toUpperCase() + shippingAddress.shalomDepartment.slice(1) : "Seleccionar departamento"}
@@ -302,7 +302,7 @@ export default function Delivery() {
                             });
                             setDropdowns(prev => ({ ...prev, departamento: false }));
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                           Amazonas
                         </button>
@@ -316,7 +316,7 @@ export default function Delivery() {
                             });
                             setDropdowns(prev => ({ ...prev, departamento: false }));
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                           Áncash
                         </button>
@@ -330,7 +330,7 @@ export default function Delivery() {
                             });
                             setDropdowns(prev => ({ ...prev, departamento: false }));
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                           Apurímac
                         </button>
@@ -344,7 +344,7 @@ export default function Delivery() {
                             });
                             setDropdowns(prev => ({ ...prev, departamento: false }));
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                           Arequipa
                         </button>
@@ -358,7 +358,7 @@ export default function Delivery() {
                             });
                             setDropdowns(prev => ({ ...prev, departamento: false }));
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                           Lima
                         </button>
@@ -372,7 +372,7 @@ export default function Delivery() {
                             });
                             setDropdowns(prev => ({ ...prev, departamento: false }));
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                         >
                           Cusco
                         </button>
@@ -392,7 +392,7 @@ export default function Delivery() {
                           setDropdowns(prev => ({ ...prev, agenciaShalom: !prev.agenciaShalom }));
                         }
                       }}
-                      className={`w-full px-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all flex items-center justify-between ${shippingAddress.shalomDepartment ? 'bg-white' : 'bg-gray-100 cursor-not-allowed'}`}
+                      className={`w-full px-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all flex items-center justify-between ${shippingAddress.shalomDepartment ? 'bg-white cursor-pointer' : 'bg-gray-100 cursor-not-allowed'}`}
                     >
                       <span className={shippingAddress.shalomAgency ? "text-gray-900 ml-2" : `text-gray-500 ml-2 ${!shippingAddress.shalomDepartment ? 'opacity-70' : ''}`}>
                         {shippingAddress.shalomAgency ? 
@@ -418,7 +418,7 @@ export default function Delivery() {
                                   });
                                   setDropdowns(prev => ({ ...prev, agenciaShalom: false }));
                                 }}
-                                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-3xl"
+                                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors first:rounded-t-3xl cursor-pointer"
                               >
                                 Agencia Lima Centro
                               </button>
@@ -431,7 +431,7 @@ export default function Delivery() {
                                   });
                                   setDropdowns(prev => ({ ...prev, agenciaShalom: false }));
                                 }}
-                                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+                                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors cursor-pointer"
                               >
                                 Agencia Lima Norte
                               </button>
@@ -444,7 +444,7 @@ export default function Delivery() {
                                   });
                                   setDropdowns(prev => ({ ...prev, agenciaShalom: false }));
                                 }}
-                                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors last:rounded-b-3xl"
+                                className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors last:rounded-b-3xl cursor-pointer"
                               >
                                 Agencia Lima Sur
                               </button>
@@ -462,7 +462,7 @@ export default function Delivery() {
                                 });
                                 setDropdowns(prev => ({ ...prev, agenciaShalom: false }));
                               }}
-                              className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors rounded-3xl"
+                              className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors rounded-3xl cursor-pointer"
                             >
                               Agencia Principal {shippingAddress.shalomDepartment.charAt(0).toUpperCase() + shippingAddress.shalomDepartment.slice(1)}
                             </button>
@@ -502,7 +502,7 @@ export default function Delivery() {
                   <button
                     type="button"
                     onClick={() => setDropdowns(prev => ({ ...prev, sedeInfinity: !prev.sedeInfinity }))}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-white text-left flex items-center justify-between cursor-pointer"
                   >
                     <span className={selectedSedeInfinity ? "text-gray-900 ml-2" : "text-gray-500 ml-2"}>
                       {selectedSedeInfinity || "Selecciona una sede"}
@@ -528,7 +528,7 @@ export default function Delivery() {
                             // Para fines de debugging
                             console.log('Sede seleccionada:', sede);
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-3xl last:rounded-b-3xl transition-colors"
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 first:rounded-t-3xl last:rounded-b-3xl transition-colors cursor-pointer"
                         >
                           <span className="ml-2 text-gray-500 text-sm">{sede}</span>
                         </button>

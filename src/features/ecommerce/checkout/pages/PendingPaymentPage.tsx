@@ -38,7 +38,7 @@ export default function PendingPaymentPage() {
         <div className="bg-gray-50 p-4 rounded-xl mb-6">
           <p className="text-sm text-gray-600">
             Si tienes alguna pregunta sobre el estado de tu pago, por favor contáctanos a 
-            <a href="mailto:soporte@infinityhealth.com" className="text-blue-600 hover:underline ml-1">
+            <a href="mailto:soporte@infinityhealth.com" className="text-blue-600 hover:underline ml-1 cursor-pointer">
               soporte@infinityhealth.com
             </a>
           </p>
@@ -47,7 +47,7 @@ export default function PendingPaymentPage() {
         <div className="mt-8">
           <button
             onClick={() => navigate('/')}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-xl transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-xl transition-colors cursor-pointer"
           >
             Volver al inicio
           </button>
