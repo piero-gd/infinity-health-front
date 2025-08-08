@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useZoomSession } from '../hooks/useZoomSession';
 import ZoomSession from '../components/ZoomSession';
-import Loader from '../../../components/Loader';
+import ExerciseLoader from '../../../components/ExerciseLoader';
 import { useState, useEffect } from 'react';
 
 type Params = { id: string };
@@ -31,7 +31,7 @@ export default function AcademyPage() {
   if (!isPageReady) {
     return (
       <div className="academy-page flex flex-col items-center justify-center min-h-screen">
-        <Loader message="Preparando sesión de Academia..." />
+        <ExerciseLoader message="Preparando sesión de Academia..." />
       </div>
     );
   }

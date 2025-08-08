@@ -5,7 +5,7 @@ import { chatWhatsApp } from '../utils/chatWhatsApp';
 import type { CalculatorResults } from '../types';
 import { useDiet } from '../hooks/useDiet';
 import { useLoadingMessages } from '../hooks/useLoadingMessages';
-import Loader from '../../../components/Loader';
+import ExerciseLoader from '../../../components/ExerciseLoader';
 
 interface DietPlanProps {
   resultado: CalculatorResults;
@@ -26,7 +26,7 @@ const DietPlan: React.FC<DietPlanProps> = ({
   if (isLoading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-[var(--color-primary-dark)] overflow-hidden p-8 text-center">
-        <Loader message={loadingMessage} />
+        <ExerciseLoader message={loadingMessage} />
       </div>
     );
   }

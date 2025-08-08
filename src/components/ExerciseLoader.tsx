@@ -3,7 +3,7 @@ interface LoaderProps {
   message?: string;
 }
 
-const Loader = ({ message }: LoaderProps) => {
+const ExerciseLoader = ({ message }: LoaderProps) => {
   return (
     <div className="flex flex-col items-center justify-center p-16 ">
       {/* Spinner */}
@@ -15,9 +15,9 @@ const Loader = ({ message }: LoaderProps) => {
         style={{ maxWidth: '100px' }}
       />
       {/* Mensaje */}
-      {message && <p className="text-[var(--color-text)] animate-pulse text-lg">{message}</p>}
+      {message && <p className="text-text animate-pulse text-lg">{message}</p>}
     </div>
   );
 };
 
-export default Loader;
+export default ExerciseLoader;

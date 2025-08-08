@@ -1,7 +1,7 @@
 import { useCart } from '../hooks/useCart';
 import EmptyCart from './EmptyCart';
 import { IoReload, IoCheckmarkCircleOutline } from 'react-icons/io5';
-import Loader from '../../../../components/Loader';
+import ExerciseLoader from '../../../../components/ExerciseLoader';
 
 const StatusBadge = ({ status }: { status: string }) => {
     const getStatusStyle = (status: string) => {
@@ -40,7 +40,7 @@ export default function CartProducts() {
     if (isLoading) {
         return (
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 flex items-center justify-center h-64">
-                <Loader />
+                <ExerciseLoader />
             </div>
         );
     }

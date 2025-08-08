@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useExercises } from '../hooks/useExercises';
 import ExerciseCard from '../components/ExerciseCard';
-import Loader from '../../../components/Loader';
+import ExerciseLoader from '../../../components/ExerciseLoader';
 import type { TabOption } from '../../../components/Tabs';
 import Tabs from '../../../components/Tabs';
 import { GiLeg, GiSixEyes, GiStrong } from 'react-icons/gi';
@@ -32,7 +32,7 @@ export default function ExercisesHome() {
           String(exercise.category).toLowerCase().includes(selected.toLowerCase())
         );
 
-  if (loading) return <Loader message="Cargando ejercicios..." />;
+  if (loading) return <ExerciseLoader message="Cargando ejercicios..." />;
   if (error) throw new Error(error);
 
 

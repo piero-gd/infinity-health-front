@@ -4,7 +4,7 @@ import { ProductCardHover } from '../../../../components/ProductCardHover';
 import { ProductCardPrincipal } from '../../../../components/ProductCardPrincipal';
 import { useProducts } from '../../shared/hooks/useProducts';
 import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
-import Loader from '../../../../components/Loader';
+import ExerciseLoader from '../../../../components/ExerciseLoader';
 
 export default function ProductList() {
     const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
@@ -56,7 +56,7 @@ export default function ProductList() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-64">
-                <Loader />
+                <ExerciseLoader />
             </div>
         );
     }

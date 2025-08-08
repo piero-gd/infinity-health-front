@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useExercises } from '../hooks/useExercises';
 import ExerciseVideoPlayer from '../components/ExerciseVideoPlayer';
-import Loader from '../../../components/Loader';
+import ExerciseLoader from '../../../components/ExerciseLoader';
 import { ClockIcon } from '@heroicons/react/24/solid';
 import ExerciseCard from '../components/ExerciseCard';
 import ExerciseProgressForm from '../components/ExerciseProgressForm';
@@ -13,7 +13,7 @@ export default function ExerciseDetailPage() {
   const { exercises, loading, error } = useExercises();
   const navigate = useNavigate();
 
-  if (loading) return <Loader message="Cargando ejercicio..." />;
+  if (loading) return <ExerciseLoader message="Cargando ejercicio..." />;
   if (error) throw new Error('Error al cargar el ejercicio');
 
   const exercise = exercises.find(e => String(e.id) === String(id));

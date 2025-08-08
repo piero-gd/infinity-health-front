@@ -5,6 +5,7 @@ import { useCartStore } from '../../cart/stores/useCartStore';
 import { verifyPayment } from '../services/paymentService';
 import { showToast } from '../../../../utils/toastConfig';
 import { createOrder } from '../services/orderService';
+import SimpleLoader from '../../../../components/SimpleLoader';
 
 /**
  * Página que maneja el retorno del pago (simulado o real)
@@ -79,7 +80,7 @@ export default function PaymentResultPage() {
         const processedOrderKey = `processed_order_${orderId}`;
         if (localStorage.getItem(processedOrderKey)) {
           console.log('Orden ya procesada anteriormente, redirigiendo...');
-          navigate('/checkout/confirmation');
+          navigate('/checkout/thankyou');
           return;
         }
         
@@ -97,12 +98,31 @@ export default function PaymentResultPage() {
           // Aquí simulamos la creación de la orden después de verificar el pago
           const response = await createOrder(orderData);
           
+          console.log('PaymentResultPage - Orden creada exitosamente');
+          
           // Marcar esta orden como procesada para evitar duplicados futuros
           localStorage.setItem(`processed_order_${orderId}`, 'true');
           localStorage.setItem(`processed_order_${orderId}_timestamp`, Date.now().toString());
           
-          // Actualizar estado
-          setOrderComplete(response.id);
+          // MEJOR PRÁCTICA: Validación defensiva del ID de orden
+          let finalOrderId: number;
+          
+          if (response.id && typeof response.id === 'number') {
+            // Caso ideal: el backend devuelve el ID correcto
+            finalOrderId = response.id;
+            console.log('PaymentResultPage - Usando ID del backend:', finalOrderId);
+          } else {
+            // Fallback: usar el ID de la URL (ambiente de desarrollo/testing)
+            finalOrderId = parseInt(orderId);
+            console.warn('PaymentResultPage - Backend no devolvió ID válido, usando ID de URL:', finalOrderId);
+            
+            // En producción, podrías querer loggear este problema
+            if (import.meta.env.PROD) {
+              console.error('PRODUCTION WARNING: Backend no devolvió order ID válido');
+            }
+          }
+          
+          setOrderComplete(finalOrderId);
           clearCart();
           localStorage.removeItem('pendingOrderData');
           localStorage.removeItem('tempOrderId');
@@ -110,8 +130,11 @@ export default function PaymentResultPage() {
           // Mostrar mensaje de éxito
           showToast.success('¡Pago completado!', 'Tu orden ha sido procesada con éxito');
           
-          // Redirigir a confirmación
-          navigate('/checkout/confirmation');
+          // Esperar un momento para que el estado se actualice antes de navegar
+          console.log('PaymentResultPage - Navegando a /checkout/thankyou en 200ms...');
+          setTimeout(() => {
+            navigate('/checkout/thankyou');
+          }, 200);
         } else if (status === 'pending') {
           // Manejar pago pendiente
           showToast.warning('Pago pendiente', 'Tu pago está siendo procesado. Te notificaremos cuando se confirme.');
@@ -137,12 +160,9 @@ export default function PaymentResultPage() {
   if (isVerifying) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center p-6">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600 mb-4" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <h2 className="text-xl font-medium text-gray-700">Procesando tu pago...</h2>
-          <p className="text-gray-500 mt-2">Por favor, no cierres esta ventana.</p>
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4">
+          <SimpleLoader message="Procesando tu pago..." />
+          <p className="text-gray-500 text-center mt-4">Por favor, no cierres esta ventana.</p>
         </div>
       </div>
     );
