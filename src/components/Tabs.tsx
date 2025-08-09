@@ -15,15 +15,21 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className = "" }) => {
   return (
-    <div className={`flex justify-center mb-8 ${className}`}>
-      {/* Contenedor interno para centrado */}
-      <div className="flex overflow-x-auto pb-3 gap-2 px-2 sm:gap-4 md:gap-8 lg:gap-12">
+    <div className={`relative w-full mb-8 overflow-hidden ${className}`}>
+      <div 
+        className="flex overflow-x-auto xl:justify-center xl:items-center pb-3 -mx-4 px-4 gap-2 sm:gap-4 md:gap-8 lg:gap-12 no-scrollbar"
+        style={{
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         {options.map((opt) => (
           <button
             key={opt.value}
             onClick={() => onChange(opt.value)}
             className={`
-              flex items-center gap-2 px-2 py-1 rounded-full border text-xs font-medium transition
+              flex-shrink-0 flex items-center gap-3 px-3 py-2 rounded-full border text-base font-medium transition whitespace-nowrap
               sm:px-3 sm:py-2 sm:text-sm
               md:px-4 md:py-2 md:text-base
               lg:px-5 lg:py-2 lg:text-base
@@ -35,7 +41,7 @@ const Tabs: React.FC<TabsProps> = ({ options, selectedValue, onChange, className
           >
             {opt.label}
             {/* Mostrar iconos solo en pantallas medianas y grandes */}
-            <span className="hidden md:inline lg:text-base">{opt.icon}</span>
+            <span className="inline text-base">{opt.icon}</span>
           </button>
         ))}
       </div>

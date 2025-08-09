@@ -35,9 +35,9 @@ export default function ExerciseDetailPage() {
       {/* Contenido principal */}
       <div className="max-w-5xl mx-auto flex flex-col">
         {/* Título */}
-        <h1 className="order-2 sm:order-none text-2xl sm:text-3xl md:text-4xl font-black text-center mb-4 mx-2">{exercise.title}</h1>
+        <h1 className="order-2 sm:order-none text-2xl sm:text-3xl md:text-4xl font-black xl:text-center mb-4 mx-2">{exercise.title}</h1>
         {/* Categoría y duración */}
-        <div className="order-3 sm:order-none flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-6">
+        <div className="order-3 ml-2 sm:order-none flex flex-col sm:flex-row xl:items-center xl:justify-center gap-2 sm:gap-4 mb-6">
           <span className="text-base sm:text-lg font-semibold text-gray-700">
             {String(exercise.category).charAt(0).toUpperCase() + String(exercise.category).slice(1)}
           </span>

@@ -144,7 +144,7 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
       {/* Botón */}
       <button
         type="submit"
-        className="w-1/2 mx-auto mt-2 py-2 sm:py-3 bg-gradient-to-t from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)]
+        className="w-2/5 mx-auto mt-9 py-2 sm:py-3 bg-gradient-to-t from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)]
         hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-bottom)] hover:to-[var(--color-btn-gradient-top)]
         rounded-full text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-2 shadow"
     
