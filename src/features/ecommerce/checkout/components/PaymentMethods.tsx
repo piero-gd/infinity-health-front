@@ -84,7 +84,7 @@ export default function PaymentMethods() {
                             </div>
                             <div className="flex-1">
                                 <div className="flex grid-cols-2 gap-4 mb-2">
-                                    <div className="w-20 h-10 xl:block md:block hidden rounded-lg border-1 border-gray-300 flex items-center justify-center text-white font-bold text-sm">
+                                    <div className="w-20 h-10 xl:block md:block hidden rounded-lg border-1 border-gray-300 items-center justify-center text-white font-bold text-sm">
                                         <img src="../../img/capitalStacking.png" className="p-1 pb-4 pt-1" alt="" />
                                     </div>
                                     <div className="flex flex-col items-start">
@@ -113,7 +113,7 @@ export default function PaymentMethods() {
                                                 checked={acceptedTerms.crypto}
                                                 onChange={(e) => handleTermsChange('crypto', e.target.checked)}
                                                 style={{ accentColor: 'var(--color-primary)' }}
-                                                className="w-4 h-4 text-blue-600 rounded border-gray-300 mt-0.5"
+                                                className="w-4 h-4 rounded border-gray-300 mt-0.5"
                                             />
                                             <label htmlFor="terms-crypto" className="text-sm text-gray-600">
                                                 Declaro que he leído y aceptado los{' '}
@@ -147,7 +147,7 @@ export default function PaymentMethods() {
                             </div>
                             <div className="flex-1">
                                 <div className="flex grid-cols-2 gap-4 mb-2">
-                                <div className="w-20 h-10 xl:block md:block hidden border-1 border-gray-300 rounded-lg flex items-center justify-center">
+                                <div className="w-20 h-10 xl:block md:block hidden border-1 border-gray-300 rounded-lg items-center justify-center">
                                     <img src="../../img/whatsApp.png" className="p-1 pb-4 pt-1" alt="WhatsApp" />
                                 </div>
                                 <div className="flex flex-col items-start">
@@ -179,12 +179,12 @@ export default function PaymentMethods() {
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
-                                                type="radio" 
+                                                type="checkbox" 
                                                 id="terms-whatsapp"
                                                 checked={acceptedTerms.whatsapp}
                                                 onChange={(e) => handleTermsChange('whatsapp', e.target.checked)}
                                                 style={{ accentColor: 'var(--color-primary)' }}
-                                                className="w-4 h-4 text-blue-600 rounded border-gray-300 mt-0.5"
+                                                className="w-4 h-4 rounded border-gray-300 mt-0.5"
                                             />
                                             <label htmlFor="terms-whatsapp" className="text-sm text-gray-600">
                                                 Declaro que he leído y aceptado los{' '}
@@ -218,7 +218,7 @@ export default function PaymentMethods() {
                             </div>
                             <div className="flex-1">
                                 <div className="flex grid-cols-2 gap-4 mb-2">
-                            <div className="w-20 h-11 xl:block md:block hidden border-1 border-gray-300 rounded-lg flex items-center justify-center">
+                            <div className="w-20 h-11 xl:block md:block hidden border-1 border-gray-300 rounded-lg items-center justify-center">
                                 <img src="../../img/mercadoPago.png" className='p-1 pb-4'  alt="MercadoPago" />
                             </div>
                             <div className="flex flex-col items-start">
@@ -242,12 +242,12 @@ export default function PaymentMethods() {
                                         </button>
                                         <div className="flex items-start gap-2 mt-3">
                                             <input 
-                                                type="radio" 
+                                                type="checkbox" 
                                                 id="terms-card"
                                                 checked={acceptedTerms.card}
                                                 onChange={(e) => handleTermsChange('card', e.target.checked)}
                                                 style={{ accentColor: 'var(--color-primary)' }}
-                                                className="w-4 h-4 text-[var(--color-primary)] rounded border-gray-300 mt-0.5"
+                                                className="w-4 h-4 rounded border-gray-300 mt-0.5"
                                             />
                                             <label htmlFor="terms-card" className="text-sm text-gray-600">
                                                 Declaro que he leído y aceptado los{' '}
