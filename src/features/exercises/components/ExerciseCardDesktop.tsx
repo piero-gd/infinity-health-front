@@ -10,7 +10,8 @@ export default function ExerciseCardDesktop({ exercise, onClick }: Props) {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer group hover:scale-105 transition-transform flex flex-col mx-8 mt-4"
+      className="bg-white rounded-3xl shadow-lg overflow-hidden cursor-pointer group
+      hover:scale-105 transition-transform flex flex-col mx-6 mt-4"
     >
       <div className="relative w-full aspect-video bg-gray-200 flex items-center justify-center">
         <img
@@ -24,9 +25,9 @@ export default function ExerciseCardDesktop({ exercise, onClick }: Props) {
         {/* Texto sobre la imagen alineado a la izquierda */}
         <div className="absolute bottom-0 left-0 w-full flex items-end px-4 pb-4">
           <div>
-            <span className="text-white text-lg font-normal" style={{ fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>
+            <h1  className="text-white text-lg font-normal" >
               {String(exercise.category).charAt(0).toUpperCase() + String(exercise.category).slice(1)}
-            </span>
+            </h1>
           </div>
         </div>
         {/* Ícono de play */}

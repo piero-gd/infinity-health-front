@@ -9,7 +9,7 @@ interface Props {
 export default function ExerciseCardMobile({ exercise, onClick }: Props) {
   return (
     <div
-      className="bg-white rounded-2xl shadow flex items-center px-3 py-5 mb-4 cursor-pointer transition hover:shadow-lg"
+      className="bg-white rounded-2xl shadow-md flex items-center px-4 py-4 mb-4 cursor-pointer transition hover:shadow-lg"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -17,7 +17,7 @@ export default function ExerciseCardMobile({ exercise, onClick }: Props) {
       <img
         src={exercise.preview_image}
         alt={exercise.title}
-        className="rounded-xl w-16 h-16 object-cover flex-shrink-0"
+        className="rounded-xl w-20 h-20 object-cover flex-shrink-0"
       />
       <div className="flex-1 ml-4">
         <div className="text-base mb-1">{exercise.title}</div>
@@ -28,7 +28,11 @@ export default function ExerciseCardMobile({ exercise, onClick }: Props) {
           </span>
         </div>
       </div>
-      <PlayCircleIcon className="ml-4 w-7 h-7 text-[var(--color-primary)] transition group-hover:text-btn-hover" />
+      <div className="relative">
+        <div className="ml-4 flex items-center justify-center">
+          <PlayCircleIcon className="w-10 h-10 text-[var(--color-primary)] drop-shadow-md hover:scale-110 transition-transform" />
+        </div>
+      </div>
     </div>
   );
 }

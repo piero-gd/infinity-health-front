@@ -55,13 +55,14 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
   };
 
   return (
+    <div className="xl:px-6 px-0">
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-xl border border-gray-200 p-4 sm:p-6 max-w-3xl mx-auto mb-4"
+      className="bg-white rounded-xl border-2 border-[var(--color-primary)] p-4 sm:p-3 max-w-3xl mx-auto mb-4"
     >
       {/* Tabs */}
       <div
-        className="flex flex-wrap border-b border-gray-200 mb-4
+        className="flex items-center justify-center flex-wrap mb-4
             text-sm font-semibold 
             sm:px-3 sm:py-2 sm:text-sm
             md:px-4 md:py-2 md:text-base"
@@ -71,7 +72,7 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
           className={`
             px-2 py-1 transition
             ${tab === "registro"
-              ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]"
+              ? "border-b-2 border-[var(--color-primary)] text-black"
               : "text-gray-500"
             }
           `}
@@ -82,7 +83,7 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
         <button
           type="button"
           className={`ml-2 sm:ml-4 px-2 py-1 transition ${tab === "comentarios"
-            ? "border-b-2 border-[var(--color-primary)] text-[var(--color-primary)]"
+            ? "border-b-2 border-[var(--color-primary)] text-black"
             : "text-gray-500"
             }`}
           onClick={() => setTab("comentarios")}
@@ -93,7 +94,7 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
 
       {/* Formulario */}
       {tab === "registro" ? (
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mb-4">
+        <div className="flex xl:flex-col flex-col-2 sm:flex-row gap-2 sm:gap-4 mb-4 px-6">
           <div className="flex-1">
             <label className="block text-gray-600 text-sm sm:text-base mb-1">
               Repeticiones
@@ -120,7 +121,7 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
           </div>
         </div>
       ) : (
-        <div className="mb-4">
+        <div className="mb-4 px-6">
           <label className="block text-gray-600 text-sm sm:text-base mb-1">
             Comentario
           </label>
@@ -139,11 +140,14 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
         </div>
       )}
 
+    </form>
       {/* Botón */}
       <button
         type="submit"
-        className="w-full mt-2 py-2 sm:py-3 rounded-full text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-2 shadow"
-        style={{ background: "var(--gradient-primary)" }}
+        className="w-2/5 mx-auto mt-9 py-2 sm:py-3 bg-gradient-to-t from-[var(--color-btn-gradient-top)] to-[var(--color-btn-gradient-bottom)]
+        hover:bg-gradient-to-t hover:from-[var(--color-btn-gradient-bottom)] hover:to-[var(--color-btn-gradient-top)]
+        rounded-full text-white text-sm sm:text-base font-semibold flex items-center justify-center gap-2 shadow"
+    
         disabled={loading}
       >
         {loading ? "Guardando..." : "Registrar Progreso"}
@@ -162,6 +166,6 @@ export default function ExerciseProgressForm({ exerciseId }: Props) {
           />
         </svg>
       </button>
-    </form>
+    </div>
   );
 }
