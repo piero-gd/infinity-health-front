@@ -1,61 +1,115 @@
 import {
-  ArrowRightOnRectangleIcon,
-  FaceSmileIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 
+import { RiCoinsFill } from "react-icons/ri";
+
+import { useAuthStore } from "../features/auth/stores/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
-  onLogout: () => void;
   setSidebarOpen?: (open: boolean) => void;
+  balance?: string;
+  notificationCount?: number;
 }
 
-export default function AppNavbar({ onLogout, setSidebarOpen }: Props) {
+export default function AppNavbar({ 
+  setSidebarOpen, 
+  balance = "1,264 $",
+}: Props) {
+  // Get user data from auth store
+  const { userData } = useAuthStore();
+  const username = userData?.username || '';
+  const firstName = userData?.first_name || '';
+  const userAvatar = "/img/mujer.png";
+
+  const navigate = useNavigate();
+
+  // Usa firstName si está disponible, de lo contrario usa username
+  const displayName = firstName || username;
+
+
   return (
-    <nav className="sticky top-0 z-40 flex items-center justify-between bg-[var(--color-background)] px-4 xl:py-3 py-8 shadow sm:justify-start">
-      {/* Botón hamburguesa SOLO en mobile */}
-      {setSidebarOpen && (
-        <button
-          className="block sm:hidden mr-2 text-[var(--color-primary)]"
-          onClick={() => setSidebarOpen(true)}
-          aria-label="Abrir menú"
-        >
-          <Bars3Icon className="h-6 w-6" />
-        </button>
-      )}
+    <nav className="sticky top-0 z-40 flex items-center justify-between bg-white px-4 xl:py-3 py-4 shadow-sm border-b border-gray-200">
       
+      {/* Mobile Layout */}
+      <div className="flex sm:hidden items-center justify-between w-full">
+        {/* Left side - Logo and hamburger button */}
+        <div className="flex items-center gap-4">
+          {setSidebarOpen && (
+            <button
+              className="text-[var(--color-primary)] p-1"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Abrir menú"
+            >
+              <Bars3Icon className="h-6 w-6" />
+            </button>
+          )}
+          <a href="/" className="flex items-center">
+            <img
+              src="/img/health-logo-light-mode.png"
+              alt="Infinity Health"
+              className="h-8 w-auto max-w-[120px]"
+            />
+          </a>
+        </div>
 
-      {/* Logo centrado visualmente en mobile */}
-      <a
-        href="/"
-        className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0 flex items-center gap-2 my-1"
-      >
-        <img
-          src="/img/health-logo-light-mode.png"
-          alt="Infinity Health"
-          className="h-8 w-auto max-w-[150px]"
-        />
-      </a>
+        {/* Right side icons - Mobile */}
+        <div className="flex items-center gap-4">
+          {/* Balance */}
+          <div className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full">
+            <RiCoinsFill className="h-5 w-5 text-[var(--color-primary)]" />
+            <span className="text-sm font-semibold text-gray-800">{balance}</span>
+          </div>
 
-      {/* Perfil y logout SOLO en desktop */}
-      <div className="ml-auto hidden sm:flex items-center gap-6">
+          {/* User avatar */}
+          <button className="flex items-center">
+            <div className="rounded-full cursor-pointer hover:scale-104  p-0.5 overflow-hidden bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]">
+            <img
+              src={userAvatar}
+              onClick={() => navigate('/profile')}
+              className="h-9 w-9  rounded-full object-cover"
+            />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden sm:flex items-center justify-between w-full px-26">
+        {/* Logo */}
+        <a href="/" className="flex items-center gap-2">
+          <img
+            src="/img/health-logo-light-mode.png"
+            alt="Infinity Health"
+            className=" ml-2 h-8 w-auto max-w-[120px]"
+          />
+        </a>
+
+        {/* Right side - Desktop */}
+        <div className="flex items-center gap-8">
+          {/* Balance */}
+          <div className="flex items-center gap-2">
+            <RiCoinsFill className="h-6 w-6 text-[var(--color-primary)]" />
+            <span className="text-md font-semibold text-gray-800">{balance}</span>
+          </div>
 
         
-        <button className="flex items-center gap-1 hover:text-[var(--color-primary-accent)] transition">
-          <FaceSmileIcon className="h-5 w-5" />
-          <span className="text-[var(--color-text)]">Perfil</span>
-        </button>
-        <button
-          onClick={() => {
-            onLogout();
-            // Nota: La navegación debería ocurrir automáticamente por el useEffect 
-            // en ProtectedRoute cuando isAuthenticated cambia a false
-          }}
-          className="flex items-center gap-1 hover:text-[var(--color-primary-accent)] transition"
-        >
-          <ArrowRightOnRectangleIcon className="h-5 w-5" />
-          <span className="text-[var(--color-text)]">Logout</span>
-        </button>
+
+          {/* User name and avatar */}
+          <div className="flex items-center gap-3">
+            <span className="text-gray-800 font-semibold mr-2">{displayName}</span>
+            <div className="rounded-full cursor-pointer hover:scale-104  p-0.5 overflow-hidden bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]">
+            <img
+              src={userAvatar}
+              onClick={() => navigate('/profile')}
+              className="h-10 w-10 rounded-full object-cover "
+            />
+            </div>
+          </div>
+
+
+        </div>
       </div>
     </nav>
   );

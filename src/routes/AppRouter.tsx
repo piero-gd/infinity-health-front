@@ -68,7 +68,7 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
 
       {/* ===== RUTAS PROTEGIDAS CON SIMPLE LAYOUT ===== */}
       <Route element={
-        <ProtectedRoute requireAuth><SimpleLayout onLogout={onLogout} /></ProtectedRoute>
+        <ProtectedRoute requireAuth><SimpleLayout /></ProtectedRoute>
       }>
         
         <Route path="/academy/course/:id" element={<ProtectedAcademyPage />} />

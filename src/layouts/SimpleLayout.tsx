@@ -5,12 +5,7 @@ import StickyClientProgressButton from "../components/StickyClientProgressButton
 import { Outlet } from "react-router-dom";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 
-interface Props {
-  onLogout: () => void;
-  
-}
-
-export default function SimpleLayout({ onLogout }: Props) {
+export default function SimpleLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useDisableBodyScroll(sidebarOpen && window.innerWidth < 640);
@@ -33,11 +28,11 @@ export default function SimpleLayout({ onLogout }: Props) {
       <div
         className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 hidden sm:block ${sidebarWidthDesktop}`}
       >
-        <AppNavbar onLogout={onLogout} setSidebarOpen={setSidebarOpen} />
+        <AppNavbar setSidebarOpen={setSidebarOpen} />
       </div>
       {/* En mobile, navbar debe estar siempre sin margen */}
       <div className="fixed top-0 left-0 right-0 z-30 block sm:hidden">
-        <AppNavbar onLogout={onLogout} setSidebarOpen={setSidebarOpen} />
+        <AppNavbar setSidebarOpen={setSidebarOpen} />
       </div>
 
       {/* Contenido principal (ajustado solo en desktop) */}

@@ -102,7 +102,7 @@ export default function CalculatorInfo() {
                 Descubre nuestra selección de alimentos orgánicos y suplementos nutricionales de la más alta calidad.
               </p>
               <a 
-                href="/productos-saludables" 
+                href="/catalog" 
                 className="inline-flex items-center text-[var(--color-primary)] px-5 py-2.5 text-sm font-medium rounded-full border-1 border-[var(--color-primary-accent)] hover:bg-gradient-to-br hover:from-[var(--color-dark)] hover:to-[var(--color-primary-light)] shadow-md"
               >
                 Ver catálogo
