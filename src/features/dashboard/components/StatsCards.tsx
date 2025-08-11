@@ -71,7 +71,7 @@ export default function StatsCards({ userStats }: StatsCardsProps) {
                   <stat.icon className={`h-6 w-6 ${stat.iconColor}`} />
                 </div>
               </div>
-              <div className={`mt-2 hidden md:block flex items-center text-sm ${stat.trendColor}`}>
+              <div className={`mt-2 hidden md:block items-center text-sm ${stat.trendColor}`}>
                 <TrendingUp className="mr-1 w-4 h-4" />
                 <span>{stat.trend}</span> <span className="text-black font-medium ml-1">Este mes</span>
               </div>
