@@ -22,16 +22,3 @@ export interface UserData {
     color: string;
     link: string;
   }
-//temportal product para pruebas
-  export interface Product {
-    id: number;
-    nombre: string;
-    descripcion: string;
-    precionuevo: number;
-    precioanterior: number;
-    valoracion: number;
-    cantidades: number;
-    favorito: boolean;
-    imagen: string;
-    categoria: string;
-  }

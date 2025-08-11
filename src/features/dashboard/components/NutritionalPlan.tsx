@@ -1,8 +1,10 @@
 import { LuCalculator } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export default function NutritionalPlan() {
+    const navigate = useNavigate();
     return (
-        <div className="relative">
+        <div className="w-full h-full">
             {/* Desktop Layout */}
             <div className="hidden lg:block">
                 <h3 className="text-3xl font-medium">Calculadora de Macros</h3>
@@ -10,16 +12,18 @@ export default function NutritionalPlan() {
                     Personaliza tu nutrición y alcanza tus objetivos
                 </span>
                 
-                <div className="relative mt-2">
-                    <div className="space-y-3 bg-green-50 rounded-4xl border-2 border-green-500 p-6">
+                <div className="relative mt-3">
+                    <div className="bg-green-50 items-center justify-center flex flex-col rounded-4xl border-2 border-green-500 p-4 ">
                         <img 
                             src="public/img/calculator bg.png" 
                             alt="Calculadora Macro" 
-                            className="w-full h-auto mb-4 shadow-lg rounded-2xl" 
+                            className="w-7/8 h-full mb-4 shadow-lg rounded-2xl" 
                         />
                         
                         <div className="flex items-center justify-center">
-                            <button className="flex items-center gap-2 p-3 px-6 py-1 text-black bg-blue-50 border-2 border-primary rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                            <button className="flex items-center gap-2 p-3 px-14 py-2 text-black bg-blue-50 border-2 border-primary rounded-full
+                            shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                            onClick={() => navigate('/calculator')}>
                                 <span className="text-sm font-medium">Calcular ahora</span>
                                 <div className="w-10 h-10 rounded-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] shadow-xl">
                                     <LuCalculator className="w-6 h-6 m-auto text-white mt-2" />
@@ -35,7 +39,7 @@ export default function NutritionalPlan() {
                 <div className="flex items-start gap-3 p-3">
                     {/* Contenido Izquierda - Imagen */}
                     <div className="flex-shrink-0 w-28 sm:w-36">
-                        <div className="bg-green-50 rounded-2xl border-2 border-green-400 p-1.5">
+                        <div className="bg-green-50 rounded-2xl border-2 border-green-500 p-1.5">
                             <img 
                                 src="public/img/calculator bg.png" 
                                 alt="Calculadora Macro" 
@@ -57,7 +61,8 @@ export default function NutritionalPlan() {
                         </div>
                         
                         <div className="mt-2">
-                            <button className="flex items-center justify-between w-full max-w-[180px] bg-blue-50 border-2 border-blue-500 rounded-full px-4 py-1.5 shadow-sm hover:shadow-md transition-all">
+                            <button className="flex items-center justify-between w-full max-w-[180px] bg-blue-50 border-2 border-[var(--color-primary)] rounded-full px-4 py-1.5 shadow-sm hover:shadow-md transition-all"
+                            onClick={() => navigate('/calculator')}>
                                 <span className="text-sm font-medium text-gray-800">Calcular</span>
                                 <div className="w-7 h-7 rounded-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] shadow flex items-center justify-center">
                                     <LuCalculator className="w-3.5 h-3.5 text-white" />

@@ -31,7 +31,7 @@ export const ProductCardDashboardSpecial: React.FC<ProductCardProps> = ({
         <div className="w-full h-full flex justify-center">
             <div
                 onClick={handleCardClick}
-                className="relative bg-gradient-to-t from-pink-900 to-pink-500 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer w-full max-w-full h-80 flex flex-col"
+                className="relative bg-gradient-to-t from-pink-900 to-pink-500 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer w-full max-w-[16rem] h-80 flex flex-col"
             >
                 {/* Imagen de Producto - Cubre toda la card */}
                 <div className="absolute inset-0 w-full h-full">

@@ -16,7 +16,7 @@ export default function ClientProgress() {
     return (
         <div className="flex flex-col w-full h-full ">
  {/* Sección de barras */}
- <div className="rounded-2xl bg-white px-6 py-4 border border-gray-100 shadow-sm mb-5">
+ <div className="rounded-2xl bg-white px-4 py-3 border border-gray-100 shadow-sm mb-5">
                 <div className="flex items-center gap-3">
                     <h3 className="font-medium text-gray-900 text-md">Progreso general</h3>
                 </div>
