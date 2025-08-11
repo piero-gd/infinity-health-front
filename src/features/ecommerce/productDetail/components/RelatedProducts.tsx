@@ -35,7 +35,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
     return (
         <div className="mt-16 w-full px-4 sm:px-6 lg:px-8 ">
             {/* Title and Description */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-4">
                 <div>
                     <h2 className="text-center xl:text-left text-2xl font-bold text-gray-900">
                         Productos relacionados
@@ -52,7 +52,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
 
             {/* Grid of related products */}
             <div className="w-full overflow-x-auto pb-4 flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-full">
                     {relatedProducts.map((product) => (
                         <div key={product.id} className="w-full h-full">
                             <ProductCardDashboardSpecial

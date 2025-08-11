@@ -1,7 +1,7 @@
 export default function AboutProduct() {
     return (
-        <div className="mt-16 w-full gap-4">
-            <h2 className="text-xl font-bold text-gray-900 text-center mb-4">Sobre este Producto</h2>
+        <div className="mt-4 mb-15 w-full gap-4">
+            <h2 className="text-xl font-bold text-gray-900 text-center mb-8">Sobre este Producto</h2>
             <div className="grid xl:grid-cols-3 grid-cols-1 gap-4 bg-sky-50 rounded-3xl border-1 border-[var(--color-primary)] p-6">
                 <div className="xl:order-1 order-1 p-6">
                     <div className="mb-16">

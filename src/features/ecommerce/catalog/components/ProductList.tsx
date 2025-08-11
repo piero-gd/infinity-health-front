@@ -1,10 +1,19 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import type { Product } from '../../shared/types';
+=======
+import { useState, useEffect, useRef } from 'react';
+import type { Product } from '../../productDetail/types';
+>>>>>>> uifix-catalog
 import { ProductCardHover } from '../../../../components/ProductCardHover';
 import { ProductCardPrincipal } from '../../../../components/ProductCardPrincipal';
 import { useProducts } from '../../shared/hooks/useProducts';
 import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
+<<<<<<< HEAD
 import ExerciseLoader from '../../../../components/ExerciseLoader';
+=======
+import { showToast } from '../../../../utils/toastConfig';
+>>>>>>> uifix-catalog
 
 export default function ProductList() {
     const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
@@ -40,6 +49,7 @@ export default function ProductList() {
         if (page !== 1) {
             setPage(1);
         }
+
     }, [
         selectedCategory,
         selectedSort,
@@ -52,6 +62,7 @@ export default function ProductList() {
         selectedFormat
     ]);
 
+<<<<<<< HEAD
     // Manejar los diferentes estados de la consulta
     if (isLoading) {
         return (
@@ -60,20 +71,49 @@ export default function ProductList() {
             </div>
         );
     }
+=======
+    // Mostrar toast de error si hay un error
+    const errorShown = useRef(false);
+    useEffect(() => {
+        if (isError && !errorShown.current) {
+            showToast.error('Error', 'No se pudieron cargar los productos. Por favor, inténtalo de nuevo.');
+            errorShown.current = true;
+        }
+        
+        // Resetear el flag cuando se resuelve el error
+        if (!isError) {
+            errorShown.current = false;
+        }
+    }, [isError, error]);
+>>>>>>> uifix-catalog
 
-    if (isError) {
-        return (
-            <div className="text-center py-16">
-                <h3 className="text-xl text-red-600">Error al cargar productos</h3>
-                <p className="mt-2 text-gray-500">{(error as Error)?.message || 'Ocurrió un error inesperado'}</p>
-                <button 
-                    onClick={() => window.location.reload()}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                >
-                    Reintentar
-                </button>
-            </div>
-        );
+    // Mostrar toast de carga inicial
+    useEffect(() => {
+        if (isLoading) {
+            showToast.loading('Cargando productos...');
+            return () => {
+                showToast.dismiss();
+            };
+        }
+    }, [isLoading]);
+
+    // Mostrar toast de actualización
+    const isFirstRender = useRef(true);
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+        
+        if (isFetching && !isLoading) {
+            showToast.loading('Actualizando productos...');
+        } else if (!isLoading) {
+            showToast.dismiss();
+        }
+    }, [isFetching, isLoading]);
+
+    if (isLoading) {
+        return null; // No mostramos nada mientras carga, ya que el toast se encarga
     }
 
     const products = data?.data || [];
@@ -91,12 +131,7 @@ export default function ProductList() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            {/* Indicador de carga durante refetch */}
-            {isFetching && !isLoading && (
-                <div className="fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-lg z-50">
-                    Actualizando productos...
-                </div>
-            )}
+            {/* Los indicadores de carga/error ahora se manejan con toasts */}
             
             {/* Contador de productos */}
             <div className="mb-4 text-sm text-gray-500">
@@ -109,7 +144,7 @@ export default function ProductList() {
                     <p className="mt-2 text-gray-500">Prueba con otros criterios de búsqueda</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 justify-items-center">
                     {products.map((product: Product) => (
                         <div 
                             key={product.id} 
@@ -146,17 +181,17 @@ export default function ProductList() {
                     <button
                         onClick={() => handlePageChange(page - 1)}
                         disabled={page === 1}
-                        className={`px-4 py-2 border rounded-md ${page === 1 ? 'bg-gray-100 text-gray-400' : 'bg-white text-blue-600 hover:bg-blue-50'}`}
+                        className={`px-2 py-2 border rounded-full ${page === 1 ? 'bg-gray-100 text-gray-400' : 'bg-white text-[var(--color-primary)] hover:bg-blue-50'}`}
                     >
                         Anterior
                     </button>
-                    <span className="px-4 py-2 border bg-blue-50 rounded-md">
+                    <span className="px-4 py-2 border border-[var(--color-primary-accent)] bg-blue-50 rounded-full">
                         {page} de {Math.ceil(totalProducts / limit)}
                     </span>
                     <button
                         onClick={() => handlePageChange(page + 1)}
                         disabled={page >= Math.ceil(totalProducts / limit)}
-                        className={`px-4 py-2 border rounded-md ${page >= Math.ceil(totalProducts / limit) ? 'bg-gray-100 text-gray-400' : 'bg-white text-blue-600 hover:bg-blue-50'}`}
+                        className={`px-2 py-2 border rounded-full ${page >= Math.ceil(totalProducts / limit) ? 'bg-gray-100 text-gray-400' : 'bg-white text-[var(--color-primary)] hover:bg-blue-50'}`}
                     >
                         Siguiente
                     </button>

@@ -137,12 +137,13 @@ export default function FilterTop() {
                           : 'ring-0 hover:scale-105'}
                         `}
             >
-              {category.name}
-              <span className="text-base">{category.icon}</span>
+              <div className="whitespace-nowrap inline-flex items-center gap-2">
+                {category.name}{category.icon}
+              </div>
             </button>
             {/* Línea inferior para la categoría seleccionada */}
             {selectedCategory === category.id && (
-              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-[var(--color-primary)] rounded-full" />
+              <div className={`absolute xl:-bottom-1 -bottom-0.2 left-0 right-0 h-0.5 ${category.color} rounded-full`} />
             )}          
           </div>
         ))}
