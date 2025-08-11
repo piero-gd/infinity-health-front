@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { useProducts } from '../../ecommerce/shared/hooks/useProducts';
-import Loader from '../../../components/Loader';
+import SimpleLoader from '../../../components/SimpleLoader';
 import ProductCardDashboardSpecial from '../../../components/ProductCardDashboardSpecial';
 
 
@@ -53,7 +53,7 @@ export default function SliderProductDashboard() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-64">
-                <Loader />
+                <SimpleLoader />
             </div>
         );
     }
