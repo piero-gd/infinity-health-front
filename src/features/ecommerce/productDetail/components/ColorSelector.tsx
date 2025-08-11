@@ -1,7 +1,4 @@
-interface ColorOption {
-    value: string;
-    name?: string;
-}
+import type { ColorOption } from '../../shared/types';
 
 interface ColorSelectorProps {
     colors?: ColorOption[];

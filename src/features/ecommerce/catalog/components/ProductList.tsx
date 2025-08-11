@@ -1,19 +1,11 @@
-<<<<<<< HEAD
-import { useState, useEffect } from 'react';
-import type { Product } from '../../shared/types';
-=======
 import { useState, useEffect, useRef } from 'react';
-import type { Product } from '../../productDetail/types';
->>>>>>> uifix-catalog
+import type { Product } from '../../shared/types';
 import { ProductCardHover } from '../../../../components/ProductCardHover';
 import { ProductCardPrincipal } from '../../../../components/ProductCardPrincipal';
 import { useProducts } from '../../shared/hooks/useProducts';
 import { useFiltersStore } from '../../catalog/stores/useFiltersStore';
-<<<<<<< HEAD
 import ExerciseLoader from '../../../../components/ExerciseLoader';
-=======
 import { showToast } from '../../../../utils/toastConfig';
->>>>>>> uifix-catalog
 
 export default function ProductList() {
     const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
@@ -62,16 +54,6 @@ export default function ProductList() {
         selectedFormat
     ]);
 
-<<<<<<< HEAD
-    // Manejar los diferentes estados de la consulta
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-64">
-                <ExerciseLoader />
-            </div>
-        );
-    }
-=======
     // Mostrar toast de error si hay un error
     const errorShown = useRef(false);
     useEffect(() => {
@@ -85,7 +67,6 @@ export default function ProductList() {
             errorShown.current = false;
         }
     }, [isError, error]);
->>>>>>> uifix-catalog
 
     // Mostrar toast de carga inicial
     useEffect(() => {
@@ -112,8 +93,13 @@ export default function ProductList() {
         }
     }, [isFetching, isLoading]);
 
+    // Manejar los diferentes estados de la consulta - mostrar loader para primera carga
     if (isLoading) {
-        return null; // No mostramos nada mientras carga, ya que el toast se encarga
+        return (
+            <div className="flex justify-center items-center h-64">
+                <ExerciseLoader />
+            </div>
+        );
     }
 
     const products = data?.data || [];

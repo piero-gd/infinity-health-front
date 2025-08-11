@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { SizeOption } from '../../shared/types/product.model';
+import type { SizeOption } from '../../shared/types';
 
 interface SizeSelectorProps {
     sizes?: SizeOption[];

@@ -2,7 +2,7 @@ import DualRangeSlider from './DualRangeSlider';
 import { useFiltersStore } from '../stores/useFiltersStore';
 import { ProductCardDashboardSpecial } from '../../../../components/ProductCardDashboardSpecial';
 import { useQuery } from '@tanstack/react-query';
-import { fetchProducts } from '../../shared/services/productService';
+import { fetchProducts } from '../../shared/services/productsService';
 
 const FeaturedProduct = () => {
   const { data, isLoading, error } = useQuery({

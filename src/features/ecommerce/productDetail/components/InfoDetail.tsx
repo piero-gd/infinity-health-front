@@ -7,7 +7,7 @@ import { HiOutlineArchiveBox } from "react-icons/hi2";
 import { BiHomeAlt2 } from "react-icons/bi";
 import { ColorSelector } from './ColorSelector';
 import { SizeSelector } from './SizeSelector';
-import type { ColorOption, SizeOption } from '../../shared/types/product.model';
+import type { ColorOption, SizeOption } from '../../shared/types';
 import { showToast } from '../../../../utils/toastConfig';
 
 export const InfoDetail: React.FC<InfoDetailProps> = ({ 

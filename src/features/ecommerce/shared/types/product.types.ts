@@ -17,6 +17,19 @@ export interface ProductSpecification {
     is_available: boolean;
 }
 
+// Product variant types
+export interface ColorOption {
+    value: string;
+    name?: string;
+    available: boolean;
+}
+
+export interface SizeOption {
+    value: string;
+    stock: number;
+    available: boolean;
+}
+
 export interface CategoryInfo {
     id: number;
     name: string;
