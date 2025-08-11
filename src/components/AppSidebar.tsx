@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { CgCalculator, CgGym } from "react-icons/cg";
 import { FaChalkboardTeacher } from "react-icons/fa";
@@ -33,52 +34,59 @@ const modules = [
 ];
 
 const AppSidebar: React.FC<AppSidebarProps> = ({ open, setOpen }) => {
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname.startsWith(path);
   return (
     <div
       className={`
-    fixed top-0 left-0 h-full z-40 bg-white shadow-lg flex flex-col
-    transition-all duration-300 ease-in-out
-    ${open ? "w-56" : "w-16"}
-    ${open ? "translate-x-0" : "-translate-x-full sm:translate-x-0"}
-  `}
+        fixed top-0 left-0 h-full z-40 bg-white border-r border-gray-200 flex flex-col
+        transition-all duration-300 ease-in-out
+        ${open ? "w-56" : "w-16"}
+        ${open ? "translate-x-0" : "-translate-x-full sm:translate-x-0"}
+      `}
     >
       {/* Botón hamburguesa: cerrar en mobile, colapsar en desktop */}
-      <button
-        className="flex items-center justify-center h-16 focus:outline-none hover:scale-110 transition-transform"
-        onClick={() => setOpen(!open)}
-        aria-label={open ? "Replegar sidebar" : "Desplegar sidebar"}
-      >
-        <Bars3Icon className="h-6 w-6 text-primary" />
-      </button>
+      <div className="flex items-center justify-start h-17 px-4">
+        <button
+          className="flex items-center justify-center focus:outline-none transition-colors"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Replegar sidebar" : "Desplegar sidebar"}
+        >
+          <Bars3Icon className="h-7 w-7 text-[var(--color-primary)]" />
+        </button>
+      </div>
 
       {/* Lista de módulos */}
-      <nav className="flex-1 mt-4">
+      <nav className="flex-1 py-4">
         {modules.map((mod) => (
-          <div key={mod.name} className="relative group flex">
+          <div key={mod.name} className="relative group mb-1">
             <a
               href={mod.route}
               className={`
-                flex items-center gap-4 px-4 py-3 my-1 rounded-md
-                text-primary font-medium cursor-pointer
+                w-full flex items-center gap-3 px-3 py-2.5 
+                text-sm font-medium cursor-pointer
                 transition-all duration-200
-                hover:bg-white/10 group
+                ${isActive(mod.route) 
+                  ? "bg-blue-50 border-r-4 rounded-r-lg border-[var(--color-primary)] text-[var(--color-primary)]" 
+                  : "text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[var(--color-primary)]"
+                }
               `}
             >
               <span
                 className={`
-                  transition-transform duration-200
-                  group-hover:scale-110
+                  flex-shrink-0 transition-transform duration-200
+                  group-hover:scale-110 px-2
+                  ${isActive(mod.route) ? "text-[var(--color-primary)]" : "text-gray-500"}
                 `}
               >
                 {mod.icon}
               </span>
               <span
                 className={`
-                  transition-opacity duration-200
-                  ${
-                    open
-                      ? "opacity-100 ml-0"
-                      : "opacity-0 ml-[-16px] pointer-events-none"
+                  transition-all duration-300
+                  ${open
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2 pointer-events-none"
                   }
                   whitespace-nowrap
                 `}
@@ -92,10 +100,10 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ open, setOpen }) => {
               <span
                 className={`
                   absolute left-full top-1/2 -translate-y-1/2 ml-2
-                  bg-gray-900 text-white text-xs rounded px-3 py-1
+                  bg-gray-900 text-white text-sm rounded-md px-4 py-2
                   opacity-0 group-hover:opacity-100 pointer-events-none
                   shadow-lg transition-opacity duration-200
-                  z-50
+                  z-50 whitespace-nowrap
                 `}
               >
                 {mod.name}

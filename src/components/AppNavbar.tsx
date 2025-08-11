@@ -3,7 +3,6 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { RiCoinsFill } from "react-icons/ri";
-
 import { useAuthStore } from "../features/auth/stores/useAuthStore";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +20,7 @@ export default function AppNavbar({
   const { userData } = useAuthStore();
   const username = userData?.username || '';
   const firstName = userData?.first_name || '';
-  const userAvatar = "/img/mujer.png";
+  const userAvatar = "/img/hombre.png";
 
   const navigate = useNavigate();
 
