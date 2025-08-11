@@ -58,7 +58,7 @@ export default function StatsCards({ userStats }: StatsCardsProps) {
   return (
     <>
       {/* Versión móvil con scroll horizontal */}
-      <div className="md:hidden overflow-x-auto pb-2">
+      <div className="md:hidden overflow-x-auto no-scrollbar pb-2">
         <div className="flex gap-4 w-max pl-6 pr-12">
           {statsData.map((stat, index) => (
             <div key={index} className="bg-white rounded-xl shadow-md md:shadow-xl border border-gray-100 p-4 w-64 md:w-72 flex-shrink-4">
