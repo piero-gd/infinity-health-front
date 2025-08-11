@@ -52,7 +52,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ open, setOpen }) => {
           onClick={() => setOpen(!open)}
           aria-label={open ? "Replegar sidebar" : "Desplegar sidebar"}
         >
-          <Bars3Icon className="h-7 w-7 text-[var(--color-primary)]" />
+          <Bars3Icon className="ml-0.5 h-7 w-7 text-[var(--color-primary)]" />
         </button>
       </div>
 

@@ -27,7 +27,6 @@ export default function AppNavbar({
   // Usa firstName si está disponible, de lo contrario usa username
   const displayName = firstName || username;
 
-
   return (
     <nav className="sticky top-0 z-40 flex items-center justify-between bg-white px-4 xl:py-3 py-4 shadow-sm border-b border-gray-200">
       
@@ -44,7 +43,7 @@ export default function AppNavbar({
               <Bars3Icon className="h-6 w-6" />
             </button>
           )}
-          <a href="/" className="flex items-center">
+          <a href="https://infinityhealth.fit/" className="flex items-center">
             <img
               src="/img/health-logo-light-mode.png"
               alt="Infinity Health"
@@ -77,7 +76,7 @@ export default function AppNavbar({
       {/* Desktop Layout */}
       <div className="hidden sm:flex items-center justify-between w-full px-26">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2">
+        <a href="https://infinityhealth.fit/" className="flex items-center gap-2">
           <img
             src="/img/health-logo-light-mode.png"
             alt="Infinity Health"
