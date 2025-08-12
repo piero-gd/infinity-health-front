@@ -4,6 +4,10 @@ import { Bars3Icon } from "@heroicons/react/24/solid";
 import { CgCalculator, CgGym } from "react-icons/cg";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { RxDashboard } from "react-icons/rx";
+import { FaStore } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
+import { LuLogOut } from "react-icons/lu";
+
 
 interface AppSidebarProps {
   open: boolean;
@@ -17,9 +21,9 @@ const modules = [
     route: "/dashboard",
   },
   {
-    name: "Ejercicios",
-    icon: <CgGym className="h-6 w-6" />,
-    route: "/exercises",
+    name: "Ecommerce",
+    icon: <FaStore className="h-6 w-6" />,
+    route: "/catalog",
   },
   {
     name: "Calculadora",
@@ -27,10 +31,29 @@ const modules = [
     route: "/calculator",
   },
   {
+    name: "Ejercicios",
+    icon: <CgGym className="h-6 w-6" />,
+    route: "/exercises",
+  },
+  
+  {
     name: "Academia",
     icon: <FaChalkboardTeacher className="h-6 w-6" />,
     route: "/academy/course/1",
   },
+  {
+    name: "Soporte",
+    icon: <BiSupport className="h-6 w-6" />,
+    route: "/support",
+  }
+];
+
+const logoutModule = [
+  {
+    name: "Salir",
+    icon: <LuLogOut className="h-6 w-6" />,
+    route: "/logout",
+  }
 ];
 
 const AppSidebar: React.FC<AppSidebarProps> = ({ open, setOpen }) => {
@@ -56,62 +79,121 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ open, setOpen }) => {
         </button>
       </div>
 
-      {/* Lista de módulos */}
-      <nav className="flex-1 py-4">
-        {modules.map((mod) => (
-          <div key={mod.name} className="relative group mb-1">
-            <a
-              href={mod.route}
-              className={`
-                w-full flex items-center gap-3 px-3 py-2.5 
-                text-sm font-medium cursor-pointer
-                transition-all duration-200
-                ${isActive(mod.route) 
-                  ? "bg-blue-50 border-r-4 rounded-r-lg border-[var(--color-primary)] text-[var(--color-primary)]" 
-                  : "text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[var(--color-primary)]"
-                }
-              `}
-            >
-              <span
+      <div className="flex flex-col h-full">
+        {/* Lista de módulos */}
+        <nav className="flex-1 py-4">
+          {modules.map((mod) => (
+            <div key={mod.name} className="relative group mb-1">
+              <a
+                href={mod.route}
                 className={`
-                  flex-shrink-0 transition-transform duration-200
-                  group-hover:scale-110 px-2
-                  ${isActive(mod.route) ? "text-[var(--color-primary)]" : "text-gray-500"}
-                `}
-              >
-                {mod.icon}
-              </span>
-              <span
-                className={`
-                  transition-all duration-300
-                  ${open
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-2 pointer-events-none"
+                  w-full flex items-center gap-3 px-3 py-2.5 
+                  text-sm font-medium cursor-pointer
+                  transition-all duration-200
+                  ${isActive(mod.route) 
+                    ? "bg-blue-50 border-r-4 rounded-r-lg border-[var(--color-primary)] text-[var(--color-primary)]" 
+                    : "text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[var(--color-primary)]"
                   }
-                  whitespace-nowrap
                 `}
               >
-                {mod.name}
-              </span>
-            </a>
+                <span
+                  className={`
+                    flex-shrink-0 transition-transform duration-200
+                    group-hover:scale-110 px-2
+                    ${isActive(mod.route) ? "text-[var(--color-primary)]" : "text-gray-500"}
+                  `}
+                >
+                  {mod.icon}
+                </span>
+                <span
+                  className={`
+                    transition-all duration-300
+                    ${open
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2 pointer-events-none"
+                    }
+                    whitespace-nowrap
+                  `}
+                >
+                  {mod.name}
+                </span>
+              </a>
 
-            {/* Tooltip solo si sidebar está colapsado */}
-            {!open && (
-              <span
+              {/* Tooltip solo si sidebar está colapsado */}
+              {!open && (
+                <span
+                  className={`
+                    absolute left-full top-1/2 -translate-y-1/2 ml-2
+                    bg-gray-900 text-white text-sm rounded-md px-4 py-2
+                    opacity-0 group-hover:opacity-100 pointer-events-none
+                    shadow-lg transition-opacity duration-200
+                    z-50 whitespace-nowrap
+                  `}
+                >
+                  {mod.name}
+                </span>
+              )}
+            </div>
+          ))}
+        </nav>
+
+        {/* Módulo de cierre de sesión en la parte inferior */}
+        <div className="mt-auto pb-4">
+          {logoutModule.map((mod) => (
+            <div key={mod.name} className="relative group mb-1">
+              <a
+                href={mod.route}
                 className={`
-                  absolute left-full top-1/2 -translate-y-1/2 ml-2
-                  bg-gray-900 text-white text-sm rounded-md px-4 py-2
-                  opacity-0 group-hover:opacity-100 pointer-events-none
-                  shadow-lg transition-opacity duration-200
-                  z-50 whitespace-nowrap
+                  w-full flex items-center gap-3 px-3 py-2.5 
+                  text-sm font-medium cursor-pointer
+                  transition-all duration-200
+                  ${isActive(mod.route) 
+                    ? "bg-blue-50 border-r-4 rounded-r-lg border-[var(--color-primary)] text-[var(--color-primary)]" 
+                    : "text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[var(--color-primary)]"
+                  }
                 `}
               >
-                {mod.name}
-              </span>
-            )}
-          </div>
-        ))}
-      </nav>
+                <span
+                  className={`
+                    flex-shrink-0 transition-transform duration-200
+                    group-hover:scale-110 px-2
+                    ${isActive(mod.route) ? "text-[var(--color-primary)]" : "text-gray-500"}
+                  `}
+                >
+                  {mod.icon}
+                </span>
+                <span
+                  className={`
+                    transition-all duration-300
+                    ${open
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2 pointer-events-none"
+                    }
+                    whitespace-nowrap
+                  `}
+                >
+                  {mod.name}
+                </span>
+              </a>
+
+              {/* Tooltip solo si sidebar está colapsado */}
+              {!open && (
+                <span
+                  className={`
+                    absolute left-full top-1/2 -translate-y-1/2 ml-2
+                    bg-gray-900 text-white text-sm rounded-md px-4 py-2
+                    opacity-0 group-hover:opacity-100 pointer-events-none
+                    shadow-lg transition-opacity duration-200
+                    z-50 whitespace-nowrap
+                  `}
+                >
+                  {mod.name}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
