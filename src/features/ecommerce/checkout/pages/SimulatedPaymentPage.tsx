@@ -10,17 +10,17 @@ export default function SimulatedPaymentPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
-  const orderId = queryParams.get('order_id') || '';
+  const orderUuid = queryParams.get('order_uuid') || queryParams.get('order_id') || ''; // Backward compatibility
   
   const [isProcessing, setIsProcessing] = useState(false);
   
   useEffect(() => {
-    // Si no hay order_id en la URL, redirigir al checkout
-    if (!orderId) {
+    // Si no hay order_uuid en la URL, redirigir al checkout
+    if (!orderUuid) {
       showToast.error('Error', 'Información de orden no válida');
       navigate('/checkout/payment');
     }
-  }, [orderId, navigate]);
+  }, [orderUuid, navigate]);
   
   /**
    * Maneja la selección de resultado de pago y redirige a la URL correspondiente
@@ -36,7 +36,7 @@ export default function SimulatedPaymentPage() {
       const simulatedPaymentId = `sim_${Date.now()}`;
       
       // Redirigir a la página de resultado con los parámetros que enviaría Mercado Pago
-      navigate(`/checkout/payment-result?status=${status}&payment_id=${simulatedPaymentId}&order_id=${orderId}`);
+      navigate(`/checkout/payment-result?status=${status}&payment_id=${simulatedPaymentId}&order_uuid=${orderUuid}`);
       
     } catch (error) {
       console.error('Error al procesar resultado:', error);

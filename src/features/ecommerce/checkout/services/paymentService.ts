@@ -1,4 +1,4 @@
-import type { OrderData, PaymentPreferenceResponse, PaymentVerificationResponse } from '../../shared/types';
+import type { PaymentPreferenceResponse, PaymentVerificationResponse } from '../../shared/types';
 import { post } from '../../../../services/api';
 
 /**
@@ -37,61 +37,6 @@ export async function processPayment(orderUuid: string, paymentMethod: string = 
             error: error instanceof Error ? error.message : 'Error desconocido al procesar el pago'
         };
     }
-}
-
-/**
- * Simula la creación de una preferencia de pago en Mercado Pago
- * En un entorno real, esto haría una petición al backend para obtener
- * la URL de pago de Mercado Pago
- * 
- * @deprecated Use processPayment instead
- */
-export async function createPaymentPreference(orderData: OrderData): Promise<PaymentPreferenceResponse> {
-  // Simular latencia de red
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  try {
-    // En un entorno real, aquí haríamos un fetch a la API
-    // const response = await fetch('/api/orders/', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Authorization': `Bearer ${getAuthToken()}`,
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(orderData)
-    // });
-    // const data = await response.json();
-    
-    console.log('Datos de orden enviados (simulación):', orderData);
-    
-    // Simular éxito la mayoría de las veces
-    if (Math.random() > 0.2) {
-      // URL simulada de Mercado Pago
-      // En implementación real, el backend devolvería la URL de pago de Mercado Pago
-      const simulatedOrderId = Date.now();
-      const simulatedPaymentUrl = `/checkout/simulated-payment?order_id=${simulatedOrderId}`;
-      
-      // En un escenario real, podríamos guardar el ID de orden temporal devuelto por el backend
-      localStorage.setItem('tempOrderId', simulatedOrderId.toString());
-      
-      return {
-        success: true,
-        paymentUrl: simulatedPaymentUrl
-      };
-    } else {
-      // Simular error ocasional
-      return {
-        success: false,
-        error: "Error al crear preferencia de pago"
-      };
-    }
-  } catch (error) {
-    console.error('Error en createPaymentPreference:', error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Error desconocido"
-    };
-  }
 }
 
 /**

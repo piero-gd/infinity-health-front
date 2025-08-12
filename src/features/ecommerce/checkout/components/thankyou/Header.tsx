@@ -2,7 +2,7 @@ import { useCheckoutStore } from '../../stores/useCheckoutStore';
 import { useCartStore } from '../../../cart/stores/useCartStore';
 
 export default function Header() {
-    const { orderId } = useCheckoutStore();
+    const { orderUuid } = useCheckoutStore();
     const { subtotal, shipping, discount } = useCartStore();
     
     // Calcular total
@@ -15,9 +15,9 @@ export default function Header() {
         year: 'numeric'
     });
 
-    // Función para obtener el orderId (del store o del localStorage)
+    // Función para obtener el orderUuid (del store o del localStorage)
     const getOrderId = () => {
-        if (orderId) return orderId;
+        if (orderUuid) return orderUuid;
         
         // Buscar en localStorage si no hay en el store
         const recentOrderKeys = Object.keys(localStorage).filter(key => 
