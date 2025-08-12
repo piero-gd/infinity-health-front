@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../cart/stores/useCartStore';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
-import { mapCartItemsToOrderItems } from '../services/orderService';
-import { createPaymentPreference } from '../services/paymentService';
+import { mapCartItemsToOrderItems, createOrder } from '../services/orderService';
+import { processPayment } from '../services/paymentService';
 import { showToast } from '../../../../utils/toastConfig';
 
 /**
@@ -22,8 +22,10 @@ export const useCheckout = () => {
     const { 
         shippingAddress, 
         referralCode,
+        orderUuid,
         setError,
-        setCurrentStep 
+        setCurrentStep,
+        setOrderUuid
     } = useCheckoutStore();
 
     /**
@@ -43,8 +45,11 @@ export const useCheckout = () => {
 
     /**
      * Navega a la página de pago desde la página de envío
+     * Ahora crea la orden en el backend y obtiene el UUID
      */
-    const proceedToPayment = () => {
+    const proceedToPayment = async () => {
+        if (isSubmitting) return;
+        
         console.log('Estado actual de shippingAddress:', shippingAddress);
         
         // Validar datos de facturación
@@ -157,19 +162,7 @@ export const useCheckout = () => {
             }
         }
         
-        // Si todas las validaciones pasan, proceder al siguiente paso
-        setCurrentStep(3);
-        navigate('/checkout/payment');
-        // Scroll al inicio de la página
-        window.scrollTo(0, 0);
-    };
-
-    /**
-     * Inicia el proceso de pago con Mercado Pago (simulado)
-     */
-    const completeOrder = async () => {
-        if (isSubmitting) return;
-        
+        // Si todas las validaciones pasan, crear la orden en el backend
         setIsSubmitting(true);
         setError(null);
         
@@ -206,23 +199,70 @@ export const useCheckout = () => {
                 }
             }
             
-            // Guardar temporalmente los datos de la orden
-            localStorage.setItem('pendingOrderData', JSON.stringify(orderData));
+            console.log('Creando orden en backend:', orderData);
             
-            // Solicitar URL de pago al backend (simulado)
-            const paymentResponse = await createPaymentPreference(orderData);
+            // Crear orden en el backend
+            const orderResponse = await createOrder(orderData);
             
-            if (!paymentResponse.success) {
-                throw new Error(paymentResponse.error || 'Error al crear preferencia de pago');
+            if (!orderResponse.order_uuid) {
+                throw new Error('Backend no retornó el UUID de la orden');
             }
             
-            // Redirigir a la página de pago simulada (o a Mercado Pago en implementación real)
+            // Guardar UUID en el store
+            setOrderUuid(orderResponse.order_uuid);
+            
+            console.log('Orden creada exitosamente. UUID:', orderResponse.order_uuid);
+            
+            // Proceder al siguiente paso
+            setCurrentStep(3);
+            navigate('/checkout/payment');
+            // Scroll al inicio de la página
+            window.scrollTo(0, 0);
+            
+        } catch (error) {
+            console.error('Error al crear la orden:', error);
+            setError(error instanceof Error ? error.message : 'Ocurrió un error al crear la orden.');
+            showToast.error('Error', 'No se pudo crear la orden. Por favor intenta nuevamente.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    /**
+     * Procesa el pago usando el UUID de la orden previamente creada
+     */
+    const completeOrder = async () => {
+        if (isSubmitting) return;
+        
+        // Verificar que tenemos el UUID de la orden
+        if (!orderUuid) {
+            showToast.error('Error', 'No se encontró el identificador de la orden. Por favor regresa al paso anterior.');
+            navigate('/checkout/shipping');
+            return;
+        }
+        
+        setIsSubmitting(true);
+        setError(null);
+        
+        try {
+            console.log('Procesando pago para orden UUID:', orderUuid);
+            
+            // Procesar el pago con el UUID de la orden
+            const paymentResponse = await processPayment(orderUuid, 'card');
+            
+            if (!paymentResponse.success) {
+                throw new Error(paymentResponse.error || 'Error al procesar el pago');
+            }
+            
+            console.log('Pago procesado exitosamente. Redirigiendo a:', paymentResponse.paymentUrl);
+            
+            // Redirigir a la URL de pago (o página de éxito/error)
             window.location.href = paymentResponse.paymentUrl as string;
             
         } catch (error) {
-            console.error('Error al iniciar el proceso de pago:', error);
-            setError(error instanceof Error ? error.message : 'Ocurrió un error al iniciar el proceso de pago.');
-            showToast.error('Error en el proceso', 'No se pudo iniciar el proceso de pago. Por favor intenta nuevamente.');
+            console.error('Error al procesar el pago:', error);
+            setError(error instanceof Error ? error.message : 'Ocurrió un error al procesar el pago.');
+            showToast.error('Error en el pago', 'No se pudo procesar el pago. Por favor intenta nuevamente.');
             setIsSubmitting(false);
         }
     };

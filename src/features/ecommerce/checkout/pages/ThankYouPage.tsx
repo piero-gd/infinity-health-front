@@ -8,7 +8,7 @@ import Advice from '../components/thankyou/Advice';
 
 export default function ThankYouPage() {
     const navigate = useNavigate();
-    const { orderComplete, orderId, resetCheckout } = useCheckoutStore();
+    const { orderComplete, orderUuid, resetCheckout } = useCheckoutStore();
     const [isValidating, setIsValidating] = useState(true);
     const [hasValidOrder, setHasValidOrder] = useState(false);
     
@@ -17,13 +17,13 @@ export default function ThankYouPage() {
         const validateOrder = async () => {
             console.log('ThankYouPage - Validando orden...');
             console.log('orderComplete:', orderComplete);
-            console.log('orderId:', orderId);
+            console.log('orderUuid:', orderUuid);
             
             // Esperar un momento para que el estado se actualice
             await new Promise(resolve => setTimeout(resolve, 100));
             
             // Verificar si tenemos una orden completa en el store
-            if (orderComplete && orderId) {
+            if (orderComplete && orderUuid) {
                 console.log('ThankYouPage - Orden válida encontrada en store');
                 setHasValidOrder(true);
                 setIsValidating(false);
@@ -40,8 +40,8 @@ export default function ThankYouPage() {
             if (recentOrderKeys.length > 0) {
                 // Encontramos una orden procesada recientemente
                 const latestOrderKey = recentOrderKeys[recentOrderKeys.length - 1];
-                const orderId = latestOrderKey.replace('processed_order_', '');
-                console.log('ThankYouPage - Orden encontrada en localStorage:', orderId);
+                const orderUuid = latestOrderKey.replace('processed_order_', '');
+                console.log('ThankYouPage - Orden encontrada en localStorage:', orderUuid);
                 setHasValidOrder(true);
                 setIsValidating(false);
                 return;
@@ -53,7 +53,7 @@ export default function ThankYouPage() {
         };
         
         validateOrder();
-    }, [orderComplete, orderId, navigate]);
+    }, [orderComplete, orderUuid, navigate]);
     
     // Función para volver a la tienda
     const handleBackToStore = () => {

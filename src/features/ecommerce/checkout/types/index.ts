@@ -65,7 +65,7 @@ export interface CheckoutState {
     isLoading: boolean;
     error: string | null;
     orderComplete: boolean;
-    orderId: number | null;
+    orderUuid: string | null;
 }
 
 // Checkout actions
@@ -74,8 +74,9 @@ export interface CheckoutActions {
     setPaymentData: (payment: Partial<PaymentData>) => void;
     setReferralCode: (code: string) => void;
     setCurrentStep: (step: number) => void;
+    setOrderUuid: (uuid: string | null) => void;
     resetCheckout: () => void;
-    setOrderComplete: (orderId: number) => void;
+    setOrderComplete: (orderUuid: string) => void;
     setError: (error: string | null) => void;
     setLoading: (isLoading: boolean) => void;
 }

@@ -4,11 +4,10 @@ import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { useCartStore } from '../../cart/stores/useCartStore';
 import { verifyPayment } from '../services/paymentService';
 import { showToast } from '../../../../utils/toastConfig';
-import { createOrder } from '../services/orderService';
 import SimpleLoader from '../../../../components/SimpleLoader';
 
 /**
- * Página que maneja el retorno del pago (simulado o real)
+ * Página que maneja el retorno del pago (usando UUID)
  * Se encarga de verificar el estado del pago y actualizar la orden
  */
 export default function PaymentResultPage() {
@@ -18,7 +17,7 @@ export default function PaymentResultPage() {
   
   const status = queryParams.get('status');
   const paymentId = queryParams.get('payment_id') || '';
-  const orderId = queryParams.get('order_id') || '';
+  const orderUuid = queryParams.get('order_uuid') || queryParams.get('order_id') || ''; // Backward compatibility
   
   const [isVerifying, setIsVerifying] = useState(true);
   const { setOrderComplete, setError } = useCheckoutStore();
@@ -29,155 +28,178 @@ export default function PaymentResultPage() {
   
   // Función para limpiar órdenes procesadas antiguas (más de 24 horas)
   const cleanupOldProcessedOrders = () => {
-    const oneDay = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
-    const now = Date.now();
-    
-    Object.keys(localStorage).forEach(key => {
-      if (key.startsWith('processed_order_')) {
-        const timestamp = localStorage.getItem(`${key}_timestamp`);
-        if (timestamp && (now - parseInt(timestamp)) > oneDay) {
-          localStorage.removeItem(key);
-          localStorage.removeItem(`${key}_timestamp`);
+    try {
+      const keys = Object.keys(localStorage);
+      const now = Date.now();
+      const dayInMs = 24 * 60 * 60 * 1000;
+      
+      keys.forEach(key => {
+        if (key.endsWith('_timestamp')) {
+          const timestamp = parseInt(localStorage.getItem(key) || '0');
+          if (now - timestamp > dayInMs) {
+            // Eliminar tanto el timestamp como la orden procesada
+            localStorage.removeItem(key);
+            const orderKey = key.replace('_timestamp', '');
+            localStorage.removeItem(orderKey);
+            console.log('Orden antigua eliminada:', orderKey);
+          }
         }
-      }
-    });
+      });
+    } catch (error) {
+      console.error('Error limpiando órdenes antiguas:', error);
+    }
   };
-  
+
   useEffect(() => {
-    // Evitar procesamiento duplicado
+    console.log('PaymentResultPage - useEffect ejecutado');
+    console.log('Parámetros:', { status, paymentId, orderUuid });
+    
+    // Prevenir ejecuciones múltiples
     if (hasProcessedRef.current) {
       return;
     }
     
+    // Validar parámetros requeridos
+    if (!status || !orderUuid) {
+      console.error('PaymentResultPage - Faltan parámetros requeridos:', { status, orderUuid });
+      setError('Faltan parámetros en la URL de retorno del pago');
+      navigate('/cart');
+      return;
+    }
+
     // Limpiar órdenes procesadas antiguas
     cleanupOldProcessedOrders();
     
-    // Validar parámetros necesarios antes de procesar
-    if (!status || !paymentId || !orderId) {
-      showToast.error('Error', 'Parámetros de pago inválidos');
-      navigate('/checkout/payment');
-      setIsVerifying(false);
-      return;
-    }
-    
     // Marcar como procesado para evitar duplicados
     hasProcessedRef.current = true;
-    
+
     const processPaymentResult = async () => {
       try {
-        // Validar parámetros recibidos (validación adicional por seguridad)
-        if (!status || !paymentId || !orderId) {
-          throw new Error('Parámetros de pago inválidos');
-        }
-        
-        // Recuperar datos de orden pendiente
-        const pendingOrderData = localStorage.getItem('pendingOrderData');
-        if (!pendingOrderData) {
-          throw new Error('No hay información de orden pendiente');
-        }
-        
         // Verificar si esta orden ya fue procesada anteriormente
-        const processedOrderKey = `processed_order_${orderId}`;
-        if (localStorage.getItem(processedOrderKey)) {
-          console.log('Orden ya procesada anteriormente, redirigiendo...');
-          navigate('/checkout/thankyou');
+        const processedOrderKey = `processed_order_${orderUuid}`;
+        if (localStorage.getItem(processedOrderKey) === 'true') {
+          console.log('PaymentResultPage - Orden ya procesada previamente:', orderUuid);
+          setIsVerifying(false);
+          navigate('/checkout/thank-you');
           return;
         }
-        
-        const orderData = JSON.parse(pendingOrderData);
-        
+
         if (status === 'success') {
-          // Verificar pago con el servicio simulado
-          const verificationResult = await verifyPayment(paymentId, orderId);
+          console.log('PaymentResultPage - Verificando pago exitoso...');
           
-          if (!verificationResult.verified) {
-            throw new Error(verificationResult.error || 'Error al verificar el pago');
-          }
-          
-          // En un escenario real, el backend habría creado la orden al recibir la confirmación de Mercado Pago
-          // Aquí simulamos la creación de la orden después de verificar el pago
-          console.log('PaymentResultPage - Enviando datos al backend:', orderData);
-          const response = await createOrder(orderData);
-          
-          console.log('=== RESPUESTA COMPLETA DEL BACKEND ===');
-          console.log('Response completa:', response);
-          console.log('Tipo de response:', typeof response);
-          console.log('Es array:', Array.isArray(response));
-          console.log('Keys disponibles:', Object.keys(response || {}));
-          console.log('Values:', Object.values(response || {}));
-          console.log('JSON stringify:', JSON.stringify(response, null, 2));
-          console.log('=====================================');
-          
-          console.log('PaymentResultPage - Orden creada exitosamente');
-          
-          // Marcar esta orden como procesada para evitar duplicados futuros
-          localStorage.setItem(`processed_order_${orderId}`, 'true');
-          localStorage.setItem(`processed_order_${orderId}_timestamp`, Date.now().toString());
-          
-          // MEJOR PRÁCTICA: Validación defensiva del ID de orden
-          let finalOrderId: number;
-          
-          if (response.id && typeof response.id === 'number') {
-            // Caso ideal: el backend devuelve el ID correcto
-            finalOrderId = response.id;
-            console.log('PaymentResultPage - Usando ID del backend:', finalOrderId);
-          } else {
-            // Fallback: usar el ID de la URL (ambiente de desarrollo/testing)
-            finalOrderId = parseInt(orderId);
-            console.warn('PaymentResultPage - Backend no devolvió ID válido, usando ID de URL:', finalOrderId);
+          // Verificar el pago con el backend (si tienes paymentId)
+          if (paymentId) {
+            const verificationResult = await verifyPayment(paymentId, orderUuid);
             
-            // En producción, podrías querer loggear este problema
-            if (import.meta.env.PROD) {
-              console.error('PRODUCTION WARNING: Backend no devolvió order ID válido');
+            if (!verificationResult.verified) {
+              throw new Error(verificationResult.error || 'No se pudo verificar el pago');
             }
           }
           
-          setOrderComplete(finalOrderId);
+          console.log('PaymentResultPage - Pago verificado exitosamente');
+          
+          // Limpiar el carrito
           clearCart();
-          localStorage.removeItem('pendingOrderData');
-          localStorage.removeItem('tempOrderId');
+          console.log('PaymentResultPage - Carrito limpiado');
+          
+          // Marcar orden como completada usando UUID
+          setOrderComplete(orderUuid);
+          console.log('PaymentResultPage - Orden marcada como completada:', orderUuid);
+          
+          // Marcar esta orden como procesada para evitar duplicados futuros
+          localStorage.setItem(`processed_order_${orderUuid}`, 'true');
+          localStorage.setItem(`processed_order_${orderUuid}_timestamp`, Date.now().toString());
+          
+          console.log('PaymentResultPage - Orden procesada exitosamente');
           
           // Mostrar mensaje de éxito
-          showToast.success('¡Pago completado!', 'Tu orden ha sido procesada con éxito');
+          showToast.success('¡Pago exitoso!', 'Tu orden ha sido procesada correctamente');
           
-          // Esperar un momento para que el estado se actualice antes de navegar
-          console.log('PaymentResultPage - Navegando a /checkout/thankyou en 200ms...');
+          // Navegar a página de éxito
+          setIsVerifying(false);
+          navigate('/checkout/thank-you');
+          
+        } else if (status === 'failure' || status === 'error') {
+          // Pago fallido
+          console.log('PaymentResultPage - Pago falló o fue cancelado');
+          setError('El pago no se pudo completar');
+          showToast.error('Pago fallido', 'El pago no se pudo completar. Puedes intentarlo nuevamente.');
+          setIsVerifying(false);
+          
+          // Redirigir a página de pago después de un delay
           setTimeout(() => {
-            navigate('/checkout/thankyou');
-          }, 200);
-        } else if (status === 'pending') {
-          // Manejar pago pendiente
-          showToast.warning('Pago pendiente', 'Tu pago está siendo procesado. Te notificaremos cuando se confirme.');
-          navigate('/checkout/payment', { state: { paymentPending: true } });
+            navigate('/checkout/payment');
+          }, 3000);
+          
         } else {
-          // Manejar pago fallido
-          throw new Error('El pago no pudo ser procesado');
+          // Estado desconocido
+          console.error('PaymentResultPage - Estado de pago desconocido:', status);
+          setError('Estado de pago desconocido');
+          showToast.error('Error', 'Estado de pago no reconocido');
+          setIsVerifying(false);
+          
+          // Redirigir al carrito después de un delay
+          setTimeout(() => {
+            navigate('/cart');
+          }, 3000);
         }
+        
       } catch (error) {
-        console.error('Error al procesar resultado de pago:', error);
-        setError(error instanceof Error ? error.message : 'Error al procesar el pago');
-        showToast.error('Error en el pago', 'No se pudo completar la transacción. Por favor intenta nuevamente.');
-        navigate('/checkout/payment');
-      } finally {
+        console.error('PaymentResultPage - Error general:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Error desconocido al procesar el resultado del pago';
+        setError(errorMessage);
+        showToast.error('Error', errorMessage);
         setIsVerifying(false);
+        
+        // Redirigir al carrito después de un delay
+        setTimeout(() => {
+          navigate('/cart');
+        }, 3000);
       }
     };
-    
+
     processPaymentResult();
-  }, [status, paymentId, orderId]); // Solo dependencias esenciales de los parámetros URL
-  
-  // Mostrar un indicador de carga mientras se verifica
+
+  }, [status, paymentId, orderUuid, navigate, setError, setOrderComplete, clearCart]);
+
   if (isVerifying) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-4">
-          <SimpleLoader message="Procesando tu pago..." />
-          <p className="text-gray-500 text-center mt-4">Por favor, no cierres esta ventana.</p>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center p-8">
+          <SimpleLoader />
+          <h2 className="mt-4 text-xl font-medium text-gray-700">
+            Verificando el pago...
+          </h2>
+          <p className="mt-2 text-gray-500">
+            Por favor espera mientras procesamos tu transacción
+          </p>
         </div>
       </div>
     );
   }
-  
-  // Este componente no renderiza nada más porque redirige a otra página
-  return null;
+
+  // Si llegamos aquí, hubo un error
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center p-8 bg-white rounded-lg shadow-md">
+        <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+          <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          Error en el procesamiento
+        </h2>
+        <p className="text-gray-600 mb-4">
+          Hubo un problema al procesar tu pago. Serás redirigido en unos momentos.
+        </p>
+        <button
+          onClick={() => navigate('/cart')}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+        >
+          Volver al carrito
+        </button>
+      </div>
+    </div>
+  );
 }

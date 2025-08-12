@@ -42,12 +42,10 @@ export interface OrderData {
 
 // Order response from API
 export interface OrderResponse {
-    id: number;
-    status: string;
-    total: string;
-    created_at: string;
-    items: OrderItem[];
-    shipping_address?: ShippingAddress;
+    order_uuid: string;
+    status?: string;
+    total?: string;
+    created_at?: string;
 }
 
 // Payment-related types
@@ -60,7 +58,7 @@ export interface PaymentPreferenceResponse {
 export interface PaymentVerificationResponse {
     verified: boolean;
     order?: {
-        id: number;
+        order_uuid: string;
         total: number;
         status: string;
         created_at: string;

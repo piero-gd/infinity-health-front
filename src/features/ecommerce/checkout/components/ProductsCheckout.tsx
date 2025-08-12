@@ -127,9 +127,9 @@ export default function ProductsCheckout({ showCompletePurchase = false }: Produ
                             <button 
                                 className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl cursor-pointer"
                                 onClick={proceedToPayment}
-                                disabled={items.length === 0}
+                                disabled={items.length === 0 || isSubmitting}
                             >
-                                <span>Continuar al pago</span>
+                                <span>{isSubmitting ? 'Creando orden...' : 'Continuar al pago'}</span>
                                 <BiChevronRight className="text-white" size={18} />
                             </button>
                             <p className="text-xs text-gray-500 text-center mt-2">

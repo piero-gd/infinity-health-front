@@ -6,6 +6,7 @@ import { ImWhatsapp } from "react-icons/im";
 import { CiCreditCard1 } from "react-icons/ci";
 import PaymentLogos from "../../../../components/PaymentLogos";
 import { useCheckout } from '../hooks/useCheckout';
+import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { showToast } from '../../../../utils/toastConfig';
 
 const cardPaymentLogos = [
@@ -26,6 +27,7 @@ export default function PaymentMethods() {
     });
     
     const { isSubmitting, completeOrder } = useCheckout();
+    const { orderUuid } = useCheckoutStore();
 
     const handleMethodSelect = (method: string) => {
         setSelectedMethod(method);
@@ -44,11 +46,17 @@ export default function PaymentMethods() {
             return;
         }
         
+        // Verificar que tenemos el UUID de la orden
+        if (!orderUuid) {
+            showToast.error('Error', 'No se encontró el identificador de la orden. Por favor regresa al paso anterior.');
+            return;
+        }
+        
         if (method === 'card') {
-            // Para la simulación, solo implementamos el método de tarjeta
+            // Procesar pago con tarjeta usando el UUID de la orden
             completeOrder();
         } else {
-            showToast.info('Método de pago', 'Este método de pago no está disponible en la simulación');
+            showToast.info('Método de pago', 'Este método de pago estará disponible próximamente');
         }
     };
 

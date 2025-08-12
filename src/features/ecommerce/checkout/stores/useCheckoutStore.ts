@@ -38,7 +38,7 @@ export const useCheckoutStore = create<CheckoutStore>((set) => ({
     isLoading: false,
     error: null,
     orderComplete: false,
-    orderId: null,
+    orderUuid: null,
 
     // Acciones
     setShippingAddress: (address) => set((state) => ({
@@ -52,6 +52,8 @@ export const useCheckoutStore = create<CheckoutStore>((set) => ({
     setReferralCode: (code) => set({ referralCode: code }),
 
     setCurrentStep: (step) => set({ currentStep: step }),
+
+    setOrderUuid: (uuid: string | null) => set({ orderUuid: uuid }),
 
     resetCheckout: () => set({
         shippingAddress: {
@@ -85,12 +87,12 @@ export const useCheckoutStore = create<CheckoutStore>((set) => ({
         isLoading: false,
         error: null,
         orderComplete: false,
-        orderId: null
+        orderUuid: null
     }),
 
-    setOrderComplete: (orderId) => set({ 
+    setOrderComplete: (orderUuid) => set({ 
         orderComplete: true, 
-        orderId,
+        orderUuid,
         currentStep: 4 // Avanzar automáticamente al paso de confirmación
     }),
 
