@@ -8,9 +8,8 @@ import {
 } from "@heroicons/react/24/solid";
 
 import { GoPerson } from "react-icons/go";
-import { SlArrowDown } from "react-icons/sl";
 import { MiniCart } from "../features/ecommerce/cart";
-
+import { useNavigate, NavLink } from "react-router-dom";
 import { useState } from "react";
 //Ad
 //import NavBarAd from "./NavBarAd";
@@ -21,12 +20,12 @@ interface Props {
 }
 
 export default function AppNavbar({ onLogout }: Props) {
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("Inicio");
   
   const navigationLinks = [
-    { name: "Inicio", href: "/" },
-    { name: "Tienda", href: "/tienda" },
+    { name: "Inicio", href: "/dashboard" },
+    { name: "Tienda", href: "/catalog" },
     { name: "Servicios", href: "/servicios" },
     { name: "Nosotros", href: "/nosotros" },
     { name: "Contacto", href: "/contacto" },
@@ -61,37 +60,35 @@ export default function AppNavbar({ onLogout }: Props) {
           {/* Navegación central - Solo desktop */}
           <div className="hidden lg:flex items-center px-6 py-3 space-x-10">
             {navigationLinks.map((link) => (
-              <a
-                key={link.name} 
-                href={link.href}
-                onClick={() => setActiveLink(link.name)}
-                className={`text-sm font-medium transition-colors duration-200 ${
-                  activeLink === link.name 
-                    ? 'text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] pb-1' 
-                    : 'text-gray-600'
-                }`}
+              <NavLink
+                key={link.name}
+                to={link.href}
+                className={({ isActive }) => 
+                  `transition-colors duration-200 ${
+                    isActive 
+                      ? 'text-[var(--color-primary)] text-sm font-semibold border-b-2 border-[var(--color-primary)] pb-1' 
+                      : 'text-gray-600 text-sm font-normal pb-1 hover:text-[var(--color-primary)]'
+                  }`
+                }
+                end
               >
                 {link.name}
-              </a>
+              </NavLink>
             ))}
           </div>
 
           {/* Sección derecha desktop */}
           <div className="hidden lg:flex items-center space-x-3">
-            <div className="rounded-full border-1 border-black px-2 py-3 flex items-center">
-              <input type="text" placeholder="Buscar..." className="text-sm ml-2"/>
-              <button>
-                <MagnifyingGlassIcon className="h-5 w-5 text-[var(--color-primary)]" />
-              </button>
-            </div>
-            
+       
             {/* Mini Carrito */}
-            <MiniCart />
+            <MiniCart className="cursor-pointer hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200" />
 
             <div className="flex items-center space-x-2 ml-4">
-              <GoPerson className="h-8 w-8" />
+              <button className="flex items-center cursor-pointer hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200 space-x-2"
+              onClick={() => navigate('/profile')}>
+              <GoPerson className="h-6 w-6" />
               <span className="text-sm text-gray-700">Mi Cuenta</span>
-              <SlArrowDown className="h-4 w-4" />
+              </button>
             </div>
           </div>
 
@@ -105,28 +102,26 @@ export default function AppNavbar({ onLogout }: Props) {
               <Bars3Icon className="h-6 w-6 text-gray-700" />
             </button>
             
-            <button className="w-10 h-10 flex items-center justify-center">
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-700" />
-            </button>
+            
           </div>
 
           {/* Logo centrado - móvil */}
-          <div className="lg:hidden flex-1 flex justify-center">
+          <div className="lg:hidden ml-2 flex-1 flex justify-left">
             <a href="/" className="flex items-center">
               <img
                 src="/img/health-logo-light-mode.png"
-                className="h-8 w-auto"
-                alt="Logo"
+                className="h-7 w-auto"
               />
             </a>
           </div>
 
           {/* Iconos derecha - móvil */}
           <div className="lg:hidden flex items-center space-x-3">
-            <MiniCart className="w-10 h-10 flex items-center justify-center relative" />
+            <MiniCart className="w-10 h-10 cursor-pointer hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200 flex items-center justify-center relative" />
             
-            <button className="w-10 h-10 flex items-center justify-center">
-              <GoPerson className="h-6 w-6 text-gray-700" />
+            <button className="w-10 h-10 cursor-pointer flex items-center justify-center"
+            onClick={() => navigate('/profile')}>
+              <GoPerson className="h-6 w-6 text-gray-700 hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200" />
             </button>
           </div>
         </div>
