@@ -47,7 +47,7 @@ Bienestar físico, libertad financiera y propósito, todo en un solo lugar. </p>
                     <div className="md:pl-4">
                         <h2 className="text-lg text-white font-semibold mb-4">Tienda</h2>
                         <ul className="space-y-2 ">
-                            <li className="flex items-center gap-2"><LiaDotCircleSolid className="h-4 w-4 text-[var(--color-primary)]" /> <a href="#" className="text-white">Productos</a></li>
+                            <li className="flex items-center gap-2"><LiaDotCircleSolid className="h-4 w-4 text-[var(--color-primary)]" /> <a href="/catalog" className="text-white">Productos</a></li>
                             <li className="flex items-center gap-2"><LiaDotCircleSolid className="h-4 w-4 text-[var(--color-primary)]" /> <a href="#" className="text-white">Merch Health</a></li>
                             <li className="flex items-center gap-2"><LiaDotCircleSolid className="h-4 w-4 text-[var(--color-primary)]" /> <a href="#" className="text-white">Packs Health</a></li>
                         </ul>
@@ -55,9 +55,9 @@ Bienestar físico, libertad financiera y propósito, todo en un solo lugar. </p>
                     <div className="md:pl-4">
                         <h2 className="text-lg text-white font-semibold mb-4">Servicios</h2>
                         <ul className="space-y-2 ">
-                            <li className="flex items-center gap-2"><CiCalculator1 className="h-6 w-6 text-[var(--color-primary)]" /> <a href="#" className="text-white">Calculadora de Macros</a></li>
-                            <li className="flex items-center gap-2"><LiaDumbbellSolid className="h-6 w-6 text-[var(--color-primary)]" /> <a href="#" className="text-white">Biblioteca de Entrenamiento</a></li>
-                            <li className="flex items-center gap-2"><TbApple className="h-6 w-6 text-[var(--color-primary)]" /> <a href="#" className="text-white">Academia de Nutrición</a></li>
+                            <li className="flex items-center gap-2"><CiCalculator1 className="h-6 w-6 text-[var(--color-primary)]" /> <a href="/calculator" className="text-white">Calculadora de Macros</a></li>
+                            <li className="flex items-center gap-2"><LiaDumbbellSolid className="h-6 w-6 text-[var(--color-primary)]" /> <a href="/exercises" className="text-white">Biblioteca de Entrenamiento</a></li>
+                            <li className="flex items-center gap-2"><TbApple className="h-6 w-6 text-[var(--color-primary)]" /> <a href="/academy" className="text-white">Academia de Nutrición</a></li>
                         </ul>
                     </div>
                     <div className="md:pl-4">
