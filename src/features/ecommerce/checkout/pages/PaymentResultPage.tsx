@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { useCartStore } from '../../cart/stores/useCartStore';
-import { verifyPayment } from '../services/paymentService';
+import { verifyMercadoPagoPayment } from '../services/mercadoPagoService';
 import { showToast } from '../../../../utils/toastConfig';
 import SimpleLoader from '../../../../components/SimpleLoader';
 
@@ -89,7 +89,7 @@ export default function PaymentResultPage() {
           
           // Verificar el pago con el backend (si tienes paymentId)
           if (paymentId) {
-            const verificationResult = await verifyPayment(paymentId, orderUuid);
+            const verificationResult = await verifyMercadoPagoPayment(paymentId, orderUuid);
             
             if (!verificationResult.verified) {
               throw new Error(verificationResult.error || 'No se pudo verificar el pago');

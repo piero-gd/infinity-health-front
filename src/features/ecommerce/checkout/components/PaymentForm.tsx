@@ -8,7 +8,7 @@ interface PaymentFormProps {
 
 export default function PaymentForm({ isSubmitting }: PaymentFormProps) {
     const { paymentData, setPaymentData } = useCheckoutStore();
-    const { completeOrder } = useCheckout();
+    const { processCardPayment } = useCheckout();
     const [touched, setTouched] = useState({
         cardNumber: false,
         cardHolder: false,
@@ -84,7 +84,7 @@ export default function PaymentForm({ isSubmitting }: PaymentFormProps) {
         );
         
         if (isValid) {
-            completeOrder();
+            processCardPayment();
         }
     };
 

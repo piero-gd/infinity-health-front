@@ -2,14 +2,14 @@ import type { PaymentPreferenceResponse, PaymentVerificationResponse } from '../
 import { post } from '../../../../services/api';
 
 /**
- * Procesa el pago de una orden ya creada usando MercadoPago
+ * Procesa el pago con tarjeta de crédito/débito usando MercadoPago
  * Envía el UUID de la orden al backend que maneja la integración con MP
  * 
  * @param orderUuid - UUID de la orden previamente creada
  * @param paymentMethod - Método de pago (default: 'card')
  * @returns Promise con la URL de MercadoPago para completar el pago
  */
-export async function processPayment(orderUuid: string, paymentMethod: string = 'card'): Promise<PaymentPreferenceResponse> {
+export async function processMercadoPagoPayment(orderUuid: string, paymentMethod: string = 'card'): Promise<PaymentPreferenceResponse> {
     try {
         console.log('=== PROCESSING PAYMENT ===');
         console.log('Order UUID:', orderUuid);
@@ -44,10 +44,10 @@ export async function processPayment(orderUuid: string, paymentMethod: string = 
 }
 
 /**
- * Simula la verificación del estado de un pago usando UUID
+ * Verifica el estado de un pago procesado con MercadoPago usando UUID
  * En un entorno real, esto verificaría con el backend si el pago fue confirmado
  */
-export async function verifyPayment(paymentId: string, orderUuid: string): Promise<PaymentVerificationResponse> {
+export async function verifyMercadoPagoPayment(paymentId: string, orderUuid: string): Promise<PaymentVerificationResponse> {
   // Simular latencia de red
   await new Promise(resolve => setTimeout(resolve, 800));
   

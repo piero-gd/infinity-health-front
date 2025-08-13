@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../../cart/stores/useCartStore';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { mapCartItemsToOrderItems, createOrder } from '../services/orderService';
-import { processPayment } from '../services/paymentService';
+import { processMercadoPagoPayment } from '../services/mercadoPagoService';
+import { openWhatsAppWithMessage, validateWhatsAppRequirements } from '../services/whatsappService';
 import { showToast } from '../../../../utils/toastConfig';
 
 /**
@@ -229,9 +230,10 @@ export const useCheckout = () => {
     };
 
     /**
-     * Procesa el pago usando el UUID de la orden previamente creada
+     * Procesa el pago con tarjeta de crédito/débito usando MercadoPago
+     * Utiliza el UUID de la orden previamente creada
      */
-    const completeOrder = async () => {
+    const processCardPayment = async () => {
         if (isSubmitting) return;
         
         // Verificar que tenemos el UUID de la orden
@@ -247,8 +249,8 @@ export const useCheckout = () => {
         try {
             console.log('Procesando pago para orden UUID:', orderUuid);
             
-            // Procesar el pago con el UUID de la orden
-            const paymentResponse = await processPayment(orderUuid, 'card');
+            // Procesar el pago con MercadoPago usando el UUID de la orden
+            const paymentResponse = await processMercadoPagoPayment(orderUuid, 'card');
             
             if (!paymentResponse.success) {
                 throw new Error(paymentResponse.error || 'Error al procesar el pago');
@@ -267,10 +269,46 @@ export const useCheckout = () => {
         }
     };
 
+    /**
+     * Procesa el pago por WhatsApp
+     * Abre WhatsApp con un mensaje prellenado que incluye el UUID de la orden
+     */
+    const processWhatsAppPayment = () => {
+        // Validar que tenemos el UUID de la orden
+        const validationError = validateWhatsAppRequirements(orderUuid);
+        if (validationError) {
+            showToast.error('Error', validationError);
+            return;
+        }
+
+        try {
+            // Calcular total del carrito
+            const { subtotal, shipping, discount } = useCartStore.getState();
+            const total = subtotal + shipping - discount;
+
+            // Abrir WhatsApp con el mensaje
+            openWhatsAppWithMessage(orderUuid!, total);
+
+            // Mostrar mensaje informativo
+            showToast.info(
+                'WhatsApp abierto',
+                'Se abrió WhatsApp con tu información de pedido. Envía el mensaje para continuar con el pago.'
+            );
+
+            // Opcional: Navegar a una página de "pago pendiente" o mantener en la actual
+            // navigate('/checkout/pending-payment');
+
+        } catch (error) {
+            console.error('Error al procesar pago por WhatsApp:', error);
+            showToast.error('Error', 'No se pudo abrir WhatsApp. Verifica tu configuración.');
+        }
+    };
+
     return {
         proceedToShipping,
         proceedToPayment,
-        completeOrder,
+        processCardPayment,
+        processWhatsAppPayment,
         isSubmitting
     };
 };

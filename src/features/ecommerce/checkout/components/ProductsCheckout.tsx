@@ -24,7 +24,7 @@ export default function ProductsCheckout({ showCompletePurchase = false }: Produ
     const { referralCode } = useCheckoutStore();
     
     // Hook de checkout para completar la compra y navegar al siguiente paso
-    const { completeOrder, proceedToPayment, isSubmitting } = useCheckout();
+    const { processCardPayment, proceedToPayment, isSubmitting } = useCheckout();
     
     // Calcular total
     const isAmbassador = !!referralCode; // Simplificado, idealmente esto vendría del store
@@ -116,7 +116,7 @@ export default function ProductsCheckout({ showCompletePurchase = false }: Produ
                     {showCompletePurchase ? (
                         <button 
                             className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] hover:from-[var(--color-btn-gradient-top)] hover:to-[var(--color-btn-gradient-bottom)] text-white font-semibold py-4 px-6 rounded-full transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl cursor-pointer"
-                            onClick={completeOrder}
+                            onClick={processCardPayment}
                             disabled={isSubmitting || items.length === 0}
                         >
                             <span>{isSubmitting ? 'Procesando...' : 'Completar compra'}</span>

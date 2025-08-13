@@ -26,7 +26,7 @@ export default function PaymentMethods() {
         card: false
     });
     
-    const { isSubmitting, completeOrder } = useCheckout();
+    const { isSubmitting, processCardPayment, processWhatsAppPayment } = useCheckout();
     const { orderUuid } = useCheckoutStore();
 
     const handleMethodSelect = (method: string) => {
@@ -53,8 +53,11 @@ export default function PaymentMethods() {
         }
         
         if (method === 'card') {
-            // Procesar pago con tarjeta usando el UUID de la orden
-            completeOrder();
+            // Procesar pago con tarjeta usando MercadoPago
+            processCardPayment();
+        } else if (method === 'whatsapp') {
+            // Procesar pago por WhatsApp
+            processWhatsAppPayment();
         } else {
             showToast.info('Método de pago', 'Este método de pago estará disponible próximamente');
         }
