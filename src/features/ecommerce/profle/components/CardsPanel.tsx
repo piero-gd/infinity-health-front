@@ -1,4 +1,6 @@
 import { Headphones, LogOut, Zap, User, Package } from "lucide-react";
+import { useAuthStore } from "../../../auth/stores/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 export type CardItemType = {
     id: string;
@@ -46,6 +48,17 @@ interface CardsPanelProps {
 }
 
 export default function CardsPanel({ activeComponent, onCardClick }: CardsPanelProps) {
+    const logout = useAuthStore(state => state.logout);
+    const navigate = useNavigate();
+
+    const handleCardClick = (component: string) => {
+        if (component === 'logout') {
+            logout();
+            navigate('/login');
+            return;
+        }
+        onCardClick(component);
+    };
     return (
         <div className="relative">
             {/* Desktop Grid */}
@@ -53,7 +66,7 @@ export default function CardsPanel({ activeComponent, onCardClick }: CardsPanelP
                 {cardInfo.map((card) => {
                     const isActive = activeComponent === card.component;
                     return (
-                        <div key={card.id} onClick={() => onCardClick(card.component)}>
+                        <div key={card.id} onClick={() => handleCardClick(card.component)}>
                             <CardItem 
                                 card={card} 
                                 isActive={isActive} 
@@ -69,7 +82,7 @@ export default function CardsPanel({ activeComponent, onCardClick }: CardsPanelP
                     {cardInfo.map((card) => {
                         const isActive = activeComponent === card.component;
                         return (
-                            <div key={card.id} className="flex-shrink-0 w-44" onClick={() => onCardClick(card.component)}>
+                            <div key={card.id} className="flex-shrink-0 w-44" onClick={() => handleCardClick(card.component)}>
                                 <CardItem card={card} isActive={isActive} />
                             </div>
                         );

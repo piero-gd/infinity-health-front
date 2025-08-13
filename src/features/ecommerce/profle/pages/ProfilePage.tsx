@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import PanelProfile from "../components/PanelProfile"
 import { mockPanel } from "../data/mockPanel"
 import CartProducts from "../components/CartProducts"
 import PersonalInfo from "../components/PersonalInfo"
 
 export default function ProfilePage() {
+    const location = useLocation();
     const [activeComponent, setActiveComponent] = useState('profile');
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const section = params.get('section');
+        if (section && ['orders', 'profile', 'support', 'ambassador'].includes(section)) {
+            setActiveComponent(section);
+        }
+    }, [location.search]);
 
     const renderComponent = () => {
         switch (activeComponent) {
