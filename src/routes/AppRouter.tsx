@@ -42,7 +42,7 @@ const SafeSimulatedPaymentPage = withErrorBoundary(SimulatedPaymentPage);
 const SafePaymentResultPage = withErrorBoundary(PaymentResultPage);
 import ProfilePage from "../features/ecommerce/profle/pages/ProfilePage";
 
-const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
+const AppRouter = () => {
   return (
     <Routes>
       {/* ===== RUTAS DE AUTENTICACIÓN (SIN LAYOUT) ===== */}
@@ -82,7 +82,9 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
       </Route>
 
       {/* ===== RUTAS DE E-COMMERCE (CON LAYOUT PROPIO) ===== */}
-      <Route element={<EcommerceLayout onLogout={onLogout} />}>
+      <Route element={
+          <EcommerceLayout />
+      }>
         <Route path="/cart" element={<SafeCartPage />} />
         <Route path="/catalog" element={<SafeCatalogPage />} />
         <Route path="/product/:slug" element={<SafeDetailPage />} />
@@ -91,14 +93,17 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/checkout/simulated-payment" element={<SafeSimulatedPaymentPage />} />
         <Route path="/checkout/payment-result" element={<SafePaymentResultPage />} />
         <Route path="/checkout/thankyou" element={<SafeThankYouPage />} />
-
-        {/* Perfil de usuario PROTECTED */}
-        <Route path="/profile" element={
-          <ProtectedRoute requireAuth>
-            <ProfilePage />
-          </ProtectedRoute>
-        } />
       </Route>
+
+       {/* Perfil de usuario PROTECTED */}
+       <Route element={
+       <ProtectedRoute requireAuth>
+         <EcommerceLayout />
+       </ProtectedRoute>
+      }>
+      <Route path="/profile" element={<ProfilePage />}/>
+      </Route>
+      
 
       {/* ===== REDIRECCIONES ===== */}
       <Route path="/" element={<Navigate to="/login" replace />} />

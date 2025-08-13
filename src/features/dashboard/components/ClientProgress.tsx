@@ -96,7 +96,10 @@ export default function ClientProgress() {
                         Su prueba finaliza el 7 de julio 2025. Actualice tu Membresía para continuar usando todas las herramientas.
                     </p>
                     
-                    <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white text-sm font-medium py-2 px-3 rounded-full transition-colors shadow-md">
+                    <button className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)]
+                    to-[var(--color-btn-gradient-top)] text-white text-sm font-medium py-2 px-3 rounded-full
+                    transition-colors shadow-md"
+                    onClick={() => window.open('https://capitalstakingx.com/auth/login', '_blank')}>
                         Actualizar
                     </button>
                 </div>

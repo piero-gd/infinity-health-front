@@ -6,22 +6,26 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-
+import React from "react";
 import { GoPerson } from "react-icons/go";
 import { MiniCart } from "../features/ecommerce/cart";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useState } from "react";
+
 //Ad
 //import NavBarAd from "./NavBarAd";
 
+import { useAuthStore } from '../features/auth/stores/useAuthStore';
+
 interface Props {
-  onLogout: () => void;
   setSidebarOpen?: (open: boolean) => void;
 }
 
-export default function AppNavbar({ onLogout }: Props) {
+export default function AppNavbar({}: Props) {
+  const { isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   
   const navigationLinks = [
     { name: "Inicio", href: "/dashboard" },
@@ -31,11 +35,36 @@ export default function AppNavbar({ onLogout }: Props) {
     { name: "Contacto", href: "/contacto" },
   ];
 
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      const dropdown = document.getElementById('account-dropdown');
+      const button = document.getElementById('account-button');
+      
+      if (dropdown && button && !dropdown.contains(target) && !button.contains(target)) {
+        setAccountMenuOpen(false);
+      }
+    };
+
+    // Add event listener when component mounts
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Close mobile menu when navigating
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    setMobileMenuOpen(false);
+    setAccountMenuOpen(false);
+  };
+
   return (
    <div className="sticky top-0 z-40">
 
             {/* Ad 
-  
       <NavBarAd />   */}
    
 
@@ -64,13 +93,14 @@ export default function AppNavbar({ onLogout }: Props) {
                 key={link.name}
                 to={link.href}
                 className={({ isActive }) => 
-                  `transition-colors duration-200 ${
+                  `transition-colors text-sm duration-200 px-2 py-1 ${
                     isActive 
-                      ? 'text-[var(--color-primary)] text-sm font-semibold border-b-2 border-[var(--color-primary)] pb-1' 
-                      : 'text-gray-600 text-sm font-normal pb-1 hover:text-[var(--color-primary)]'
+                      ? 'text-[var(--color-primary)] font-semibold border-b-2 border-[var(--color-primary)] ' 
+                      : 'text-gray-600 hover:text-[var(--color-primary)] '
                   }`
                 }
                 end
+                onClick={() => handleNavigation(link.href)}
               >
                 {link.name}
               </NavLink>
@@ -83,12 +113,124 @@ export default function AppNavbar({ onLogout }: Props) {
             {/* Mini Carrito */}
             <MiniCart className="cursor-pointer hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200" />
 
-            <div className="flex items-center space-x-2 ml-4">
-              <button className="flex items-center cursor-pointer hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200 space-x-2"
-              onClick={() => navigate('/profile')}>
-              <GoPerson className="h-6 w-6" />
-              <span className="text-sm text-gray-700">Mi Cuenta</span>
-              </button>
+            <div className="relative">
+              <div className="flex items-center space-x-2 ml-4">
+                {/* Mi cuenta con dropdown */}
+                <div className="relative" id="account-dropdown">
+                  <div className="flex items-center">
+                    {isAuthenticated ? (
+                      <NavLink 
+                        to="/profile" 
+                        className={({ isActive }) => 
+                          `transition-colors duration-200 px-2 items-center inline-flex justify-between gap-2 py-1 rounded ${
+                            isActive 
+                              ? 'text-[var(--color-primary)] font-semibold' 
+                              : 'text-gray-600 hover:text-[var(--color-primary)] '
+                          }`
+                        }
+                      >
+                        <GoPerson className="h-6 w-6 hover:text-[var(--color-primary)] hover:scale-103 transition-all duration-200" />
+                        <span className="text-sm text-gray-700 mt-1">Mi Cuenta</span>
+                      </NavLink>
+                    ) : (
+                      <div className="px-2 py-1">
+                        <GoPerson className="h-6 w-6 text-gray-600" />
+                      </div>
+                    )}
+                    <button
+                      id="account-button"
+                      className="flex items-center cursor-pointer outline-none relative z-10"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setAccountMenuOpen(!accountMenuOpen);
+                      }}
+                      aria-expanded={accountMenuOpen}
+                      aria-haspopup="true"
+                    >
+
+
+                      <svg 
+                        className={`w-4 h-4 ml-1 mt-1 transition-transform duration-200 ${accountMenuOpen ? 'transform rotate-180' : ''}`} 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24" 
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  {/* Dropdown menu */}
+                  <div 
+                    className={`absolute right-0 mt-2 w-56 bg-white rounded-md shadow-xl  z-50 border border-gray-100 transition-all duration-200 transform ${accountMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="account-button"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                      {isAuthenticated ? (
+                        // Logged-in user menu
+                        <div className="py-0">
+                          <a 
+                            href="/profile" 
+                            className="block px-4 py-2 text-sm text-gray-700 font-semibold hover:bg-gray-100"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavigation('/profile');
+                            }}
+                          >
+                            Mis Pedidos
+                          </a>
+                          <a 
+                            href="/orders" 
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavigation('/orders');
+                            }}
+                          >
+                           Datos Personales
+                          </a>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              logout();
+                              handleNavigation('/login');
+                            }}
+                            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                          >
+                            Cerrar Sesión
+                          </button>
+                        </div>
+                      ) : (
+                        // Guest user menu
+                        <div>
+                          <a 
+                            href="/login" 
+                            className="block px-4 py-2 text-sm text-gray-700 font-semibold hover:bg-gray-100"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavigation('/login');
+                            }}
+                          >
+                            Iniciar Sesión
+                          </a>
+                          <a 
+                            href="/register" 
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavigation('/register');
+                            }}
+                          >
+                            Crear Cuenta
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -200,9 +342,11 @@ export default function AppNavbar({ onLogout }: Props) {
                 {/* Acciones de cuenta */}
                 <div className="px-4">
                   <button
-                    onClick={() => {
-                      onLogout();
+                    onClick={(e) => {
+                      e.preventDefault();
+                      logout();
                       setMobileMenuOpen(false);
+                      navigate('/login');
                     }}
                     className="flex items-center space-x-3 w-full py-3 px-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
                   >

@@ -1,18 +1,15 @@
 import EcommerceNavbar from '../components/EcommerceNavbar'
 import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
-interface Props {
-  onLogout: () => void
-}
 
-export default function EcommerceLayout({ onLogout }: Props) {
-
+export default function EcommerceLayout() {
   return (
-    <div className="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
-        <EcommerceNavbar onLogout={onLogout} />
+    <div className="min-h-screen flex flex-col">
+      <EcommerceNavbar />
+      <main className="flex-grow">
         <Outlet />
-  <Footer />
+      </main>
+      <Footer />
     </div>
-  
-  )
+  );
 }
