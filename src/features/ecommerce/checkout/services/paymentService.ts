@@ -2,8 +2,8 @@ import type { PaymentPreferenceResponse, PaymentVerificationResponse } from '../
 import { post } from '../../../../services/api';
 
 /**
- * Procesa el pago de una orden ya creada
- * Envía el UUID de la orden al backend para procesar el pago
+ * Procesa el pago de una orden ya creada usando MercadoPago
+ * Envía el UUID de la orden al backend que maneja la integración con MP
  */
 export async function processPayment(orderUuid: string, paymentMethod: string = 'card'): Promise<PaymentPreferenceResponse> {
     try {
@@ -16,8 +16,8 @@ export async function processPayment(orderUuid: string, paymentMethod: string = 
             payment_method: paymentMethod
         };
         
-        // Hacer POST al endpoint de procesar pago
-        const response = await post<{ redirect_url: string; success: boolean }>('payments/process/', paymentData);
+        // Hacer POST al endpoint de MercadoPago
+        const response = await post<{ redirect_url: string; success: boolean }>('payments/mp/', paymentData);
         
         console.log('Payment response:', response);
         
