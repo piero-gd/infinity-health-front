@@ -4,6 +4,10 @@ import { post } from '../../../../services/api';
 /**
  * Procesa el pago de una orden ya creada usando MercadoPago
  * Envía el UUID de la orden al backend que maneja la integración con MP
+ * 
+ * @param orderUuid - UUID de la orden previamente creada
+ * @param paymentMethod - Método de pago (default: 'card')
+ * @returns Promise con la URL de MercadoPago para completar el pago
  */
 export async function processPayment(orderUuid: string, paymentMethod: string = 'card'): Promise<PaymentPreferenceResponse> {
     try {
@@ -17,17 +21,17 @@ export async function processPayment(orderUuid: string, paymentMethod: string = 
         };
         
         // Hacer POST al endpoint de MercadoPago
-        const response = await post<{ redirect_url: string; success: boolean }>('payments/mp/', paymentData);
+        const response = await post<{ init_point: string; id: string }>('payments/mp/', paymentData);
         
         console.log('Payment response:', response);
         
-        if (response.success && response.redirect_url) {
+        if (response.init_point && response.id) {
             return {
                 success: true,
-                paymentUrl: response.redirect_url
+                paymentUrl: response.init_point
             };
         } else {
-            throw new Error('Invalid payment response from backend');
+            throw new Error('Invalid payment response from backend - missing init_point or id');
         }
         
     } catch (error) {
