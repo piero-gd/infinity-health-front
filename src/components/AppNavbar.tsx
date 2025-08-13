@@ -96,7 +96,7 @@ export default function AppNavbar({
 
           {/* User name and avatar */}
           <div className="flex items-center gap-3">
-            <span className="text-gray-800 font-semibold mr-2">{displayName}</span>
+            <span className="text-gray-800 font-semibold mr-4">{displayName}</span>
             <div className="rounded-full cursor-pointer hover:scale-104  p-0.5 overflow-hidden bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)]">
             <img
               src={userAvatar}
