@@ -54,8 +54,8 @@ export default function EcommerceNavbar({ setSidebarOpen, sidebarOpen }: Ecommer
 
   return (
     <div className="sticky top-0 z-40">
-      <nav className="bg-white px-4 py-3 shadow-sm"> 
-        <div className="max-w-7xl mx-auto">
+      <nav className="bg-white xl:px-26 py-3 shadow-sm"> 
+        <div className="w-full mx-auto">
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
             <div className="lg:hidden flex items-center">

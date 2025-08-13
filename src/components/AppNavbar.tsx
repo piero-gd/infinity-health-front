@@ -74,7 +74,7 @@ export default function AppNavbar({
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden sm:flex items-center justify-between w-full px-26">
+      <div className="hidden sm:flex items-center justify-between w-full xl:px-16">
         {/* Logo */}
         <a href="https://infinityhealth.fit/" className="flex items-center gap-2">
           <img

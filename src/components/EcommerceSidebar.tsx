@@ -51,7 +51,7 @@ const logoutModule = {
   icon: <LuLogOut className="h-6 w-6" />
 };
 
-const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) => {
+const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuthStore();
