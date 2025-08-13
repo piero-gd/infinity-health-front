@@ -5,6 +5,7 @@ import NutritionalPlan from '../components/NutritionalPlan';
 import { mockUserData, mockUserStats } from '../data/mockDataUser';
 import ClientProgress from '../components/ClientProgress';
 import SliderProductDashboard from '../components/SliderProductDashboard';
+import FooterDash from '../components/FooterDash';
 
 export default function DashboardPage() {
 
@@ -40,6 +41,9 @@ export default function DashboardPage() {
             <ClientProgress />
           </div>
         </div>
+      </div>
+      <div className="mb-5">
+        <FooterDash/>
       </div>
     </div>
   );
