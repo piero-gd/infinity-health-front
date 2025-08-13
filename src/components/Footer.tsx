@@ -27,10 +27,13 @@ const logosoPedidos = [
     },
 ]
 
+interface FooterProps {
+    className?: string;
+}
 
-export default function Footer() {
+export default function Footer({ className = '' }: FooterProps) {
     return (
-        <footer className="min-h-[70vh] flex flex-col bg-radial from-[var(--footer-bluedark)] from-2% to-black to-90% pt-16 pb-0">
+        <footer className={`min-h-[70vh] flex flex-col bg-radial from-[var(--footer-bluedark)] from-2% to-black to-90% pt-16 pb-0 ${className}`}>
             <div className="max-w-full mx-10">
 
                 {/* Columnas */}
