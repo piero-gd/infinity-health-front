@@ -54,7 +54,7 @@ export default function EcommerceNavbar({ setSidebarOpen, sidebarOpen }: Ecommer
 
   return (
     <div className="sticky top-0 z-40">
-      <nav className="bg-white xl:px-26 py-3 shadow-sm"> 
+      <nav className="bg-white xl:px-26 px-6 py-3 shadow-sm"> 
         <div className="w-full mx-auto">
           <div className="flex items-center justify-between">
             {/* Mobile menu button */}
@@ -76,23 +76,21 @@ export default function EcommerceNavbar({ setSidebarOpen, sidebarOpen }: Ecommer
             </div>
             
             {/* Logo - Mobile */}
-            <div className="lg:hidden flex-shrink-0 ml-2">
+            <div className="lg:hidden flex-shrink-0 mr-auto pl-4">
               <a href="/" className="flex items-center">
                 <img
                   src="/img/health-logo-light-mode.png"
-                  className="h-7 w-auto"
-                  alt="Logo"
+                  className="h-8 w-auto"
                 />
               </a>
             </div>
             
             {/* Logo - Desktop */}
-            <div className="hidden lg:flex flex-shrink-0">
+            <div className="hidden  lg:flex flex-shrink-0">
               <a href="/" className="flex items-center">
                 <img
                   src="/img/health-logo-light-mode.png"
                   className="h-8 w-auto"
-                  alt="Logo"
                 />
               </a>
             </div>

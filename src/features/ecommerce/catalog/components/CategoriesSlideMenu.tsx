@@ -28,7 +28,7 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex z-50 ">
+    <div className="fixed inset-0 bg-transparent flex z-50 ">
       <div className="bg-white w-80 h-full shadow-2xl rounded-r-2xl">
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-4 pb-4 bg-white sticky top-0 z-10">
@@ -82,7 +82,7 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
         <div className="p-6 bg-white sticky bottom-0 z-10">
           <button
             onClick={handleApplyFilters}
-            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-4 rounded-full font-medium text-lg hover:bg-blue-600 transition-colors"
+            className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-2 rounded-full font-medium text-lg hover:bg-blue-600 transition-colors"
           >
             Aplicar Filtros
           </button>

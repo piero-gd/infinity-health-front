@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CgCalculator, CgGym } from "react-icons/cg";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { FaStore } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
@@ -51,7 +52,7 @@ const logoutModule = {
   icon: <LuLogOut className="h-6 w-6" />
 };
 
-const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open }) => {
+const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuthStore();
@@ -67,6 +68,11 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open }) => {
       console.error('Error al cerrar sesión:', error);
     }
   };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+  
   return (
     <div
       className={`
@@ -74,10 +80,28 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open }) => {
         transition-transform duration-300 ease-in-out
         w-64 shadow-xl
         ${open ? 'translate-x-0' : '-translate-x-full'}
-        md:hidden
+        lg:hidden
       `}
     >
       <div className="flex flex-col h-full pt-4 overflow-y-auto">
+
+          <div className="flex items-center border-b border-gray-200 justify-between px-6 pt-2 pb-5 bg-white sticky top-0 z-10">
+          <a href="/" className="flex items-center">
+                <img
+                  src="/img/health-logo-light-mode.png"
+                  className="h-5 w-auto"
+                />
+              </a>
+                  <button 
+                    onClick={onClose}
+                    className="flex items-center text-black text-sm font-medium"
+                    aria-label="Cerrar menú de filtros"
+                  >
+                    <IoCloseSharp className="w-5 h-5 mr-1 rounded-full border-2 border-[var(--color-primary)] text-black" />
+                    Cerrar
+                  </button>
+       </div>
+
         {/* Lista de módulos */}
         <nav className="flex-1 py-4">
           {modules.map((mod) => (

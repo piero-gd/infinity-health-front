@@ -9,10 +9,11 @@ export default function EcommerceLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
-  // Check if mobile on mount and window resize
+  // Check if mobile/tablet on mount and window resize
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      // Using 1024px (lg breakpoint) to match the sidebar visibility
+      setIsMobile(window.innerWidth < 1024);
     };
     
     // Initial check
@@ -35,14 +36,14 @@ export default function EcommerceLayout() {
         <EcommerceNavbar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
       </div>
 
-      {/* Sidebar - Only visible on mobile */}
-      <div className="md:hidden">
+      {/* Sidebar - Visible on mobile and tablet */}
+      <div className="lg:hidden">
         <EcommerceSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       </div>
       
-      {/* Backdrop for mobile when sidebar is open */}
+      {/* Backdrop for mobile/tablet when sidebar is open */}
       <div 
-        className={`fixed inset-0 z-30 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} md:hidden`}
+        className={`fixed inset-0 z-30 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} lg:hidden`}
         onClick={() => setSidebarOpen(false)}
       >
         <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
