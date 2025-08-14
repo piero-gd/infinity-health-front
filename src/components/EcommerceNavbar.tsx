@@ -61,15 +61,15 @@ export default function EcommerceNavbar({ setSidebarOpen, sidebarOpen }: Ecommer
             <div className="lg:hidden flex items-center">
               <button
                 type="button"
-                className="p-2 -ml-2 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--color-primary)]"
+                className="p-2 -ml-2 rounded-md text-gray-700 "
                 onClick={() => setSidebarOpen?.(!sidebarOpen)}
                 aria-expanded={sidebarOpen}
               >
                 <span className="sr-only">
-                  {sidebarOpen ? 'Cerrar menú' : 'Abrir menú principal'}
+                  {sidebarOpen ? 'Cerrar menú' : 'Abrir menú'}
                 </span>
                 <Bars3Icon 
-                  className={`h-6 w-6 transition-transform duration-200 ${sidebarOpen ? 'rotate-90' : ''}`} 
+                  className={`h-6 w-6 ${sidebarOpen ? '' : ''}`} 
                   aria-hidden="true" 
                 />
               </button>

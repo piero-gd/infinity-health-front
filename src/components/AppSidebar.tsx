@@ -5,7 +5,8 @@ import { CgCalculator, CgGym } from "react-icons/cg";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { RxDashboard } from "react-icons/rx";
 import { FaStore } from "react-icons/fa";
-import { BiSupport } from "react-icons/bi";
+import { GoPerson } from "react-icons/go";
+import { MdAccessTime } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
 import { useAuthStore } from "../features/auth/stores/useAuthStore";
 
@@ -41,9 +42,14 @@ const modules = [
     route: "/academy/course/1",
   },
   {
-    name: "Soporte",
-    icon: <BiSupport className="h-6 w-6" />,
-    route: "/support",
+    name: "Registros",
+    icon: <MdAccessTime className="h-6 w-6" />,
+    route: "/exercise-time",
+  },
+  {
+    name: "Mi Cuenta",
+    icon: <GoPerson className="h-6 w-6" />,
+    route: "/profile",
   }
 ];
 
@@ -84,7 +90,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ open, setOpen }) => {
           onClick={() => setOpen(!open)}
           aria-label={open ? "Replegar sidebar" : "Desplegar sidebar"}
         >
-          <Bars3Icon className="ml-0.5 h-7 w-7 text-[var(--color-primary)]" />
+          <Bars3Icon className="ml-0.5 mt-3 h-6 w-6 text-[var(--color-primary)]" />
         </button>
       </div>
 

@@ -3,10 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CgCalculator, CgGym } from "react-icons/cg";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
-import { RxDashboard } from "react-icons/rx";
+import { HiOutlineLightningBolt } from "react-icons/hi";
+import { GoPerson } from "react-icons/go";
 import { FaStore } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { LuLogOut } from "react-icons/lu";
+import { HiOutlineHome } from "react-icons/hi2";
+
 import { useAuthStore } from "../features/auth/stores/useAuthStore";
 
 interface EcommerceSidebarProps {
@@ -14,16 +17,11 @@ interface EcommerceSidebarProps {
   setOpen: (open: boolean) => void;
 }
 
-const modules = [
+const modulesUser = [
   {
-    name: "Dashboard",
-    icon: <RxDashboard className="h-6 w-6" />,
+    name: "Inicio",
+    icon: <HiOutlineHome className="h-6 w-6" />,
     route: "/dashboard",
-  },
-  {
-    name: "Ecommerce",
-    icon: <FaStore className="h-6 w-6" />,
-    route: "/catalog",
   },
   {
     name: "Calculadora",
@@ -31,7 +29,7 @@ const modules = [
     route: "/calculator",
   },
   {
-    name: "Ejercicios",
+    name: "Biblioteca de Ejercicios",
     icon: <CgGym className="h-6 w-6" />,
     route: "/exercises",
   },
@@ -41,11 +39,37 @@ const modules = [
     route: "/academy/course/1",
   },
   {
-    name: "Soporte",
+    name: "Mi Cuenta",
+    icon: <GoPerson className="h-6 w-6" />,
+    route: "/profile",
+  },
+];
+
+const modulesGuest = [
+  {
+    name: "Nosotros",
+    icon: <HiOutlineLightningBolt className="h-6 w-6" />,
+    route: "/support",
+  },
+  {
+    name: "Atención al cliente",
     icon: <BiSupport className="h-6 w-6" />,
     route: "/support",
   }
 ];
+
+const productsModule = {
+  name: "Productos",
+  icon: <FaStore className="h-6 w-6" />,
+  route: "/catalog",
+  filters: [
+    { name: "Energy", value: "energy", href: "/products?'energy'" },
+    { name: "Detox", value: "detox", href: "/products?'detox'" },
+    { name: "Relax", value: "relax", href: "/products?'relax'" },
+    { name: "Glow", value: "glow", href: "/products?'glow'" },
+    { name: "Power", value: "power", href: "/products?'power'" },
+  ]
+};
 
 const logoutModule = {
   name: "Salir",
@@ -55,7 +79,8 @@ const logoutModule = {
 const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const { logout, isAuthenticated } = useAuthStore();
+  const [showFilters, setShowFilters] = React.useState(false);
   
   const isActive = (path: string) => location.pathname.startsWith(path);
   
@@ -103,8 +128,63 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) =>
        </div>
 
         {/* Lista de módulos */}
-        <nav className="flex-1 py-4">
-          {modules.map((mod) => (
+        <nav className="flex-1">
+          {/* Módulo de productos */}
+          <div className="relative group mb-2 ">
+            <div
+              onClick={() => setShowFilters(!showFilters)}
+              className={`
+                w-full flex items-center justify-between gap-3 px-3 py-2.5 
+                text-sm font-medium cursor-pointer
+                transition-all duration-200
+                ${isActive(productsModule.route) 
+                  ? "bg-blue-50 border-r-4 rounded-r-lg border-[var(--color-primary)] text-[var(--color-primary)]" 
+                  : "text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[var(--color-primary)]"
+                }
+              `}
+            >
+              <div className="flex items-center gap-3 ">
+                <span
+                  className={`
+                    flex-shrink-0 transition-transform duration-200
+                    group-hover:scale-110 px-2
+                    ${isActive(productsModule.route) ? "text-[var(--color-primary)]" : "text-gray-500"}
+                  `}
+                >
+                  {productsModule.icon}
+                </span>
+                <span className="whitespace-nowrap">
+                  {productsModule.name}
+                </span>
+              </div>
+              <svg 
+                className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+            
+            {/* Filtros desplegables */}
+            {showFilters && (
+              <div className="pl-14 space-y-0.5">
+                {productsModule.filters.map((filter) => (
+                  <a
+                    key={filter.value}
+                    href={`${productsModule.route}?category=${filter.value}`}
+                    className="block px-2 py-2 text-sm text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50 rounded transition-colors duration-150"
+                  >
+                    {filter.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Módulos de usuario (solo para usuarios autenticados) */}
+          {isAuthenticated && modulesUser.map((mod) => (
             <div key={mod.name} className="relative group mb-1">
               <a
                 href={mod.route}
@@ -127,37 +207,55 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) =>
                 >
                   {mod.icon}
                 </span>
-                <span
-                  className={`
-                    transition-all duration-300
-                    ${open
-                      ? "opacity-100 translate-x-0"
-                      : "opacity-0 -translate-x-2 pointer-events-none"
-                    }
-                    whitespace-nowrap
-                  `}
-                >
+                <span className="whitespace-nowrap">
                   {mod.name}
                 </span>
               </a>
 
-              {/* Tooltip solo si sidebar está colapsado */}
-              {!open && (
-                <span
-                  className={`
-                    absolute left-full top-1/2 -translate-y-1/2 ml-2
-                    bg-gray-900 text-white text-sm rounded-md px-4 py-2
-                    opacity-0 group-hover:opacity-100 pointer-events-none
-                    shadow-lg transition-opacity duration-200
-                    z-50 whitespace-nowrap
-                  `}
-                >
-                  {mod.name}
-                </span>
-              )}
+              
             </div>
           ))}
         </nav>
+ 
+        {/* Módulo de Invitado */}
+        {modulesGuest.map((mod) => (
+          <div key={mod.name} className="relative group mb-1">
+            <a
+              href={mod.route}
+              className={`
+                w-full flex items-center gap-3 px-3 py-2.5 
+                text-sm font-medium cursor-pointer
+                transition-all duration-200
+                ${isActive(mod.route) 
+                  ? "bg-blue-50 border-r-4 rounded-r-lg border-[var(--color-primary)] text-[var(--color-primary)]" 
+                  : "text-gray-700 hover:bg-gray-50 hover:border-r-4 hover:border-[var(--color-primary)]"
+                }
+              `}
+            >
+              <span
+                className={`
+                  flex-shrink-0 transition-transform duration-200
+                  group-hover:scale-110 px-2
+                  ${isActive(mod.route) ? "text-[var(--color-primary)]" : "text-gray-500"}
+                `}
+              >
+                {mod.icon}
+              </span>
+              <span
+                className={`
+                  transition-all duration-300
+                  ${open
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-2 pointer-events-none"
+                  }
+                  whitespace-nowrap
+                `}
+              >
+                {mod.name}
+              </span>
+            </a>
+          </div>
+        ))}
 
         {/* Módulo de cierre de sesión en la parte inferior */}
         <div className="mt-auto pb-4">
@@ -194,20 +292,7 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) =>
               </span>
             </button>
 
-            {/* Tooltip solo si sidebar está colapsado */}
-            {!open && (
-              <span
-                className={`
-                  absolute left-full top-1/2 -translate-y-1/2 ml-2
-                  bg-gray-900 text-white text-sm rounded-md px-4 py-2
-                  opacity-0 group-hover:opacity-100 pointer-events-none
-                  shadow-lg transition-opacity duration-200
-                  z-50 whitespace-nowrap
-                `}
-              >
-                {logoutModule.name}
-              </span>
-            )}
+          
           </div>
         </div>
       </div>
