@@ -20,9 +20,9 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
     return (
         <div 
             onClick={handleCardClick}
-            className="group relative bg-white rounded-xl overflow-hidden 
-            cursor-pointer h-full w-[280px] flex-shrink-0 flex flex-col border border-gray-100"
-            style={{ width: '280px', height: '400px' }}
+            className="group relative bg-white rounded-xl overflow-hidden shadow-lg
+            cursor-pointer h-full w-[350px] flex-shrink-0 flex flex-col border border-gray-100"
+            style={{ width: '350px', height: '450px' }}
         >
             {/* Category Badge */}
             <div className="absolute top-5 left-5 z-20">
@@ -44,7 +44,7 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
 
             {/* Product Info */}
             <div
-                className="bg-white/90 p-3 flex flex-col rounded-t-2xl"
+                className="bg-white/90 p-3 flex flex-col  rounded-t-xl "
                 style={{ height: '40%' }} // 3/8 de la altura
             >
                 {/* Title and Rating */}
@@ -54,14 +54,14 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
                     </h4>
                     <div className="flex items-center gap-1 ml-2">
                         <FaStar className="w-3.5 h-3.5 text-yellow-400 fill-current" />
-                        <span className="text-xs font-semibold text-gray-700">
+                        <span className="text-sm font-semibold text-gray-700">
                             {product.rating || '4.9'}
                         </span>
                     </div>
                 </div>
 
                 {/* Slogan */}
-                <p className="text-xs text-gray-500 mb-2 leading-snug truncate">
+                <p className="text-sm text-gray-500 mb-2 leading-snug truncate">
                     {product.slogan}
                 </p>
 
@@ -84,7 +84,7 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
 
                 {/* Add to Cart Button */}
                 <button
-                    className="w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-2.5 px-4 rounded-full text-sm font-extralight transition-all flex items-center justify-center gap-2"
+                    className="mt-3 w-full bg-gradient-to-t from-[var(--color-btn-gradient-bottom)] to-[var(--color-btn-gradient-top)] text-white py-2.5 px-4 rounded-full text-sm font-extralight transition-all flex items-center justify-center gap-2"
                 >
                     Agregar
                     <PiShoppingCartLight className="w-5 h-5" />

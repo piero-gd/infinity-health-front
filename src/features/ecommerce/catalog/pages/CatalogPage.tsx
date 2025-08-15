@@ -20,7 +20,7 @@ export default function CatalogPage() {
       </div>
 
       {/* Contenido principal */}
-      <div className="px-6 mx-auto py-8">
+      <div className="px-2 mx-auto py-3">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar de categorías */}
           <aside className="xl:block hidden w-full xl:w-1/4">
@@ -30,7 +30,7 @@ export default function CatalogPage() {
           </aside>
 
           {/* Contenido principal */}
-          <div className="w-full lg:w-3/4">
+          <div className="w-full xl:w-3/4">
             {/* Filtro superior */}
             <div className="w-full">
               <FilterTop />

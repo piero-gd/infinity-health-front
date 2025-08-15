@@ -14,8 +14,8 @@ import { VscSettings } from "react-icons/vsc";
 import CategoriesSlideMenu from './CategoriesSlideMenu';
 
 const categories = [
-  { id: 'all', name: 'Todos', icon: <PiSquaresFour/>, color: 'bg-[var(--color-primary)] text-white border-[var(--color-primary)] hover:bg-white hover:text-[var(--color-primary)]' },
-  { id: 'energy', name: 'Energy', icon: <TbBolt/>, color: 'bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200 hover:text-blue-700' },
+  { id: 'all', name: 'Todos', icon: <PiSquaresFour/>, color: 'bg-[var(--color-primary)] text-white border-[var(--color-primary-light)]' },
+  { id: 'energy', name: 'Energy', icon: <TbBolt/>, color: 'bg-blue-100 text-blue-500 border-blue-200 hover:bg-blue-200 hover:text-blue-500' },
   { id: 'detox', name: 'Detox', icon: <MdOutlineWaterDrop/>, color: 'bg-green-100 text-green-700 border-green-200 hover:bg-green-200 hover:text-green-700' },
   { id: 'relax', name: 'Relax', icon: <BiLeaf/>, color: 'bg-purple-100 text-purple-700 border-purple-200 hover:bg-purple-200 hover:text-purple-700' },
   { id: 'glow', name: 'Glow', icon: <BsStars/>, color: 'bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200 hover:text-yellow-700' },
@@ -51,9 +51,9 @@ export default function FilterTop() {
   };
 
   return (
-    <div className="w-full p-5">
+    <div className="w-full p-4 mt-2">
       {/* Barra de búsqueda y ordenamiento */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
         {/* Header para móvil */}
         <div className="w-full flex items-center justify-between md:justify-start gap-3">
           <h3 className="font-medium text-gray-900 whitespace-nowrap">Tienda</h3>
@@ -121,7 +121,7 @@ export default function FilterTop() {
       </div>
 
       {/* Filtros de categorías */}
-      <div className="mt-4 flex xl:flex-wrap p-3 gap-5 overflow-x-auto snap-x pb-1">
+      <div className=" flex xl:flex-wrap p-1 gap-5 overflow-x-auto no-scrollbar snap-x pb-1">
         {categories.map(category => (
           <div 
             key={category.id} 
@@ -133,8 +133,8 @@ export default function FilterTop() {
                         transition-all duration-200 border-2 shadow-sm
                         ${category.color}
                         ${selectedCategory === category.id 
-                          ? `ring-2 ring-offset-1 ring-${category.color} scale-105` 
-                          : 'ring-0 hover:scale-105'}
+                          ? `ring-1 ring-offset-1 ring-${category.color} scale-105` 
+                          : 'ring-0 hover:scale-103'}
                         `}
             >
               <div className="whitespace-nowrap inline-flex items-center gap-2">

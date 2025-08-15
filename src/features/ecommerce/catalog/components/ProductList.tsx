@@ -116,21 +116,21 @@ export default function ProductList() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="w-full px-2 py-2">
             {/* Los indicadores de carga/error ahora se manejan con toasts */}
             
             {/* Contador de productos */}
-            <div className="mb-4 text-sm text-gray-500">
+            <div className="ml-2 mb-4 text-sm text-gray-500">
                 {totalProducts} productos encontrados
             </div>
             
             {products.length === 0 ? (
-                <div className="text-center py-16">
+                <div className="text-center py-12">
                     <h3 className="text-xl text-gray-600">No se encontraron productos que coincidan con los filtros</h3>
                     <p className="mt-2 text-gray-500">Prueba con otros criterios de búsqueda</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 justify-items-center">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 justify-items-center ">
                     {products.map((product: Product) => (
                         <div 
                             key={product.id} 
@@ -163,7 +163,7 @@ export default function ProductList() {
             
             {/* Paginación simple */}
             {totalProducts > limit && (
-                <div className="mt-8 flex justify-center gap-2">
+                <div className="mt-8 mb-4 flex justify-center gap-2">
                     <button
                         onClick={() => handlePageChange(page - 1)}
                         disabled={page === 1}

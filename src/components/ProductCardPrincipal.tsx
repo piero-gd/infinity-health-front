@@ -20,8 +20,8 @@ export const ProductCardPrincipal: React.FC<ProductCardProps> = ({
         <div 
             onClick={handleCardClick}
             className="group relative bg-white rounded-xl overflow-hidden 
-            cursor-pointer h-full w-[280px] flex-shrink-0 flex flex-col border border-gray-100"
-            style={{ width: '280px', height: '400px' }}
+            cursor-pointer h-full w-[350px] flex-shrink-0 flex flex-col border border-gray-100"
+            style={{ width: '350px', height: '450px' }}
         >
             {/* Categoria */}
             <div className="absolute top-5 left-5 z-20">
