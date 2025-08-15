@@ -58,7 +58,7 @@ export default function CartProducts() {
     }
 
     return (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white mb-12  rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
             {/* Header */}
             <div className="p-6">
                 <h2 className="text-2xl font-bold text-gray-800">Mis pedidos</h2>
@@ -110,7 +110,7 @@ export default function CartProducts() {
             </div>
 
             {/* Mobile Cards */}
-            <div className="md:hidden p-4 space-y-4 overflow-x-auto">
+            <div className="md:hidden p-4 space-y-4 overflow-x-auto no-scrollbar">
                 <div className="flex space-x-4 pb-2" style={{ minWidth: `${products.length * 320}px` }}>
                     {products.map((order) => (
                         <div key={order.id} className="w-80 flex-shrink-0 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">

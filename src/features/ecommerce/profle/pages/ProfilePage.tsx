@@ -4,6 +4,8 @@ import PanelProfile from "../components/PanelProfile"
 import { mockPanel } from "../data/mockPanel"
 import CartProducts from "../components/CartProducts"
 import PersonalInfo from "../components/PersonalInfo"
+import AmbassadorPanel from "../components/AmbassadorPanel"
+import ClientSupport from "../components/Client Support"
 
 export default function ProfilePage() {
     const location = useLocation();
@@ -24,17 +26,9 @@ export default function ProfilePage() {
             case 'profile':
                 return <PersonalInfo user={mockPanel} />;
             case 'support':
-                //otro componente en el futuro
-                return <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h2 className="text-2xl font-bold mb-4">Atención al Cliente</h2>
-                    <p>Contenido de atención al cliente aquí...</p>
-                </div>;
+                return <ClientSupport />;
             case 'ambassador':
-                //otro componente en el futuro
-                return <div className="bg-white p-6 rounded-2xl shadow-sm">
-                    <h2 className="text-2xl font-bold mb-4">Conviértete en Embajador</h2>
-                    <p>Información del programa de embajadores...</p>
-                </div>;
+                  return <AmbassadorPanel />;
             default:
                 return <PersonalInfo user={mockPanel} />;
         }

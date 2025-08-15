@@ -23,8 +23,8 @@ export default function CatalogPage() {
       <div className="px-2 mx-auto py-2">
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Sidebar de categorías */}
-          <aside className="xl:block   hidden w-full xl:w-1/4">
-            <div className="pt-5  sticky ">
+          <aside className="xl:block hidden w-full xl:w-1/4">
+            <div className="pt-5 sticky">
               <FilterSidebar />
             </div>
           </aside>

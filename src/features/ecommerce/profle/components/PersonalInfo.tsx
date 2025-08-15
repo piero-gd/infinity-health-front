@@ -73,7 +73,7 @@ export default function PersonalInfo({ user }: PersonalInfoProps) {
 
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-3xl shadow-sm">
+        <div className="w-full  p-6 bg-white rounded-3xl shadow-sm border border-gray-200 mb-12">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Datos personales</h2>
             
             {/* Sección de avatar */}

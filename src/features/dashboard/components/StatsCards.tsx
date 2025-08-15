@@ -16,6 +16,7 @@ interface StatsCardsProps {
 }
 
 export default function StatsCards({ userStats }: StatsCardsProps) {
+
   const statsData = [
     {
       title: "Ganancias Ventas",

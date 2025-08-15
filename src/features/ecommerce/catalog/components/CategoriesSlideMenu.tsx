@@ -28,16 +28,37 @@ export default function CategoriesSlideMenu({ onClose }: CategoriesSlideMenuProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex">
+    <div className="fixed inset-0 z-50 flex ">
       {/* Backdrop */}
-      {/* Backdrop con más transparencia */}
       <div 
-        className="fixed inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
+        className="fixed inset-0 bg-black/30 backdrop-blur-xs transition-opacity duration-300 lg:hidden"
         onClick={onClose}
       />
       
-      {/* Sidebar con fondo más transparente */}
-      <div className="fixed top-0 left-0 h-full z-50 bg-white/90 backdrop-blur-md border-r border-gray-200/50 flex flex-col w-64 shadow-xl transition-transform duration-300 ease-in-out">
+      {/* Sidebar with slide-in animación forzada */}
+      <div 
+        className="fixed top-0 left-0 h-full z-50 bg-white/90 backdrop-blur-md border-r
+        border-gray-200/50 flex flex-col w-64 shadow-xl transform transition-transform duration-300 ease-in-out
+        rounded-r-2xl"
+        style={{
+          animation: 'slideIn 0.3s ease-in-out',
+          animationFillMode: 'forwards'
+        }}
+      >
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+          }
+        `}
+      </style>
+
+
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-4 pb-4 bg-white border-b border-gray-200 sticky top-0 z-10">
           <h2 className="text-lg font-semibold text-gray-800">Filtros</h2>

@@ -30,7 +30,7 @@ const cardInfo: CardItemType[] = [
     },
     {
         id: 'ambassador',
-        title: "Conviértete en\nEmbajador",
+        title: "Conviértete \n en Embajador",
         icon: <Zap className="text-blue-400 bg-blue-50 p-2 rounded-full size-10" />,
         component: 'ambassador'
     },
@@ -78,11 +78,11 @@ export default function CardsPanel({ activeComponent, onCardClick }: CardsPanelP
 
             {/* Mobile Horizontal Scroll */}
             <div className="md:hidden pb-2 -mx-4">
-                <div className="flex gap-3 px-4 py-4 overflow-x-auto pb-4 scrollbar-hide">
+                <div className="flex gap-3 px-4 py-4 overflow-x-auto pb-4 no-scrollbar">
                     {cardInfo.map((card) => {
                         const isActive = activeComponent === card.component;
                         return (
-                            <div key={card.id} className="flex-shrink-0 w-44" onClick={() => handleCardClick(card.component)}>
+                            <div key={card.id} className="flex-shrink-0 w-48" onClick={() => handleCardClick(card.component)}>
                                 <CardItem card={card} isActive={isActive} />
                             </div>
                         );
@@ -95,7 +95,8 @@ export default function CardsPanel({ activeComponent, onCardClick }: CardsPanelP
 
 const CardItem = ({ card, isActive }: { card: CardItemType, isActive: boolean }) => (
     <div
-        className={`w-full h-24 flex items-center justify-between p-4 rounded-2xl shadow-sm border transition-all duration-200 hover:shadow-md cursor-pointer ${
+        className={`w-full h-24 flex items-center justify-between p-4 rounded-2xl shadow-sm border
+            transition-all duration-200 hover:shadow-md cursor-pointer ${
             isActive
                 ? 'bg-gray-50 border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]'
                 : 'bg-white border-gray-100 hover:border-gray-200'

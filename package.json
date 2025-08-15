@@ -17,9 +17,11 @@
     "@tanstack/react-query": "^5.83.0",
     "@tanstack/react-query-devtools": "^5.83.0",
     "@types/react-slick": "^0.23.13",
+    "animate": "^1.0.0",
+    "animate.css": "^4.1.1",
     "axios": "^1.9.0",
-    "framer-motion": "^12.22.0",
     "dotenv": "^16.5.0",
+    "framer-motion": "^12.22.0",
     "heroicons": "^2.2.0",
     "html2pdf": "^0.0.11",
     "html2pdf.js": "^0.10.3",
@@ -33,11 +35,11 @@
     "react-player": "^2.16.0",
     "react-responsive": "^10.0.1",
     "react-router-dom": "^7.5.3",
-    "react-toastify": "^11.0.5",
-    "zustand": "^5.0.6",
     "react-slick": "^0.30.3",
+    "react-toastify": "^11.0.5",
     "recharts": "^2.15.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

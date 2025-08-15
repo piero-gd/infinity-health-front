@@ -1,5 +1,5 @@
 import { Search, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFiltersStore } from '../stores/useFiltersStore';
 
 import { TbBolt } from "react-icons/tb";
@@ -35,6 +35,23 @@ export default function FilterTop() {
   // Estado local solo para UI
   const [showSort, setShowSort] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Cerrar el dropdown al hacer clic fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target as Node)) {
+        setShowSort(false);
+      }
+    }
+
+    // Bind the event listener
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Estados y acciones desde Zustand
   const { 
@@ -85,11 +102,11 @@ export default function FilterTop() {
             
             {/* Mobile Filters Menu */}
             {showMobileFilters && (
-              <CategoriesSlideMenu onClose={() => setShowMobileFilters(false)} />
+              <CategoriesSlideMenu onClose={() => setShowMobileFilters(false)}  />
             )}
 
             {/* Botón Ordenar - Móvil */}
-            <div className="relative">
+            <div className="relative" ref={sortDropdownRef}>
               <button 
                 onClick={() => setShowSort(!showSort)}
                 className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-full 

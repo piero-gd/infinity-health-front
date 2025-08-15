@@ -17,7 +17,7 @@ export default function NutritionalPlan() {
                         <img 
                             src="public/img/calculator bg.png" 
                             alt="Calculadora Macro" 
-                            className="w-7/8 h-full mb-4 shadow-lg rounded-2xl" 
+                            className="ml-7 w-full h-full " 
                         />
                         
                         <div className="flex items-center justify-center">
@@ -41,9 +41,9 @@ export default function NutritionalPlan() {
                     <div className="flex-shrink-0 w-28 sm:w-36">
                         <div className="bg-green-50 rounded-2xl border-2 border-green-500 p-1.5">
                             <img 
-                                src="public/img/calculator bg.png" 
+                                src="public/img/calculator bg_mobile.png" 
                                 alt="Calculadora Macro" 
-                                className="w-full h-auto rounded-lg" 
+                                className="w-full h-full ml-1" 
                                 loading="lazy"
                             />
                         </div>

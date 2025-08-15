@@ -43,10 +43,10 @@ export default function EcommerceLayout() {
       
       {/* Backdrop for mobile/tablet when sidebar is open */}
       <div 
-        className={`fixed inset-0 z-30 transition-opacity duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} lg:hidden`}
+        className={`fixed inset-0 z-30 transition-opacity duration-100 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'} lg:hidden`}
         onClick={() => setSidebarOpen(false)}
       >
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-xs"></div>
       </div>
 
       {/* Main content - No transform, stays in place */}

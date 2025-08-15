@@ -1,17 +1,11 @@
 import { FiLink2 } from "react-icons/fi";
+import { useAuthStore } from "../../auth/stores/useAuthStore";
 
-interface UserData {
-  name: string;
-  email: string;
-  memberSince: string;
-  avatar: string;
-}
-
-interface UserHeaderProps {
-  userData: UserData;
-}
-
-export default function UserHeader({ userData }: UserHeaderProps) {
+export default function UserHeader() {
+  
+  const { userData } = useAuthStore();
+  const username = userData?.first_name || '';
+  
   return (
     <div className="pt-4 px-2 -mt-6 mb-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
@@ -19,7 +13,7 @@ export default function UserHeader({ userData }: UserHeaderProps) {
           
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Hola, {userData.name} 👋🏼
+              Hola, {username} 👋🏼
             </h1>
             <p className="text-gray-600">
               Hoy es un gran día para mejorar tu salud
