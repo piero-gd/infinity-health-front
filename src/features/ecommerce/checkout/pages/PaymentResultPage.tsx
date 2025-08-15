@@ -101,53 +101,72 @@ export default function PaymentResultPage() {
         }
 
         if (status === 'success' || status === 'approved') {
-          console.log('PaymentResultPage - Verificando pago exitoso...', { status });
+          console.log('✅ PaymentResultPage - Verificando pago exitoso...', { status });
           
           // Obtener información completa de la orden desde el backend
           try {
+            console.log('🔄 PaymentResultPage - Llamando getOrderInfo...');
             const orderData = await getOrderInfo(orderUuid);
+            console.log('✅ PaymentResultPage - Información de orden obtenida:', orderData);
             setOrderInfo(orderData);
-            console.log('PaymentResultPage - Información de orden obtenida:', orderData);
           } catch (error) {
-            console.error('PaymentResultPage - Error al obtener información de la orden:', error);
+            console.error('❌ PaymentResultPage - Error al obtener información de la orden:', error);
             // Continuar con el flujo aunque falle la obtención de información
+            console.log('⚠️ PaymentResultPage - Continuando sin información de orden...');
           }
           
           // Verificar el pago con el backend (si tienes paymentId)
+          console.log('🔄 PaymentResultPage - Verificando pago...', { paymentId });
           if (paymentId) {
-            const verificationResult = await verifyMercadoPagoPayment(paymentId, orderUuid);
-            
-            if (!verificationResult.verified) {
-              throw new Error(verificationResult.error || 'No se pudo verificar el pago');
+            try {
+              const verificationResult = await verifyMercadoPagoPayment(paymentId, orderUuid);
+              console.log('✅ PaymentResultPage - Resultado de verificación:', verificationResult);
+              
+              if (!verificationResult.verified) {
+                throw new Error(verificationResult.error || 'No se pudo verificar el pago');
+              }
+            } catch (verifyError) {
+              console.error('❌ PaymentResultPage - Error en verificación:', verifyError);
+              throw verifyError;
             }
           }
           
-          console.log('PaymentResultPage - Pago verificado exitosamente');
+          console.log('✅ PaymentResultPage - Pago verificado exitosamente');
           
           // Limpiar el carrito
+          console.log('🔄 PaymentResultPage - Limpiando carrito...');
           clearCart();
-          console.log('PaymentResultPage - Carrito limpiado');
+          console.log('✅ PaymentResultPage - Carrito limpiado');
           
           // Marcar orden como completada usando UUID
+          console.log('🔄 PaymentResultPage - Marcando orden como completada...');
           setOrderComplete(orderUuid);
-          console.log('PaymentResultPage - Orden marcada como completada:', orderUuid);
+          console.log('✅ PaymentResultPage - Orden marcada como completada:', orderUuid);
           
           // Marcar esta orden como procesada para evitar duplicados futuros
           localStorage.setItem(`processed_order_${orderUuid}`, 'true');
           localStorage.setItem(`processed_order_${orderUuid}_timestamp`, Date.now().toString());
           
-          console.log('PaymentResultPage - Orden procesada exitosamente');
+          console.log('✅ PaymentResultPage - Orden procesada exitosamente');
           
           // Mostrar mensaje de éxito
           showToast.success('¡Pago exitoso!', 'Tu orden ha sido procesada correctamente');
           
           // Si llegamos desde la nueva ruta /payments/mp/{order_uuid}/success, 
           // mostrar información aquí en lugar de redirigir
+          console.log('🔄 PaymentResultPage - Determinando flujo de éxito...', {
+            orderUuidFromParams,
+            orderUuidFromQuery,
+            orderUuid,
+            currentPath: window.location.pathname
+          });
+          
           if (orderUuidFromParams) {
+            console.log('✅ PaymentResultPage - Usando nueva ruta, mostrando éxito en página');
             setPaymentSuccess(true);
             setIsVerifying(false);
           } else {
-            // Ruta legacy: redirigir a thank you
+            console.log('✅ PaymentResultPage - Usando ruta legacy, redirigiendo a thank you');
             setIsVerifying(false);
             navigate('/checkout/thank-you');
           }
@@ -181,7 +200,17 @@ export default function PaymentResultPage() {
         }
         
       } catch (error) {
-        console.error('PaymentResultPage - Error general:', error);
+        console.error('❌ PaymentResultPage - Error general:', error);
+        console.error('❌ PaymentResultPage - Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+        console.error('❌ PaymentResultPage - Estado actual:', {
+          status,
+          orderUuid,
+          paymentId,
+          orderUuidFromParams,
+          isVerifying,
+          paymentSuccess: paymentSuccess
+        });
+        
         const errorMessage = error instanceof Error ? error.message : 'Error desconocido al procesar el resultado del pago';
         setError(errorMessage);
         showToast.error('Error', errorMessage);
