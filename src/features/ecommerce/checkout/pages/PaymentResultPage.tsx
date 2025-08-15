@@ -23,11 +23,14 @@ export default function PaymentResultPage() {
   const orderUuid = orderUuidFromParams || orderUuidFromQuery;
   
   // Determinar el status desde la URL o query params
-  const pathStatus = window.location.pathname.includes('/success') ? 'success' 
-                  : window.location.pathname.includes('/failure') ? 'failure'
+  const pathStatus = window.location.pathname.includes('/success') ? 'approved' 
+                  : window.location.pathname.includes('/failure') ? 'rejected'
                   : window.location.pathname.includes('/pending') ? 'pending'
                   : null;
-  const status = queryParams.get('status') || pathStatus || '';
+  // MercadoPago puede enviar status, collection_status, o determinamos por la ruta
+  const status = queryParams.get('status') || 
+                 queryParams.get('collection_status') || 
+                 pathStatus || '';
   const paymentId = queryParams.get('payment_id') || '';
   
   const [isVerifying, setIsVerifying] = useState(true);
@@ -97,8 +100,8 @@ export default function PaymentResultPage() {
           return;
         }
 
-        if (status === 'success') {
-          console.log('PaymentResultPage - Verificando pago exitoso...');
+        if (status === 'success' || status === 'approved') {
+          console.log('PaymentResultPage - Verificando pago exitoso...', { status });
           
           // Obtener información completa de la orden desde el backend
           try {
@@ -149,11 +152,20 @@ export default function PaymentResultPage() {
             navigate('/checkout/thank-you');
           }
           
-        } else if (status === 'failure' || status === 'error') {
+        } else if (status === 'failure' || status === 'error' || status === 'rejected') {
           // Pago fallido
-          console.log('PaymentResultPage - Pago falló o fue cancelado');
+          console.log('PaymentResultPage - Pago falló o fue cancelado:', { status });
           setError('El pago no se pudo completar');
           showToast.error('Pago fallido', 'El pago no se pudo completar. Puedes intentarlo nuevamente.');
+          setIsVerifying(false);
+          
+          // Redirección manual removida para debugging
+          
+        } else if (status === 'pending' || status === 'in_process') {
+          // Pago pendiente
+          console.log('PaymentResultPage - Pago pendiente:', { status });
+          setError('El pago está siendo procesado');
+          showToast.info('Pago pendiente', 'Tu pago está siendo procesado. Te notificaremos cuando esté confirmado.');
           setIsVerifying(false);
           
           // Redirección manual removida para debugging
