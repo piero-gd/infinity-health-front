@@ -1,19 +1,17 @@
 /**
  * Servicio para manejar pagos por WhatsApp
+ * Implementa mejores prácticas para emojis en URLs de WhatsApp
  */
 
 /**
  * Genera el mensaje de WhatsApp con la información de la orden
+ * Usa texto plano sin emojis para máxima compatibilidad
  */
 export const generateWhatsAppMessage = (orderUuid: string, total: number): string => {
-  return `Hola! 👋 Realicé una compra en Infinity Health
+  return `Hola! Estoy realizando una compra en Infinity Health y solicito información para proceder al pago.
 
-🏷️ N° Pedido: ${orderUuid}
-💰 Total: $${total.toFixed(2)}
-
-Confirmo mi compra y solicito información para el pago.
-
-¡Gracias!`;
+N° Pedido: ${orderUuid}
+Total: ${total.toFixed(2)}`;
 };
 
 /**
@@ -30,6 +28,17 @@ export const getWhatsAppNumber = (): string => {
 };
 
 /**
+ * Codifica el mensaje para URL de WhatsApp
+ * Maneja correctamente los emojis Unicode
+ */
+const encodeWhatsAppMessage = (message: string): string => {
+  // Usar encodeURIComponent que maneja correctamente Unicode y emojis
+  return encodeURIComponent(message)
+    // Algunos caracteres adicionales que pueden causar problemas
+    .replace(/[!'()*]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+};
+
+/**
  * Abre WhatsApp con el mensaje prellenado
  * Funciona tanto en móvil (app) como en desktop (WhatsApp Web)
  */
@@ -39,22 +48,38 @@ export const openWhatsAppWithMessage = (orderUuid: string, total: number): void 
     const message = generateWhatsAppMessage(orderUuid, total);
     
     // Codificar el mensaje para URL
-    const encodedMessage = encodeURIComponent(message);
+    const encodedMessage = encodeWhatsAppMessage(message);
+    
+    // Limpiar el número de teléfono (remover espacios, guiones, etc.)
+    const cleanPhoneNumber = whatsappNumber.replace(/[+\s-()]/g, '');
     
     // Crear URL de WhatsApp
-    // Para móviles usa wa.me, para desktop puede usar web.whatsapp.com
-    const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/[+\s-]/g, '')}?text=${encodedMessage}`;
+    // wa.me es la forma oficial y más compatible
+    const whatsappUrl = `https://wa.me/${cleanPhoneNumber}?text=${encodedMessage}`;
     
-    console.log('Opening WhatsApp with URL:', whatsappUrl);
-    console.log('Message:', message);
+    console.log('WhatsApp Service - Información del mensaje:');
+    console.log('- Número:', cleanPhoneNumber);
+    console.log('- Mensaje original:', message);
+    console.log('- URL completa:', whatsappUrl);
     
     // Abrir en nueva ventana/tab
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     
   } catch (error) {
-    console.error('Error opening WhatsApp:', error);
+    console.error('Error abriendo WhatsApp:', error);
     throw error;
   }
+};
+
+/**
+ * Función de prueba para verificar el mensaje de WhatsApp
+ */
+export const testWhatsAppMessage = (): void => {
+  const testOrderUuid = 'test-12345';
+  const testTotal = 99.99;
+  
+  console.log('Probando mensaje de WhatsApp...');
+  openWhatsAppWithMessage(testOrderUuid, testTotal);
 };
 
 /**
