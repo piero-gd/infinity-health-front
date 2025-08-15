@@ -156,10 +156,7 @@ export default function PaymentResultPage() {
           showToast.error('Pago fallido', 'El pago no se pudo completar. Puedes intentarlo nuevamente.');
           setIsVerifying(false);
           
-          // Redirigir a página de pago después de un delay
-          setTimeout(() => {
-            navigate('/checkout/payment');
-          }, 3000);
+          // Redirección manual removida para debugging
           
         } else {
           // Estado desconocido
@@ -168,10 +165,7 @@ export default function PaymentResultPage() {
           showToast.error('Error', 'Estado de pago no reconocido');
           setIsVerifying(false);
           
-          // Redirigir al carrito después de un delay
-          setTimeout(() => {
-            navigate('/cart');
-          }, 3000);
+          // Redirección manual removida para debugging
         }
         
       } catch (error) {
@@ -181,10 +175,7 @@ export default function PaymentResultPage() {
         showToast.error('Error', errorMessage);
         setIsVerifying(false);
         
-        // Redirigir al carrito después de un delay
-        setTimeout(() => {
-          navigate('/cart');
-        }, 3000);
+        // Redirección manual removida para debugging
       }
     };
 
@@ -319,25 +310,64 @@ export default function PaymentResultPage() {
 
   // Si llegamos aquí, hubo un error
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="text-center p-8 bg-white rounded-lg shadow-md">
-        <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-          <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="max-w-2xl w-full bg-white rounded-lg shadow-md p-8">
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">
+            Error en el procesamiento
+          </h2>
+          <p className="text-gray-600 mb-4">
+            Hubo un problema al procesar tu pago. Revisa los detalles a continuación.
+          </p>
         </div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">
-          Error en el procesamiento
-        </h2>
-        <p className="text-gray-600 mb-4">
-          Hubo un problema al procesar tu pago. Serás redirigido en unos momentos.
-        </p>
-        <button
-          onClick={() => navigate('/cart')}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
-        >
-          Volver al carrito
-        </button>
+
+        {/* Información de debug */}
+        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+          <h3 className="text-sm font-medium text-gray-900 mb-3">Información de Debug:</h3>
+          <div className="space-y-2 text-sm">
+            <div><strong>URL Actual:</strong> {window.location.href}</div>
+            <div><strong>Status:</strong> {status || 'N/A'}</div>
+            <div><strong>Order UUID:</strong> {orderUuid || 'N/A'}</div>
+            <div><strong>Payment ID:</strong> {paymentId || 'N/A'}</div>
+            <div><strong>UUID desde Params:</strong> {orderUuidFromParams || 'N/A'}</div>
+            <div><strong>UUID desde Query:</strong> {orderUuidFromQuery || 'N/A'}</div>
+            <div><strong>Error del Store:</strong> {useCheckoutStore.getState().error || 'N/A'}</div>
+          </div>
+        </div>
+
+        {/* Acciones */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={() => navigate('/cart')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+          >
+            Volver al carrito
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition-colors"
+          >
+            Recargar página
+          </button>
+          <button
+            onClick={() => {
+              console.log('=== DEBUG INFO ===');
+              console.log('Status:', status);
+              console.log('Order UUID:', orderUuid);
+              console.log('Payment ID:', paymentId);
+              console.log('URL:', window.location.href);
+              console.log('Checkout Store State:', useCheckoutStore.getState());
+            }}
+            className="bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-2 rounded-lg transition-colors"
+          >
+            Log Debug Info
+          </button>
+        </div>
       </div>
     </div>
   );
