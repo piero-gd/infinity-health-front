@@ -90,6 +90,9 @@ const AppRouter = ({ onLogout }: { onLogout: () => void }) => {
         <Route path="/checkout/payment" element={<SafePaymentPage />} />
         <Route path="/checkout/simulated-payment" element={<SafeSimulatedPaymentPage />} />
         <Route path="/checkout/payment-result" element={<SafePaymentResultPage />} />
+        <Route path="/payments/mp/:order_uuid/success" element={<SafePaymentResultPage />} />
+        <Route path="/payments/mp/:order_uuid/failure" element={<SafePaymentResultPage />} />
+        <Route path="/payments/mp/:order_uuid/pending" element={<SafePaymentResultPage />} />
         <Route path="/checkout/thankyou" element={<SafeThankYouPage />} />
 
         {/* Perfil de usuario PROTECTED */}

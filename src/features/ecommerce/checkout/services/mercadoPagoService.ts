@@ -1,5 +1,5 @@
 import type { PaymentPreferenceResponse, PaymentVerificationResponse } from '../../shared/types';
-import { post } from '../../../../services/api';
+import { post, get } from '../../../../services/api';
 
 /**
  * Procesa el pago con tarjeta de crédito/débito usando MercadoPago
@@ -17,7 +17,11 @@ export async function processMercadoPagoPayment(orderUuid: string, paymentMethod
         
         const paymentData = {
             order_uuid: orderUuid,
-            payment_method: paymentMethod
+            payment_method: paymentMethod,
+            // URLs de retorno para MercadoPago
+            success_url: `${window.location.origin}/payments/mp/${orderUuid}/success`,
+            failure_url: `${window.location.origin}/payments/mp/${orderUuid}/failure`,
+            pending_url: `${window.location.origin}/payments/mp/${orderUuid}/pending`
         };
         
         // Hacer POST al endpoint de MercadoPago
@@ -40,6 +44,29 @@ export async function processMercadoPagoPayment(orderUuid: string, paymentMethod
             success: false,
             error: error instanceof Error ? error.message : 'Error desconocido al procesar el pago'
         };
+    }
+}
+
+/**
+ * Obtiene la información completa de una orden desde el backend
+ * 
+ * @param orderUuid - UUID de la orden
+ * @returns Promise con la información de la orden
+ */
+export async function getOrderInfo(orderUuid: string): Promise<any> {
+    try {
+        console.log('=== GETTING ORDER INFO ===');
+        console.log('Order UUID:', orderUuid);
+        
+        const response = await get(`payments/mp/${orderUuid}/`);
+        
+        console.log('Order info response:', response);
+        
+        return response;
+        
+    } catch (error) {
+        console.error('Error getting order info:', error);
+        throw new Error(error instanceof Error ? error.message : 'Error al obtener información de la orden');
     }
 }
 

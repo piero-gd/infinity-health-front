@@ -1,25 +1,38 @@
 import { useEffect, useState, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useCheckoutStore } from '../stores/useCheckoutStore';
 import { useCartStore } from '../../cart/stores/useCartStore';
-import { verifyMercadoPagoPayment } from '../services/mercadoPagoService';
+import { verifyMercadoPagoPayment, getOrderInfo } from '../services/mercadoPagoService';
 import { showToast } from '../../../../utils/toastConfig';
 import SimpleLoader from '../../../../components/SimpleLoader';
 
 /**
  * Página que maneja el retorno del pago (usando UUID)
  * Se encarga de verificar el estado del pago y actualizar la orden
+ * Soporta tanto la ruta legacy como la nueva ruta /payments/mp/{order_uuid}/success
  */
 export default function PaymentResultPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
+  const params = useParams();
   const queryParams = new URLSearchParams(search);
   
-  const status = queryParams.get('status');
+  // Obtener orderUuid desde la URL params o query params (compatibilidad)
+  const orderUuidFromParams = params.order_uuid;
+  const orderUuidFromQuery = queryParams.get('order_uuid') || queryParams.get('order_id') || '';
+  const orderUuid = orderUuidFromParams || orderUuidFromQuery;
+  
+  // Determinar el status desde la URL o query params
+  const pathStatus = window.location.pathname.includes('/success') ? 'success' 
+                  : window.location.pathname.includes('/failure') ? 'failure'
+                  : window.location.pathname.includes('/pending') ? 'pending'
+                  : null;
+  const status = queryParams.get('status') || pathStatus || '';
   const paymentId = queryParams.get('payment_id') || '';
-  const orderUuid = queryParams.get('order_uuid') || queryParams.get('order_id') || ''; // Backward compatibility
   
   const [isVerifying, setIsVerifying] = useState(true);
+  const [orderInfo, setOrderInfo] = useState<any>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const { setOrderComplete, setError } = useCheckoutStore();
   const { clearCart } = useCartStore();
   
@@ -87,6 +100,16 @@ export default function PaymentResultPage() {
         if (status === 'success') {
           console.log('PaymentResultPage - Verificando pago exitoso...');
           
+          // Obtener información completa de la orden desde el backend
+          try {
+            const orderData = await getOrderInfo(orderUuid);
+            setOrderInfo(orderData);
+            console.log('PaymentResultPage - Información de orden obtenida:', orderData);
+          } catch (error) {
+            console.error('PaymentResultPage - Error al obtener información de la orden:', error);
+            // Continuar con el flujo aunque falle la obtención de información
+          }
+          
           // Verificar el pago con el backend (si tienes paymentId)
           if (paymentId) {
             const verificationResult = await verifyMercadoPagoPayment(paymentId, orderUuid);
@@ -115,9 +138,16 @@ export default function PaymentResultPage() {
           // Mostrar mensaje de éxito
           showToast.success('¡Pago exitoso!', 'Tu orden ha sido procesada correctamente');
           
-          // Navegar a página de éxito
-          setIsVerifying(false);
-          navigate('/checkout/thank-you');
+          // Si llegamos desde la nueva ruta /payments/mp/{order_uuid}/success, 
+          // mostrar información aquí en lugar de redirigir
+          if (orderUuidFromParams) {
+            setPaymentSuccess(true);
+            setIsVerifying(false);
+          } else {
+            // Ruta legacy: redirigir a thank you
+            setIsVerifying(false);
+            navigate('/checkout/thank-you');
+          }
           
         } else if (status === 'failure' || status === 'error') {
           // Pago fallido
@@ -161,6 +191,115 @@ export default function PaymentResultPage() {
     processPaymentResult();
 
   }, [status, paymentId, orderUuid, navigate, setError, setOrderComplete, clearCart]);
+
+  // Si el pago fue exitoso y tenemos información de la orden, mostrar detalles
+  if (paymentSuccess && orderInfo) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow-md p-8">
+            {/* Header de éxito */}
+            <div className="text-center mb-8">
+              <div className="w-20 h-20 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                ¡Pago Exitoso!
+              </h1>
+              <p className="text-lg text-gray-600">
+                Tu compra ha sido procesada correctamente
+              </p>
+            </div>
+
+            {/* Información de la orden */}
+            <div className="border-t border-gray-200 pt-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                Detalles de tu orden
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">N° de Orden</p>
+                  <p className="text-lg font-mono text-gray-900">{orderUuid}</p>
+                </div>
+                
+                {orderInfo.total && (
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Total Pagado</p>
+                    <p className="text-lg font-semibold text-gray-900">
+                      ${typeof orderInfo.total === 'number' ? orderInfo.total.toFixed(2) : orderInfo.total}
+                    </p>
+                  </div>
+                )}
+                
+                {orderInfo.created_at && (
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Fecha de Compra</p>
+                    <p className="text-lg text-gray-900">
+                      {new Date(orderInfo.created_at).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                  </div>
+                )}
+                
+                {orderInfo.status && (
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Estado</p>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      {orderInfo.status === 'paid' ? 'Pagado' : orderInfo.status}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Productos si están disponibles */}
+              {orderInfo.items && orderInfo.items.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Productos</h3>
+                  <div className="space-y-4">
+                    {orderInfo.items.map((item: any, index: number) => (
+                      <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100">
+                        <div>
+                          <p className="font-medium text-gray-900">{item.name || item.title}</p>
+                          {item.quantity && <p className="text-sm text-gray-500">Cantidad: {item.quantity}</p>}
+                        </div>
+                        {item.price && (
+                          <p className="font-medium text-gray-900">${item.price}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Acciones */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => navigate('/catalog')}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+              >
+                Continuar Comprando
+              </button>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+              >
+                Ir al Dashboard
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isVerifying) {
     return (
