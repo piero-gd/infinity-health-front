@@ -102,7 +102,7 @@ export default function EcommerceNavbar({ setSidebarOpen, sidebarOpen }: Ecommer
                   key={link.name}
                   to={link.href}
                   className={({ isActive }) => 
-                    `transition-colors text-sm duration-200 px-2 py-1 ${
+                    `transition-colors text-sm font-medium duration-200 px-2 py-1 ${
                       isActive 
                         ? 'text-[var(--color-primary)] font-semibold border-b-2 border-[var(--color-primary)] ' 
                         : 'text-gray-600 hover:text-[var(--color-primary)] '

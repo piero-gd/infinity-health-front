@@ -21,14 +21,14 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
             product.id !== currentProductId
     );
 
-    if (relatedProducts.length < 4) {
+    if (relatedProducts.length < 8) {
         const additionalProducts = products
             .filter(p => p.id !== currentProductId && !relatedProducts.some(rp => rp.id === p.id))
-            .slice(0, 4 - relatedProducts.length);
+            .slice(0, 8 - relatedProducts.length);
         relatedProducts = [...relatedProducts, ...additionalProducts];
     }
 
-    relatedProducts = relatedProducts.slice(0, 4);
+    relatedProducts = relatedProducts.slice(0, 8);
 
     if (relatedProducts.length === 0) return null;
     
@@ -50,11 +50,11 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({
                 </div>
             </div>
 
-            {/* Grid of related products */}
-            <div className="w-full overflow-x-auto pb-4 flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-full">
+            {/* Horizontal scrollable products */}
+            <div className="w-full overflow-x-auto no-scrollbar pb-4">
+                <div className="flex space-x-6 w-max min-w-full">
                     {relatedProducts.map((product) => (
-                        <div key={product.id} className="w-full h-full">
+                        <div key={product.id} className="w-64 flex-shrink-0">
                             <ProductCardDashboardSpecial
                                 product={product}
                             />

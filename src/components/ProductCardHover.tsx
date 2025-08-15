@@ -21,8 +21,8 @@ export const ProductCardHover: React.FC<ProductCardProps> = ({
         <div 
             onClick={handleCardClick}
             className="group relative bg-white rounded-xl overflow-hidden shadow-lg
-            cursor-pointer h-full w-[350px] flex-shrink-0 flex flex-col border border-gray-100"
-            style={{ width: '350px', height: '450px' }}
+            cursor-pointer h-full w-[340px] flex-shrink-0 flex flex-col border border-gray-100"
+            style={{ width: '340px', height: '450px' }}
         >
             {/* Category Badge */}
             <div className="absolute top-5 left-5 z-20">

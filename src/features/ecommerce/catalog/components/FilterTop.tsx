@@ -121,7 +121,7 @@ export default function FilterTop() {
       </div>
 
       {/* Filtros de categorías */}
-      <div className=" flex xl:flex-wrap p-1 gap-5 overflow-x-auto no-scrollbar snap-x pb-1">
+      <div className=" flex xl:flex-wrap p-2 gap-5 overflow-x-auto no-scrollbar snap-x pb-1">
         {categories.map(category => (
           <div 
             key={category.id} 

@@ -33,10 +33,10 @@ export const FilterSidebar =() => {
   } = useFiltersStore();
 
   return (
-    <div className="w-full h-full ">
-      <div className="bg-white p-4 sticky">
+    <div className="w-full h-full">
+      <div className="bg-white px-4 p-2 shadow-sm rounded-xl sticky">
         {/* Header with Clear Filters */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg font-semibold text-gray-800">Filtros</h2>
           <button
             onClick={resetFilters}
@@ -46,7 +46,7 @@ export const FilterSidebar =() => {
           </button>
         </div>
 
-        <h3 className="font-semibold mb-3 text-gray-800">Precio</h3>
+        <h4 className="font-semibold mb-3 text-gray-800">Precio</h4>
         <DualRangeSlider 
           minPrice={minPrice}
           maxPrice={maxPrice}
@@ -54,8 +54,8 @@ export const FilterSidebar =() => {
         />
 
         {/* Featured Product */}
-        <h3 className="font-semibold mb-3 mt-6 text-gray-800">Destacado</h3>
-        <div className="p-2 mb-12">
+        <h4 className="font-semibold mb-3 text-gray-800">Destacado</h4>
+        <div className=" mb-20">
           <FeaturedProduct />
         </div>
       </div>

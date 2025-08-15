@@ -116,7 +116,7 @@ export default function ProductList() {
     };
 
     return (
-        <div className="w-full px-2 py-2">
+        <div className="w-full  py-2">
             {/* Los indicadores de carga/error ahora se manejan con toasts */}
             
             {/* Contador de productos */}
@@ -130,7 +130,7 @@ export default function ProductList() {
                     <p className="mt-2 text-gray-500">Prueba con otros criterios de búsqueda</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 justify-items-center ">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 justify-items-center ">
                     {products.map((product: Product) => (
                         <div 
                             key={product.id} 

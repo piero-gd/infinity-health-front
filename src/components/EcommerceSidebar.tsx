@@ -9,7 +9,7 @@ import { FaStore } from "react-icons/fa";
 import { BiSupport } from "react-icons/bi";
 import { LuLogOut } from "react-icons/lu";
 import { HiOutlineHome } from "react-icons/hi2";
-
+import { useFiltersStore } from "../features/ecommerce/catalog/stores/useFiltersStore";
 import { useAuthStore } from "../features/auth/stores/useAuthStore";
 
 interface EcommerceSidebarProps {
@@ -63,11 +63,11 @@ const productsModule = {
   icon: <FaStore className="h-6 w-6" />,
   route: "/catalog",
   filters: [
-    { name: "Energy", value: "energy", href: "/products?'energy'" },
-    { name: "Detox", value: "detox", href: "/products?'detox'" },
-    { name: "Relax", value: "relax", href: "/products?'relax'" },
-    { name: "Glow", value: "glow", href: "/products?'glow'" },
-    { name: "Power", value: "power", href: "/products?'power'" },
+    { name: "Energy", value: "energy" },
+    { name: "Detox", value: "detox" },
+    { name: "Relax", value: "relax" },
+    { name: "Glow", value: "glow" },
+    { name: "Power", value: "power" },
   ]
 };
 
@@ -81,8 +81,18 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) =>
   const navigate = useNavigate();
   const { logout, isAuthenticated } = useAuthStore();
   const [showFilters, setShowFilters] = React.useState(false);
+  const { setCategory, selectedCategory } = useFiltersStore();
   
   const isActive = (path: string) => location.pathname.startsWith(path);
+  
+  const handleFilterClick = (category: string) => {
+    setCategory(category);
+    setOpen(false);
+    // Navigate to catalog if not already there
+    if (!location.pathname.startsWith('/catalog')) {
+      navigate('/catalog');
+    }
+  };
   
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -171,13 +181,17 @@ const EcommerceSidebar: React.FC<EcommerceSidebarProps> = ({ open, setOpen }) =>
             {showFilters && (
               <div className="pl-14 space-y-0.5">
                 {productsModule.filters.map((filter) => (
-                  <a
+                  <button
                     key={filter.value}
-                    href={`${productsModule.route}?category=${filter.value}`}
-                    className="block px-2 py-2 text-sm text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50 rounded transition-colors duration-150"
+                    onClick={() => handleFilterClick(filter.value)}
+                    className={`w-full text-left px-2 py-2 text-sm rounded transition-colors duration-150 ${
+                      selectedCategory === filter.value 
+                        ? 'text-[var(--color-primary)] font-medium' 
+                        : 'text-gray-600 hover:text-[var(--color-primary)] hover:bg-gray-50'
+                    }`}
                   >
                     {filter.name}
-                  </a>
+                  </button>
                 ))}
               </div>
             )}
